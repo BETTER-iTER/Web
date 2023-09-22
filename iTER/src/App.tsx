@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { styled } from "../stitches.config";
+import {
+  ButtonText,
+  Caption,
+  Headline1,
+  Headline2,
+  Headline3,
+  Headline4,
+} from "./component/Font";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Headline1>Headline 1</Headline1>
+      <Headline2>Headline2</Headline2>
+      <Headline3>Headline3</Headline3>
+      <Headline4>Headline4</Headline4>
+      <Body1>Body1</Body1>
+      <Body2>Body2</Body2>
+      <Caption>Caption</Caption>
+      <ButtonText>Button</ButtonText>
     </>
-  )
+  );
 }
 
-export default App
+const Body1 = styled("div", {
+  bodyText: 1,
+  color: "$ErrorRed",
+});
+
+const Body2 = styled("div", {
+  bodyText: 2,
+  color: "$Brand",
+});
+
+export default App;
