@@ -7,6 +7,7 @@ import {
   Headline3,
   Headline4,
 } from "./component/Font";
+import Button from "./component/common/Button";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Body2>Body2</Body2>
       <Caption>Caption</Caption>
       <ButtonText>Button</ButtonText>
+      <Button disabled={false}>버튼</Button>
     </>
   );
 }
