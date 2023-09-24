@@ -8,7 +8,7 @@ interface ButtonProps {
   disabled?: boolean;
 }
 const ButtonBody = styled("button", {
-    width: "360px",
+    width: "340px",
     height: "55px",
     borderRadius: "27.5px",
     backgroundColor: "$Brand",
@@ -35,7 +35,7 @@ interface ButtonProps {
 
 const Button: FC<ButtonProps> = ({ onClick, children, disabled, }) => {
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    if (onClick) {
+    if (!disabled && onClick) {
       onClick(event);
     }
   };

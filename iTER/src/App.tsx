@@ -20,7 +20,7 @@ function App() {
       <Body2>Body2</Body2>
       <Caption>Caption</Caption>
       <ButtonText>Button</ButtonText>
-      <Button disabled={false}>버튼</Button>
+      <Button onClick={handleClick} disabled={true}>버튼</Button>
     </>
   );
 }
@@ -34,5 +34,7 @@ const Body2 = styled("div", {
   bodyText: 2,
   color: "$Brand",
 });
-
+function handleClick() {
+  console.log("활성화된상태");
+}
 export default App;
