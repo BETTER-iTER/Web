@@ -1,40 +1,22 @@
-import { styled } from "../stitches.config";
-import {
-  ButtonText,
-  Caption,
-  Headline1,
-  Headline2,
-  Headline3,
-  Headline4,
-} from "./component/Font";
-import Button from "./component/common/Button";
+import Modal from './component/common/Modal';
+import { useState } from 'react';
 
 function App() {
+  const [modal, setModal] = useState(false);
+
   return (
     <>
-      <Headline1>Headline 1</Headline1>
-      <Headline2>Headline2</Headline2>
-      <Headline3>Headline3</Headline3>
-      <Headline4>Headline4</Headline4>
-      <Body1>Body1</Body1>
-      <Body2>Body2</Body2>
-      <Caption>Caption</Caption>
-      <ButtonText>Button</ButtonText>
-      <Button onClick={handleClick} disabled={true}>버튼</Button>
+      <div onClick={() => setModal(true)}>MODAL</div>
+      {modal && (
+        <Modal
+          text="모달 테스트입니다."
+          onClick={() => {
+            setModal(false);
+          }}
+        />
+      )}
     </>
   );
 }
 
-const Body1 = styled("div", {
-  bodyText: 1,
-  color: "$ErrorRed",
-});
-
-const Body2 = styled("div", {
-  bodyText: 2,
-  color: "$Brand",
-});
-function handleClick() {
-  console.log("활성화된상태");
-}
 export default App;
