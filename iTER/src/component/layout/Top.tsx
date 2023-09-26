@@ -1,10 +1,17 @@
 import { styled } from '../../../stitches.config';
 import Back from '../../assets/icon/Back.svg?react';
+import { useNavigate } from 'react-router-dom';
 
 const Top = ({ title }: { title: string }) => {
+  const navigate = useNavigate();
+
   return (
     <Container>
-      <BackBox onClick={() => {}}>
+      <BackBox
+        onClick={() => {
+          navigate(-1);
+        }}
+      >
         <Back />
       </BackBox>
       <Title>{title}</Title>
