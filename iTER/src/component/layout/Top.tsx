@@ -29,6 +29,9 @@ const Container = styled('div', {
   justifyContent: 'center',
   alignItems: 'center',
   borderBottom: 'solid 1px #EAEEF2',
+  position: 'absolute',
+  top: '0',
+  left: '0',
 });
 
 const Title = styled('div', {
@@ -39,6 +42,6 @@ const Title = styled('div', {
 
 const BackBox = styled('div', {
   position: 'absolute',
-  left: '25px',
-  top: '30px',
+  left: '20px',
+  top: '20px',
 });
