@@ -20,7 +20,7 @@ const Box = styled("div", {
     backgroundColor: "$White",
     textAlign: "center",
     opacity: 0,
-    transition: 'opacity 2s ease-in-out',
+    transition: 'opacity 1.5s ease-in-out',
   });
 
   const Cover = styled("div", {
@@ -38,17 +38,17 @@ const Box = styled("div", {
   });
 
   const show = css({
-    animation: `${fadeIn} 2s ease-in-out`,
+    animation: `${fadeIn} 1.5s ease-in-out`,
     opacity: 1,
   });
   
   const hide = css({
-    animation: `${fadeOut} 2s ease-in-out`,
+    animation: `${fadeOut} 1.5s ease-in-out`,
     opacity: 0,
   });
 
 const SplashScreen: React.FC = () => {
-  const splashTime = 2000;
+  const splashTime = 1500;
 
   const [showSplash, setShowSplash] = useState(true);
 
