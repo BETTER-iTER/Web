@@ -10,12 +10,7 @@ const Title = styled("div", {
     color: "$Brand",
 }
 )
-// const Box = styled("div", {
-//     position: "relative",
-//     top: "376px",
-//     textAlign: "center",
-    
-// })
+
 const Box = styled("div", {
     position: "fixed",
     top: 0,
@@ -31,17 +26,24 @@ const Box = styled("div", {
   const Cover = styled("div", {
     marginTop: "376px",
   })
-  const showAnimation = keyframes({
+ 
+  const fadeIn = keyframes({
     '0%': { opacity: 0 },
     '100%': { opacity: 1 },
   });
+  
+  const fadeOut = keyframes({
+    '0%': { opacity: 1 },
+    '100%': { opacity: 0 },
+  });
 
   const show = css({
-    animation: `${showAnimation} 2s ease-in-out`,
+    animation: `${fadeIn} 2s ease-in-out`,
     opacity: 1,
   });
   
   const hide = css({
+    animation: `${fadeOut} 2s ease-in-out`,
     opacity: 0,
   });
 
