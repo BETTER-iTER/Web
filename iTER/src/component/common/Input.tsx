@@ -32,7 +32,8 @@ const InputComponent: React.FC<InputProps> = ({ placeholder, onChange }) => {
           outline: "none", 
           color: "black", 
           fontWeight: "400",
-          fontSize: "14px"
+          fontSize: "14px",
+          width: "200px",
         }}
       />
 
@@ -42,13 +43,14 @@ const InputComponent: React.FC<InputProps> = ({ placeholder, onChange }) => {
   
 
   interface ButtonWithInputProps {
+    labelName: string;
     btnName: string; // 버튼 텍스트를 받을 prop 추가
     placeholder: string;
     onClick: () => void; // 클릭 이벤트 핸들러를 받을 prop 추가
   }
   
   
-  const ButtonWithInput: React.FC<ButtonWithInputProps> = ({ btnName, placeholder, onClick }) => {
+  const ButtonWithInput: React.FC<ButtonWithInputProps> = ({ labelName, btnName, placeholder, onClick }) => {
     const [inputValue, setInputValue] = useState<string>('');
   
     const handleInputValueChange = (value: string) => {
@@ -57,15 +59,20 @@ const InputComponent: React.FC<InputProps> = ({ placeholder, onChange }) => {
     const isInputNotEmpty = inputValue.trim() !== ''; // 입력값이 비어 있지 않으면 true
   
     return (
+      <>
+      <Label>{labelName}</Label>
       <Body>
         <InBody>
           <InputComponent
             placeholder={placeholder}
             onChange={handleInputValueChange}
           />
-          <Button style={{backgroundColor: isInputNotEmpty ? "#4C4E55" : "#c1c4cc",}} onClick={onClick}>{btnName}</Button> 
+          <Button style={{backgroundColor: isInputNotEmpty ? "#4C4E55" : "#c1c4cc", 
+                          pointerEvents: isInputNotEmpty ? "" : "none",
+                          }} onClick={onClick}>{btnName}</Button> 
         </InBody>
       </Body>
+      </>
     );
   };
 
@@ -92,13 +99,23 @@ const Button = styled("button", {
     border: "none",
     fontSize: "14px",
     fontWeight: "400",
-    
+    padding: "5px 10px",
 })
 const InBody = styled("div", {
     width: "100%",
-    
+    height: '100%', 
+    display: 'flex', 
+    alignItems: 'center',
+    justifyContent: 'space-between',
 })
+const Label = styled("div", {
+  fontWeight: "600",
+  fontSize: "16px",
+  lineHeight: "22px",
+  color: "black",
+  marginBottom: "10px",
 
+})
 
 
 export default ButtonWithInput;
