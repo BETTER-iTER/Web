@@ -8,7 +8,7 @@ export const { styled, css, globalCss, keyframes, getCssText, theme } =
         White: "#fff",
         Brand: "#8787f4",
         Black: "#242424",
-
+        TitleBlack: "#24292F",
         ErrorRed: "#f34f45",
 
         Gray10: "#d8dbe2",
