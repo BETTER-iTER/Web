@@ -1,5 +1,6 @@
-
 import ButtonWithInput from './component/common/Input';
+import Error from './assets/icon/Error.svg?react';
+
 
 function App() {
 
@@ -13,7 +14,18 @@ function App() {
     const isEmailValid = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
       value.trim()
     );
-    return isEmailValid ? undefined : '유효한 이메일을 입력하세요.';
+    return isEmailValid ? undefined : (
+      <div style={{ 
+        display: 'flex',
+        alignItems: 'center',
+         justifyContent: 'space-between',
+          float: "left",
+           color: "#F34F45"
+          }}>
+      <Error /> 
+      <span style={{marginLeft: "5px"}}>유효한 이메일을 입력하세요.</span> 
+    </div>
+    );
   };
 
 
@@ -30,9 +42,10 @@ function App() {
     <ButtonWithInput
         labelName="이메일"
         btnName="확인"
+        type="text"
         placeholder="이메일을 입력하세요"
         onClick={handleButtonClick}
-        onValidate={validateEmail} // 이메일 유효성 검사 함수를 prop으로 전달
+        onValidate={validateEmail} 
       />
   );
 }
