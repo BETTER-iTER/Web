@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { styled } from '../../../stitches.config';
+import Error from "../../assets/icon/Error.svg?react";
 
 interface ButtonWithInputProps {
   labelName: string;
@@ -42,18 +43,30 @@ const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
             onChange={handleInputValueChange}
             type={type} // 입력 필드 타입 설정
           />
-          <Button
-            style={{
-              backgroundColor: isInputValid ? '#4C4E55' : '#c1c4cc',
-              pointerEvents: isInputValid ? 'auto' : 'none',
-            }}
-            onClick={isInputValid ? onClick : undefined}
-          >
-            {btnName}
-          </Button>
+          {btnName && ( // btnName이 빈 문자열이 아닐 때만 버튼을 렌더링
+            <Button
+              style={{
+                backgroundColor: isInputValid ? '#4C4E55' : '#c1c4cc',
+                pointerEvents: isInputValid ? 'auto' : 'none',
+              }}
+              onClick={isInputValid ? onClick : undefined}
+            >
+              {btnName}
+            </Button>
+          )}
         </InBody>
       </Body>
-      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {error && (
+      <div style={{ 
+        display: 'flex',
+        alignItems: 'center',
+        color: "#F34F45",
+        height: "100%",
+          }}>
+      <Error />
+      <span style={{marginLeft: "10px", marginBottom: "10px"}}><ErrorMessage>{error}</ErrorMessage></span>
+      </div>
+      )}
     </div>
   );
 };
@@ -96,7 +109,7 @@ const InputComponent: React.FC<{
 };
 
 const Body = styled('div', {
-  // border: "1px solid $Gray10",
+  padding: "2px 5px",
   borderRadius: '7px',
   width: '340px',
   height: '50px',
