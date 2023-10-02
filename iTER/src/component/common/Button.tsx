@@ -9,8 +9,8 @@ interface ButtonProps {
 }
 const ButtonBody = styled("button", {
     width: "340px",
-    height: "55px",
-    borderRadius: "27.5px",
+    height: "45px",
+    borderRadius: "7px",
     backgroundColor: "$Brand",
     border: "none",
     color: "$White",

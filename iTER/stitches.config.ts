@@ -16,6 +16,8 @@ export const { styled, css, globalCss, keyframes, getCssText, theme } =
         Gray30: "#8e9198",
         Gray40: "#535659",
         Gray50: "#36383a",
+
+        kakaoYello: "#fae100",
       },
     },
     utils: {

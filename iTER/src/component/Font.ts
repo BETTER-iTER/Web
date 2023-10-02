@@ -27,5 +27,5 @@ export const Caption = styled("div", {
 
 export const ButtonText = styled("div", {
   fontSize: "15px",
-  fontWeight: "400",
+  fontWeight: "600",
 });
