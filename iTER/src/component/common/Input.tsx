@@ -7,8 +7,11 @@ interface ButtonWithInputProps {
   btnName?: string;
   placeholder: string;
   onClick?: () => void;
-  onValidate: (value: string) => string | undefined;
   type: 'text' | 'password'; // type prop 추가
+  onChange?: (value: string) => void;
+  error?: string;
+  disabled?: boolean;
+  notice?: string;
 }
 
 const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
@@ -17,25 +20,22 @@ const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
   placeholder,
   type,
   onClick,
-  onValidate,
+  onChange,
+  error,
+  disabled,
+  notice,
 }) => {
-  const [inputValue, setInputValue] = useState<string>('');
-  const [error, setError] = useState<string | undefined>('');
-
   const handleInputValueChange = (value: string) => {
-    setInputValue(value);
-    const validationError = onValidate(value);
-    setError(validationError);
+    onChange && onChange(value);
   };
-
-  const isInputValid = !error;
 
   return (
     <div>
       <Label>{labelName}</Label>
+      {notice && <Notice>{notice}</Notice>}
       <Body
         style={{
-          border: isInputValid ? '1px solid #D8DBE2' : '1px solid #F34F45',
+          border: !error ? '1px solid #D8DBE2' : '1px solid #F34F45',
         }}
       >
         <InBody>
@@ -47,10 +47,10 @@ const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
           {btnName && ( // btnName이 빈 문자열이 아닐 때만 버튼을 렌더링
             <Button
               style={{
-                backgroundColor: isInputValid ? '#4C4E55' : '#c1c4cc',
-                pointerEvents: isInputValid ? 'auto' : 'none',
+                backgroundColor: !disabled ? '#4C4E55' : '#c1c4cc',
+                pointerEvents: !disabled ? 'auto' : 'none',
               }}
-              onClick={isInputValid ? onClick : undefined}
+              onClick={!disabled ? onClick : undefined}
             >
               {btnName}
             </Button>
@@ -63,7 +63,6 @@ const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
             display: 'flex',
             alignItems: 'center',
             color: '#F34F45',
-            height: '100%',
           }}
         >
           <Error />
@@ -153,11 +152,18 @@ const Label = styled('div', {
 });
 
 const ErrorMessage = styled('div', {
-  color: 'red',
+  color: '$ErrorRed',
   fontSize: '13px',
   lineHeight: '18.2px',
   fontWeight: '400',
   marginTop: '10px',
+});
+
+const Notice = styled('div', {
+  color: '$Gray20',
+  fontSize: '12px',
+  marginTop: '-6px',
+  marginBottom: '10px',
 });
 
 export default ButtonWithInput;
