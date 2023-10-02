@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { styled } from '../../../stitches.config';
-import Error from "../../assets/icon/Error.svg?react";
+import Error from '../../assets/icon/Error.svg?react';
 
 interface ButtonWithInputProps {
   labelName: string;
-  btnName: string;
+  btnName?: string;
   placeholder: string;
-  onClick: () => void;
+  onClick?: () => void;
   onValidate: (value: string) => string | undefined;
   type: 'text' | 'password'; // type prop 추가
 }
@@ -18,7 +18,6 @@ const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
   type,
   onClick,
   onValidate,
-  
 }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [error, setError] = useState<string | undefined>('');
@@ -34,9 +33,11 @@ const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
   return (
     <div>
       <Label>{labelName}</Label>
-      <Body style={{ 
-        border: isInputValid ? '1px solid #D8DBE2' : '1px solid #F34F45',
-        }}>
+      <Body
+        style={{
+          border: isInputValid ? '1px solid #D8DBE2' : '1px solid #F34F45',
+        }}
+      >
         <InBody>
           <InputComponent
             placeholder={placeholder}
@@ -57,15 +58,19 @@ const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
         </InBody>
       </Body>
       {error && (
-      <div style={{ 
-        display: 'flex',
-        alignItems: 'center',
-        color: "#F34F45",
-        height: "100%",
-          }}>
-      <Error />
-      <span style={{marginLeft: "10px", marginBottom: "10px"}}><ErrorMessage>{error}</ErrorMessage></span>
-      </div>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            color: '#F34F45',
+            height: '100%',
+          }}
+        >
+          <Error />
+          <span style={{ marginLeft: '10px', marginBottom: '10px' }}>
+            <ErrorMessage>{error}</ErrorMessage>
+          </span>
+        </div>
       )}
     </div>
   );
@@ -73,9 +78,8 @@ const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
 
 const InputComponent: React.FC<{
   placeholder: string;
-  type: 'text' | 'password'; 
+  type: 'text' | 'password';
   onChange: (value: string) => void;
-  
 }> = ({ placeholder, onChange, type }) => {
   const [inputValue, setInputValue] = useState<string>('');
 
@@ -88,13 +92,13 @@ const InputComponent: React.FC<{
   return (
     <>
       <input
-        type={type} 
+        type={type}
         placeholder={placeholder}
         value={inputValue}
         onChange={handleInputChange}
         style={{
           border: 'none',
-          height: '22px',
+          height: '50px',
           marginLeft: '10px',
           backgroundColor: 'White',
           outline: 'none',
@@ -109,7 +113,7 @@ const InputComponent: React.FC<{
 };
 
 const Body = styled('div', {
-  padding: "2px 5px",
+  padding: '2px 5px',
   borderRadius: '7px',
   width: '340px',
   height: '50px',
