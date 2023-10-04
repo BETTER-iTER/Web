@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { styled } from '../../../stitches.config';
-import Error from "../../assets/icon/Error.svg?react";
+import Error from '../../assets/icon/Error.svg?react';
 
 interface ButtonWithInputProps {
   labelName: string;
-  btnName: string;
+  btnName?: string;
   placeholder: string;
-  onClick: () => void;
-  onValidate: (value: string) => string | undefined;
+  onClick?: () => void;
   type: 'text' | 'password'; // type prop 추가
+  onChange?: (value: string) => void;
+  error?: string;
+  disabled?: boolean;
+  notice?: string;
 }
 
 const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
@@ -17,26 +20,24 @@ const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
   placeholder,
   type,
   onClick,
-  onValidate,
-  
+  onChange,
+  error,
+  disabled,
+  notice,
 }) => {
-  const [inputValue, setInputValue] = useState<string>('');
-  const [error, setError] = useState<string | undefined>('');
-
   const handleInputValueChange = (value: string) => {
-    setInputValue(value);
-    const validationError = onValidate(value);
-    setError(validationError);
+    onChange && onChange(value);
   };
-
-  const isInputValid = !error;
 
   return (
     <div>
       <Label>{labelName}</Label>
-      <Body style={{ 
-        border: isInputValid ? '1px solid #D8DBE2' : '1px solid #F34F45',
-        }}>
+      {notice && <Notice>{notice}</Notice>}
+      <Body
+        style={{
+          border: !error ? '1px solid #D8DBE2' : '1px solid #F34F45',
+        }}
+      >
         <InBody>
           <InputComponent
             placeholder={placeholder}
@@ -46,10 +47,10 @@ const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
           {btnName && ( // btnName이 빈 문자열이 아닐 때만 버튼을 렌더링
             <Button
               style={{
-                backgroundColor: isInputValid ? '#4C4E55' : '#c1c4cc',
-                pointerEvents: isInputValid ? 'auto' : 'none',
+                backgroundColor: !disabled ? '#4C4E55' : '#c1c4cc',
+                pointerEvents: !disabled ? 'auto' : 'none',
               }}
-              onClick={isInputValid ? onClick : undefined}
+              onClick={!disabled ? onClick : undefined}
             >
               {btnName}
             </Button>
@@ -57,15 +58,18 @@ const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
         </InBody>
       </Body>
       {error && (
-      <div style={{ 
-        display: 'flex',
-        alignItems: 'center',
-        color: "#F34F45",
-        height: "100%",
-          }}>
-      <Error />
-      <span style={{marginLeft: "10px", marginBottom: "10px"}}><ErrorMessage>{error}</ErrorMessage></span>
-      </div>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            color: '#F34F45',
+          }}
+        >
+          <Error />
+          <span style={{ marginLeft: '10px', marginBottom: '10px' }}>
+            <ErrorMessage>{error}</ErrorMessage>
+          </span>
+        </div>
       )}
     </div>
   );
@@ -73,9 +77,8 @@ const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
 
 const InputComponent: React.FC<{
   placeholder: string;
-  type: 'text' | 'password'; 
+  type: 'text' | 'password';
   onChange: (value: string) => void;
-  
 }> = ({ placeholder, onChange, type }) => {
   const [inputValue, setInputValue] = useState<string>('');
 
@@ -88,13 +91,13 @@ const InputComponent: React.FC<{
   return (
     <>
       <input
-        type={type} 
+        type={type}
         placeholder={placeholder}
         value={inputValue}
         onChange={handleInputChange}
         style={{
           border: 'none',
-          height: '22px',
+          height: '50px',
           marginLeft: '10px',
           backgroundColor: 'White',
           outline: 'none',
@@ -109,7 +112,7 @@ const InputComponent: React.FC<{
 };
 
 const Body = styled('div', {
-  padding: "2px 5px",
+  padding: '2px 5px',
   borderRadius: '7px',
   width: '340px',
   height: '50px',
@@ -149,11 +152,18 @@ const Label = styled('div', {
 });
 
 const ErrorMessage = styled('div', {
-  color: 'red',
+  color: '$ErrorRed',
   fontSize: '13px',
   lineHeight: '18.2px',
   fontWeight: '400',
   marginTop: '10px',
+});
+
+const Notice = styled('div', {
+  color: '$Gray20',
+  fontSize: '12px',
+  marginTop: '-6px',
+  marginBottom: '10px',
 });
 
 export default ButtonWithInput;
