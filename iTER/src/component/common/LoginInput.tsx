@@ -2,16 +2,13 @@ import React from 'react';
 import { styled } from '../../../stitches.config';
 
 interface LoginInputProps {
-  labelName: string;
   placeholder: string;
   type: 'text' | 'password';
   value: string; 
   onChange: (value: string) => void;
-  onValidate: (value: string) => string | undefined;
 }
 
 const LoginInput: React.FC<LoginInputProps> = ({
-  labelName,
   placeholder,
   type,
   value,
@@ -26,7 +23,6 @@ const LoginInput: React.FC<LoginInputProps> = ({
 
   return (
     <div>
-      <Label>{labelName}</Label>
       <Body>
         <InBody>
           <InputComponent
@@ -60,7 +56,7 @@ const InputComponent: React.FC<{
           marginLeft: '10px',
           backgroundColor: 'White',
           outline: 'none',
-          color: 'black',
+          color: '#4C4E55',
           fontWeight: '400',
           fontSize: '14px',
           width: '100%',
@@ -97,13 +93,6 @@ const InBody = styled('div', {
   height: '100%',  
 });
 
-const Label = styled('div', {
-  fontWeight: '600',
-  fontSize: '16px',
-  lineHeight: '22px',
-  color: 'black',
-  marginBottom: '10px',
-});
 
 
 export default LoginInput;

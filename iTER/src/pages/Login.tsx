@@ -3,6 +3,7 @@ import React,{useState} from "react";
 import LoginInput from "../component/common/LoginInput";
 import Button from "../component/common/Button";
 import Kakao from "../assets/icon/Kakao.svg?react";
+import { Headline3 } from "../component/Font";
 
 const Login = () => {
   const [emailValue, setEmailValue] = useState<string>(''); // 이메일 입력 값
@@ -21,20 +22,22 @@ const Login = () => {
 
   return (
     <>
-      <Title>로그인</Title>
+      <Title><Headline3>로그인</Headline3></Title>
       <Body>
             <LoginInput
-                placeholder="아이디(이메일)을 입력해주세요"
-                type="text"
-                value={emailValue}
-                onChange={handleEmailChange}
-            />
+                  placeholder="아이디(이메일)을 입력해주세요"
+                  type="text"
+                  value={emailValue}
+                  onChange={handleEmailChange}
+             />
+        <Password>
             <LoginInput
                 placeholder="비밀번호를 입력해주세요"
                 type="password"
                 value={passwordValue}
                 onChange={handlePasswordChange}
             />
+        </Password>
         <BtnBody>
             <Button children="로그인" disabled={!isButtonEnabled} />
         </BtnBody>
@@ -58,7 +61,9 @@ const Login = () => {
 
 
 export default Login;
-
+const Password = styled("div", {
+    marginTop: "12px"
+})
 const Line = styled("div", {
     color:"$Gray20",
 })
@@ -70,12 +75,14 @@ const Footer = styled("div", {
 const Join = styled("div", {
     fontSize: "14px",
     fontWeight: "400",
-    marginRight: "20px"
+    marginRight: "20px",
+    color: "$TitleBlack",
 })
 const Find = styled("div", {
     fontSize: "14px",
     fontWeight: "400",
     marginLeft: "20px",
+    color:"$TitleBlack",
 })
 const BtnBody = styled("div", {
     marginTop: "20px",
@@ -92,7 +99,7 @@ const KakaoButton = styled('button', {
     height: "45px",
     borderRadius: "7px",
     border: "none",
-    marginTop: "15px",
+    marginTop: "12px",
 })
 const In = styled("div", {
     height: '100%', 
@@ -109,11 +116,7 @@ const Span = styled("div", {
     fontSize: "15px",
 })
 
-const Title = styled('div', {
-    fontSize: "20px",
-    fontWeight: "600",
-    color: "white", //나중에 titleblack으로 바꿔야댐
-    height: "50px",
+const Title = styled('div', { 
     marginTop: "170px",
     marginLeft: "25px"
     
