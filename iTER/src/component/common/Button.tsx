@@ -9,23 +9,6 @@ interface ButtonProps {
 }
 const ButtonBody = styled('button', {
   width: '340px',
-  height: '55px',
-  borderRadius: '27.5px',
-  backgroundColor: '$Brand',
-  border: 'none',
-  color: '$White',
-  variants: {
-    disabled: {
-      true: {
-        backgroundColor: '$Gray20', // 비활성화에는 그레이20으로
-        cursor: 'not-allowed', // 비활성화에는 커서 못둠
-      },
-      false: {},
-    },
-  },
-});
-const SquareBody = styled('button', {
-  width: '340px',
   height: '45px',
   borderRadius: '10px',
   backgroundColor: '$Brand',
@@ -34,8 +17,8 @@ const SquareBody = styled('button', {
   variants: {
     disabled: {
       true: {
-        backgroundColor: '$Gray20', // 비활성화에는 그레이20으로
-        cursor: 'not-allowed', // 비활성화에는 커서 못둠
+        backgroundColor: '$Gray20',
+        cursor: 'not-allowed',
       },
       false: {},
     },
@@ -64,19 +47,4 @@ const Button: FC<ButtonProps> = ({ onClick, children, disabled }) => {
   );
 };
 
-export const ButtonSquare: FC<ButtonProps> = ({ onClick, children, disabled }) => {
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    if (!disabled && onClick) {
-      onClick(event);
-    }
-  };
-
-  return (
-    <>
-      <SquareBody onClick={handleClick} disabled={disabled}>
-        <ButtonText>{children}</ButtonText>
-      </SquareBody>
-    </>
-  );
-};
 export default Button;

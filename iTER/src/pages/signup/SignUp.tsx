@@ -1,5 +1,5 @@
 import { styled } from '../../../stitches.config';
-import { ButtonSquare } from '../../component/common/Button';
+import Button from '../../component/common/Button';
 import ButtonWithInput from '../../component/common/Input';
 import { Headline3 } from '../../component/Font';
 import Top from '../../component/layout/Top';
@@ -84,7 +84,7 @@ const SignUp = () => {
             <CheckCircle fill={check ? '#8787F4' : '#C1C4CC'} />
             ITer 서비스이용약관에 동의합니다.
           </Terms>
-          <ButtonSquare disabled>다음</ButtonSquare>
+          <Button disabled>다음</Button>
         </Bottom>
       </Content>
     </>
