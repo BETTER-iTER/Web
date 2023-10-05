@@ -1,7 +1,7 @@
 import { styled } from '../../../stitches.config';
 import Button from '../../component/common/Button';
 import ButtonWithInput from '../../component/common/Input';
-import { Headline3 } from '../../component/Font';
+import { Caption2, Headline3 } from '../../component/Font';
 import Top from '../../component/layout/Top';
 import CheckCircle from '../../assets/icon/CheckCircle.svg?react';
 import { useState } from 'react';
@@ -82,7 +82,7 @@ const SignUp = () => {
         <Bottom>
           <Terms onClick={() => setCheck(!check)} check={check}>
             <CheckCircle fill={check ? '#8787F4' : '#C1C4CC'} />
-            ITer 서비스이용약관에 동의합니다.
+            <Caption2>ITer 서비스이용약관에 동의합니다.</Caption2>
           </Terms>
           <Button disabled>다음</Button>
         </Bottom>
@@ -107,8 +107,6 @@ const Title = styled('div', {
 const Terms = styled('div', {
   display: 'flex',
   alignItems: 'center',
-  fontSize: '12px',
-  fontWeight: '400',
   marginBottom: '12px',
   gap: '4px',
   variants: {

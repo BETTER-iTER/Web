@@ -41,3 +41,8 @@ export const ButtonText = styled('div', {
   fontWeight: '600',
   letterSpacing: '-0.3px',
 });
+
+export const LabelText = styled('div', {
+  fontSize: '16px',
+  fontWeight: '600',
+});

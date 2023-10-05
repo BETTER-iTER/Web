@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { styled } from '../../../stitches.config';
 import Error from '../../assets/icon/Error.svg?react';
+import { Caption1, Caption2, LabelText } from '../Font';
 
 interface ButtonWithInputProps {
   labelName: string;
@@ -31,8 +32,14 @@ const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
 
   return (
     <div>
-      <Label>{labelName}</Label>
-      {notice && <Notice>{notice}</Notice>}
+      <Label>
+        <LabelText>{labelName}</LabelText>
+      </Label>
+      {notice && (
+        <Notice>
+          <Caption2>{notice}</Caption2>
+        </Notice>
+      )}
       <Body
         style={{
           border: !error ? '1px solid #D8DBE2' : '1px solid #F34F45',
@@ -66,8 +73,10 @@ const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
           }}
         >
           <Error />
-          <span style={{ marginLeft: '10px', marginBottom: '10px' }}>
-            <ErrorMessage>{error}</ErrorMessage>
+          <span style={{ marginLeft: '4px', marginBottom: '8px' }}>
+            <ErrorMessage>
+              <Caption1>{error}</Caption1>
+            </ErrorMessage>
           </span>
         </div>
       )}
@@ -90,22 +99,11 @@ const InputComponent: React.FC<{
 
   return (
     <>
-      <input
+      <Input
         type={type}
         placeholder={placeholder}
         value={inputValue}
         onChange={handleInputChange}
-        style={{
-          border: 'none',
-          height: '50px',
-          marginLeft: '10px',
-          backgroundColor: 'White',
-          outline: 'none',
-          color: 'black',
-          fontWeight: '400',
-          fontSize: '14px',
-          width: '200px',
-        }}
       />
     </>
   );
@@ -120,7 +118,15 @@ const Body = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: '$White',
-  color: 'black',
+});
+
+const Input = styled('input', {
+  border: 'none',
+  height: '50px',
+  marginLeft: '10px',
+  outline: 'none',
+  bodyText: 2,
+  width: '200px',
 });
 
 const Button = styled('button', {
@@ -130,8 +136,6 @@ const Button = styled('button', {
   borderRadius: '5px',
   margin: '10px 0',
   border: 'none',
-  fontSize: '14px',
-  fontWeight: '400',
   padding: '5px 10px',
 });
 
@@ -144,8 +148,6 @@ const InBody = styled('div', {
 });
 
 const Label = styled('div', {
-  fontWeight: '600',
-  fontSize: '16px',
   lineHeight: '22px',
   color: 'black',
   marginBottom: '10px',
@@ -153,15 +155,11 @@ const Label = styled('div', {
 
 const ErrorMessage = styled('div', {
   color: '$ErrorRed',
-  fontSize: '13px',
-  lineHeight: '18.2px',
-  fontWeight: '400',
   marginTop: '10px',
 });
 
 const Notice = styled('div', {
   color: '$Gray20',
-  fontSize: '12px',
   marginTop: '-6px',
   marginBottom: '10px',
 });

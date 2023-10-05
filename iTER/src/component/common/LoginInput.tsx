@@ -4,22 +4,14 @@ import { styled } from '../../../stitches.config';
 interface LoginInputProps {
   placeholder: string;
   type: 'text' | 'password';
-  value: string; 
+  value: string;
   onChange: (value: string) => void;
 }
 
-const LoginInput: React.FC<LoginInputProps> = ({
-  placeholder,
-  type,
-  value,
-  onChange,
-}) => {
-
-
+const LoginInput: React.FC<LoginInputProps> = ({ placeholder, type, value, onChange }) => {
   const handleInputValueChange = (value: string) => {
-    onChange(value); 
+    onChange(value);
   };
-
 
   return (
     <div>
@@ -29,7 +21,7 @@ const LoginInput: React.FC<LoginInputProps> = ({
             placeholder={placeholder}
             onChange={handleInputValueChange}
             type={type}
-            value={value} 
+            value={value}
           />
         </InBody>
       </Body>
@@ -39,37 +31,25 @@ const LoginInput: React.FC<LoginInputProps> = ({
 
 const InputComponent: React.FC<{
   placeholder: string;
-  type: 'text' | 'password'; 
+  type: 'text' | 'password';
   value: string;
   onChange: (value: string) => void;
 }> = ({ placeholder, onChange, type, value }) => {
   return (
     <>
-      <input
-        type={type} 
+      <Input
+        type={type}
         placeholder={placeholder}
         value={value}
-        onChange={(event) => onChange(event.target.value)} 
-        style={{
-          border: 'none',
-          height: '22px',
-          marginLeft: '10px',
-          backgroundColor: 'White',
-          outline: 'none',
-          color: '#4C4E55',
-          fontWeight: '400',
-          fontSize: '14px',
-          width: '100%',
-        }}
+        onChange={(event) => onChange(event.target.value)}
       />
     </>
   );
 };
 
-
-
 const Body = styled('div', {
-  border: "1px solid $Gray10",
+  padding: '2px 5px',
+  border: '1px solid $Gray10',
   borderRadius: '7px',
   width: '340px',
   height: '50px',
@@ -77,12 +57,17 @@ const Body = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
-  backgroundColor: '$White',
-  color: 'black',
-  
 });
 
-
+const Input = styled('input', {
+  border: 'none',
+  height: '22px',
+  marginLeft: '10px',
+  outline: 'none',
+  color: '$Gray50',
+  width: '100%',
+  bodyText: 2,
+});
 
 const InBody = styled('div', {
   width: '100%',
@@ -90,9 +75,7 @@ const InBody = styled('div', {
   alignItems: 'center',
   justifyContent: 'space-between',
   paddingRight: '10px',
-  height: '100%',  
+  height: '100%',
 });
-
-
 
 export default LoginInput;
