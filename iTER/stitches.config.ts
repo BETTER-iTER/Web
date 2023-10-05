@@ -5,15 +5,15 @@ export const { styled, css, globalCss, keyframes, getCssText, theme } = createSt
     colors: {
       White: '#fff',
       Brand: '#8787f4',
-      Black: '#242424',
+      // Black: '#0A0A0A', default 컬러
       TitleBlack: '#24292F',
       ErrorRed: '#f34f45',
 
       Gray10: '#d8dbe2',
       Gray20: '#c1c4cc',
       Gray30: '#8e9198',
-      Gray40: '#535659',
-      Gray50: '#36383a',
+      Gray40: '#62646A',
+      Gray50: '#4C4E55',
 
       kakaoYello: '#fae100',
     },
