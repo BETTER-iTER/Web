@@ -1,6 +1,7 @@
 import { styled } from '../../../stitches.config';
 import Back from '../../assets/icon/Back.svg?react';
 import { useNavigate } from 'react-router-dom';
+import { LabelText } from '../Font';
 
 const Top = ({ title }: { title: string }) => {
   const navigate = useNavigate();
@@ -14,7 +15,9 @@ const Top = ({ title }: { title: string }) => {
       >
         <Back />
       </BackBox>
-      <Title>{title}</Title>
+      <Title>
+        <LabelText>{title}</LabelText>
+      </Title>
     </Container>
   );
 };
@@ -36,8 +39,6 @@ const Container = styled('div', {
 
 const Title = styled('div', {
   color: '#24292F',
-  fontSize: '16px',
-  fontWeight: '600',
 });
 
 const BackBox = styled('div', {

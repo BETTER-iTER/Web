@@ -1,42 +1,42 @@
-import { createStitches } from "@stitches/react";
-import type * as Stitches from "@stitches/react";
+import { createStitches } from '@stitches/react';
 
-export const { styled, css, globalCss, keyframes, getCssText, theme } =
-  createStitches({
-    theme: {
-      colors: {
-        White: "#fff",
-        Brand: "#8787f4",
-        Black: "#242424",
-        TitleBlack: "#24292F",
-        ErrorRed: "#f34f45",
+export const { styled, css, globalCss, keyframes, getCssText, theme } = createStitches({
+  theme: {
+    colors: {
+      White: '#fff',
+      Brand: '#8787f4',
+      // Black: '#0A0A0A', default 컬러
+      TitleBlack: '#24292F',
+      ErrorRed: '#f34f45',
 
-        Gray10: "#d8dbe2",
-        Gray20: "#c1c4cc",
-        Gray30: "#8e9198",
-        Gray40: "#535659",
-        Gray50: "#36383a",
+      Gray10: '#d8dbe2',
+      Gray20: '#c1c4cc',
+      Gray30: '#8e9198',
+      Gray40: '#62646A',
+      Gray50: '#4C4E55',
 
-        kakaoYello: "#fae100",
-      },
+      kakaoYello: '#fae100',
     },
-    utils: {
-      bodyText: (level: 1 | 2) => {
-        if (level === 1) {
-          return {
-            fontSize: "15px",
-            fontWeight: "400",
-          };
-        }
+  },
+  utils: {
+    bodyText: (level: 1 | 2) => {
+      if (level === 1) {
         return {
-          fontSize: "14px",
-          fontWeight: "bold",
+          fontSize: '15px',
+          fontWeight: '600',
+          letterSpacing: '-0.3px',
         };
-      },
+      }
+      return {
+        fontSize: '14px',
+        fontWeight: '400',
+        letterSpacing: '-0.28px',
+      };
     },
-    media: {
-      bp1: "(min-width: 390px)",
-      bp2: "(min-width: 768px)",
-      bp3: "(min-width: 1024px)",
-    },
-  });
+  },
+  media: {
+    bp1: '(min-width: 390px)',
+    bp2: '(min-width: 768px)',
+    bp3: '(min-width: 1024px)',
+  },
+});
