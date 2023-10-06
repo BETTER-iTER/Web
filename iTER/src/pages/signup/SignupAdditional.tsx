@@ -14,6 +14,11 @@ const SignupAdditional = () => {
     '관심있는 IT제품을 알려주세요',
   ];
   const [count, setCount] = useState<number>(1);
+  const [disabled, setDisabled] = useState<boolean>(true);
+
+  const onDisabled = (value: boolean) => {
+    setDisabled(value);
+  };
 
   const handleNext = () => {
     if (count < 3) {
@@ -50,9 +55,16 @@ const SignupAdditional = () => {
             </>
           )}
         </Title>
-        {count == 1 ? <Nickname /> : count == 2 ? <Job /> : <Category />}
+        {count == 1 ? (
+          <Nickname onDisabled={onDisabled} />
+        ) : count == 2 ? (
+          <Job onDisabled={onDisabled} />
+        ) : (
+          <Category onDisabled={onDisabled} />
+        )}
         <Bottom>
           <Button
+            disabled={disabled}
             onClick={() => {
               handleNext();
             }}

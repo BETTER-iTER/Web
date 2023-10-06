@@ -3,13 +3,14 @@ import { useState } from 'react';
 import ButtonWithInput from '../common/Input';
 import { Caption1 } from '../Font';
 
-const Nickname = () => {
+const Nickname = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
   const [nickname, setNickname] = useState('');
   const [error, setError] = useState(false);
   const DuplicationCheck = () => {
     console.log('중복체크');
     setError(false);
   };
+  onDisabled(nickname === '');
   return (
     <NicknameBox>
       <ButtonWithInput

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { styled } from '../../../stitches.config';
 import CategoryList, { CategoryProps } from '../../constants/Category';
-const Category = () => {
+const Category = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
   const [selected, setSelected] = useState<number[]>([]);
   const handleSelect = (id: number) => {
     const selectedCount = selected.length;
@@ -12,6 +12,8 @@ const Category = () => {
       setSelected([...selected, id]);
     }
   };
+
+  onDisabled(selected.length === 0);
 
   return (
     <Container>
