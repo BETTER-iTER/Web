@@ -110,9 +110,9 @@ const InputComponent: React.FC<{
 };
 
 const Body = styled('div', {
-  padding: '2px 5px',
+  padding: '0 5px',
   borderRadius: '7px',
-  width: '330px',
+  width: '328px',
   height: '48px',
   alignItems: 'center',
   display: 'flex',
@@ -123,10 +123,12 @@ const Body = styled('div', {
 const Input = styled('input', {
   border: 'none',
   height: '48px',
-  marginLeft: '10px',
+  marginLeft: '7px',
   outline: 'none',
   bodyText: 2,
   width: '200px',
+  backgroundColor: 'transparent',
+  color: '$Gray50',
 });
 
 const Button = styled('button', {
@@ -134,17 +136,15 @@ const Button = styled('button', {
   bodyText: 2,
   height: '30px',
   borderRadius: '5px',
-  margin: '10px 0',
   border: 'none',
-  padding: '5px 10px',
+  marginTop: '10px',
+  marginRight: '3px',
 });
 
 const InBody = styled('div', {
   width: '100%',
   display: 'flex',
-  alignItems: 'center',
   justifyContent: 'space-between',
-  paddingRight: '10px',
 });
 
 const Label = styled('div', {

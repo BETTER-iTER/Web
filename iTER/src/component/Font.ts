@@ -41,6 +41,7 @@ export const ButtonText = styled('div', {
   fontSize: '15px',
   fontWeight: '600',
   letterSpacing: '-0.3px',
+  fontFamily: 'Pretendard',
 });
 
 export const LabelText = styled('div', {
