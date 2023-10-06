@@ -16,6 +16,7 @@ export const Headline3 = styled('div', {
   fontSize: '20px',
   fontWeight: '600',
   letterSpacing: '-0.4px',
+  whiteSpace: 'pre-line',
 });
 
 export const Headline4 = styled('div', {

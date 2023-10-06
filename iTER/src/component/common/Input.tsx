@@ -112,8 +112,8 @@ const InputComponent: React.FC<{
 const Body = styled('div', {
   padding: '2px 5px',
   borderRadius: '7px',
-  width: '340px',
-  height: '50px',
+  width: '330px',
+  height: '48px',
   alignItems: 'center',
   display: 'flex',
   flexDirection: 'column',
@@ -122,7 +122,7 @@ const Body = styled('div', {
 
 const Input = styled('input', {
   border: 'none',
-  height: '50px',
+  height: '48px',
   marginLeft: '10px',
   outline: 'none',
   bodyText: 2,
