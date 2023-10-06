@@ -124,5 +124,5 @@ const Terms = styled('div', {
 const Bottom = styled('div', {
   borderBottom: 'solid 1px #EAEEF2',
   position: 'absolute',
-  bottom: '10px',
+  bottom: '20px',
 });
