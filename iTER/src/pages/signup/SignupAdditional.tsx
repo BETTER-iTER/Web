@@ -8,7 +8,11 @@ import Job from '../../component/signup/Job';
 import Category from '../../component/signup/Category';
 
 const SignupAdditional = () => {
-  const title = ['iTER에서 사용할\n닉네임을 정해주세요', '직업을 알려주세요', '직업을 알려주세요'];
+  const title = [
+    'iTER에서 사용할\n닉네임을 정해주세요',
+    '직업을 알려주세요',
+    '관심있는 IT제품을 알려주세요',
+  ];
   const [count, setCount] = useState<number>(1);
 
   const handleNext = () => {
@@ -37,6 +41,14 @@ const SignupAdditional = () => {
         </Count>
         <Title>
           <Headline3>{title[count - 1]}</Headline3>
+          {count == 3 && (
+            <>
+              <div style={{ height: 4 }} />
+              <Three>
+                <Headline4>(최대 3개까지)</Headline4>
+              </Three>
+            </>
+          )}
         </Title>
         {count == 1 ? <Nickname /> : count == 2 ? <Job /> : <Category />}
         <Bottom>
@@ -58,7 +70,6 @@ const Content = styled('div', {
   height: '100vh',
   overflow: 'hidden',
   paddingLeft: '25px',
-  border: '1px solid red',
 });
 
 const Count = styled('div', {
@@ -72,7 +83,11 @@ const Title = styled('div', {
   height: '56px',
 });
 
+const Three = styled('span', {
+  color: '$Brand',
+});
+
 const Bottom = styled('div', {
   position: 'absolute',
-  bottom: '10px',
+  bottom: '20px',
 });
