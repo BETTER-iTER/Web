@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { styled } from '../../../stitches.config';
-import Error from '../../assets/icon/Error.svg?react';
+import ErrorIcon from '../../assets/icon/ErrorIcon.svg?react';
 import { Caption1, Caption2, LabelText } from '../Font';
 
 interface ButtonWithInputProps {
@@ -72,7 +72,7 @@ const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
             color: '#F34F45',
           }}
         >
-          <Error />
+          <ErrorIcon width={14} height={13} fill={'#f34f45'} />
           <span style={{ marginLeft: '4px', marginBottom: '8px' }}>
             <ErrorMessage>
               <Caption1>{error}</Caption1>
