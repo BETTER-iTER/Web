@@ -15,8 +15,8 @@ function App() {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/signup/additional" element={<SignupAdditional />} />
       <Route path="/signup/complete" element={<SignupComplete />} />
-      <Route path="findpassword" element={<FindPassword />} />
-      <Route path="findpassword/resetpassword" element={<ResetPassword />} />
+      <Route path="/password" element={<FindPassword />} />
+      <Route path="/password/reset" element={<ResetPassword />} />
     </Routes>
   );
 }

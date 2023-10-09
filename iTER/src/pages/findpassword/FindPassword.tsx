@@ -4,8 +4,10 @@ import Button from '../../component/common/Button';
 import Top from '../../component/layout/Top';
 import { Headline3 } from '../../component/Font';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const FindPassword = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState<string>('');
   const [authNum, setAuthNum] = useState<string>('');
 
@@ -29,6 +31,11 @@ const FindPassword = () => {
     console.log(authNum, 'Auth click');
     authNum === '123456' ? setAuthWarning('') : setAuthWarning('인증번호가 올바르지 않습니다');
   };
+
+  const handleNext = () => {
+    console.log("다음 버튼");
+    navigate('/password/reset');
+  }
 
   return (
     <>
@@ -64,8 +71,8 @@ const FindPassword = () => {
 
         <ButtonBody>
           <Button
-            disabled={email.length == 0 || authNum.length != 6}
-            onClick={() => console.log('다음 버튼')}
+            disabled={!validateEmail(email) || authNum.length != 6}
+            onClick={handleNext}
             children="다음"
           />
         </ButtonBody>

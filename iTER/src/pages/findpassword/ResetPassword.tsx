@@ -4,8 +4,10 @@ import Button from '../../component/common/Button';
 import Top from '../../component/layout/Top';
 import { Headline3 } from '../../component/Font';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ResetPassword = () => {
+   const navigate = useNavigate();
   const [password, setPassword] = useState<string>('');
   const [checkPassword, setCheckPassword] = useState<string>('');
 
@@ -15,6 +17,10 @@ const ResetPassword = () => {
     );
     return isPasswordValid;
   };
+
+  const handleNext = () => {
+    
+  }
 
   return (
     <>
