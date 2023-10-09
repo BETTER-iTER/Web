@@ -29,7 +29,9 @@ const SignUp = () => {
 
   const handleEmailButton = () => {
     console.log('Email click?');
-    validateEmail(email) ? setEmailWarning('') : setEmailWarning('이메일 형식이 올바르지 않습니다');
+    validateEmail(email)
+      ? setEmailWarning('')
+      : setEmailWarning('올바른 이메일 주소를 입력해주세요');
   };
   const handleAuthButton = () => {
     console.log(authNum, 'Auth click');
