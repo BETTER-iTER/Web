@@ -16,6 +16,7 @@ export const Headline3 = styled('div', {
   fontSize: '20px',
   fontWeight: '600',
   letterSpacing: '-0.4px',
+  whiteSpace: 'pre-line',
 });
 
 export const Headline4 = styled('div', {
@@ -40,6 +41,7 @@ export const ButtonText = styled('div', {
   fontSize: '15px',
   fontWeight: '600',
   letterSpacing: '-0.3px',
+  fontFamily: 'Pretendard',
 });
 
 export const LabelText = styled('div', {

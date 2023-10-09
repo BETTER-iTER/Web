@@ -3,16 +3,12 @@ import Back from '../../assets/icon/Back.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { LabelText } from '../Font';
 
-const Top = ({ title }: { title: string }) => {
+const Top = ({ title, back }: { title: string; back?: () => void }) => {
   const navigate = useNavigate();
 
   return (
     <Container>
-      <BackBox
-        onClick={() => {
-          navigate(-1);
-        }}
-      >
+      <BackBox onClick={back ? back : () => navigate(-1)}>
         <Back />
       </BackBox>
       <Title>
