@@ -20,7 +20,7 @@ const ResetPassword = () => {
 
     return (
         <>
-        <Top title="비밀번호 찾기" />
+        <Top title="비밀번호 재설정" />
 
         <Title><Headline3>비밀번호를 재설정합니다</Headline3></Title>
 
