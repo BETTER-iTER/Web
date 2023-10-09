@@ -3,7 +3,7 @@ import { styled } from '../../../stitches.config';
 import ErrorIcon from '../../assets/icon/ErrorIcon.svg?react';
 import { Caption1, Caption2, LabelText } from '../Font';
 
-interface ButtonWithInputProps {
+interface InputProps {
   labelName: string;
   btnName?: string;
   placeholder: string;
@@ -15,7 +15,7 @@ interface ButtonWithInputProps {
   notice?: string;
 }
 
-const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
+const InputComponent: React.FC<InputProps> = ({
   labelName,
   btnName,
   placeholder,
@@ -46,7 +46,7 @@ const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
         }}
       >
         <InBody>
-          <InputComponent
+          <Input
             placeholder={placeholder}
             onChange={handleInputValueChange}
             type={type} // 입력 필드 타입 설정
@@ -84,7 +84,7 @@ const ButtonWithInput: React.FC<ButtonWithInputProps> = ({
   );
 };
 
-const InputComponent: React.FC<{
+const Input: React.FC<{
   placeholder: string;
   type: 'text' | 'password';
   onChange: (value: string) => void;
@@ -99,7 +99,7 @@ const InputComponent: React.FC<{
 
   return (
     <>
-      <Input
+      <InnerInput
         type={type}
         placeholder={placeholder}
         value={inputValue}
@@ -120,7 +120,7 @@ const Body = styled('div', {
   backgroundColor: '$White',
 });
 
-const Input = styled('input', {
+const InnerInput = styled('input', {
   border: 'none',
   height: '48px',
   marginLeft: '7px',
@@ -164,4 +164,4 @@ const Notice = styled('div', {
   marginBottom: '10px',
 });
 
-export default ButtonWithInput;
+export default InputComponent;

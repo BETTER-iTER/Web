@@ -1,6 +1,6 @@
 import { styled } from '../../../stitches.config';
 import Button from '../../component/common/Button';
-import ButtonWithInput from '../../component/common/Input';
+import InputComponent from '../../component/common/Input';
 import { Caption2, Headline3 } from '../../component/Font';
 import Top from '../../component/layout/Top';
 import CheckCircle from '../../assets/icon/CheckCircle.svg?react';
@@ -46,7 +46,7 @@ const SignUp = () => {
           <Headline3>ITer에 오신걸 환영합니다</Headline3>
         </Title>
 
-        <ButtonWithInput
+        <InputComponent
           placeholder="이메일을 입력해주세요"
           type="text"
           labelName="이메일"
@@ -57,7 +57,7 @@ const SignUp = () => {
           error={emailWarning}
         />
         <div style={{ marginTop: 20 }} />
-        <ButtonWithInput
+        <InputComponent
           placeholder="인증번호를 6자리를 입력해주세요"
           type="text"
           labelName="인증번호"
@@ -68,7 +68,7 @@ const SignUp = () => {
           error={authWarning}
         />
         <div style={{ marginTop: 20 }} />
-        <ButtonWithInput
+        <InputComponent
           placeholder="비밀번호를 입력해주세요"
           type="password"
           labelName="비밀번호"
