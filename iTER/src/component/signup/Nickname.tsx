@@ -1,6 +1,6 @@
 import { styled } from '@stitches/react';
 import { useState } from 'react';
-import ButtonWithInput from '../common/Input';
+import InputComponent from '../common/Input';
 import { Caption1 } from '../Font';
 
 const Nickname = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
@@ -13,7 +13,7 @@ const Nickname = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
   onDisabled(nickname === '');
   return (
     <NicknameBox>
-      <ButtonWithInput
+      <InputComponent
         labelName="닉네임"
         placeholder="닉네임을 입력해주세요"
         type="text"
