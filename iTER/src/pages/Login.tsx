@@ -3,9 +3,12 @@ import React, { useState } from 'react';
 import LoginInput from '../component/common/LoginInput';
 import Button from '../component/common/Button';
 import Kakao from '../assets/icon/Kakao.svg?react';
+import axios from 'axios';
 import { Headline3 } from '../component/Font';
 
 const Login = () => {
+
+  const localhost = 'https://dev.betteritem.store';
   const [emailValue, setEmailValue] = useState<string>(''); // 이메일 입력 값
   const [passwordValue, setPasswordValue] = useState<string>(''); // 비밀번호 입력 값
 
@@ -15,6 +18,23 @@ const Login = () => {
 
   const handlePasswordChange = (newValue: string) => {
     setPasswordValue(newValue);
+  };
+
+  const handleLogin = (email: string, password: string): void => {
+
+      const requestBody={
+        "email": email,
+        "password" : password,
+      };
+
+      axios.post(`${localhost}/auth/login`,requestBody)
+      .then((response) => {
+        console.log("로그인 성공");
+
+      })
+      .catch((error) => {
+        console.log("에러남");
+      });
   };
 
   // 입력 필드가 비어있지 않은 경우에만 버튼 활성화
@@ -41,7 +61,7 @@ const Login = () => {
           />
         </Password>
         <BtnBody>
-          <Button children="로그인" disabled={!isButtonEnabled} />
+          <Button children="로그인" disabled={!isButtonEnabled} onClick={() => handleLogin(emailValue, passwordValue)} />
         </BtnBody>
         <KakaoButton>
           <In>

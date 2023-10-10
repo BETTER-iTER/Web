@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const ResetPassword = () => {
-   const navigate = useNavigate();
+//   const navigate = useNavigate();
   const [password, setPassword] = useState<string>('');
   const [checkPassword, setCheckPassword] = useState<string>('');
 
@@ -19,7 +19,8 @@ const ResetPassword = () => {
   };
 
   const handleNext = () => {
-    
+    console.log("비번 재설정 버튼");
+    // 비번 재설정 api 연결후 navigate로 경로 이동
   }
 
   return (
@@ -59,7 +60,7 @@ const ResetPassword = () => {
         <ButtonBody>
           <Button
             disabled={!(checkPassword === password && checkPassword && password)}
-            onClick={() => console.log('비번 재설정 버튼')}
+            onClick={handleNext}
             children="비밀번호 재설정"
           />
         </ButtonBody>
