@@ -1,14 +1,15 @@
 import api from './index';
 import { UserProps } from '../types/auth';
+
 // 가입 인증메일 전송
 export const postJoinEmail = async (email: string) => {
   console.log('가입인증메일 전송');
   try {
     const response = await api.post('/auth/join/emails', { email });
-    return response;
+    return response.data;
   } catch (error) {
     console.log('가입인증메일 오류', error);
-    console.log(error);
+    throw error;
   }
 };
 
@@ -20,7 +21,7 @@ export const postEmailVerify = async (email: string, code: string) => {
     return response;
   } catch (error) {
     console.log('이메일 코드 검증 오류', error);
-    console.log(error);
+    throw error;
   }
 };
 
@@ -32,7 +33,7 @@ export const getNicknameVerify = async (nickname: string) => {
     return response;
   } catch (error) {
     console.log('닉네임 체크 오류', error);
-    console.log(error);
+    throw error;
   }
 };
 
@@ -44,6 +45,6 @@ export const postJoin = async (data: UserProps) => {
     return response;
   } catch (error) {
     console.log('일반 회원가입 오류', error);
-    console.log(error);
+    throw error;
   }
 };
