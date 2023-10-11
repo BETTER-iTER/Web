@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { styled } from '../../../stitches.config';
 import CategoryList, { CategoryProps } from '../../constants/Category';
-const Interest = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
+
+interface InterestProps {
+  onDisabled: (value: boolean) => void;
+  onChange: (value: string) => void;
+}
+const Interest = ({ onDisabled, onChange }: InterestProps) => {
   const [selected, setSelected] = useState<number[]>([]);
   const handleSelect = (id: number) => {
     const selectedCount = selected.length;
@@ -14,6 +19,7 @@ const Interest = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
   };
 
   onDisabled(selected.length === 0);
+  onChange(selected.join(','));
 
   return (
     <Container>

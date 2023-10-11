@@ -5,15 +5,21 @@ import { Caption2, Headline3 } from '../../component/Font';
 import Top from '../../component/layout/Top';
 import CheckCircle from '../../assets/icon/CheckCircle.svg?react';
 import { useState } from 'react';
+import { postJoinEmail } from '../../apis/auth';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { LoginProps } from '../../types/auth';
 
 const SignUp = () => {
   const [check, setCheck] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [authNum, setAuthNum] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-
-  const [emailWarning, setEmailWarning] = useState<string>('');
   const [authWarning, setAuthWarning] = useState<string>('');
+
+  const mutation = useMutation(postJoinEmail);
+  const navigate = useNavigate();
+
   //이메일 유효성 검사
   const validateEmail = (value: string) => {
     const isEmailValid = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value.trim());
@@ -27,15 +33,32 @@ const SignUp = () => {
     return isPasswordValid;
   };
 
+  // 인증번호 전송
   const handleEmailButton = () => {
     console.log('Email click?');
-    validateEmail(email)
-      ? setEmailWarning('')
-      : setEmailWarning('올바른 이메일 주소를 입력해주세요');
+    mutation.mutate(email);
   };
+  if (mutation.error) {
+    console.log(mutation.failureReason);
+  }
+  if (mutation.data) {
+    console.log('?', mutation.data);
+  }
+
+  // 인증번호 확인
   const handleAuthButton = () => {
     console.log(authNum, 'Auth click');
     authNum === '123456' ? setAuthWarning('') : setAuthWarning('인증번호가 올바르지 않습니다');
+  };
+
+  // 다음버튼
+  const loginInfo: LoginProps = {
+    email: email,
+    password: password,
+  };
+
+  const handleNext = () => {
+    navigate('/signup/additional', { state: loginInfo });
   };
 
   return (
@@ -53,8 +76,12 @@ const SignUp = () => {
           btnName="인증번호 전송"
           onClick={() => handleEmailButton()}
           onChange={setEmail}
-          disabled={email.length == 0}
-          error={emailWarning}
+          disabled={email.length == 0 || !validateEmail(email)}
+          error={
+            validateEmail(email) || email.length == 0
+              ? undefined
+              : '올바른 이메일 주소를 입력해주세요'
+          }
         />
         <div style={{ marginTop: 20 }} />
         <InputComponent
@@ -86,7 +113,9 @@ const SignUp = () => {
             <CheckCircle fill={check ? '#8787F4' : '#C1C4CC'} />
             <Caption2>ITer 서비스이용약관에 동의합니다.</Caption2>
           </Terms>
-          <Button disabled>다음</Button>
+          <Button onClick={() => handleNext()} disabled>
+            다음
+          </Button>
         </Bottom>
       </Content>
     </>

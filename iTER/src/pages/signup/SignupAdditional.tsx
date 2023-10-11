@@ -5,7 +5,11 @@ import Button from '../../component/common/Button';
 import { Headline3, Headline4 } from '../../component/Font';
 import Nickname from '../../component/signup/Nickname';
 import Job from '../../component/signup/Job';
-import Category from '../../component/signup/Category';
+import Interest from '../../component/signup/Interest';
+import { postJoin } from '../../apis/auth';
+import { useMutation } from '@tanstack/react-query';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { LoginProps } from '../../types/auth';
 
 const SignupAdditional = () => {
   const title = [
@@ -15,19 +19,56 @@ const SignupAdditional = () => {
   ];
   const [count, setCount] = useState<number>(1);
   const [disabled, setDisabled] = useState<boolean>(true);
+  const [nickname, setNickname] = useState<string>('');
+  const [job, setJob] = useState<number>(-1);
+  const [interest, setInterest] = useState<string>('');
+  const location = useLocation();
+  const navigation = useNavigate();
+  const state = location.state as LoginProps;
+  const { email, password } = state;
+
+  const mutation = useMutation(postJoin);
+  const handleNickname = (value: string) => {
+    setNickname(value);
+  };
+  const handleJob = (value: number) => {
+    setJob(value);
+  };
+  const handleInterest = (value: string) => {
+    setInterest(value);
+  };
 
   const onDisabled = (value: boolean) => {
     setDisabled(value);
+  };
+
+  console.log(interest);
+  const handleJoin = () => {
+    mutation.mutate({
+      email: email,
+      password: password,
+      nickname: nickname,
+      job: job,
+      interests: interest,
+    });
+    if (mutation.error) {
+      console.log(mutation.failureReason);
+    }
+    if (mutation.data) {
+      console.log('?', mutation.data);
+      navigation('/signup/complete');
+    }
   };
 
   const handleNext = () => {
     if (count < 3) {
       setCount(count + 1);
     } else {
-      console.log('회원가입 완료');
+      handleJoin();
     }
   };
 
+  console.log('/', nickname, job, interest);
   return (
     <>
       <Top
@@ -56,11 +97,11 @@ const SignupAdditional = () => {
           )}
         </Title>
         {count == 1 ? (
-          <Nickname onDisabled={onDisabled} />
+          <Nickname onDisabled={onDisabled} onChange={handleNickname} />
         ) : count == 2 ? (
-          <Job onDisabled={onDisabled} />
+          <Job onDisabled={onDisabled} onChange={handleJob} />
         ) : (
-          <Category onDisabled={onDisabled} />
+          <Interest onDisabled={onDisabled} onChange={handleInterest} />
         )}
         <Bottom>
           <Button
