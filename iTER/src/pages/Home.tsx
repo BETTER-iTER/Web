@@ -5,6 +5,7 @@ import Review from '../component/home/Review';
 import Top from '../component/home/Top';
 import CategoryList from '../constants/Category';
 import { ReviewPreviewProps } from '../types/Review';
+import Quiz from '../component/home/Quiz';
 
 const Home = () => {
   return (
@@ -18,6 +19,9 @@ const Home = () => {
 
       <Label>리뷰보고 구매했어요</Label>
       <Review list={dummy} />
+
+      <Label>🪙 IT 퀴즈풀고 포인트 받기</Label>
+      <Quiz id={1} question={'CPU는 중앙처리장치이다'} />
     </Container>
   );
 };

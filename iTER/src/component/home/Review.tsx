@@ -33,6 +33,7 @@ const Container = styled('div', {
   overflowX: 'scroll',
   width: '362px',
   marginTop: '5px',
+  marginBottom: '10px',
   paddingLeft: '16px',
   paddingRight: '5px',
   alignSelf: 'flex-end',
