@@ -1,16 +1,23 @@
 import { styled } from '../../stitches.config';
-import Category from '../component/common/Category';
+import Category from '../component/common/Category';
 import { ButtonWrite } from '../component/common/Button';
+import Review from '../component/home/Review';
 import Top from '../component/home/Top';
 import CategoryList from '../constants/Category';
+import { ReviewPreviewProps } from '../types/Review';
 
 const Home = () => {
   return (
     <Container>
       <Top />
+      <div style={{ height: 20 }} />
       <ButtonWrite>리뷰 쓰러가기</ButtonWrite>
+
       <Label>아이터에서 찐 리뷰를 살펴보세요</Label>
       <CategoryScroll />
+
+      <Label>리뷰보고 구매했어요</Label>
+      <Review list={dummy} />
     </Container>
   );
 };
@@ -59,8 +66,16 @@ const CategoryBox = styled('div', {
   width: '369px',
   paddingLeft: '16px',
   paddingRight: '5px',
+  marginBottom: '10px',
   alignSelf: 'flex-end',
   '&::-webkit-scrollbar': {
     display: 'none',
   },
 });
+
+const dummy: ReviewPreviewProps[] = [
+  { id: 1, title: '로지텍 MK470 Slim', nickname: '로지' },
+  { id: 2, title: '한성컴퓨터 GK896B', nickname: '김한성' },
+  { id: 3, title: '앱코 HACKER', nickname: '찡긋' },
+  { id: 4, title: '아이폰 SE3', nickname: '클로버' },
+];
