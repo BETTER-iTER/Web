@@ -1,7 +1,9 @@
+import { ButtonWrite } from '../component/common/Button';
+
 const Home = () => {
   return (
     <div>
-      <a href="/test">테스트</a>
+      <ButtonWrite>리뷰 쓰러가기</ButtonWrite>
     </div>
   );
 };
