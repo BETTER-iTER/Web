@@ -40,6 +40,7 @@ const Container = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  overflow: 'hidden',
 });
 
 const Label = styled('div', {
@@ -48,15 +49,17 @@ const Label = styled('div', {
   fontWeight: '600',
   lineHeight: '22px',
   alignSelf: 'flex-start',
-  margin: '20px 0 15px 0',
+  margin: '20px 0 15px 24px',
 });
 
 const CategoryBox = styled('div', {
   display: 'flex',
   gap: '20px',
   overflowX: 'scroll',
-  width: '100%',
-  padding: '0 0 10px 5px',
+  width: '369px',
+  paddingLeft: '16px',
+  paddingRight: '5px',
+  alignSelf: 'flex-end',
   '&::-webkit-scrollbar': {
     display: 'none',
   },
