@@ -39,6 +39,9 @@ const Quiz = ({ id, question }: QuizProps) => {
           onClick={() => {
             navigate('/login');
           }}
+          onClosed={() => {
+            setModal(false);
+          }}
         />
       )}
     </>
