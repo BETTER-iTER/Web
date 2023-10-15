@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { styled } from '../../../stitches.config';
 import CategoryList from '../../constants/Category';
-import Category from '../common/\bCategory';
+import Category from '../common/Category';
 
 interface InterestProps {
   onDisabled: (value: boolean) => void;
