@@ -14,14 +14,14 @@ const Review = ({ list }: { list: ReviewPreviewProps[] }) => {
 
 const Item = ({ list }: { list: ReviewPreviewProps }) => {
   return (
-    <ItemContainer>
+    <div>
       <Image></Image>
       <Title>{list.title}</Title>
       <User>
         <Profile></Profile>
         <Caption2>{list.nickname}</Caption2>
       </User>
-    </ItemContainer>
+    </div>
   );
 };
 
@@ -33,7 +33,6 @@ const Container = styled('div', {
   overflowX: 'scroll',
   width: '362px',
   marginTop: '5px',
-  marginBottom: '10px',
   paddingLeft: '16px',
   paddingRight: '5px',
   alignSelf: 'flex-end',
@@ -41,8 +40,6 @@ const Container = styled('div', {
     display: 'none',
   },
 });
-
-const ItemContainer = styled('div', {});
 
 const Image = styled('div', {
   width: '140px',

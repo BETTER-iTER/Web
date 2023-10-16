@@ -59,7 +59,7 @@ const Container = styled('div', {
   overflow: 'hidden',
   borderRadius: '10px',
   backgroundColor: '$White',
-  margin: '5px 0 20px 0',
+  margin: '5px 0 119px 0',
   boxShadow: '2px 4px 4px 2px rgba(158, 158, 158, 0.25)',
 });
 

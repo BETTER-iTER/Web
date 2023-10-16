@@ -6,6 +6,7 @@ import Top from '../component/home/Top';
 import CategoryList from '../constants/Category';
 import { ReviewPreviewProps } from '../types/Review';
 import Quiz from '../component/home/Quiz';
+import News from '../component/home/News';
 
 const Home = () => {
   return (
@@ -13,6 +14,9 @@ const Home = () => {
       <Top />
       <div style={{ height: 20 }} />
       <ButtonWrite>리뷰 쓰러가기</ButtonWrite>
+
+      <Label>최신IT 소식</Label>
+      <News />
 
       <Label>아이터에서 찐 리뷰를 살펴보세요</Label>
       <CategoryScroll />
@@ -60,7 +64,7 @@ const Label = styled('div', {
   fontWeight: '600',
   lineHeight: '22px',
   alignSelf: 'flex-start',
-  margin: '20px 0 15px 24px',
+  margin: '30px 0 15px 24px',
 });
 
 const CategoryBox = styled('div', {
@@ -70,7 +74,6 @@ const CategoryBox = styled('div', {
   width: '369px',
   paddingLeft: '16px',
   paddingRight: '5px',
-  marginBottom: '10px',
   alignSelf: 'flex-end',
   '&::-webkit-scrollbar': {
     display: 'none',

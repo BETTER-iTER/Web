@@ -37,8 +37,8 @@ const ItemBox = styled('div', {
 });
 
 const Image = styled('div', {
-  width: '68px',
-  height: '68px',
+  width: '70px',
+  height: '70px',
   borderRadius: '50%',
   variants: {
     isSelected: {
