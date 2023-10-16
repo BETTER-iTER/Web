@@ -6,11 +6,13 @@ import SignupComplete from './pages/signup/SignupComplete';
 import SignupAdditional from './pages/signup/SignupAdditional';
 import FindPassword from './pages/findpassword/FindPassword';
 import ResetPassword from './pages/findpassword/ResetPassword';
+import Notification from './pages/Notification';
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/notification" element={<Notification />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/signup/additional" element={<SignupAdditional />} />
