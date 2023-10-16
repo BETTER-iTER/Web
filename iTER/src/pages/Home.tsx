@@ -7,6 +7,7 @@ import CategoryList from '../constants/Category';
 import { ReviewPreviewProps } from '../types/Review';
 import Quiz from '../component/home/Quiz';
 import News from '../component/home/News';
+import Footer from '../component/layout/Footer';
 
 const Home = () => {
   return (
@@ -26,6 +27,8 @@ const Home = () => {
 
       <Label>🪙 IT 퀴즈풀고 포인트 받기</Label>
       <Quiz id={1} question={'CPU는 중앙처리장치이다'} />
+
+      <Footer />
     </Container>
   );
 };
