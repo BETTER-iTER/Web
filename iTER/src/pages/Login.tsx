@@ -4,6 +4,7 @@ import LoginInput from '../component/common/LoginInput';
 import Button from '../component/common/Button';
 import Kakao from '../assets/icon/Kakao.svg?react';
 import { Headline3 } from '../component/Font';
+import KakaoButton from '../component/common/KakaoLoginBtn';
 
 const Login = () => {
   const [emailValue, setEmailValue] = useState<string>(''); // 이메일 입력 값
@@ -15,6 +16,14 @@ const Login = () => {
 
   const handlePasswordChange = (newValue: string) => {
     setPasswordValue(newValue);
+  };
+  const handleKakaoSuccess = (data: any) => {
+    // 카카오 로그인 성공 시 수행할 동작을 여기에 정의하세요.
+    console.log('카카오 로그인 성공', data);
+  };
+  const handleKakaoError = (error: any) => {
+    // 카카오 로그인 실패 시 수행할 동작을 여기에 정의하세요.
+    console.error('카카오 로그인 실패', error);
   };
 
   // 입력 필드가 비어있지 않은 경우에만 버튼 활성화
@@ -43,12 +52,8 @@ const Login = () => {
         <BtnBody>
           <Button children="로그인" disabled={!isButtonEnabled} />
         </BtnBody>
-        <KakaoButton>
-          <In>
-            <Kakao />
-            <Span>카카오로 로그인하기</Span>
-          </In>
-        </KakaoButton>
+
+        <KakaoButton onSuccess={handleKakaoSuccess} onError={handleKakaoError} />
 
         <Footer>
           <Join onClick={() => console.log('회원가입으로 이동')}>회원가입</Join>
@@ -91,26 +96,7 @@ const Body = styled('div', {
   alignItems: 'center',
   marginTop: '40px',
 });
-const KakaoButton = styled('button', {
-  backgroundColor: '$kakaoYello',
-  width: '340px',
-  height: '45px',
-  borderRadius: '7px',
-  border: 'none',
-  marginTop: '12px',
-});
-const In = styled('div', {
-  height: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  marginLeft: '5px',
-});
 
-const Span = styled('div', {
-  marginRight: '100px',
-  bodyText: 2,
-});
 
 const Title = styled('div', {
   marginTop: '170px',

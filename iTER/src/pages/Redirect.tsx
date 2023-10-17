@@ -9,14 +9,13 @@ function Redirect() {
     const code = urlParams.get("code");
 
     console.log(code);
-    // const code1 = code.toString();
     console.log(window.location.href);
     axios(`${localhost}/login/callback/kakao?code=${code}`, {
         method: "GET",
     })
         .then(function (response) {
-            // const token = response.data.token;
-            // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            const token = response.data.token;
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             alert("카카오로그인이 되셨습니다.");
             console.log(response);
             console.log(response.data.status);
