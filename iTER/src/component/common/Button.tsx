@@ -60,7 +60,7 @@ export const ButtonWrite: FC<ButtonWriteProps> = ({ onClick, children }) => {
     <>
       <ButtonWriteBody onClick={onClick}>
         <ButtonWriteText>
-          <Write />
+          <Write width={22} height={22} fill={'#fff'} />
           {children}
         </ButtonWriteText>
       </ButtonWriteBody>

@@ -8,6 +8,7 @@ import { ReviewPreviewProps } from '../types/Review';
 import Quiz from '../component/home/Quiz';
 import News from '../component/home/News';
 import Footer from '../component/layout/Footer';
+import Nav from '../component/layout/Nav';
 
 const Home = () => {
   return (
@@ -29,6 +30,7 @@ const Home = () => {
       <Quiz id={1} question={'CPU는 중앙처리장치이다'} />
 
       <Footer />
+      <Nav />
     </Container>
   );
 };
