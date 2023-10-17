@@ -4,18 +4,24 @@ import { ButtonText, Headline4 } from '../Font';
 
 interface ModalProps {
   text: string;
+  btn: string;
   onClick: () => void;
+  onClosed?: () => void;
 }
 
-const Modal: FC<ModalProps> = ({ text, onClick }) => {
+const Modal: FC<ModalProps> = ({ text, btn, onClick, onClosed }) => {
   return (
-    <Back>
+    <Back
+      onClick={() => {
+        onClosed && onClosed();
+      }}
+    >
       <ModalBox>
         <div style={{ height: 110 }}>
           <Headline4>{text}</Headline4>
         </div>
         <Button onClick={onClick}>
-          <ButtonText>확인</ButtonText>
+          <ButtonText>{btn}</ButtonText>
         </Button>
       </ModalBox>
     </Back>
@@ -34,6 +40,7 @@ const Back = styled('div', {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  pointerEvents: 'auto',
 });
 
 const ModalBox = styled('div', {

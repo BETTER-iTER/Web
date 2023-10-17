@@ -16,21 +16,31 @@ export const { styled, css, globalCss, keyframes, getCssText, theme } = createSt
       Gray50: '#4C4E55',
 
       kakaoYello: '#fae100',
+
+      WH02: '#CCCED8',
+      WH03: '#9BA0A7',
     },
   },
   utils: {
-    bodyText: (level: 1 | 2) => {
+    bodyText: (level: 1 | 2 | 3) => {
       if (level === 1) {
         return {
           fontSize: '15px',
           fontWeight: '600',
           letterSpacing: '-0.3px',
         };
+      } else if (level === 2) {
+        return {
+          fontSize: '14px',
+          fontWeight: '400',
+          letterSpacing: '-0.28px',
+        };
       }
       return {
-        fontSize: '14px',
+        fontSize: '11px',
         fontWeight: '400',
-        letterSpacing: '-0.28px',
+        letterSpacing: '-0.55px',
+        lineHeight: '15px',
       };
     },
   },
