@@ -5,7 +5,7 @@ import Button from '../../component/common/Button';
 import { Headline3, Headline4 } from '../../component/Font';
 import Nickname from '../../component/signup/Nickname';
 import Job from '../../component/signup/Job';
-import Category from '../../component/signup/Category';
+import Interest from '../../component/signup/Interest';
 
 const SignupAdditional = () => {
   const title = [
@@ -60,7 +60,7 @@ const SignupAdditional = () => {
         ) : count == 2 ? (
           <Job onDisabled={onDisabled} />
         ) : (
-          <Category onDisabled={onDisabled} />
+          <Interest onDisabled={onDisabled} />
         )}
         <Bottom>
           <Button

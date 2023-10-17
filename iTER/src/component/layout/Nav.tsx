@@ -32,7 +32,7 @@ const Nav = () => {
           >
             {name === 'home' && <Home fill={color(path)} />}
             {name === 'search' && <Search fill={color(path)} />}
-            {name === 'write' && <Write fill={color(path)} />}
+            {name === 'write' && <Write fill={color(path)} width={28} height={28} />}
             {name === 'mypage' && <Mypage fill={color(path)} />}
           </div>
         );
