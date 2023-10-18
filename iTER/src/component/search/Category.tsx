@@ -25,9 +25,11 @@ const SearchCategory = () => {
 export default SearchCategory;
 
 const Container = styled('div', {
-  width: '340px',
-  padding: '25px',
+  width: '370px',
   bodyText: 1,
+
+  padding: '25px 0 0 25px',
+  overflow: 'hidden',
 });
 
 const Content = styled('div', {
