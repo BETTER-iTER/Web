@@ -9,7 +9,7 @@ interface CategoryItem extends CategoryProps {
 
 const Category = ({ name, onClick, isSelected, gap }: CategoryItem) => {
   return (
-    <ItemBox onClick={onClick} style={{ gap: gap }}>
+    <ItemBox onClick={onClick} style={{ gap: gap }} gap={gap}>
       <Image isSelected={isSelected}></Image>
       <Name>{name}</Name>
     </ItemBox>
@@ -40,6 +40,9 @@ const Image = styled('div', {
   width: '70px',
   height: '70px',
   borderRadius: '50%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   variants: {
     isSelected: {
       true: {

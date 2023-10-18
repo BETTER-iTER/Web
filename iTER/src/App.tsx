@@ -7,6 +7,7 @@ import SignupAdditional from './pages/signup/SignupAdditional';
 import FindPassword from './pages/findpassword/FindPassword';
 import ResetPassword from './pages/findpassword/ResetPassword';
 import Notification from './pages/Notification';
+import Search from './pages/Search';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Route path="/signup/complete" element={<SignupComplete />} />
       <Route path="/password" element={<FindPassword />} />
       <Route path="/password/reset" element={<ResetPassword />} />
+      <Route path="/search" element={<Search />} />
     </Routes>
   );
 }
