@@ -1,12 +1,11 @@
 import { styled } from '../../../stitches.config';
 import Category from '../common/Category';
-import { ButtonText } from '../Font';
 import CategoryList from '../../constants/Category';
 
 const SearchCategory = () => {
   return (
     <Container>
-      <ButtonText>카테고리</ButtonText>
+      <div>카테고리</div>
       <Content>
         {CategoryList.map((category) => (
           <Category
@@ -28,6 +27,7 @@ export default SearchCategory;
 const Container = styled('div', {
   width: '340px',
   padding: '25px',
+  bodyText: 1,
 });
 
 const Content = styled('div', {
