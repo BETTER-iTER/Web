@@ -72,13 +72,11 @@ const Image = styled('div', {
   width: '68px',
   height: '68px',
   borderRadius: '50%',
+  boxShadow: '2px 4px 4px 2px rgba(158, 158, 158, 0.25)',
   variants: {
     isSelected: {
       true: {
-        boxShadow: '2px 4px 4px 2px rgba(135, 135, 244, 0.5)',
-      },
-      false: {
-        boxShadow: '2px 4px 4px 2px rgba(158, 158, 158, 0.25)',
+        backgroundColor: ' rgba(135, 135, 244, 0.30)',
       },
     },
   },

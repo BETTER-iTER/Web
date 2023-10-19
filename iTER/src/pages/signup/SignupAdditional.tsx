@@ -25,7 +25,7 @@ const SignupAdditional = () => {
   const location = useLocation();
   const navigation = useNavigate();
   const state = location.state as LoginProps;
-  const { email, password } = state;
+  const { email, password } = state || { email: '', password: '' };
 
   const mutation = useMutation(postJoin);
   const handleNickname = (value: string) => {
@@ -42,11 +42,11 @@ const SignupAdditional = () => {
     setDisabled(value);
   };
 
-  console.log(interest);
+  // console.log(interest);
   const handleJoin = () => {
     mutation.mutate({
-      email: email,
-      password: password,
+      email: email || '',
+      password: password || '',
       nickname: nickname,
       job: job,
       interests: interest,
@@ -55,7 +55,7 @@ const SignupAdditional = () => {
       console.log(mutation.failureReason);
     }
     if (mutation.data) {
-      console.log('?', mutation.data);
+      // console.log('?', mutation.data);
       navigation('/signup/complete');
     }
   };
@@ -68,7 +68,7 @@ const SignupAdditional = () => {
     }
   };
 
-  console.log('/', nickname, job, interest);
+  // console.log('/', nickname, job, interest);
   return (
     <>
       <Top

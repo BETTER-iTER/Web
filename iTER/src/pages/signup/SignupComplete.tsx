@@ -60,6 +60,6 @@ const Hash = styled('div', {
 
 const Bottom = styled('div', {
   position: 'absolute',
-  bottom: '10px',
+  bottom: '20px',
   left: '25px',
 });
