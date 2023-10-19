@@ -9,6 +9,7 @@ import { postJoinEmail } from '../../apis/auth';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { LoginProps } from '../../types/auth';
+import Timer from '../../component/signup/Timer';
 
 const SignUp = () => {
   const [check, setCheck] = useState<boolean>(false);
@@ -16,6 +17,7 @@ const SignUp = () => {
   const [authNum, setAuthNum] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [authWarning, setAuthWarning] = useState<string>('');
+  const [timer, setTimer] = useState<boolean>(); // 안증확인시 타이머 true->시간종료후 false
 
   const mutation = useMutation(postJoinEmail);
   const navigate = useNavigate();
@@ -84,6 +86,11 @@ const SignUp = () => {
           }
         />
         <div style={{ marginTop: 20 }} />
+        {timer && (
+          <TimerBox>
+            <Timer min={3} onChange={() => setTimer(true)} />
+          </TimerBox>
+        )}
         <InputComponent
           placeholder="인증번호를 6자리를 입력해주세요"
           type="text"
@@ -156,4 +163,12 @@ const Bottom = styled('div', {
   borderBottom: 'solid 1px #EAEEF2',
   position: 'absolute',
   bottom: '20px',
+});
+
+const TimerBox = styled('div', {
+  width: '330px',
+  display: 'flex',
+  justifyContent: 'flex-end',
+  position: 'absolute',
+  top: '285px',
 });
