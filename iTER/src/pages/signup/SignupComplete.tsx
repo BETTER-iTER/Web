@@ -26,10 +26,10 @@ const SignupComplete = () => {
         <Bottom>
           <Button
             onClick={() => {
-              navigate('/');
+              navigate('/login');
             }}
           >
-            홈으로 가기
+            로그인 하기
           </Button>
         </Bottom>
       </div>
