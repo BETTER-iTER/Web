@@ -1,11 +1,20 @@
 import { styled } from '../../../stitches.config';
 import Xbtn from '../../assets/icon/Xbtn.svg?react';
 
-const Recent = () => {
+interface RecentProps {
+  keywords: { id: number; text: string }[];
+  onDelete: (id: number) => void;
+}
+
+const Recent: React.FC<RecentProps> = ({ keywords, onDelete }) => {
   return (
     <Box>
       <div>최근 검색어</div>
-      <Items>{dummy.map((item) => Item(item))}</Items>
+      <Items>
+        {keywords.map((item) => (
+          <Item item={item} onDelete={onDelete} key={item.id} />
+        ))}
+      </Items>
     </Box>
   );
 };
@@ -29,11 +38,18 @@ const Items = styled('div', {
   },
 });
 
-const Item = (item: string) => {
+interface ItemProps {
+  item: { id: number; text: string };
+  onDelete: (id: number) => void;
+}
+
+const Item: React.FC<ItemProps> = ({ item, onDelete }) => {
   return (
     <ItemBox>
-      <div>{item}</div>
-      <Xbtn />
+      <div>{item.text}</div>
+      <Xbox onClick={() => onDelete(item.id)}>
+        <Xbtn />
+      </Xbox>
     </ItemBox>
   );
 };
@@ -53,4 +69,9 @@ const ItemBox = styled('div', {
   whiteSpace: 'nowrap',
 });
 
-const dummy = ['버티컬 마우스', '헤드셋', '마샬 헤드셋', 'm2'];
+const Xbox = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
+});
