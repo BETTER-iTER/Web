@@ -1,5 +1,5 @@
 import { FC, ReactNode, MouseEvent } from 'react';
-import { ButtonText } from '../Font';
+import { ButtonText, Caption2 } from '../Font';
 import { styled } from '../../../stitches.config';
 import Write from '../../assets/icon/Write.svg?react';
 
@@ -32,6 +32,7 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
+// 일반 버튼
 const Button: FC<ButtonProps> = ({ onClick, children, disabled }) => {
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (!disabled && onClick) {
@@ -55,6 +56,7 @@ interface ButtonWriteProps {
   children: ReactNode;
 }
 
+// 글쓰기 버튼
 export const ButtonWrite: FC<ButtonWriteProps> = ({ onClick, children }) => {
   return (
     <>
@@ -84,4 +86,24 @@ export const ButtonWriteText = styled('div', {
   justifyContent: 'center',
   alignItems: 'center',
   gap: '8.5px',
+});
+
+// 빈 버튼
+export const ButtonEmpty: FC<ButtonProps> = ({ onClick, children }) => {
+  return (
+    <>
+      <ButtonEmptyBody onClick={onClick}>
+        <Caption2>{children}</Caption2>
+      </ButtonEmptyBody>
+    </>
+  );
+};
+
+const ButtonEmptyBody = styled('button', {
+  width: '154px',
+  height: '30px',
+  borderRadius: '20px',
+  border: '1px solid $Gray10',
+  backgroundColor: 'transparent',
+  color: '$Gray30',
 });
