@@ -2,7 +2,6 @@ import { styled } from '../../stitches.config';
 import SearchCategory from '../component/search/Category';
 import Nav from '../component/layout/Nav';
 import Top from '../component/layout/Top';
-import Recent from '../component/search/Recent';
 import { useEffect, useState } from 'react';
 
 const Search = () => {
@@ -35,8 +34,7 @@ const Search = () => {
   return (
     <Container>
       <Top search onHandle={handleAdd} />
-      <Recent keywords={keywords} onDelete={handleDelete} />
-      <SearchCategory />
+      <SearchCategory keywords={keywords} onDelete={handleDelete} />
       <Nav />
     </Container>
   );

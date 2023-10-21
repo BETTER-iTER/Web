@@ -1,10 +1,17 @@
 import { styled } from '../../../stitches.config';
 import Category from '../common/Category';
 import CategoryList from '../../constants/Category';
+import Recent from './Recent';
 
-const SearchCategory = () => {
+interface RecentProps {
+  keywords: { id: number; text: string }[];
+  onDelete: (id: number) => void;
+}
+
+const SearchCategory: React.FC<RecentProps> = ({ keywords, onDelete }) => {
   return (
     <Container>
+      {keywords.length > 0 && <Recent keywords={keywords} onDelete={onDelete} />}
       <div>카테고리</div>
       <Content>
         {CategoryList.map((category) => (

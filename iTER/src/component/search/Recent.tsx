@@ -24,8 +24,7 @@ export default Recent;
 const Box = styled('div', {
   width: '340px',
   bodyText: 1,
-  marginTop: '30px',
-  marginBottom: '5px',
+  marginBottom: '23px',
 });
 
 const Items = styled('div', {
