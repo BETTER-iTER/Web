@@ -1,11 +1,9 @@
 import { styled } from '../../stitches.config';
-import SearchCategory from '../component/search/Category';
 import Nav from '../component/layout/Nav';
 import Top from '../component/layout/Top';
 import { useEffect, useState } from 'react';
-import ListItem from '../component/search/ListItem';
-import Bottom, { BottomCategory, BottomSort } from '../component/common/Bottom';
 import Result from '../component/search/Result';
+import SearchCategory from '../component/search/Category';
 
 const Search = () => {
   const [keywords, setKeywords] = useState<{ id: number; text: string }[]>(
@@ -13,16 +11,15 @@ const Search = () => {
   );
 
   useEffect(() => {
-    localStorage.setItem('keywords', JSON.stringify(keywords));
+    const currentDate = Date.now();
+    const filteredKeywords = keywords
+      .filter((keyword) => currentDate - keyword.id <= 604800000)
+      .slice(0, 7);
+    localStorage.setItem('keywords', JSON.stringify(filteredKeywords));
   }, [keywords]);
 
   const handleDelete = (id: number) => {
-    const nextKeywords = keywords.filter((keyword) => {
-      if (typeof keyword === 'string') {
-        return true;
-      }
-      return keyword.id !== id;
-    });
+    const nextKeywords = keywords.filter((keyword) => keyword.id !== id);
     setKeywords(nextKeywords);
   };
 
@@ -37,8 +34,8 @@ const Search = () => {
   return (
     <Container>
       <Top search onHandle={handleAdd} />
-      <Result />
-      {/* <SearchCategory keywords={keywords} onDelete={handleDelete} /> */}
+      {/* <Result /> */}
+      <SearchCategory keywords={keywords} onDelete={handleDelete} />
       <Nav />
     </Container>
   );
