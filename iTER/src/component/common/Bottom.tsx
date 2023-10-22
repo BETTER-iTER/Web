@@ -5,11 +5,12 @@ import Category from './Category';
 interface BottomProps {
   title: string;
   component: React.ReactNode;
+  onClose?: () => void;
 }
 
-const Bottom = ({ title, component }: BottomProps) => {
+const Bottom = ({ title, component, onClose }: BottomProps) => {
   return (
-    <Background>
+    <Background onClick={onClose}>
       <Container>
         <Title>
           <Bar />
@@ -21,10 +22,11 @@ const Bottom = ({ title, component }: BottomProps) => {
   );
 };
 
-export const BottomCategory = () => {
+export const BottomCategory = ({ onClose }: { onClose: () => void }) => {
   return (
     <Bottom
       title="카테고리"
+      onClose={onClose}
       component={
         <CategoryBox>
           {CategoryList.map((category) => (
@@ -43,10 +45,11 @@ export const BottomCategory = () => {
   );
 };
 
-export const BottomSort = () => {
+export const BottomSort = ({ onClose }: { onClose: () => void }) => {
   return (
     <Bottom
       title="정렬"
+      onClose={onClose}
       component={
         <SortBox>
           <SortItem>최근 작성순(기본)</SortItem>
@@ -64,14 +67,14 @@ export default Bottom;
 const Background = styled('div', {
   position: 'fixed',
   bottom: 0,
-  width: '100%',
+  width: '390px',
   height: '100vh',
   zIndex: 10,
   backgroundColor: 'rgba(36, 36, 36, 0.80)',
 });
 
 const Container = styled('div', {
-  width: '100%',
+  width: '390px',
   backgroundColor: '$White',
   borderRadius: '20px 20px 0 0',
   position: 'absolute',
@@ -100,7 +103,7 @@ const Title = styled('div', {
 const CategoryBox = styled('div', {
   display: 'grid',
   gridTemplateColumns: 'repeat(4, 1fr)',
-  margin: '25px -27px 60px 27px',
+  padding: '25px 0 60px 27px',
 });
 
 const SortBox = styled('div', {

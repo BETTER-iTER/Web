@@ -1,6 +1,8 @@
 import { styled } from '../../../stitches.config';
 import { ButtonEmpty } from '../common/Button';
 import { Caption2 } from '../Font';
+import Star from '../../assets/icon/Star.svg?react';
+import UserIcon from '../../assets/icon/User.svg?react';
 
 interface ListItemProps {
   title: string;
@@ -20,19 +22,22 @@ const ListItem: React.FC<ListItemProps> = ({ title, spec, star, review, user }) 
           <Caption2>
             {spec}
             <Reviews>
-              <div>⭐️ {star}</div>
+              <Stars>
+                <Star fill={'#8787F4'} /> {star}
+              </Stars>
               {review}
             </Reviews>
           </Caption2>
           <User>
-            <UserImage></UserImage>
+            <UserIcon />
+            {/* <UserImage></UserImage> */}
             {user} | 개발자
           </User>
         </div>
       </Box>
       <Buttons>
-        <ButtonEmpty>리뷰 좋아요</ButtonEmpty>
-        <ButtonEmpty>리뷰 스크랩</ButtonEmpty>
+        <ButtonEmpty type="like">리뷰 좋아요</ButtonEmpty>
+        <ButtonEmpty type="scrap">리뷰 스크랩</ButtonEmpty>
       </Buttons>
     </Container>
   );
@@ -69,6 +74,11 @@ const Reviews = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   margin: '10px 0 21px 0',
+});
+
+const Stars = styled('div', {
+  display: 'flex',
+  gap: '5.5px',
 });
 
 const User = styled('div', {

@@ -4,6 +4,8 @@ import Nav from '../component/layout/Nav';
 import Top from '../component/layout/Top';
 import { useEffect, useState } from 'react';
 import ListItem from '../component/search/ListItem';
+import Bottom, { BottomCategory, BottomSort } from '../component/common/Bottom';
+import Result from '../component/search/Result';
 
 const Search = () => {
   const [keywords, setKeywords] = useState<{ id: number; text: string }[]>(
@@ -35,13 +37,7 @@ const Search = () => {
   return (
     <Container>
       <Top search onHandle={handleAdd} />
-      <ListItem
-        title={'마샬 STANMORE III'}
-        spec={'코어 i 5-13세대 / 14인치 / 32GB / 256-129GB'}
-        star={4.5}
-        review={'"가벼워요", "적당해요", "예뻐요"'}
-        user={'제리'}
-      />
+      <Result />
       {/* <SearchCategory keywords={keywords} onDelete={handleDelete} /> */}
       <Nav />
     </Container>
