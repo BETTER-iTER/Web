@@ -19,6 +19,8 @@ export const { styled, css, globalCss, keyframes, getCssText, theme } = createSt
 
       WH02: '#CCCED8',
       WH03: '#9BA0A7',
+
+      BL01: '#0E0E10',
     },
   },
   utils: {
