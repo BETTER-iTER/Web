@@ -9,7 +9,12 @@ import ScrapIcon from '../../assets/icon/Scrap.svg?react';
 import ShareIcon from '../../assets/icon/Share.svg?react';
 import Star from '../../assets/icon/star/Star.svg?react';
 import { Caption1, Caption2 } from '../../component/Font';
+import { useState } from 'react';
+import { BottomReviewSetting } from '../../component/common/Bottom';
+import { ModalSelect } from '../../component/common/Modal';
 const ReviewDetail = () => {
+  const [setting, setSetting] = useState<boolean>(false);
+  const [select, setSelect] = useState<number>(0);
   return (
     <>
       <Top title="스피커" />
@@ -24,7 +29,14 @@ const ReviewDetail = () => {
               <Caption2>개발자</Caption2>
             </Job>
           </Right>
-          <Dots3 />
+          <div
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              setSetting(!setting);
+            }}
+          >
+            <Dots3 />
+          </div>
         </User>
 
         <ReviewImage></ReviewImage>
@@ -93,6 +105,28 @@ const ReviewDetail = () => {
         </Box>
       </Container>
       <Nav />
+      {setting && (
+        <BottomReviewSetting
+          onClose={() => {
+            setSetting(false);
+          }}
+          onChange={(index: number) => {
+            setSelect(index);
+          }}
+        />
+      )}
+      {select === 2 && (
+        <ModalSelect
+          text={'댓글을 삭제하시겠습니까?'}
+          btn={'삭제하기'}
+          onClick={() => {
+            console.log('삭제');
+          }}
+          onClosed={() => {
+            setSelect(0);
+          }}
+        />
+      )}
     </>
   );
 };
