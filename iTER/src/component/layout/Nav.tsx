@@ -10,7 +10,6 @@ const Nav = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname;
-  console.log(typeof pathname);
 
   const color = (path: string) => {
     if (pathname === path) {
