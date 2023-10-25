@@ -31,27 +31,32 @@ const ReviewDetail = () => {
         <Box>
           {/* 좋아요 등의 액션 아이콘 */}
           <Actives>
-            <Active>
-              <HeartIcon fill={'#4C4E55'} width={24} height={24} />
-              99+
-            </Active>
-            <Active>
-              <CommentIcon />
-              99+
-            </Active>
-            <Active>
-              <ScrapIcon fill={'#4C4E55'} width={24} height={24} />
-              99+
-            </Active>
-            <Active>
-              <ShareIcon />
-            </Active>
+            <div style={{ display: 'flex' }}>
+              <Active>
+                <HeartIcon fill={'#4C4E55'} width={24} height={24} />
+                99+
+              </Active>
+              <Active>
+                <CommentIcon />
+                99+
+              </Active>
+            </div>
+            <div style={{ display: 'flex' }}>
+              <Active>
+                <ScrapIcon fill={'#4C4E55'} width={24} height={24} />
+                99+
+              </Active>
+              <div>
+                <ShareIcon />
+              </div>
+            </div>
           </Actives>
-
           {/* 리뷰 내용 */}
           <Title>마샬 STANMORE III</Title>
-          <Caption1>코어 i 5-13세대 / 14인치 / 32GB / 256-129GB</Caption1>
-
+          <Caption1 style={{ color: '#57606A' }}>
+            코어 i 5-13세대 / 14인치 / 32GB / 256-129GB
+          </Caption1>
+          {/* 별점 */}
           <Stars>
             <Star width={24} height={24} />
             <Star width={24} height={24} />
@@ -59,7 +64,7 @@ const ReviewDetail = () => {
             <Star width={24} height={24} />
             <Star width={24} height={24} />
           </Stars>
-
+          {/* 간단리뷰 */}
           <SimpleReviews>
             <SimpleReview>
               <Label>무게</Label>가벼워요
@@ -71,21 +76,19 @@ const ReviewDetail = () => {
               <Label>디자인</Label>예뻐요
             </SimpleReview>
           </SimpleReviews>
-
+          {/* 상세 리뷰 */}
           <Point>👍 좋은 점</Point>
           <Content>스피커가 예뻐서 인테리어 효과가 있음 베이스 음역대가 잘 들림</Content>
           <Point>👎 아쉬운 점</Point>
           <Content>블루투스 연결이 쉽게 끊어짐</Content>
           <Point>⚖️ 비교 제품</Point>
           <Content>SONY SRS-XB100</Content>
-
+          {/* 구매정보 */}
           <Buy>
             <div>마샬 | 공식 홈페이지 구매</div>
             <div>60만원 | 2023.01.04 구매</div>
           </Buy>
-
-          <CreatedAt>2021.01.04 작성</CreatedAt>
-
+          2021.01.04 작성
           <Report>신고하기</Report>
         </Box>
       </Container>
@@ -143,7 +146,8 @@ const Box = styled('div', {
   width: '340px',
   display: 'flex',
   flexDirection: 'column',
-  color: '#57606A',
+  color: '#AFB8C1',
+  bodyText: 2,
 });
 
 const Actives = styled('div', {
@@ -153,14 +157,15 @@ const Actives = styled('div', {
   fontWeight: '600',
   color: '$Gray50',
   margin: '12px 0',
+  justifyContent: 'space-between',
 });
 
 const Active = styled('div', {
   display: 'flex',
   alignItems: 'center',
   gap: '2px',
-  marginRight: '20px',
   color: '#4C4E55',
+  marginRight: '8px',
 });
 
 const Title = styled('div', {
@@ -185,7 +190,6 @@ const SimpleReviews = styled('div', {
 const SimpleReview = styled('div', {
   width: 'fit-content',
   padding: '4px 8px',
-  bodyText: 2,
   gap: '4px',
   display: 'flex',
   backgroundColor: '$Gray10',
@@ -199,35 +203,23 @@ const Label = styled('div', {
 const Point = styled('div', {
   bodyText: 1,
   color: '$TitleBlack',
-  marginTop: '16px',
-  marginBottom: '3px',
+  margin: '16px 0 3px 0',
 });
 
 const Content = styled('div', {
-  bodyText: 2,
   color: '$TitleBlack',
   whiteSpace: 'pre-wrap',
 });
 
 const Buy = styled('div', {
   color: '#8C959F',
-  bodyText: 2,
   display: 'flex',
   justifyContent: 'space-between',
-  marginTop: '21px',
-  marginBottom: '16px',
-});
-
-const CreatedAt = styled('div', {
-  color: '#AFB8C1',
-  bodyText: 2,
-  marginBottom: '40px',
+  margin: '21px 0 16px 0',
 });
 
 const Report = styled('div', {
-  color: '#AFB8C1',
-  bodyText: 2,
-  marginBottom: '24px',
+  margin: '40px 0 24px 0',
   width: '100%',
   textAlign: 'right',
 });
