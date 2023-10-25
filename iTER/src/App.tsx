@@ -8,6 +8,7 @@ import FindPassword from './pages/findpassword/FindPassword';
 import ResetPassword from './pages/findpassword/ResetPassword';
 import Notification from './pages/Notification';
 import Search from './pages/Search';
+import ReviewDetail from './pages/review/ReviewDetail';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <Route path="/password" element={<FindPassword />} />
       <Route path="/password/reset" element={<ResetPassword />} />
       <Route path="/search" element={<Search />} />
+      <Route path="/search/review/:id" element={<ReviewDetail />} />
     </Routes>
   );
 }

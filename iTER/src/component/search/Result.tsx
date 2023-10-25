@@ -22,6 +22,7 @@ const Result = () => {
         </div>
       </Control>
       <ListItem
+        id={0}
         title={'마샬 STANMORE III'}
         spec={'코어 i 5-13세대 / 14인치 / 32GB / 256-129GB'}
         star={4.5}

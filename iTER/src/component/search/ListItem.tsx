@@ -1,7 +1,7 @@
 import { styled } from '../../../stitches.config';
 import { ButtonEmpty } from '../common/Button';
 import { Caption2 } from '../Font';
-import Star from '../../assets/icon/Star.svg?react';
+import Star from '../../assets/icon/star/Star.svg?react';
 import UserIcon from '../../assets/icon/User.svg?react';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,7 +30,7 @@ const ListItem: React.FC<ListItemProps> = ({ title, spec, star, review, user, id
             {spec}
             <Reviews>
               <Stars>
-                <Star fill={'#8787F4'} /> {star}
+                <Star fill={'#8787F4'} width={15} height={15} /> {star}
               </Stars>
               {review}
             </Reviews>

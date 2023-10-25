@@ -1,7 +1,7 @@
 import { FC, ReactNode, MouseEvent } from 'react';
 import { ButtonText, Caption2 } from '../Font';
 import { styled } from '../../../stitches.config';
-import Write from '../../assets/icon/Write.svg?react';
+import Write from '../../assets/icon/nav/Write.svg?react';
 import Heart from '../../assets/icon/Heart.svg?react';
 import Scrap from '../../assets/icon/Scrap.svg?react';
 import ArrowDown from '../../assets/icon/ArrowDown.svg?react';
