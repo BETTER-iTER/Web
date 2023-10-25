@@ -12,6 +12,7 @@ import { Caption1, Caption2 } from '../../component/Font';
 import { useState } from 'react';
 import { BottomReviewSetting } from '../../component/common/Bottom';
 import { ModalSelect } from '../../component/common/Modal';
+import Relation from '../../component/review/Relation';
 const ReviewDetail = () => {
   const [setting, setSetting] = useState<boolean>(false);
   const [select, setSelect] = useState<number>(0);
@@ -103,6 +104,7 @@ const ReviewDetail = () => {
           2021.01.04 작성
           <Report>신고하기</Report>
         </Box>
+        <Relation />
       </Container>
       <Nav />
       {setting && (
@@ -253,7 +255,7 @@ const Buy = styled('div', {
 });
 
 const Report = styled('div', {
-  margin: '40px 0 24px 0',
+  margin: '40px 0 40px 0',
   width: '100%',
   textAlign: 'right',
 });
