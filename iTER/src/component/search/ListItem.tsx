@@ -3,8 +3,10 @@ import { ButtonEmpty } from '../common/Button';
 import { Caption2 } from '../Font';
 import Star from '../../assets/icon/Star.svg?react';
 import UserIcon from '../../assets/icon/User.svg?react';
+import { useNavigate } from 'react-router-dom';
 
 interface ListItemProps {
+  id: number;
   title: string;
   spec: string;
   star: number;
@@ -12,9 +14,14 @@ interface ListItemProps {
   user: string;
 }
 
-const ListItem: React.FC<ListItemProps> = ({ title, spec, star, review, user }) => {
+const ListItem: React.FC<ListItemProps> = ({ title, spec, star, review, user, id }) => {
+  const navigate = useNavigate();
   return (
-    <Container>
+    <Container
+      onClick={() => {
+        navigate(`/search/review/${id}`);
+      }}
+    >
       <Box>
         <Image></Image>
         <div>
@@ -29,7 +36,7 @@ const ListItem: React.FC<ListItemProps> = ({ title, spec, star, review, user }) 
             </Reviews>
           </Caption2>
           <User>
-            <UserIcon />
+            <UserIcon width={16} height={16} />
             {/* <UserImage></UserImage> */}
             {user} | 개발자
           </User>

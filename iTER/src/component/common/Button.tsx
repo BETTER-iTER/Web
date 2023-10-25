@@ -52,9 +52,9 @@ export const ButtonEmpty: FC<ButtonProps> = ({ onClick, children, type }) => {
     <Caption2>
       <ButtonEmptyBody onClick={onClick}>
         {type == 'like' ? (
-          <Heart fill={'#D8DBE2'} />
+          <Heart fill={'#D8DBE2'} width={20} height={20} />
         ) : type == 'scrap' ? (
-          <Scrap fill={'#D8DBE2'} />
+          <Scrap fill={'#D8DBE2'} width={20} height={20} />
         ) : (
           <></>
         )}

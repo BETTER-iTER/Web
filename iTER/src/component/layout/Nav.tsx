@@ -1,8 +1,8 @@
 import { styled } from '../../../stitches.config';
-import Home from '../../assets/icon/Home.svg?react';
-import Search from '../../assets/icon/Search.svg?react';
-import Write from '../../assets/icon/Write.svg?react';
-import Mypage from '../../assets/icon/Mypage.svg?react';
+import Home from '../../assets/icon/nav/Home.svg?react';
+import Search from '../../assets/icon/nav/Search.svg?react';
+import Write from '../../assets/icon/nav/Write.svg?react';
+import Mypage from '../../assets/icon/nav/Mypage.svg?react';
 import NavRouterList from '../../constants/NavRouter';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ const Nav = () => {
   const pathname = location.pathname;
 
   const color = (path: string) => {
-    if (pathname === path) {
+    if ((pathname.startsWith(path) && path !== '/') || (pathname === '/' && path === '/')) {
       return '#24292F';
     } else {
       return '#AFB8C1';
