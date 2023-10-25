@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { BottomReviewSetting } from '../../component/common/Bottom';
 import { ModalSelect } from '../../component/common/Modal';
 import Relation from '../../component/review/Relation';
+import ReviewImage from '../../component/review/ReviewImage';
 const ReviewDetail = () => {
   const [setting, setSetting] = useState<boolean>(false);
   const [select, setSelect] = useState<number>(0);
@@ -40,7 +41,7 @@ const ReviewDetail = () => {
           </div>
         </User>
 
-        <ReviewImage></ReviewImage>
+        <ReviewImage />
         <Box>
           {/* 좋아요 등의 액션 아이콘 */}
           <Actives>
@@ -172,11 +173,11 @@ const Job = styled('div', {
   color: '#57606A',
 });
 
-const ReviewImage = styled('div', {
-  width: '390px',
-  height: '390px',
-  backgroundColor: '#EAEEF2',
-});
+// const ReviewImage = styled('div', {
+//   width: '390px',
+//   height: '390px',
+//   backgroundColor: '#EAEEF2',
+// });
 
 const Box = styled('div', {
   width: '340px',
