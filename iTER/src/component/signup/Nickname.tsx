@@ -14,21 +14,21 @@ const Nickname = ({ onDisabled, onChange }: NicknameProps) => {
   const [value, setValue] = useState('');
   const [error, setError] = useState(false);
 
-  const mutation = useMutation(getNicknameVerify);
+  const mutation = useMutation(getNicknameVerify, {
+    onSuccess: (data) => {
+      console.log('data', data);
+      setError(false);
+      onChange(value);
+    },
+    onError: (error) => {
+      console.log('error', error);
+      setError(true);
+    },
+  });
   const DuplicationCheck = () => {
     console.log('중복체크');
     mutation.mutate(value);
     console.log(mutation);
-
-    if (mutation.data) {
-      console.log(mutation.data);
-      setError(false);
-      onChange(value);
-    }
-    if (mutation.error) {
-      console.log(mutation.failureReason);
-      setError(true);
-    }
   };
   onDisabled(value === '');
   return (
