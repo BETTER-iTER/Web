@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import LoginInput from '../component/common/LoginInput';
 import Button from '../component/common/Button';
 import Kakao from '../assets/icon/Kakao.svg?react';
-import axios from 'axios';
+import axios from "axios";
 import { Headline3 } from '../component/Font';
 
 const Login = () => {
 
-  const localhost = 'https://dev.betteritem.store';
+  const localhost = 'http://13.124.170.30:8080';
   const [emailValue, setEmailValue] = useState<string>(''); // 이메일 입력 값
   const [passwordValue, setPasswordValue] = useState<string>(''); // 비밀번호 입력 값
 
@@ -30,10 +30,12 @@ const Login = () => {
       axios.post(`${localhost}/auth/login`,requestBody)
       .then((response) => {
         console.log("로그인 성공");
-
+        console.log(response);
+        
       })
       .catch((error) => {
         console.log("에러남");
+        console.log(error);
       });
   };
 

@@ -1,4 +1,5 @@
 import { styled } from '../../../stitches.config';
+import axios from 'axios';
 import Button from '../../component/common/Button';
 import InputComponent from '../../component/common/Input';
 import { Caption2, Headline3 } from '../../component/Font';
@@ -14,6 +15,9 @@ const SignUp = () => {
 
   const [emailWarning, setEmailWarning] = useState<string>('');
   const [authWarning, setAuthWarning] = useState<string>('');
+
+  const localhost = 'http://13.124.170.30:8080';
+
   //이메일 유효성 검사
   const validateEmail = (value: string) => {
     const isEmailValid = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value.trim());
@@ -27,15 +31,47 @@ const SignUp = () => {
     return isPasswordValid;
   };
 
-  const handleEmailButton = () => {
+  const handleEmailButton = (email: string): void => {
     console.log('Email click?');
-    validateEmail(email)
-      ? setEmailWarning('')
-      : setEmailWarning('올바른 이메일 주소를 입력해주세요');
+    
+    // 이메일 유효성 검사
+    if (validateEmail(email)) {
+      setEmailWarning('');
+  
+      const requestBody={
+        "email": email,
+      };
+      axios.post(`${localhost}/auth/join/emails`,requestBody)
+      .then((response) => {
+        console.log("이메일보내기 성공");
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log("에러남");
+        console.log(error);
+      });
+    } else {
+      setEmailWarning('올바른 이메일 주소를 입력해주세요');
+    }
   };
-  const handleAuthButton = () => {
+  const handleAuthButton = (email: string, authNum: string) => {
     console.log(authNum, 'Auth click');
     authNum === '123456' ? setAuthWarning('') : setAuthWarning('인증번호가 올바르지 않습니다');
+    const requestBody = {
+      "email": email,
+      "code": authNum,
+    };
+    axios.post(`${localhost}/auth/emails/verification`,requestBody)
+    .then((response) => {
+      console.log("인증번호 인증 성공");
+      console.log(response);
+      setAuthWarning('인증이 완료되었습니다.');
+    })
+    .catch((error) => {
+      console.log("에러남");
+      console.log(error);
+      setAuthWarning('인증번호가 일치하지 않습니다.');
+    })
   };
 
   return (
@@ -51,7 +87,7 @@ const SignUp = () => {
           type="text"
           labelName="이메일"
           btnName="인증번호 전송"
-          onClick={() => handleEmailButton()}
+          onClick={() => handleEmailButton(email)}
           onChange={setEmail}
           disabled={email.length == 0}
           error={emailWarning}
@@ -62,7 +98,7 @@ const SignUp = () => {
           type="text"
           labelName="인증번호"
           btnName="확인"
-          onClick={() => handleAuthButton()}
+          onClick={() => handleAuthButton(email, authNum)}
           onChange={setAuthNum}
           disabled={authNum.length != 6}
           error={authWarning}
