@@ -3,11 +3,14 @@ import React, { useState } from 'react';
 import LoginInput from '../component/common/LoginInput';
 import Button from '../component/common/Button';
 import Kakao from '../assets/icon/Kakao.svg?react';
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { Headline3 } from '../component/Font';
 
+
 const Login = () => {
 
+  const navigate = useNavigate();
   const localhost = 'http://13.124.170.30:8080';
   const [emailValue, setEmailValue] = useState<string>(''); // 이메일 입력 값
   const [passwordValue, setPasswordValue] = useState<string>(''); // 비밀번호 입력 값
@@ -29,18 +32,39 @@ const Login = () => {
 
       axios.post(`${localhost}/auth/login`,requestBody)
       .then((response) => {
-        console.log("로그인 성공");
-        console.log(response);
-        
+        if (response.status == 200) {
+            console.log("로그인 성공");
+            console.log(response);
+            const {accessToken, refreshToken} = response.data;
+
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+            axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+            navigate('/home');
+
+        }
+        else {
+          console.log("로그인 실패")
+        }
+
       })
       .catch((error) => {
         console.log("에러남");
         console.log(error);
       });
+
+      // function getAccessToken() {
+      //   return localStorage.getItem('accessToken');
+      // }
+      
+      // function getRefreshToken() {
+      //   return localStorage.getItem('refreshToken');
+      // }
   };
 
   // 입력 필드가 비어있지 않은 경우에만 버튼 활성화
   const isButtonEnabled = emailValue.trim() !== '' && passwordValue.trim() !== '';
+
 
   return (
     <>
