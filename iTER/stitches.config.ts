@@ -15,6 +15,8 @@ export const { styled, css, globalCss, keyframes, getCssText, theme } = createSt
       Gray40: '#62646A',
       Gray50: '#4C4E55',
 
+      Grey600: '#666F7B',
+
       kakaoYello: '#fae100',
 
       WH02: '#CCCED8',

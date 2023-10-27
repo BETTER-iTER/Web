@@ -3,7 +3,7 @@ import Back from '../../assets/icon/Back.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { LabelText } from '../Font';
 
-const Top = ({ title, back }: { title: string; back?: () => void }) => {
+const Top = ({ title, back }: { title?: string; back?: () => void }) => {
   const navigate = useNavigate();
 
   return (
@@ -21,24 +21,31 @@ const Top = ({ title, back }: { title: string; back?: () => void }) => {
 export default Top;
 
 const Container = styled('div', {
-  width: '100%',
+  width: '350px',
   height: '60px',
   backgroundColor: '$White',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   borderBottom: 'solid 1px #EAEEF2',
-  position: 'absolute',
-  top: '0',
-  left: '0',
-});
-
-const Title = styled('div', {
-  color: '#24292F',
+  color: '$TitleBlack',
+  padding: '0 20px',
+  zIndex: 2,
 });
 
 const BackBox = styled('div', {
-  position: 'absolute',
-  left: '20px',
-  top: '20px',
+  width: '20px',
+  height: '20px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginRight: 'auto',
+  cursor: 'pointer',
+});
+
+const Title = styled('div', {
+  flex: 1,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 });
