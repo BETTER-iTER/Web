@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { styled } from '../../../stitches.config';
-import ErrorIcon from '../../assets/icon/ErrorIcon.svg?react';
+import ErrorIcon from '../../assets/icon/error/ErrorIcon.svg?react';
 import { Caption1, Caption2, LabelText } from '../Font';
 
 interface InputProps {
