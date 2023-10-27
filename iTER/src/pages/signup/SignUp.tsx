@@ -4,12 +4,13 @@ import InputComponent from '../../component/common/Input';
 import { Caption2, Headline3 } from '../../component/Font';
 import Top from '../../component/layout/Top';
 import CheckCircle from '../../assets/icon/CheckCircle.svg?react';
-import { useState } from 'react';
-import { postJoinEmail } from '../../apis/auth';
+import { useEffect, useState } from 'react';
+import { postJoinEmail, postEmailVerify } from '../../apis/auth';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { LoginProps } from '../../types/auth';
 import Timer from '../../component/signup/Timer';
+import Modal from '../../component/common/Modal';
 
 const SignUp = () => {
   const [check, setCheck] = useState<boolean>(false);
@@ -17,9 +18,10 @@ const SignUp = () => {
   const [authNum, setAuthNum] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [authWarning, setAuthWarning] = useState<string>('');
-  const [timer, setTimer] = useState<boolean>(); // 안증확인시 타이머 true->시간종료후 false
+  const [timer, setTimer] = useState<boolean>(false); // 안증확인시 타이머 true->시간종료후 false
 
-  const mutation = useMutation(postJoinEmail);
+  const [successModal, setSuccessModal] = useState<boolean>(false);
+  const [duplicateModal, setDuplicateModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
   //이메일 유효성 검사
@@ -36,21 +38,42 @@ const SignUp = () => {
   };
 
   // 인증번호 전송
+  const mutation = useMutation(postJoinEmail, {
+    onSuccess: (data) => {
+      console.log('data', data);
+      setSuccessModal(true);
+      setTimer(true);
+    },
+    onError: (error) => {
+      console.log('error', error);
+      setDuplicateModal(true);
+    },
+  });
+
   const handleEmailButton = () => {
     console.log('Email click?');
     mutation.mutate(email);
   };
-  if (mutation.error) {
-    console.log(mutation.failureReason);
-  }
-  if (mutation.data) {
-    console.log('?', mutation.data);
-  }
 
   // 인증번호 확인
+  const coedMutation = useMutation(postEmailVerify, {
+    onSuccess: (data) => {
+      console.log('codedata', data);
+      setCheck(true);
+    },
+    onError: (error) => {
+      console.log('codeerror', error);
+      setAuthWarning('인증번호를 확인해주세요');
+    },
+  });
+
   const handleAuthButton = () => {
     console.log(authNum, 'Auth click');
-    authNum === '123456' ? setAuthWarning('') : setAuthWarning('인증번호가 올바르지 않습니다');
+    const data = {
+      email: email,
+      code: authNum,
+    };
+    coedMutation.mutate(data);
   };
 
   // 다음버튼
@@ -125,6 +148,13 @@ const SignUp = () => {
           </Button>
         </Bottom>
       </Content>
+
+      {successModal && (
+        <Modal text="인증번호가 전송되었습니다" onClick={() => setSuccessModal(false)} />
+      )}
+      {duplicateModal && (
+        <Modal text="이미 가입된 이메일입니다" onClick={() => setDuplicateModal(false)} />
+      )}
     </>
   );
 };

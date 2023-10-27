@@ -14,10 +14,10 @@ export const postJoinEmail = async (email: string) => {
 };
 
 // 이메일 코드 검증
-export const postEmailVerify = async (email: string, code: string) => {
-  console.log('이메일 코드 검증');
+export const postEmailVerify = async (data: { email: string; code: string }) => {
+  console.log('이메일 코드 검증', data);
   try {
-    const response = await api.post('/auth/emails/verification', { email, code });
+    const response = await api.post('/auth/emails/verification', { data });
     return response;
   } catch (error) {
     console.log('이메일 코드 검증 오류', error);

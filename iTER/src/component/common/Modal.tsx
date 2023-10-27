@@ -26,7 +26,7 @@ export default Modal;
 
 const Back = styled('div', {
   backgroundColor: 'rgba(25, 25, 25, 0.8)',
-  width: '100vw',
+  width: '390px',
   height: '100vh',
   position: 'absolute',
   top: '0',
@@ -34,6 +34,7 @@ const Back = styled('div', {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  zIndex: 2,
 });
 
 const ModalBox = styled('div', {

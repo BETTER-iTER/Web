@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { styled } from '../../../stitches.config';
+import Modal from '../common/Modal';
 
 interface TimerProps {
   min: number;
@@ -10,6 +11,7 @@ const Timer = ({ min, onChange }: TimerProps) => {
   const MINUTES_IN_MS = min * 60 * 1000;
   const INTERVAL = 1000;
   const [timeLeft, setTimeLeft] = useState<number>(MINUTES_IN_MS);
+  const [modal, setModal] = useState<boolean>(false);
 
   const minutes = String(Math.floor((timeLeft / (1000 * 60)) % 60)).padStart(2, '0');
   const second = String(Math.floor((timeLeft / 1000) % 60)).padStart(2, '0');
@@ -21,14 +23,29 @@ const Timer = ({ min, onChange }: TimerProps) => {
     if (timeLeft <= 0) {
       clearInterval(timer);
       onChange(false);
+      setModal(true);
     }
     return () => clearInterval(timer);
   }, [timeLeft]);
 
   return (
-    <StyledTimer>
-      {minutes}:{second}
-    </StyledTimer>
+    <>
+      {timeLeft > 0 && (
+        <StyledTimer>
+          {minutes}:{second}
+        </StyledTimer>
+      )}
+      <ModalBox>
+        {modal && (
+          <Modal
+            text="인증번호 유효시간이 만료되었습니다"
+            onClick={() => {
+              setModal(false);
+            }}
+          />
+        )}
+      </ModalBox>
+    </>
   );
 };
 
@@ -37,4 +54,11 @@ export default Timer;
 const StyledTimer = styled('div', {
   bodyText: 2,
   color: '$Gray50',
+});
+
+const ModalBox = styled('div', {
+  position: 'absolute',
+  top: '-285px',
+  left: '-30px',
+  zIndex: 2,
 });
