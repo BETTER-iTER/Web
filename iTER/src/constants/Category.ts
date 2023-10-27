@@ -6,7 +6,7 @@ export interface CategoryProps {
 export const CategoryList: CategoryProps[] = [
   {
     id: 0,
-    name: '스마트폰',
+    name: '휴대폰',
   },
   {
     id: 1,
@@ -42,18 +42,14 @@ export const CategoryList: CategoryProps[] = [
   },
   {
     id: 9,
-    name: '충전기',
-  },
-  {
-    id: 10,
     name: '보조배터리',
   },
   {
-    id: 11,
+    id: 10,
     name: '악세사리',
   },
   {
-    id: 12,
+    id: 11,
     name: '기타',
   },
 ];

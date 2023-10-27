@@ -8,7 +8,7 @@ const Top = () => {
   return (
     <Container>
       <Icon>
-        <ITER width={45} heigh={31} />
+        <ITER width={45} height={31} />
         <div onClick={() => navigate('/notification')}>
           <Notification />
         </div>
