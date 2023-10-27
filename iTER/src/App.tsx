@@ -7,6 +7,7 @@ import SignupAdditional from './pages/signup/SignupAdditional';
 import FindPassword from './pages/findpassword/FindPassword';
 import ResetPassword from './pages/findpassword/ResetPassword';
 import Notification from './pages/Notification';
+import Notice from './pages/Notice';
 import Search from './pages/Search';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/notification" element={<Notification />} />
+      <Route path="/notice/:id" element={<Notice />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/signup/additional" element={<SignupAdditional />} />
