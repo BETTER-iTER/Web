@@ -75,13 +75,14 @@ const Image = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  boxShadow: '2px 4px 4px 2px rgba(158, 158, 158, 0.25)',
   variants: {
     isSelected: {
       true: {
-        boxShadow: '2px 4px 4px 2px rgba(135, 135, 244, 0.5)',
+        backgroundColor: 'rgba(135, 135, 244, 0.30)',
       },
       false: {
-        boxShadow: '2px 4px 4px 2px rgba(158, 158, 158, 0.25)',
+        backgroundColor: '$White',
       },
     },
   },

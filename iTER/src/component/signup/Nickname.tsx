@@ -19,6 +19,7 @@ const Nickname = ({ onDisabled, onChange }: NicknameProps) => {
       console.log('data', data);
       setError(false);
       onChange(value);
+      onDisabled(false);
     },
     onError: (error) => {
       console.log('error', error);
@@ -29,7 +30,6 @@ const Nickname = ({ onDisabled, onChange }: NicknameProps) => {
     console.log('중복체크');
     mutation.mutate(value);
   };
-  onDisabled(value === '');
   return (
     <NicknameBox>
       <InputComponent
