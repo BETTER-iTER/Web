@@ -1,7 +1,7 @@
 export interface UserProps {
   email: string;
   password: string;
-  nickname: string;
+  nickName: string;
   job: number;
   interests: string;
 }

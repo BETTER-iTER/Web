@@ -1,13 +1,22 @@
 import { Headline2, Headline3 } from '../../component/Font';
 import { styled } from '@stitches/react';
 import Button from '../../component/common/Button';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { UserProps } from '../../types/auth';
+import CategoryList from '../../constants/Category';
 
 const SignupComplete = () => {
-  const nickname = 'test';
-  const interest = ['tag1', 'tag2', 'tag3'];
-
+  const location = useLocation();
+  const state = location.state as UserProps;
+  const nickname = state.nickName;
   const navigate = useNavigate();
+
+  const interest = CategoryList.filter((category) => {
+    return state.interests.includes(category.id.toString());
+  }).map((category) => {
+    return category.name;
+  });
+
   return (
     <Container>
       <div style={{ margin: '0 auto' }}>

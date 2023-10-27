@@ -28,7 +28,6 @@ const Nickname = ({ onDisabled, onChange }: NicknameProps) => {
   const DuplicationCheck = () => {
     console.log('중복체크');
     mutation.mutate(value);
-    console.log(mutation);
   };
   onDisabled(value === '');
   return (

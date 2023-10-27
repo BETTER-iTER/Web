@@ -9,7 +9,7 @@ import Interest from '../../component/signup/Interest';
 import { postJoin } from '../../apis/auth';
 import { useMutation } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { LoginProps } from '../../types/auth';
+import { LoginProps, UserProps } from '../../types/auth';
 
 const SignupAdditional = () => {
   const title = [
@@ -27,7 +27,6 @@ const SignupAdditional = () => {
   const state = location.state as LoginProps;
   const { email, password } = state || { email: '', password: '' };
 
-  const mutation = useMutation(postJoin);
   const handleNickname = (value: string) => {
     setNickname(value);
   };
@@ -42,22 +41,33 @@ const SignupAdditional = () => {
     setDisabled(value);
   };
 
-  // console.log(interest);
+  const userInfo: UserProps = {
+    nickName: nickname,
+    job: job,
+    interests: interest,
+    email: email,
+    password: password,
+  };
+
+  const mutation = useMutation(postJoin, {
+    onSuccess: (data) => {
+      console.log('data', data);
+      navigation('/signup/complete', { state: userInfo });
+    },
+    onError: (error) => {
+      console.log('error', error);
+    },
+  });
+
   const handleJoin = () => {
-    mutation.mutate({
+    const body = {
       email: email || '',
       password: password || '',
-      nickname: nickname,
+      nickName: nickname,
       job: job,
       interests: interest,
-    });
-    if (mutation.error) {
-      console.log(mutation.failureReason);
-    }
-    if (mutation.data) {
-      // console.log('?', mutation.data);
-      navigation('/signup/complete');
-    }
+    };
+    mutation.mutate(body);
   };
 
   const handleNext = () => {
@@ -68,7 +78,6 @@ const SignupAdditional = () => {
     }
   };
 
-  // console.log('/', nickname, job, interest);
   return (
     <>
       <Top

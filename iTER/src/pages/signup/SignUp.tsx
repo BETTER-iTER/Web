@@ -4,7 +4,7 @@ import InputComponent from '../../component/common/Input';
 import { Caption2, Headline3 } from '../../component/Font';
 import Top from '../../component/layout/Top';
 import CheckCircle from '../../assets/icon/CheckCircle.svg?react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { postJoinEmail, postEmailVerify } from '../../apis/auth';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +13,9 @@ import Timer from '../../component/signup/Timer';
 import Modal from '../../component/common/Modal';
 
 const SignUp = () => {
-  const [check, setCheck] = useState<boolean>(false);
+  const [codeCheck, setCodeCheck] = useState<boolean>(false);
+  const [termsCheck, setTermsCheck] = useState<boolean>(false);
+
   const [email, setEmail] = useState<string>('');
   const [authNum, setAuthNum] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -22,6 +24,7 @@ const SignUp = () => {
 
   const [successModal, setSuccessModal] = useState<boolean>(false);
   const [duplicateModal, setDuplicateModal] = useState<boolean>(false);
+
   const navigate = useNavigate();
 
   //이메일 유효성 검사
@@ -35,6 +38,15 @@ const SignUp = () => {
       value.trim()
     );
     return isPasswordValid;
+  };
+
+  //다음 버튼 활성화
+  const onDisabled = () => {
+    console.log(codeCheck, termsCheck, validatePassword(password));
+    if (codeCheck && termsCheck && validatePassword(password)) {
+      return false;
+    }
+    return true;
   };
 
   // 인증번호 전송
@@ -59,7 +71,7 @@ const SignUp = () => {
   const coedMutation = useMutation(postEmailVerify, {
     onSuccess: (data) => {
       console.log('codedata', data);
-      setCheck(true);
+      setCodeCheck(true);
     },
     onError: (error) => {
       console.log('codeerror', error);
@@ -78,6 +90,8 @@ const SignUp = () => {
 
   // 다음버튼
   const loginInfo: LoginProps = {
+    // email: 'already.nyeong@gmail.com',
+    // password: 'qwer1234!',
     email: email,
     password: password,
   };
@@ -139,11 +153,11 @@ const SignUp = () => {
         />
 
         <Bottom>
-          <Terms onClick={() => setCheck(!check)} check={check}>
-            <CheckCircle fill={check ? '#8787F4' : '#C1C4CC'} />
+          <Terms onClick={() => setTermsCheck(!termsCheck)} check={termsCheck}>
+            <CheckCircle fill={termsCheck ? '#8787F4' : '#C1C4CC'} />
             <Caption2>ITer 서비스이용약관에 동의합니다.</Caption2>
           </Terms>
-          <Button onClick={() => handleNext()} disabled>
+          <Button disabled={onDisabled()} onClick={() => handleNext()}>
             다음
           </Button>
         </Bottom>

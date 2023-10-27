@@ -14,10 +14,10 @@ export const postJoinEmail = async (email: string) => {
 };
 
 // 이메일 코드 검증
-export const postEmailVerify = async (data: { email: string; code: string }) => {
-  console.log('이메일 코드 검증', data);
+export const postEmailVerify = async (body: { email: string; code: string }) => {
+  console.log('이메일 코드 검증', body);
   try {
-    const response = await api.post('/auth/emails/verification', { data });
+    const response = await api.post('/auth/emails/verification', body);
     return response;
   } catch (error) {
     console.log('이메일 코드 검증 오류', error);
@@ -38,10 +38,10 @@ export const getNicknameVerify = async (nickname: string) => {
 };
 
 // 일반 회원가입
-export const postJoin = async (data: UserProps) => {
-  console.log('일반 회원가입');
+export const postJoin = async (body: UserProps) => {
+  console.log('일반 회원가입', body);
   try {
-    const response = await api.post('/auth/join', { data });
+    const response = await api.post('/auth/join', body);
     return response;
   } catch (error) {
     console.log('일반 회원가입 오류', error);
