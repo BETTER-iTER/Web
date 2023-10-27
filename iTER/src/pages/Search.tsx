@@ -3,6 +3,7 @@ import Nav from '../component/layout/Nav';
 import { useEffect, useState } from 'react';
 import SearchCategory from '../component/search/Category';
 import TopSearch from '../component/layout/TopSearch';
+import Result from '../component/search/Result';
 
 const Search = () => {
   const [keywords, setKeywords] = useState<{ id: number; text: string }[]>(
@@ -33,8 +34,8 @@ const Search = () => {
   return (
     <Container>
       <TopSearch onHandle={handleAdd} />
-      {/* <Result /> */}
-      <SearchCategory keywords={keywords} onDelete={handleDelete} />
+      <Result />
+      {/* <SearchCategory keywords={keywords} onDelete={handleDelete} /> */}
 
       <Nav />
     </Container>

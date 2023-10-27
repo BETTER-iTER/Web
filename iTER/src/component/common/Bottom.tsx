@@ -62,6 +62,27 @@ export const BottomSort = ({ onClose }: { onClose: () => void }) => {
   );
 };
 
+export const BottomReviewSetting = ({
+  onClose,
+  onChange,
+}: {
+  onClose: () => void;
+  onChange: (index: number) => void;
+}) => {
+  return (
+    <Bottom
+      title="리뷰 설정"
+      onClose={onClose}
+      component={
+        <SettingBox>
+          <SortItem onClick={() => onChange(1)}>리뷰 수정하기</SortItem>
+          <SortItem onClick={() => onChange(2)}>리뷰 삭제하기</SortItem>
+        </SettingBox>
+      }
+    />
+  );
+};
+
 export default Bottom;
 
 const Background = styled('div', {
@@ -117,4 +138,10 @@ const SortItem = styled('div', {
   padding: '18px 30px',
   borderBottom: '1px solid $Gray10',
   cursor: 'pointer',
+});
+
+const SettingBox = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  marginBottom: '22px',
 });

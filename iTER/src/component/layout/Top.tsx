@@ -31,6 +31,8 @@ const Container = styled('div', {
   color: '$TitleBlack',
   padding: '0 20px',
   zIndex: 2,
+  position: 'sticky',
+  top: 0,
 });
 
 const BackBox = styled('div', {
