@@ -42,7 +42,6 @@ const SignUp = () => {
 
   //다음 버튼 활성화
   const onDisabled = () => {
-    console.log(codeCheck, termsCheck, validatePassword(password));
     if (codeCheck && termsCheck && validatePassword(password)) {
       return false;
     }
@@ -167,7 +166,7 @@ const SignUp = () => {
         <Modal text="인증번호가 전송되었습니다" onClick={() => setSuccessModal(false)} />
       )}
       {duplicateModal && (
-        <Modal text="이미 가입된 이메일입니다" onClick={() => setDuplicateModal(false)} />
+        <Modal text="이미 가입된 이메일입니다" onClick={() => navigate('/login')} />
       )}
     </>
   );
