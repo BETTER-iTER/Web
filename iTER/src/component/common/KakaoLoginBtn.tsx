@@ -7,8 +7,9 @@ interface KakaoButtonProps {
 }
 
 const KakaoButton: React.FC<KakaoButtonProps> = () => {
+    const localhost = 'http://localhost:5173';
     const client_id= '4b6a94d71dbead354958c34278cbdc9b';
-    const redirect_uri= 'http://localhost:5173/kakao';
+    const redirect_uri= `${localhost}/kakao`;
     const handleKakaoLogin = () => {
         window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}`;
       };

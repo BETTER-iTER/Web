@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 function Redirect() {
-    const localhost = 'https://dev.betteritem.store';
+    const localhost = 'http://13.124.170.30:8080';
     const navigate = useNavigate();
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
@@ -14,8 +14,11 @@ function Redirect() {
         method: "GET",
     })
         .then(function (response) {
-            const token = response.data.token;
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            const {accessToken, refreshToken} = response.data;
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+
+            axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
             alert("카카오로그인이 되셨습니다.");
             console.log(response);
             console.log(response.data.status);
