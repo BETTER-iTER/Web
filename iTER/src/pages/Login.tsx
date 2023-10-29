@@ -35,21 +35,24 @@ const Login = () => {
         if (response.status == 200) {
             console.log("로그인 성공");
             console.log(response);
-            const {accessToken, refreshToken} = response.data;
+            const {accessToken, refreshToken, expiredTime} = response.data;
 
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
+            localStorage.setItem('expiredTime', expiredTime);
             axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
             navigate('/home');
 
         }
         else {
           console.log("로그인 실패")
+          const { messege } = response.data;
+          console.log(messege);
         }
 
       })
       .catch((error) => {
-        console.log("에러남");
+        console.log("로그인이 불가능합니다.");
         console.log(error);
       });
 
