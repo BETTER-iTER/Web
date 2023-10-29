@@ -163,10 +163,10 @@ const SignUp = () => {
       </Content>
 
       {successModal && (
-        <Modal text="인증번호가 전송되었습니다" onClick={() => setSuccessModal(false)} />
+        <Modal text="인증번호가 전송되었습니다" onClick={() => setSuccessModal(false)} btn="확인" />
       )}
       {duplicateModal && (
-        <Modal text="이미 가입된 이메일입니다" onClick={() => navigate('/login')} />
+        <Modal text="이미 가입된 이메일입니다" onClick={() => navigate('/login')} btn="확인" />
       )}
     </>
   );

@@ -42,6 +42,7 @@ const Timer = ({ min, onChange }: TimerProps) => {
             onClick={() => {
               setModal(false);
             }}
+            btn="확인"
           />
         )}
       </ModalBox>
