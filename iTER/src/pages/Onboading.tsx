@@ -27,7 +27,6 @@ const Top = styled("div", {
     fontSize: "20px",
     fontWeight: "600",
     color: "$Brand",
-    margin
 })
 const Onboading = () => {
 
