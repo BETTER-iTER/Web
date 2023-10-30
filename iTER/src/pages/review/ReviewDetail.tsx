@@ -169,7 +169,7 @@ const Job = styled('div', {
   marginLeft: '-5px',
   paddingLeft: '5px',
   height: '15px',
-  borderLeft: '1px solid #EAEEF2;',
+  borderLeft: '1px solid $Bar;',
   color: '#57606A',
 });
 

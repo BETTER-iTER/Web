@@ -10,6 +10,7 @@ import Notification from './pages/Notification';
 import Notice from './pages/Notice';
 import Search from './pages/Search';
 import ReviewDetail from './pages/review/ReviewDetail';
+import Profile from './pages/user/Profile';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Route path="/password/reset" element={<ResetPassword />} />
       <Route path="/search" element={<Search />} />
       <Route path="/search/review/:id" element={<ReviewDetail />} />
+      <Route path="/user/profile/:id" element={<Profile />} />
     </Routes>
   );
 }

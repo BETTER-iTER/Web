@@ -75,6 +75,16 @@ export const ButtonControl: FC<ButtonProps> = ({ onClick, children, type }) => {
   );
 };
 
+export const ButtonBlack: FC<ButtonProps> = ({ onClick, children }) => {
+  return (
+    <>
+      <ButtonBlackBody onClick={onClick}>
+        <BittonBlackText>{children}</BittonBlackText>
+      </ButtonBlackBody>
+    </>
+  );
+};
+
 const ButtonBody = styled('button', {
   width: '340px',
   height: '45px',
@@ -136,4 +146,16 @@ const ButtonControlBody = styled('button', {
   alignItems: 'center',
   gap: '4px',
   cursor: 'pointer',
+});
+
+const ButtonBlackBody = styled('button', {
+  borderRadius: '10px',
+  backgroundColor: '$TitleBlack',
+  border: 'none',
+  padding: '10px 30px',
+});
+
+const BittonBlackText = styled('div', {
+  bodyText: 2,
+  color: '$White',
 });
