@@ -213,5 +213,5 @@ const TimerBox = styled('div', {
   display: 'flex',
   justifyContent: 'flex-end',
   position: 'absolute',
-  top: '285px',
+  top: '352px',
 });
