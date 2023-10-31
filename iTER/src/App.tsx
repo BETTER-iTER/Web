@@ -11,6 +11,7 @@ import Notice from './pages/Notice';
 import Search from './pages/Search';
 import ReviewDetail from './pages/review/ReviewDetail';
 import Onboading from './pages/Onboading';
+import Like from './pages/mypage/Like';
 function App() {
   return (
     <Routes>
@@ -26,6 +27,8 @@ function App() {
       <Route path="/search" element={<Search />} />
       <Route path="/search/review/:id" element={<ReviewDetail />} />
       <Route path="/onboading" element={<Onboading />} />
+
+      <Route path="/mypage/like" element={<Like />} />
     </Routes>
   );
 }
