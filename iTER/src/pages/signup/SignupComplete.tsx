@@ -11,11 +11,12 @@ const SignupComplete = () => {
   const nickname = state.nickName;
   const navigate = useNavigate();
 
-  const interest = CategoryList.filter((category) => {
-    return state.interests.includes(category.id.toString());
-  }).map((category) => {
-    return category.name;
-  });
+  const interest = state
+    ? CategoryList.filter((category) => state.interests.includes(category.id.toString())).map(
+        (category) => category.name
+      )
+    : [];
+  console.log('interest', interest);
 
   return (
     <Container>
@@ -28,7 +29,9 @@ const SignupComplete = () => {
         <Headline3>나의 관심분야는</Headline3>
         <Hash>
           <Headline3>
-            #{interest[0]} #{interest[1]} #{interest[2]}
+            {interest.map((item, index) => {
+              return <span key={index}>#{item} </span>;
+            })}
           </Headline3>
         </Hash>
 
