@@ -10,7 +10,7 @@ import Notification from './pages/Notification';
 import Notice from './pages/Notice';
 import Search from './pages/Search';
 import ReviewDetail from './pages/review/ReviewDetail';
-
+import Onboading from './pages/Onboading';
 function App() {
   return (
     <Routes>
@@ -25,6 +25,7 @@ function App() {
       <Route path="/password/reset" element={<ResetPassword />} />
       <Route path="/search" element={<Search />} />
       <Route path="/search/review/:id" element={<ReviewDetail />} />
+      <Route path="/onboading" element={<Onboading />} />
     </Routes>
   );
 }
