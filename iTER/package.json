@@ -10,11 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mui/lab": "^5.0.0-alpha.150",
+    "@mui/material": "^5.14.15",
+    "@mui/x-date-pickers": "^6.17.0",
     "@stitches/react": "^1.2.8",
     "@tanstack/react-query": "^4.35.3",
     "@tanstack/react-query-devtools": "^4.35.3",
     "@types/react-router-dom": "^5.3.3",
+    "date-fns": "^2.30.0",
     "react": "^18.2.0",
+    "react-datepicker": "^4.21.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.16.0",
     "react-svg": "^16.1.27",
@@ -22,6 +27,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.22",
+    "@types/react-datepicker": "^4.19.1",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",

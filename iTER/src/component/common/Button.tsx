@@ -1,5 +1,5 @@
 import { FC, ReactNode, MouseEvent } from 'react';
-import { ButtonText, Caption2 } from '../Font';
+import { ButtonText, Caption2, RadioText } from '../Font';
 import { styled } from '../../../stitches.config';
 import Write from '../../assets/icon/nav/Write.svg?react';
 import Heart from '../../assets/icon/Heart.svg?react';
@@ -75,6 +75,23 @@ export const ButtonControl: FC<ButtonProps> = ({ onClick, children, type }) => {
   );
 };
 
+//선택 버튼
+export const ButtonSelect: FC<ButtonProps> = ({ onClick, children, disabled }) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    if (!disabled && onClick) {
+      onClick(event);
+    }
+  };
+
+  return (
+    <>
+      <ButtonBody1 onClick={handleClick} disabled={disabled}>
+        <RText>{children}</RText>
+      </ButtonBody1>
+    </>
+  );
+};
+
 const ButtonBody = styled('button', {
   width: '340px',
   height: '45px',
@@ -92,6 +109,23 @@ const ButtonBody = styled('button', {
     },
   },
 });
+
+const ButtonBody1 = styled('button', {
+  width: '340px',
+  height: '50px',
+  borderRadius: '10px',
+  border: "1px solid $Gray10",
+  backgroundColor: "white",
+});
+
+const RText = styled('div', {
+  fontSize: "14px",
+  fontWeight: "400",
+  color: "$Gray40",
+  float: "left",
+  marginLeft: "10px"
+})
+
 
 const ButtonWriteBody = styled('button', {
   width: '340px',

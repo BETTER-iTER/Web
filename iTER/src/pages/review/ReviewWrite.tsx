@@ -68,7 +68,7 @@ export default ReviewWrite;
 
 
 const BtnLay = styled("div", {
-    position: 'absolute',
+    position: 'fixed',
     bottom: '20px',
     paddingLeft: "25px",
 })

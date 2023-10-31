@@ -48,3 +48,9 @@ export const LabelText = styled('div', {
   fontSize: '16px',
   fontWeight: '600',
 });
+
+export const RadioText = styled('div', {
+  fontSize: '14px',
+  fontWeight: '400',
+  color: "#8C959F",
+})

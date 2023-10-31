@@ -8,7 +8,7 @@ interface InputProps {
   btnName?: string;
   placeholder: string;
   onClick?: () => void;
-  type: 'text' | 'password'; // type prop 추가
+  type: 'text' | 'password' | 'toggle' | 'button'; 
   onChange?: (value: string) => void;
   error?: string;
   disabled?: boolean;
