@@ -15,7 +15,8 @@ import Etc from '../../assets/icon/category/Etc.svg?react';
 
 interface CategoryItem extends CategoryProps {
   onClick: () => void;
-  isSelected: boolean;
+  isSelected?: boolean;
+  isSelectedBorer?: boolean;
   gap?: number;
 }
 
@@ -38,11 +39,13 @@ const iconMapping: IconType = {
   기타: <Etc />,
 };
 
-const Category = ({ name, onClick, isSelected, gap }: CategoryItem) => {
+const Category = ({ name, onClick, isSelected, isSelectedBorer, gap }: CategoryItem) => {
   const selectedIcon = iconMapping[name];
   return (
     <ItemBox onClick={onClick} style={{ gap: gap }} gap={gap}>
-      <Image isSelected={isSelected}>{selectedIcon}</Image>
+      <Image isSelected={isSelected} isSelectedBorder={isSelectedBorer}>
+        {selectedIcon}
+      </Image>
       <Name>{name}</Name>
     </ItemBox>
   );
@@ -75,13 +78,18 @@ const Image = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  boxShadow: '2px 4px 4px 2px rgba(158, 158, 158, 0.25)',
   variants: {
     isSelected: {
       true: {
         boxShadow: '2px 4px 4px 2px rgba(135, 135, 244, 0.5)',
       },
-      false: {
-        boxShadow: '2px 4px 4px 2px rgba(158, 158, 158, 0.25)',
+    },
+    isSelectedBorder: {
+      true: {
+        border: '1px solid $Brand',
+        width: '68px',
+        height: '68px',
       },
     },
   },
