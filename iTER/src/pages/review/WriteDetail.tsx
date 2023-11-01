@@ -2,15 +2,26 @@ import InputComponent from "../../component/common/Input"
 import { styled } from "../../../stitches.config";
 import { useState } from "react";
 import RadioInput from "../../component/common/RadioInput";
-import Button, { ButtonEmpty, ButtonSelect } from "../../component/common/Button";
+import { ButtonSelect } from "../../component/common/Button";
 import ReviewSort from "../../component/review/ReviewSort";
 import { LabelText } from "../../component/Font";
-import { Caption2 } from "../../component/Font";
 import DateSort from "../../component/review/DateSort";
+import SpecPopup from "../../component/review/SpecPopup";
+
 
 const WriteDetail = ({ onDisabled }: {onDisabled: (value: boolean) => void }) => {
     const [selectedSortItem, setSelectedSortItem] = useState<string | null>(null);
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    const openPopup = () => {
+        setIsPopupOpen(true);
+      };
+    
+      const closePopup = () => {
+        setIsPopupOpen(false);
+      };
 
     const handleSortItemSelected = (selectedItem: string) => {
         setSelectedSortItem(selectedItem);
@@ -40,7 +51,6 @@ const WriteDetail = ({ onDisabled }: {onDisabled: (value: boolean) => void }) =>
 
             <LabelText>제조사 *</LabelText>
             <div style={{ marginTop: 10 }} />
-            
             <ButtonSelect children={selectedSortItem == null ? "제조사를 선택해주세요" : selectedSortItem} onClick={() => setSortBottom(!sortBottom)} />
            
 
@@ -48,7 +58,6 @@ const WriteDetail = ({ onDisabled }: {onDisabled: (value: boolean) => void }) =>
 
             <LabelText>구매일</LabelText>
             <div style={{ marginTop: 10 }} />
-            
             <ButtonSelect children={selectedDate ? selectedDate.toDateString() : '구매일을 입력해주세요'} onClick={() => setSortDate(!sortDate)} />
 
 
@@ -61,12 +70,12 @@ const WriteDetail = ({ onDisabled }: {onDisabled: (value: boolean) => void }) =>
                 btnName=""
             />
             <div style={{ marginTop: 20 }} />
-            <InputComponent
-                placeholder="코어 i 5-13세대 / 14인치 / 32GB / 256-129GB"
-                type="text"
-                labelName="제품 스펙"
-                btnName=""
-            />
+
+            <LabelText>제품 스펙</LabelText>
+            <div style={{ marginTop: 10 }} />
+            <ButtonSelect children='코어 i 5-13세대 / 14인치 / 32GB / 256-129GB' onClick={openPopup}/>
+            <SpecPopup isOpen={isPopupOpen} onClose={closePopup} />
+
             <div style={{ marginTop: 20 }} />
 
             <RadioInput label="구매처 *" options={options} />
