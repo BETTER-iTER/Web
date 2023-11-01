@@ -1,5 +1,6 @@
 import React from 'react';
 import { styled } from '../../../stitches.config';
+import { Caption1 } from '../Font';
 
 interface ButtonGridProps {
   items: string[];
@@ -9,13 +10,13 @@ interface ButtonGridProps {
 const GridContainer = styled("div",{
   display: "grid",
   gridTemplateColumns: "repeat(3, 1fr)",
-  gap: "10px",
+  gap: "1px",
 })
 
 const GridItem = styled("button" , {
-  backgroundColor: "#3498db",
-  color: "#fff",
-  border: "none",
+  backgroundColor: "white",
+  color: "#8C959F",
+  border: "1px solid #8C959F",
   padding: "10px",
   cursor: "pointer",
 })
@@ -25,7 +26,7 @@ const ButtonGrid: React.FC<ButtonGridProps> = ({ items, onButtonClick }) => {
     <GridContainer>
       {items.map((item, index) => (
         <GridItem key={index} onClick={() => onButtonClick(item)}>
-          {item}
+          <Caption1>{item}</Caption1>
         </GridItem>
       ))}
     </GridContainer>

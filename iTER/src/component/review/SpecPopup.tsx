@@ -1,7 +1,8 @@
 import React from 'react';
 import { styled } from '../../../stitches.config';
 import { SelectBoxCPU } from './SelectBox';
-
+import Xbtn from '../../assets/icon/Xbtn.svg?react';
+import Button, { ButtonPopup } from '../common/Button';
 interface PopupProps {
   isOpen: boolean;
   onClose: () => void;
@@ -13,9 +14,11 @@ const SpecPopup: React.FC<PopupProps> = ({ isOpen, onClose }) => {
   return (
     <PopupOverlay>
       <PopupContent>
-        <CloseButton onClick={onClose}>&times;</CloseButton>
-        
-        <SelectBoxCPU />
+      <CloseButton><Xbtn width="24px" height="24px" onClick={onClose}>&times;</Xbtn></CloseButton>
+        <SelectCover>
+            <SelectBoxCPU />
+        </SelectCover>
+        <ButtonPopup children="선택 완료" />
       </PopupContent>
     </PopupOverlay>
   );
@@ -40,16 +43,22 @@ const PopupOverlay = styled("div", {
 const PopupContent = styled("div", {
   backgroundColor: "#fff",
   padding: "20px",
-  borderRadius: "5px",
+  borderRadius: "20px",
   boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
   position: "relative",
+  width: "340px",
+  height: "532px",
 })
 
 
 const CloseButton = styled("span",{
   position: "absolute",
-  top: "10px",
-  right: "10px",
+  top: "25px",
+  right: "20px",
   cursor: "pointer",
   fontSize: "24px",
+})
+
+const SelectCover = styled("div", {
+    paddingBottom: "16px",
 })

@@ -91,6 +91,22 @@ export const ButtonSelect: FC<ButtonProps> = ({ onClick, children, disabled }) =
     </>
   );
 };
+// 팝업 버튼
+export const ButtonPopup: FC<ButtonProps> = ({ onClick, children, disabled }) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    if (!disabled && onClick) {
+      onClick(event);
+    }
+  };
+
+  return (
+    <>
+      <ButtonBody2 onClick={handleClick} disabled={disabled}>
+        <ButtonText>{children}</ButtonText>
+      </ButtonBody2>
+    </>
+  );
+};
 
 const ButtonBody = styled('button', {
   width: '340px',
@@ -117,6 +133,16 @@ const ButtonBody1 = styled('button', {
   border: "1px solid $Gray10",
   backgroundColor: "white",
 });
+
+const ButtonBody2 = styled('button', {
+  width: '340px',
+  height: '50px',
+  borderRadius: '10px',
+  border: "1px solid $Gray10",
+  backgroundColor: "$Gray50",
+  color: "white",
+});
+
 
 const RText = styled('div', {
   fontSize: "14px",

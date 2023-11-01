@@ -1,16 +1,70 @@
+import { Caption1, Headline4 } from "../Font";
 import ButtonGrid from "./ButtonGrid"
+import { styled } from "../../../stitches.config";
 
 export const SelectBoxCPU = () => {
-    const items = ['버튼 1', '버튼 2', '버튼 3', '버튼 4', '버튼 5', '버튼 6'];
-    
+    const itemsCPU = ['코어 i 5-13세대', '코어 i 7-12세대', '코어 i 5-12세대', '라이젠 7-5세대', '라이젠 5-4세대', '기타'];
+    const itemsWINDOW = ['17인치', '16인치', '15인치', '14인치', '13인치', '기타'];
+    const itemsRAM = ['64GB', '32GB', '16GB', '8GB', '4GB', '기타'];
+    const itemsSIZE = ['1TB 초과', '1TB-513GB', '512-257GB', '256-129GB', '128-120GB', '기타'];
+
     const handleButtonClick = (item: string) => {
         console.log(`클릭한 버튼: ${item}`);
       };
     
     return (
         <>
-         <h1>상위 컴포넌트</h1>
-        <ButtonGrid items={items} onButtonClick={handleButtonClick} />
+        <Cover>
+            <Head>
+                <Headline4>제품 스펙</Headline4>
+            </Head>
+
+            <CPUcover>
+                <Caption1>* CPU 종류</Caption1>
+                <div style={{ marginTop: 5 }} />
+                <ButtonGrid items={itemsCPU} onButtonClick={handleButtonClick} />
+            </CPUcover>
+
+            <WINDOWcover>
+                <Caption1>* 화면 크기</Caption1>
+                <div style={{ marginTop: 5 }} />
+                <ButtonGrid items={itemsWINDOW} onButtonClick={handleButtonClick} />
+            </WINDOWcover>
+            <RAMcover>
+                <Caption1>* 램</Caption1>
+                <div style={{ marginTop: 5 }} />
+                <ButtonGrid items={itemsRAM} onButtonClick={handleButtonClick} />
+            </RAMcover>
+            <SIZEcover>
+                <Caption1>* 저장 용량</Caption1>
+                <div style={{ marginTop: 5 }} />
+                <ButtonGrid items={itemsSIZE} onButtonClick={handleButtonClick} />
+            </SIZEcover>
+        </Cover>
         </>
-    )
-}
+    );
+};
+
+const Cover = styled("div", {
+    marginTop: "10px",
+})
+
+const Head = styled("div", {
+    
+})
+
+const CPUcover = styled("div", {
+    marginTop: "20px",
+})
+
+const WINDOWcover = styled("div", {
+    marginTop: "10px",
+})
+
+const RAMcover = styled("div", {
+    marginTop: "10px",
+})
+
+const SIZEcover = styled("div", {
+    marginTop: "10px",
+})
