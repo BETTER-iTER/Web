@@ -1,12 +1,11 @@
 import Top from "../../component/layout/Top";
 import { styled } from "../../../stitches.config";
 import Button from "../../component/common/Button";
-import Category from "../../component/common/Category";
-import CategoryList from "../../constants/Category";
 import { useState } from "react";
 import { ButtonText } from "../../component/Font";
 import CheckCategory from "./CheckCategory";
 import WriteDetail from "./WriteDetail";
+import ReviewStar from "./ReviewStar";
 
 const ReviewWrite = () => {
     const [count, setCount] = useState<number>(1);
@@ -32,9 +31,11 @@ const ReviewWrite = () => {
         back={count > 1 ? () => { setCount(count - 1); } : undefined}
         />
         {count === 1 ? (
-          <CheckCategory onDisabled={onDisabled} />
+            <CheckCategory onDisabled={onDisabled} />
         ) : count === 2 ? (
             <WriteDetail onDisabled={onDisabled} />
+        ): count === 3? (
+            <ReviewStar onDisabled={onDisabled} />
         ): null}
         
         {/* <InfoMessage>
