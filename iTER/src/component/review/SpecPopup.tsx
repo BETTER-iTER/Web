@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from '../../../stitches.config';
 import { SelectBoxCPU } from './SelectBox';
 import Xbtn from '../../assets/icon/Xbtn.svg?react';
@@ -9,6 +9,27 @@ interface PopupProps {
 }
 
 const SpecPopup: React.FC<PopupProps> = ({ isOpen, onClose }) => {
+    const [selectedCPU, setSelectedCPU] = useState<string | null>(null);
+    const [selectedWINDOW, setSelectedWINDOW] = useState<string | null>(null);
+    const [selectedRAM, setSelectedRAM] = useState<string | null>(null);
+    const [selectedSIZE, setSelectedSIZE] = useState<string | null>(null);
+
+    const handleCPU = (selectedCPU: string) => {
+        setSelectedCPU(selectedCPU);
+    }
+    const handleWINDOW = (selectedWINDOW: string) => {
+        setSelectedWINDOW(selectedWINDOW);
+    }
+
+    const handleRAM = (selectedRAM: string) => {
+        setSelectedRAM(selectedRAM);
+    }
+
+    const handleSIZE = (selectedSIZE: string) => {
+        setSelectedSIZE(selectedSIZE);
+    }
+
+
   if (!isOpen) return null;
 
   return (
@@ -16,7 +37,8 @@ const SpecPopup: React.FC<PopupProps> = ({ isOpen, onClose }) => {
       <PopupContent>
       <CloseButton><Xbtn width="24px" height="24px" onClick={onClose}>&times;</Xbtn></CloseButton>
         <SelectCover>
-            <SelectBoxCPU />
+            <SelectBoxCPU onCPUClick={handleCPU} onWINDOWClick={handleWINDOW} onRAMClick={handleRAM} onSIZEClick={handleSIZE} />
+            <p>선택된 값: {selectedCPU}/{selectedWINDOW}/{selectedRAM}/{selectedSIZE}</p>
         </SelectCover>
         <ButtonPopup children="선택 완료" />
       </PopupContent>

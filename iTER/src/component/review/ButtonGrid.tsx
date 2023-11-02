@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from '../../../stitches.config';
 import { Caption1 } from '../Font';
 
@@ -22,10 +22,24 @@ const GridItem = styled("button" , {
 })
 
 const ButtonGrid: React.FC<ButtonGridProps> = ({ items, onButtonClick }) => {
+  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+
+  const handleButtonClick = (item: string) => {
+    setSelectedItem(item); // 클릭된 항목을 상태에 저장
+    onButtonClick(item);
+  };
+
   return (
     <GridContainer>
       {items.map((item, index) => (
-        <GridItem key={index} onClick={() => onButtonClick(item)}>
+        <GridItem
+          key={index}
+          onClick={() => handleButtonClick(item)}
+          style={{
+            backgroundColor: selectedItem === item ? 'blue' : 'white', // 클릭된 버튼의 배경색을 변경
+            color: selectedItem === item ? 'white' : '#8C959F', // 클릭된 버튼의 글자색을 변경
+          }}
+        >
           <Caption1>{item}</Caption1>
         </GridItem>
       ))}
