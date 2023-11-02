@@ -14,14 +14,18 @@ const WriteDetail = ({ onDisabled }: {onDisabled: (value: boolean) => void }) =>
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [selectedCPU, setSelectedCPU] = useState<string | null>(null);
+    const [selectedWINDOW, setSelectedWINDOW] = useState<string | null>(null);
+    const [selectedRAM, setSelectedRAM] = useState<string | null>(null);
+    const [selectedSIZE, setSelectedSIZE] = useState<string | null>(null);
 
     const openPopup = () => {
         setIsPopupOpen(true);
       };
     
-      const closePopup = () => {
-        setIsPopupOpen(false);
-      };
+    //   const closePopup = () => {
+    //     setIsPopupOpen(false);
+    //   };
 
     const handleSortItemSelected = (selectedItem: string) => {
         setSelectedSortItem(selectedItem);
@@ -30,6 +34,13 @@ const WriteDetail = ({ onDisabled }: {onDisabled: (value: boolean) => void }) =>
     const handleSortDateSelected = (date: Date) => {
         setSelectedDate(date);
     };
+
+    const handleSelectionComplete = (cpu: string, window: string, ram: string, size: string) => {
+        setSelectedCPU(cpu);
+        setSelectedWINDOW(window);
+        setSelectedRAM(ram);
+        setSelectedSIZE(size);
+      }
 
     
     const [sortBottom, setSortBottom] = useState<boolean>(false);
@@ -73,8 +84,10 @@ const WriteDetail = ({ onDisabled }: {onDisabled: (value: boolean) => void }) =>
 
             <LabelText>제품 스펙</LabelText>
             <div style={{ marginTop: 10 }} />
-            <ButtonSelect children='코어 i 5-13세대 / 14인치 / 32GB / 256-129GB' onClick={openPopup}/>
-            <SpecPopup isOpen={isPopupOpen} onClose={closePopup} />
+            <ButtonSelect children={selectedCPU == null ? '코어 i 5-13세대 / 14인치 / 32GB / 256-129GB' : selectedCPU + '/' + selectedWINDOW + '/' + selectedRAM + '/' + selectedSIZE} onClick={openPopup}/>
+            {isPopupOpen && (
+                <SpecPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} onSelectionComplete={handleSelectionComplete} />
+            )}
 
             <div style={{ marginTop: 20 }} />
 

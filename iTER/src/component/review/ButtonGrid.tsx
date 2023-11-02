@@ -36,7 +36,7 @@ const ButtonGrid: React.FC<ButtonGridProps> = ({ items, onButtonClick }) => {
           key={index}
           onClick={() => handleButtonClick(item)}
           style={{
-            backgroundColor: selectedItem === item ? 'blue' : 'white', // 클릭된 버튼의 배경색을 변경
+            backgroundColor: selectedItem === item ? '#4C4E55' : 'white', // 클릭된 버튼의 배경색을 변경
             color: selectedItem === item ? 'white' : '#8C959F', // 클릭된 버튼의 글자색을 변경
           }}
         >
