@@ -1,15 +1,12 @@
 import { keyframes } from '@stitches/react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { styled } from '../../../stitches.config';
 import { ButtonText } from '../Font';
 
 const Toast = ({ message, onClose }: { message: string; onClose?: () => void }) => {
-  const [visible, setVisible] = useState<boolean>(true);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose && onClose();
-      setVisible(false);
     }, 3000);
     return () => clearTimeout(timer);
   }, [onClose]);
@@ -17,7 +14,7 @@ const Toast = ({ message, onClose }: { message: string; onClose?: () => void }) 
   return (
     <Container>
       <ButtonText>
-        <ToastBox visible={visible}>{message}</ToastBox>
+        <ToastBox>{message}</ToastBox>
       </ButtonText>
     </Container>
   );
