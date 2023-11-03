@@ -5,6 +5,8 @@ import ButtonGrid from "../../component/review/ButtonGrid";
 import ImageUpload from "../../component/review/ImageUpload";
 import StarRating from "../../component/review/StarRating";
 import TextInput from "../../component/review/TextInput";
+import WriteUser from "../../component/review/WriteUser";
+import User from "../../assets/icon/User.svg";
 
 const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
   const items1 = ['가벼워요', '적당해요', '무거워요'];
@@ -62,6 +64,10 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
       <TextInput limit={500} placeholder="아쉬웠던 점을 입력해주세요"/>
 
       <LabelText>작성자 정보 *</LabelText>
+      <WriteUser img={User} name="미키마우스 제리" job="개발자" />
+
+      <LabelText>직접 사용한 제품에 대한 리뷰인가요? *</LabelText>
+      
     </Cover>
     </>
   );

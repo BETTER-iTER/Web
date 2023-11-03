@@ -62,3 +62,11 @@ export const Caption4 = styled("div", {
   fontStyle: "normal",
   letterSpacing: "-0.2px",
 })
+
+export const B1 = styled("div", {
+  fontSize: "15px",
+  fontStyle: "normal",
+  fontWeight: "600",
+  color: "#24292F",
+  letterSpacing: "-0.3px",
+})
