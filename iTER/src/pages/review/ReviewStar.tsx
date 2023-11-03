@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LabelText } from "../../component/Font";
+import { Caption2, LabelText } from "../../component/Font";
 import { styled } from "../../../stitches.config";
 import ButtonGrid from "../../component/review/ButtonGrid";
 import ImageUpload from "../../component/review/ImageUpload";
@@ -7,17 +7,20 @@ import StarRating from "../../component/review/StarRating";
 import TextInput from "../../component/review/TextInput";
 import WriteUser from "../../component/review/WriteUser";
 import User from "../../assets/icon/User.svg";
+import CheckCircle from '../../assets/icon/CheckCircle.svg?react';
 
 const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
   const items1 = ['가벼워요', '적당해요', '무거워요'];
   const items2 = ['저렴해요', '적당해요', '비싸요'];
   const items3 = ['별로에요', '무난해요', '예뻐요'];
 
-  const [rating, setRating] = useState<number>(0);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null); // 초기값은 null로 설정
-  const [selectedItem1, setSelectedItem1] = useState<string | null>(null);
-  const [selectedItem2, setSelectedItem2] = useState<string | null>(null);
-  const [selectedItem3, setSelectedItem3] = useState<string | null>(null);
+
+  const [rating, setRating] = useState<number>(0); //이건 별점
+  const [check, setCheck] = useState<boolean>(false); //이건 체크 했나 안했나
+  const [selectedImage, setSelectedImage] = useState<File | null>(null); //이건 선택한 이미지
+  const [selectedItem1, setSelectedItem1] = useState<string | null>(null); //이건 무게
+  const [selectedItem2, setSelectedItem2] = useState<string | null>(null); //이건 가격
+  const [selectedItem3, setSelectedItem3] = useState<string | null>(null); //이건 디자인
 
   onDisabled
   const handleImageSelected = (image: File) => {
@@ -67,7 +70,10 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
       <WriteUser img={User} name="미키마우스 제리" job="개발자" />
 
       <LabelText>직접 사용한 제품에 대한 리뷰인가요? *</LabelText>
-      
+      <Terms onClick={() => setCheck(!check)} check={check}>
+            <CheckCircle fill={check ? '#8787F4' : '#C1C4CC'} />
+            <Caption2>네, 그리고 퐁당 리뷰 정책에도 동의합니다</Caption2>
+        </Terms>
     </Cover>
     </>
   );
@@ -79,3 +85,21 @@ const Cover = styled("div", {
     height: "1292px",
     backgroundColor: "#FFF",
 })
+
+const Terms = styled('div', {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '12px',
+    gap: '4px',
+    variants: {
+      check: {
+        true: {
+          color: '$Gray50',
+        },
+        false: {
+          color: '$Gray20',
+        },
+      },
+    },
+  });
+  
