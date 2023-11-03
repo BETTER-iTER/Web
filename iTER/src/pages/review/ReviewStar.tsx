@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { LabelText } from "../../component/Font";
+import { styled } from "../../../stitches.config";
 import ButtonGrid from "../../component/review/ButtonGrid";
 import ImageUpload from "../../component/review/ImageUpload";
 import StarRating from "../../component/review/StarRating";
+import TextInput from "../../component/review/TextInput";
 
 const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
   const items1 = ['가벼워요', '적당해요', '무거워요'];
@@ -40,6 +42,7 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
 
   return (
     <>
+    <Cover>
       <LabelText>사진 *</LabelText>
       <ImageUpload onImageSelected={handleImageSelected} />
 
@@ -51,9 +54,22 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
 
       <LabelText>별점 *</LabelText>
       <StarRating totalStars={5} selectedStars={rating} onStarClick={handleStarClick} />
-      <p>선택 별점:{rating}</p>
+
+      <LabelText>좋은 점 *</LabelText>
+      <TextInput limit={500} placeholder="좋았던 점을 입력해주세요"/>
+
+      <LabelText>아쉬운 점 *</LabelText>
+      <TextInput limit={500} placeholder="아쉬웠던 점을 입력해주세요"/>
+
+      <LabelText>작성자 정보 *</LabelText>
+    </Cover>
     </>
   );
 };
 
 export default ReviewStar;
+
+const Cover = styled("div", {
+    height: "1292px",
+    backgroundColor: "#FFF",
+})

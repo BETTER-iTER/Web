@@ -54,3 +54,11 @@ export const RadioText = styled('div', {
   fontWeight: '400',
   color: "#8C959F",
 })
+
+export const Caption4 = styled("div", {
+  fontSize: "10px",
+  fontWeight: "400",
+  color: "#AFB8C1",
+  fontStyle: "normal",
+  letterSpacing: "-0.2px",
+})
