@@ -62,7 +62,7 @@ const ItemBox = styled('div', {
   borderRadius: '24px',
   marginBottom: '10px',
   cursor: 'pointer',
-  border: '1px solid #EAEEF2',
+  border: '1px solid $Bar',
   bodyText: 2,
   color: '#8C959F',
   whiteSpace: 'nowrap',
