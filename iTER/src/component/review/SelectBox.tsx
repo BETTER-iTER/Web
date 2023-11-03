@@ -43,23 +43,23 @@ export const SelectBoxCPU: React.FC <SelectBoxCPUProps> = ({ onCPUClick, onWINDO
 
             <CPUcover>
                 <Caption1>* CPU 종류</Caption1>
-                <div style={{ marginTop: 5 }} />
+                <div style={{ marginTop: 11 }} />
                 <ButtonGrid items={itemsCPU} onButtonClick={handleCPUClick} />
             </CPUcover>
 
             <WINDOWcover>
                 <Caption1>* 화면 크기</Caption1>
-                <div style={{ marginTop: 5 }} />
+                <div style={{ marginTop: 11 }} />
                 <ButtonGrid items={itemsWINDOW} onButtonClick={handleWINDOWClick} />
             </WINDOWcover>
             <RAMcover>
                 <Caption1>* 램</Caption1>
-                <div style={{ marginTop: 5 }} />
+                <div style={{ marginTop: 11 }} />
                 <ButtonGrid items={itemsRAM} onButtonClick={handleRAMClick} />
             </RAMcover>
             <SIZEcover>
                 <Caption1>* 저장 용량</Caption1>
-                <div style={{ marginTop: 5 }} />
+                <div style={{ marginTop: 11 }} />
                 <ButtonGrid items={itemsSIZE} onButtonClick={handleSIZEClick} />
             </SIZEcover>
         </Cover>
@@ -68,11 +68,11 @@ export const SelectBoxCPU: React.FC <SelectBoxCPUProps> = ({ onCPUClick, onWINDO
 };
 
 const Cover = styled("div", {
-    marginTop: "10px",
+    marginTop: "23px",
 })
 
 const Head = styled("div", {
-    
+    marginTop: "-13px"
 })
 
 const CPUcover = styled("div", {
@@ -80,13 +80,13 @@ const CPUcover = styled("div", {
 })
 
 const WINDOWcover = styled("div", {
-    marginTop: "10px",
+    marginTop: "22px",
 })
 
 const RAMcover = styled("div", {
-    marginTop: "10px",
+    marginTop: "22px",
 })
 
 const SIZEcover = styled("div", {
-    marginTop: "10px",
+    marginTop: "22px",
 })

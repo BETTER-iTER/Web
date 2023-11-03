@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { styled } from '../../../stitches.config';
 import { SelectBoxCPU } from './SelectBox';
 import Xbtn from '../../assets/icon/Xbtn.svg?react';
-import Button, { ButtonPopup } from '../common/Button';
+import { ButtonPopup } from '../common/Button';
 
 interface PopupProps {
   isOpen: boolean;
@@ -87,5 +87,5 @@ const CloseButton = styled("span", {
 })
 
 const SelectCover = styled("div", {
-  paddingBottom: "16px",
+  paddingBottom: "24px",
 })
