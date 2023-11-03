@@ -15,13 +15,13 @@ const StarRating: React.FC<StarRatingProps> = ({ totalStars, selectedStars, onSt
       stars.push(
         <img
           key={i}
-          src={i <= selectedStars ? Starfill : Star} // 이미지 파일의 경로를 지정하세요
+          src={i <= selectedStars ? Starfill : Star} 
           alt={`Star ${i}`}
           onClick={() => onStarClick(i)}
           style={{
-            width: "30px", // 이미지의 너비를 조절하세요
-            height: "30px", // 이미지의 높이를 조절하세요
-            cursor: "pointer", // 커서를 포인터로 변경하여 클릭 가능하게 만듭니다
+            width: "50px", 
+            height: "30px", 
+            cursor: "pointer", 
           }}
         />
       );

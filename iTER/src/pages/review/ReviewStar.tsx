@@ -48,32 +48,64 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
   return (
     <>
     <Cover>
-      <LabelText>사진 *</LabelText>
-      <ImageUpload onImageSelected={handleImageSelected} />
+      <Picture>
+        <LabelText>사진 *</LabelText>
+        <div style={{ marginTop: "10px" }} />
+        <ImageUpload onImageSelected={handleImageSelected} />
+      </Picture>
 
       <br />
-      <LabelText>한줄평 *</LabelText>
-      <ButtonGrid items={items1} onButtonClick={handle1Click} />
-      <ButtonGrid items={items2} onButtonClick={handle2Click} />
-      <ButtonGrid items={items3} onButtonClick={handle3Click} />
+      <OneLine>
+        <LabelText>한줄평 *</LabelText>
+        <div style={{ marginTop: "11px" }} />
+        
+        <ButtonCover>
+            <div style={{ height: "30px" }}>
+            <ButtonGrid items={items1} onButtonClick={handle1Click} />
+            </div>
+            <div style={{ height: "30px", marginTop: "10px" }}>
+            <ButtonGrid items={items2} onButtonClick={handle2Click} />
+            </div>
+            <div style={{ height: "30px", marginTop: "10px" }}>
+            <ButtonGrid items={items3} onButtonClick={handle3Click} />
+            </div>
+        </ButtonCover>
+      </OneLine>
 
-      <LabelText>별점 *</LabelText>
-      <StarRating totalStars={5} selectedStars={rating} onStarClick={handleStarClick} />
+      <Rating>
+        <LabelText>별점 *</LabelText>
+        <Star>
+            <div style={{ marginTop: "11px" }} />
+            <StarRating totalStars={5} selectedStars={rating} onStarClick={handleStarClick} />
+        </Star>
+      </Rating>
 
-      <LabelText>좋은 점 *</LabelText>
-      <TextInput limit={500} placeholder="좋았던 점을 입력해주세요"/>
+      <Like>
+        <LabelText>좋은 점 *</LabelText>
+        <div style={{ marginTop: "11px" }} />
+        <TextInput limit={500} placeholder="좋았던 점을 입력해주세요"/>
+      </Like>
 
-      <LabelText>아쉬운 점 *</LabelText>
-      <TextInput limit={500} placeholder="아쉬웠던 점을 입력해주세요"/>
+      <NotGood>
+        <LabelText>아쉬운 점 *</LabelText>
+        <div style={{ marginTop: "11px" }} />
+        <TextInput limit={500} placeholder="아쉬웠던 점을 입력해주세요"/>
+      </NotGood>
 
-      <LabelText>작성자 정보 *</LabelText>
-      <WriteUser img={User} name="미키마우스 제리" job="개발자" />
+      <UserInfo>
+        <LabelText>작성자 정보 *</LabelText>
+        <div style={{ marginTop: "11px" }} />
+        <WriteUser img={User} name="미키마우스 제리" job="개발자" />
+      </UserInfo>
 
-      <LabelText>직접 사용한 제품에 대한 리뷰인가요? *</LabelText>
-      <Terms onClick={() => setCheck(!check)} check={check}>
-            <CheckCircle fill={check ? '#8787F4' : '#C1C4CC'} />
-            <Caption2>네, 그리고 퐁당 리뷰 정책에도 동의합니다</Caption2>
-        </Terms>
+      <Agree>
+        <LabelText>직접 사용한 제품에 대한 리뷰인가요? *</LabelText>
+        <div style={{ marginTop: "11px" }} />
+        <Terms onClick={() => setCheck(!check)} check={check}>
+                <CheckCircle fill={check ? '#8787F4' : '#C1C4CC'} />
+                <Caption2>네, 그리고 퐁당 리뷰 정책에도 동의합니다</Caption2>
+            </Terms>
+       </Agree>
     </Cover>
     </>
   );
@@ -84,6 +116,7 @@ export default ReviewStar;
 const Cover = styled("div", {
     height: "1292px",
     backgroundColor: "#FFF",
+   marginLeft: "24px"
 })
 
 const Terms = styled('div', {
@@ -103,3 +136,39 @@ const Terms = styled('div', {
     },
   });
   
+  const ButtonCover = styled("div", {
+   
+  width: "330px",
+  })
+
+  const Picture = styled("div", {
+    marginTop: "20px"
+  })
+
+  const OneLine = styled("div", {
+    marginTop: "31px"
+  })
+
+  const Rating = styled("div", {
+    marginTop: "30px"
+  })
+
+  const Like = styled("div", {
+    marginTop: "30px",
+  })
+
+  const NotGood = styled("div", {
+    marginTop: "35px",
+  })
+
+  const UserInfo = styled("div", {
+    marginTop: "35px",
+  })
+
+  const Agree = styled("div", {
+    marginTop: "30px",
+  })
+const Star = styled("div", {
+    width: "340px",
+    marginLeft: "40px",
+})

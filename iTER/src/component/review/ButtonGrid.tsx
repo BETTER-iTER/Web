@@ -10,7 +10,7 @@ interface ButtonGridProps {
 const GridContainer = styled("div",{
   display: "grid",
   gridTemplateColumns: "repeat(3, 1fr)",
-  gap: "1px",
+  gap: "0px",
 })
 
 const GridItem = styled("button" , {
@@ -19,6 +19,11 @@ const GridItem = styled("button" , {
   border: "1px solid #8C959F",
   padding: "10px",
   cursor: "pointer",
+  height: "30px",
+})
+
+const Item = styled("div", {
+  marginTop: "-3px"
 })
 
 const ButtonGrid: React.FC<ButtonGridProps> = ({ items, onButtonClick }) => {
@@ -38,9 +43,10 @@ const ButtonGrid: React.FC<ButtonGridProps> = ({ items, onButtonClick }) => {
           style={{
             backgroundColor: selectedItem === item ? '#4C4E55' : 'white', // 클릭된 버튼의 배경색을 변경
             color: selectedItem === item ? 'white' : '#8C959F', // 클릭된 버튼의 글자색을 변경
+            
           }}
         >
-          <Caption1>{item}</Caption1>
+          <Item><Caption1>{item}</Caption1></Item>
         </GridItem>
       ))}
     </GridContainer>
