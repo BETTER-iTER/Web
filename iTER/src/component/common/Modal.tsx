@@ -37,19 +37,21 @@ export const ModalSelect: FC<ModalProps> = ({ text, btn, onClick, onClosed }) =>
         onClosed && onClosed();
       }}
     >
-      <ModalBox>
-        <div style={{ height: 110 }}>
-          <Headline4>{text}</Headline4>
-        </div>
-        <Buttons>
-          <SelectButton onClick={onClosed}>
-            <ButtonText>취소</ButtonText>
-          </SelectButton>
-          <SelectButton onClick={onClick}>
-            <ButtonText>{btn}</ButtonText>
-          </SelectButton>
-        </Buttons>
-      </ModalBox>
+      <Container>
+        <ModalBox>
+          <div style={{ height: 110 }}>
+            <Headline4>{text}</Headline4>
+          </div>
+          <Buttons>
+            <SelectButton onClick={onClosed}>
+              <ButtonText>취소</ButtonText>
+            </SelectButton>
+            <SelectButton onClick={onClick}>
+              <ButtonText>{btn}</ButtonText>
+            </SelectButton>
+          </Buttons>
+        </ModalBox>
+      </Container>
     </Back>
   );
 };
@@ -62,10 +64,11 @@ const Back = styled('div', {
   height: '100vh',
   position: 'fixed',
   left: '0',
+  top: '0',
   justifyContent: 'center',
   alignItems: 'center',
   pointerEvents: 'auto',
-  zIndex: 2,
+  zIndex: 1000,
 });
 
 const Container = styled('div', {
@@ -73,6 +76,7 @@ const Container = styled('div', {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  pointerEvents: 'none',
 });
 
 const ModalBox = styled('div', {
@@ -88,6 +92,7 @@ const ModalBox = styled('div', {
     alignItems: 'center',
   },
   overflow: 'hidden',
+  pointerEvents: 'auto',
 });
 
 const Button = styled('div', {

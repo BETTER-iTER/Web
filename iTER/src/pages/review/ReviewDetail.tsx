@@ -11,12 +11,14 @@ import Star from '../../assets/icon/star/Star.svg?react';
 import { Caption1, Caption2 } from '../../component/Font';
 import { useState } from 'react';
 import { BottomReviewSetting } from '../../component/common/Bottom';
-import { ModalSelect } from '../../component/common/Modal';
+import Modal, { ModalSelect } from '../../component/common/Modal';
 import Relation from '../../component/review/Relation';
 import ReviewImage from '../../component/review/ReviewImage';
+import Toast from '../../component/common/Toast';
 const ReviewDetail = () => {
   const [setting, setSetting] = useState<boolean>(false);
   const [select, setSelect] = useState<number>(0);
+  const [toast, setToast] = useState<boolean>(false);
   return (
     <>
       <Top title="스피커" />
@@ -40,7 +42,6 @@ const ReviewDetail = () => {
             <Dots3 />
           </div>
         </User>
-
         <ReviewImage />
         <Box>
           {/* 좋아요 등의 액션 아이콘 */}
@@ -107,6 +108,7 @@ const ReviewDetail = () => {
         </Box>
         <Relation />
       </Container>
+
       <Nav />
       {setting && (
         <BottomReviewSetting
@@ -118,18 +120,20 @@ const ReviewDetail = () => {
           }}
         />
       )}
-      {select === 2 && (
+      {select === 2 && !setting && (
         <ModalSelect
-          text={'댓글을 삭제하시겠습니까?'}
+          text={'리뷰를 삭제하시겠습니까?'}
           btn={'삭제하기'}
           onClick={() => {
-            console.log('삭제');
+            setToast(true);
           }}
           onClosed={() => {
             setSelect(0);
           }}
         />
       )}
+
+      {toast && <Toast message={'리뷰가 삭제되었습니다.'} onClose={() => setToast(false)} />}
     </>
   );
 };
