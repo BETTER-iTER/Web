@@ -1,19 +1,20 @@
 import React, { useState, ChangeEvent, useRef } from 'react';
 import { styled } from '../../../stitches.config';
 import Xbtn from '../../assets/icon/Xbtn.svg?react';
+import Plus from '../../assets/icon/Plus.svg?react';
 
 interface ImageUploadProps {
   onImageSelected: (image: File) => void;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
-      setSelectedImage(file);
+      setSelectedImages([...selectedImages, file]);
       onImageSelected(file);
     }
   };
@@ -25,8 +26,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
     }
   };
 
-  const handleImageDelete = () => {
-    setSelectedImage(null);
+  const handleImageDelete = (index: number) => {
+    const newImages = [...selectedImages];
+    newImages.splice(index, 1);
+    setSelectedImages(newImages);
   };
 
   return (
@@ -42,20 +45,25 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
         onClick={handleImagePreviewClick}
         style={{ cursor: 'pointer', position: 'relative' }}
       >
-        <Div>
-          {selectedImage && (
-            <XbtnContainer onClick={handleImageDelete}>
-              <Xbtn />
-            </XbtnContainer>
-          )}
-        </Div>
-        {selectedImage && (
-          <img
-            src={URL.createObjectURL(selectedImage)}
-            alt="Selected"
-            width={100}
-          />
-        )}
+        <ImageGallery>
+          {selectedImages.map((image, index) => (
+            <ImageContainer key={index}>
+              <XbtnContainer onClick={() => handleImageDelete(index)}>
+                <Xbtn />
+              </XbtnContainer>
+              <img
+                src={URL.createObjectURL(image)}
+                alt="Selected"
+                width={100}
+              />
+            </ImageContainer>
+          ))}
+          <Pluscover>
+            <Cover>
+                <Plus width="24px" height="24px" />
+            </Cover>
+          </Pluscover>
+        </ImageGallery>
       </div>
     </div>
   );
@@ -63,11 +71,19 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
 
 export default ImageUpload;
 
-const Div = styled("div", {
+const ImageGallery = styled("div", {
+  display: "flex",
+  flexDirection: "row",
+});
+
+const ImageContainer = styled("div", {
   width: "120px",
   height: "120px",
   backgroundColor: "$Gray10",
+  margin: "0 10px", // 이미지 사이의 간격 조절
   position: 'relative',
+  textAlign: "center",
+  alignItems: "center",
 });
 
 const XbtnContainer = styled("div", {
@@ -76,3 +92,15 @@ const XbtnContainer = styled("div", {
   right: "0",
   cursor: "pointer",
 });
+
+const Pluscover = styled("div", {
+  marginBottom: "-20px",
+  width: "120px",
+  height: "120px",
+  backgroundColor: "$Gray10",
+});
+
+const Cover = styled("div", {
+    textAlign: "center",
+    marginTop: "45px",
+})
