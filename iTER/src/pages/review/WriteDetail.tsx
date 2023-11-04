@@ -23,9 +23,6 @@ const WriteDetail = ({ onDisabled }: {onDisabled: (value: boolean) => void }) =>
         setIsPopupOpen(true);
       };
     
-    //   const closePopup = () => {
-    //     setIsPopupOpen(false);
-    //   };
 
     const handleSortItemSelected = (selectedItem: string) => {
         setSelectedSortItem(selectedItem);
@@ -131,3 +128,4 @@ const MainLay = styled("div", {
     marginTop: "44px",
     height: "930px",
 })
+

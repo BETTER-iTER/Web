@@ -19,22 +19,22 @@ const RadioInput: React.FC<RadioInputProps> = ({ options, label }) => {
       <LabelText>{label}</LabelText>
       
       {options.map((option, index) => (
-        <LabelLay>
-            <label key={index}>
-            <input
-                type="radio"
-                name="radioOptions"
-                value={option}
-                checked={selectedOption === option}
-                onChange={handleOptionChange}
-            />
-            <RadioLay>
-                <RadioText>{option}</RadioText>
-            </RadioLay>
-            </label>
-        </LabelLay>
+  <LabelLay key={index}>
+    <label>
+      <input
+        type="radio"
+        name="radioOptions"
+        value={option}
+        checked={selectedOption === option}
+        onChange={handleOptionChange}
+      />
+      <RadioLay>
+        <RadioText>{option}</RadioText>
+      </RadioLay>
+    </label>
+  </LabelLay>
+))}
 
-      ))}
     </div>
   );
       };
