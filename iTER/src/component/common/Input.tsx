@@ -13,6 +13,7 @@ interface InputProps {
   error?: string;
   disabled?: boolean;
   notice?: string;
+
 }
 
 const InputComponent: React.FC<InputProps> = ({
@@ -25,6 +26,7 @@ const InputComponent: React.FC<InputProps> = ({
   error,
   disabled,
   notice,
+
 }) => {
   const handleInputValueChange = (value: string) => {
     onChange && onChange(value);

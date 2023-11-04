@@ -20,7 +20,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
   };
 
   const handleImagePreviewClick = () => {
-    // 클릭 시 파일 선택 대화상자 열기
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -80,7 +79,7 @@ const ImageContainer = styled("div", {
   width: "120px",
   height: "120px",
   backgroundColor: "$Gray10",
-  margin: "0 10px", // 이미지 사이의 간격 조절
+  margin: "0 10px", 
   position: 'relative',
   textAlign: "center",
   alignItems: "center",

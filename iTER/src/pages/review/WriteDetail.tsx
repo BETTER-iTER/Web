@@ -22,12 +22,11 @@ const WriteDetail = ({ onDisabled }: {onDisabled: (value: boolean) => void }) =>
     const openPopup = () => {
         setIsPopupOpen(true);
       };
-    
 
     const handleSortItemSelected = (selectedItem: string) => {
         setSelectedSortItem(selectedItem);
     };
-  
+
     const handleSortDateSelected = (date: Date) => {
         setSelectedDate(date);
     };

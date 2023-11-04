@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 interface CustomDatePickerProps {
-  onDateChange: (date: Date | null) => void; // onDateChange props를 정의
+  onDateChange: (date: Date | null) => void; 
 }
 
 function CustomDatePicker({ onDateChange }: CustomDatePickerProps): JSX.Element {
@@ -11,7 +11,7 @@ function CustomDatePicker({ onDateChange }: CustomDatePickerProps): JSX.Element 
 
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
-    onDateChange(date); // 선택한 날짜를 상위 컴포넌트로 전달
+    onDateChange(date); 
   };
 
   return (
