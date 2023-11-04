@@ -12,6 +12,7 @@ import Search from './pages/Search';
 import ReviewDetail from './pages/review/ReviewDetail';
 import Profile from './pages/user/Profile';
 import Onboading from './pages/Onboading';
+import DeleteUser from './pages/user/DeleteUser';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
       <Route path="/search/review/:id" element={<ReviewDetail />} />
       <Route path="/user/profile/:id" element={<Profile />} />
       <Route path="/onboading" element={<Onboading />} />
+      <Route path="/userdelete" element={<DeleteUser />} />
     </Routes>
   );
 }
