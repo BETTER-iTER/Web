@@ -4,7 +4,8 @@ import Top from "../../component/layout/Top";
 import { styled } from "../../../stitches.config";
 import CheckCircle from "../../assets/icon/CheckCircle.svg?react";
 import Button from "../../component/common/Button";
-import Modal from "../../component/common/Modal";
+import Modalwith2button from "../../component/common/Modalwith2button";
+import { ModalSelect } from "../../component/common/Modalwith2button";
 
 type SelectedOptions = {
     [key: string]: boolean;
@@ -30,6 +31,11 @@ const DeleteUser = () => {
       };
     
       const closeModal = () => {
+        setIsModalOpen(false);
+        console.log("탈퇴처리");
+      };
+
+      const closeModalNo = () => {
         setIsModalOpen(false);
       };
 
@@ -80,16 +86,16 @@ const DeleteUser = () => {
 
                 <ButtonLay>
                     <Button children="다음" disabled={!isButtonEnabled} onClick={openModal} />
+                    
                 </ButtonLay>
 
+
             </Text>
-            {isModalOpen && (
-                <Cover>
-                    <Modal text="탈퇴하시겠습니까?" btn="확인" onClick={closeModal} />
-                </Cover>
-            )}
         </Cover>
-        
+        {isModalOpen && (
+                <ModalSelect text="탈퇴하시겠습니까?" btn="탈퇴하기" onClosed={closeModalNo} onClick={closeModal} />
+            
+            )}
         </>
     );
 };
