@@ -30,7 +30,7 @@ function App() {
       <Route path="/search/review/:id" element={<ReviewDetail />} />
       <Route path="/user/profile/:id" element={<Profile />} />
       <Route path="/onboading" element={<Onboading />} />
-      <Route path="/userdelete" element={<DeleteUser />} />
+      <Route path="/user/delete" element={<DeleteUser />} />
     </Routes>
   );
 }

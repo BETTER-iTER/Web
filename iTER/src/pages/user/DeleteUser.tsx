@@ -4,7 +4,6 @@ import Top from "../../component/layout/Top";
 import { styled } from "../../../stitches.config";
 import CheckCircle from "../../assets/icon/CheckCircle.svg?react";
 import Button from "../../component/common/Button";
-import Modalwith2button from "../../component/common/Modalwith2button";
 import { ModalSelect } from "../../component/common/Modalwith2button";
 
 type SelectedOptions = {
@@ -54,33 +53,33 @@ const DeleteUser = () => {
 
                 <Options>
                     <Terms onClick={() => handleOptionClick('option1')} check={selectedOptions['option1']}>
-                        <CheckCircle fill={selectedOptions['option1']? '#8787F4' : '#C1C4CC'} />
-                        <Caption2>탈퇴하고 다시 가입할래요</Caption2>
+                        <CheckCircle fill={selectedOptions['option1']? '#4C4E554' : '#C1C4CC'} />
+                        <Tlay><Caption2>탈퇴하고 다시 가입할래요</Caption2></Tlay>
                     </Terms>
-
+                    <div style={{marginTop: "10px"}} />
                     <Terms onClick={() => handleOptionClick('option2')} check={selectedOptions['option2']}>
-                        <CheckCircle fill={selectedOptions['option2'] ? '#8787F4' : '#C1C4CC'} />
-                        <Caption2>제가 찾는 제품이 없어요</Caption2>
+                        <CheckCircle fill={selectedOptions['option2'] ? '#4C4E554' : '#C1C4CC'} />
+                        <Tlay><Caption2>제가 찾는 제품이 없어요</Caption2></Tlay>
                     </Terms>
-
+                    <div style={{marginTop: "10px"}} />
                     <Terms onClick={() => handleOptionClick('option3')} check={selectedOptions['option3']}>
-                        <CheckCircle fill={selectedOptions['option3'] ? '#8787F4' : '#C1C4CC'} />
-                        <Caption2>ITer를 자주 사용하지 않아요</Caption2>
+                        <CheckCircle fill={selectedOptions['option3'] ? '#4C4E554' : '#C1C4CC'} />
+                        <Tlay><Caption2>ITer를 자주 사용하지 않아요</Caption2></Tlay>
                     </Terms>
-
+                    <div style={{marginTop: "10px"}} />
                     <Terms onClick={() => handleOptionClick('option4')} check={selectedOptions['option4']}>
-                        <CheckCircle fill={selectedOptions['option4'] ? '#8787F4' : '#C1C4CC'} />
-                        <Caption2>제공받는 혜택이 부족해요</Caption2>
+                        <CheckCircle fill={selectedOptions['option4'] ? '#4C4E554' : '#C1C4CC'} />
+                        <Tlay><Caption2>제공받는 혜택이 부족해요</Caption2></Tlay>
                     </Terms>
-
+                    <div style={{marginTop: "10px"}} />
                     <Terms onClick={() => handleOptionClick('option5')} check={selectedOptions['option5']}>
-                        <CheckCircle fill={selectedOptions['option5'] ? '#8787F4' : '#C1C4CC'} />
-                        <Caption2>전문가 등업이 너무 어려워요</Caption2>
+                        <CheckCircle fill={selectedOptions['option5'] ? '#4C4E554' : '#C1C4CC'} />
+                        <Tlay><Caption2>전문가 등업이 너무 어려워요</Caption2></Tlay>
                     </Terms>
-
+                    <div style={{marginTop: "10px"}} />
                     <Terms onClick={() => handleOptionClick('option6')} check={selectedOptions['option6']}>
-                        <CheckCircle fill={selectedOptions['option6'] ? '#8787F4' : '#C1C4CC'} />
-                        <Caption2>다른 서비스를 이용하고 싶어요</Caption2>
+                        <CheckCircle fill={selectedOptions['option6'] ? '#4C4E554' : '#C1C4CC'} />
+                        <Tlay><Caption2>다른 서비스를 이용하고 싶어요</Caption2></Tlay>
                     </Terms>
                 </Options>
 
@@ -109,7 +108,7 @@ const Cover = styled("div", {
 
 const Text = styled("div", {
     position: "relative",
-    top: "158px",
+    top: "64px",
     left: "30px",
 })
 
@@ -133,7 +132,7 @@ const Terms = styled('div', {
           color: '$Gray50',
         },
         false: {
-          color: '$Gray20',
+          color: '$Gray50',
         },
       },
     },
@@ -147,3 +146,7 @@ const ButtonLay = styled("div", {
     marginTop: "49px",
     marginLeft: "-5px",
 });
+
+const Tlay = styled("div", {
+    marginLeft: "4px",
+})
