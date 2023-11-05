@@ -38,7 +38,7 @@ const Item = () => {
 
 const Container = styled('div', {
   width: '370px',
-  borderTop: 'solid 1px #EAEEF2',
+  borderTop: 'solid 1px $Bar',
   padding: '40px 0 0 20px',
 });
 

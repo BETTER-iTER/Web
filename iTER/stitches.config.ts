@@ -23,6 +23,8 @@ export const { styled, css, globalCss, keyframes, getCssText, theme } = createSt
       WH03: '#9BA0A7',
 
       BL01: '#0E0E10',
+
+      Bar: '#EAEEF2',
     },
   },
   utils: {

@@ -72,7 +72,7 @@ const Indicator = styled('div', {
   width: '6px',
   height: '6px',
   borderRadius: '50%',
-  backgroundColor: '#EAEEF2',
+  backgroundColor: '$Bar',
   variants: {
     active: {
       true: {
