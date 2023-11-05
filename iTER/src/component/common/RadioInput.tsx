@@ -27,6 +27,7 @@ const RadioInput: React.FC<RadioInputProps> = ({ options, label }) => {
         value={option}
         checked={selectedOption === option}
         onChange={handleOptionChange}
+        style={{color: "#AFB8C1", width: "17px", height: "17px", flexShrink: "0"}}
       />
       <RadioLay>
         <RadioText>{option}</RadioText>
@@ -44,7 +45,7 @@ export default RadioInput;
 
 const RadioLay = styled("div", {
     marginLeft: "30px",
-    marginTop: "-22px",
+    marginTop: "-24px",
 })
 
 const LabelLay = styled("div", {

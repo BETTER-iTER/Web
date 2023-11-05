@@ -4,7 +4,7 @@ import { useState } from "react";
 import RadioInput from "../../component/common/RadioInput";
 import { ButtonSelect } from "../../component/common/Button";
 import ReviewSort from "../../component/review/ReviewSort";
-import { LabelText } from "../../component/Font";
+import { B1 } from "../../component/Font";
 import DateSort from "../../component/review/DateSort";
 import SpecPopup from "../../component/review/SpecPopup";
 
@@ -56,14 +56,14 @@ const WriteDetail = ({ onDisabled }: {onDisabled: (value: boolean) => void }) =>
             />
             <div style={{ marginTop: 20 }} />
 
-            <LabelText>제조사 *</LabelText>
+            <B1>제조사 *</B1>
             <div style={{ marginTop: 10 }} />
             <ButtonSelect children={selectedSortItem == null ? "제조사를 선택해주세요" : selectedSortItem} onClick={() => setSortBottom(!sortBottom)} />
            
 
             <div style={{ marginTop: 20 }} />
 
-            <LabelText>구매일</LabelText>
+            <B1>구매일</B1>
             <div style={{ marginTop: 10 }} />
             <ButtonSelect children={selectedDate ? selectedDate.toDateString() : '구매일을 입력해주세요'} onClick={() => setSortDate(!sortDate)} />
 
@@ -78,7 +78,7 @@ const WriteDetail = ({ onDisabled }: {onDisabled: (value: boolean) => void }) =>
             />
             <div style={{ marginTop: 20 }} />
 
-            <LabelText>제품 스펙</LabelText>
+            <B1>제품 스펙</B1>
             <div style={{ marginTop: 10 }} />
             <ButtonSelect children={selectedCPU == null ? '코어 i 5-13세대 / 14인치 / 32GB / 256-129GB' : selectedCPU + '/' + selectedWINDOW + '/' + selectedRAM + '/' + selectedSIZE} onClick={openPopup}/>
             {isPopupOpen && (

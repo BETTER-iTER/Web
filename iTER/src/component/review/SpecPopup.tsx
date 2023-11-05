@@ -45,7 +45,9 @@ const SpecPopup: React.FC<PopupProps> = ({ isOpen, onClose, onSelectionComplete 
         <SelectCover>
           <SelectBoxCPU onCPUClick={handleCPU} onWINDOWClick={handleWINDOW} onRAMClick={handleRAM} onSIZEClick={handleSIZE} />
         </SelectCover>
-        <ButtonPopup onClick={handleSelectionComplete} children="선택 완료" />
+        <ButtonLay>
+          <ButtonPopup onClick={handleSelectionComplete} children="선택 완료" />
+        </ButtonLay>
       </PopupContent>
     </PopupOverlay>
   );
@@ -88,4 +90,8 @@ const CloseButton = styled("span", {
 
 const SelectCover = styled("div", {
   paddingBottom: "24px",
+})
+
+const ButtonLay = styled("div", {
+  marginLeft: "-20px",
 })

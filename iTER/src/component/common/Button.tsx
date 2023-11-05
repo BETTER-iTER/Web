@@ -135,10 +135,11 @@ const ButtonBody1 = styled('button', {
 });
 
 const ButtonBody2 = styled('button', {
-  width: '340px',
+  width: '380px',
   height: '50px',
-  borderRadius: '10px',
-  border: "1px solid $Gray10",
+  borderBottomLeftRadius: '20px', 
+  borderBottomRightRadius: '20px', 
+  border: "none",
   backgroundColor: "$Gray50",
   color: "white",
 });

@@ -16,7 +16,7 @@ const GridContainer = styled("div",{
 const GridItem = styled("button" , {
   backgroundColor: "white",
   color: "#8C959F",
-  border: "1px solid #8C959F",
+  border: "1px solid #EAEEF2",
   padding: "10px",
   cursor: "pointer",
   height: "30px",

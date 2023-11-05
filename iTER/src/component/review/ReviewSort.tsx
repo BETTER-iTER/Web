@@ -11,7 +11,7 @@ const ReviewSort = ({ onClose, onSortItemSelected }: { onClose: () => void; onSo
 
   return (
     <Bottom
-      title="정렬"
+      title="제조사"
       onClose={onClose}
       component={
         <SortBox>
@@ -34,6 +34,7 @@ const SortBox = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   marginBottom: '60px',
+  paddingBottom: "200px",
 });
 
 const SortItem = styled('div', {

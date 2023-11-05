@@ -26,7 +26,7 @@ function App() {
       <Route path="/password/reset" element={<ResetPassword />} />
       <Route path="/search" element={<Search />} />
       <Route path="/search/review/:id" element={<ReviewDetail />} />
-      <Route path="/reviewwrite" element={<ReviewWrite />} />
+      <Route path="/review/write" element={<ReviewWrite />} />
     </Routes>
   );
 }
