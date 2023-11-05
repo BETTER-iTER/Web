@@ -4,6 +4,7 @@ import { Caption2 } from '../Font';
 import Star from '../../assets/icon/star/Star.svg?react';
 import UserIcon from '../../assets/icon/User.svg?react';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 interface ListItemProps {
   id: number;
@@ -16,13 +17,14 @@ interface ListItemProps {
 
 const ListItem: React.FC<ListItemProps> = ({ title, spec, star, review, user, id }) => {
   const navigate = useNavigate();
+  const [active, setActive] = useState<boolean>(false);
   return (
-    <Container
-      onClick={() => {
-        navigate(`/search/review/${id}`);
-      }}
-    >
-      <Box>
+    <Container>
+      <Box
+        onClick={() => {
+          navigate(`/search/review/${id}`);
+        }}
+      >
         <Image></Image>
         <div>
           <Title>{title}</Title>
@@ -43,8 +45,24 @@ const ListItem: React.FC<ListItemProps> = ({ title, spec, star, review, user, id
         </div>
       </Box>
       <Buttons>
-        <ButtonEmpty type="like">리뷰 좋아요</ButtonEmpty>
-        <ButtonEmpty type="scrap">리뷰 스크랩</ButtonEmpty>
+        <ButtonEmpty
+          onClick={() => {
+            setActive(!active);
+          }}
+          active={active}
+          type="like"
+        >
+          리뷰 좋아요
+        </ButtonEmpty>
+        <ButtonEmpty
+          onClick={() => {
+            setActive(!active);
+          }}
+          active={active}
+          type="scrap"
+        >
+          리뷰 스크랩
+        </ButtonEmpty>
       </Buttons>
     </Container>
   );
@@ -56,6 +74,7 @@ const Container = styled('div', {
   bodyText: 1,
   margin: '10px 0',
   color: '#57606A',
+  marginBottom: '20px',
 });
 
 const Box = styled('div', {
@@ -104,6 +123,7 @@ const UserImage = styled('div', {
 
 const Buttons = styled('div', {
   display: 'flex',
-  gap: '8px',
+  gap: '12px',
   justifyContent: 'center',
+  pointerEvents: 'auto',
 });
