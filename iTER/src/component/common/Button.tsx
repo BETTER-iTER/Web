@@ -11,6 +11,7 @@ interface ButtonProps {
   children: ReactNode;
   disabled?: boolean;
   type?: string;
+  active?: boolean;
 }
 
 // 일반 버튼
@@ -47,14 +48,14 @@ export const ButtonWrite: FC<ButtonProps> = ({ onClick, children }) => {
 };
 
 // 빈 버튼
-export const ButtonEmpty: FC<ButtonProps> = ({ onClick, children, type }) => {
+export const ButtonEmpty: FC<ButtonProps> = ({ onClick, children, type, active }) => {
   return (
     <Caption2>
-      <ButtonEmptyBody onClick={onClick}>
+      <ButtonEmptyBody onClick={onClick} active={active}>
         {type == 'like' ? (
-          <Heart fill={'#D8DBE2'} width={20} height={20} />
+          <Heart fill={active ? '#8787F4' : '#D8DBE2'} width={20} height={20} />
         ) : type == 'scrap' ? (
-          <Scrap fill={'#D8DBE2'} width={20} height={20} />
+          <Scrap fill={active ? '#8787F4' : '#D8DBE2'} width={20} height={20} />
         ) : (
           <></>
         )}
@@ -125,14 +126,24 @@ const ButtonEmptyBody = styled('button', {
   width: '154px',
   height: '30px',
   borderRadius: '20px',
-  border: '1px solid $Gray10',
   backgroundColor: 'transparent',
-  color: '$Gray30',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   gap: '4px',
   cursor: 'pointer',
+  variants: {
+    active: {
+      true: {
+        color: '$Brand',
+        border: '1px solid $Brand',
+      },
+      false: {
+        color: '$Gray30',
+        border: '1px solid $Gray10',
+      },
+    },
+  },
 });
 
 const ButtonControlBody = styled('button', {

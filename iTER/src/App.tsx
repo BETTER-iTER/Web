@@ -13,6 +13,9 @@ import ReviewDetail from './pages/review/ReviewDetail';
 import Profile from './pages/user/Profile';
 import Onboading from './pages/Onboading';
 import DeleteUser from './pages/user/DeleteUser';
+import Interest from './pages/mypage/Interest';
+import Like from './pages/mypage/Like';
+
 
 function App() {
   return (
@@ -31,6 +34,8 @@ function App() {
       <Route path="/user/profile/:id" element={<Profile />} />
       <Route path="/onboading" element={<Onboading />} />
       <Route path="/user/delete" element={<DeleteUser />} />
+      <Route path="/mypage/interest" element={<Interest />} />
+      <Route path="/mypage/like" element={<Like />} />
     </Routes>
   );
 }
