@@ -70,3 +70,11 @@ export const B1 = styled("div", {
   color: "#24292F",
   letterSpacing: "-0.3px",
 })
+
+export const B2 = styled("div", {
+  fontSize: "14px",
+  fontStyle: "normal",
+  fontWeight: "400",
+  lineHeight: "140%",
+  letterSpacing: "-0.28px",
+})

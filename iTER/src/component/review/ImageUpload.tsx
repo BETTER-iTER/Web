@@ -78,7 +78,7 @@ const ImageGallery = styled("div", {
 const ImageContainer = styled("div", {
   width: "120px",
   height: "120px",
-  backgroundColor: "$Gray10",
+  backgroundColor: "#EAEEF2",
   margin: "0 10px", 
   position: 'relative',
   textAlign: "center",
@@ -96,7 +96,7 @@ const Pluscover = styled("div", {
   marginBottom: "-20px",
   width: "120px",
   height: "120px",
-  backgroundColor: "$Gray10",
+  backgroundColor: "#EAEEF2",
 });
 
 const Cover = styled("div", {

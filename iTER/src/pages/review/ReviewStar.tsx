@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Caption2, LabelText } from "../../component/Font";
+import { B1, Caption2, B2 } from "../../component/Font";
 import { styled } from "../../../stitches.config";
 import ButtonGrid from "../../component/review/ButtonGrid";
 import ImageUpload from "../../component/review/ImageUpload";
@@ -49,14 +49,14 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
     <>
     <Cover>
       <Picture>
-        <LabelText>사진 *</LabelText>
+        <B1>사진 *</B1>
         <div style={{ marginTop: "10px" }} />
         <ImageUpload onImageSelected={handleImageSelected} />
       </Picture>
 
       <br />
       <OneLine>
-        <LabelText>한줄평 *</LabelText>
+      <B1>한줄평 *</B1>
         <div style={{ marginTop: "11px" }} />
         
         <ButtonCover>
@@ -73,7 +73,7 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
       </OneLine>
 
       <Rating>
-        <LabelText>별점 *</LabelText>
+      <B1>별점 *</B1>
         <Star>
             <div style={{ marginTop: "11px" }} />
             <StarRating totalStars={5} selectedStars={rating} onStarClick={handleStarClick} />
@@ -81,25 +81,25 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
       </Rating>
 
       <Like>
-        <LabelText>좋은 점 *</LabelText>
+      <B1>좋은 점 *</B1>
         <div style={{ marginTop: "11px" }} />
         <TextInput limit={500} placeholder="좋았던 점을 입력해주세요"/>
       </Like>
 
       <NotGood>
-        <LabelText>아쉬운 점 *</LabelText>
+      <B1>아쉬운 점 *</B1>
         <div style={{ marginTop: "11px" }} />
         <TextInput limit={500} placeholder="아쉬웠던 점을 입력해주세요"/>
       </NotGood>
 
       <UserInfo>
-        <LabelText>작성자 정보 *</LabelText>
+      <B1>작성자 정보 *</B1>
         <div style={{ marginTop: "11px" }} />
         <WriteUser img={User} name="미키마우스 제리" job="개발자" />
       </UserInfo>
 
       <Agree>
-        <LabelText>직접 사용한 제품에 대한 리뷰인가요? *</LabelText>
+      <B1>직접 사용한 제품에 대한 리뷰인가요? *</B1>
         <div style={{ marginTop: "11px" }} />
         <Terms onClick={() => setCheck(!check)} check={check}>
                 <CheckCircle fill={check ? '#8787F4' : '#C1C4CC'} />

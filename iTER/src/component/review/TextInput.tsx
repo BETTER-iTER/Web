@@ -1,6 +1,6 @@
 import React, {useState, ChangeEvent} from "react";
 import { styled } from "../../../stitches.config";
-import { Caption4 } from "../Font";
+import { Caption4, B2 } from "../Font";
 
 interface TextInput {
     limit: number;
@@ -19,6 +19,7 @@ const TextInput: React.FC<TextInput> = ({limit, placeholder}) => {
 
     return (
         <>
+           
             <textarea
                 rows={5}
                 cols={30}
@@ -33,6 +34,11 @@ const TextInput: React.FC<TextInput> = ({limit, placeholder}) => {
                     border: "1px solid #EAEEF2",
                     borderRadius: "10px",
                     resize: "none",
+                    fontSize: "14px",
+                    fontStyle: "normal",
+                    fontWeight: "400",
+                    lineHeight: "140%",
+                    letterSpacing: "-0.28px",
                 }}
             />
             <Length><Caption4>({text.length}/{limit})</Caption4></Length>
