@@ -3,6 +3,7 @@ import UserIcon from '../../assets/icon/User.svg?react';
 import SettingIcon from '../../assets/icon/Setting.svg?react';
 import { ButtonBlack } from '../common/Button';
 import { Caption2, LabelText } from '../Font';
+import { useNavigate } from 'react-router-dom';
 
 interface ProfileFlatProps {
   userId?: number;
@@ -10,6 +11,7 @@ interface ProfileFlatProps {
 }
 const ProfileFlat = ({ userId, type }: ProfileFlatProps) => {
   const username = '블루투스 하트';
+  const navigate = useNavigate();
   return (
     <>
       <UserBox>
@@ -34,7 +36,11 @@ const ProfileFlat = ({ userId, type }: ProfileFlatProps) => {
         {type == 'follow' ? (
           <ButtonBlack onClick={() => console.log('팔로우')}>팔로우</ButtonBlack>
         ) : (
-          <IconBox>
+          <IconBox
+            onClick={() => {
+              navigate('/setting');
+            }}
+          >
             <SettingIcon />
           </IconBox>
         )}
