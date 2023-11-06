@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { styled } from '../../../stitches.config';
 import Nav from '../../component/layout/Nav';
 import Top from '../../component/layout/Top';
+import PreviewSimple from '../../component/review/PreviewSimple';
 import ProfileFlat from '../../component/user/ProfileFlat';
 
 const Mypage = () => {
   const [status, setStatus] = useState<number>(0);
   return (
-    <div>
+    <Container>
       <Top title="마이페이지" />
       <ProfileFlat type={'setting'} />
       <StatusBox>
@@ -29,26 +30,35 @@ const Mypage = () => {
         </Status>
       </StatusBox>
       <Content>
-        <Empty>
-          {status == 0 && <>리뷰를 작성해 보세요</>}
-          {status == 1 && <>마음에 드는 리뷰를 스크랩해 보세요</>}
-        </Empty>
+        {false && (
+          <Empty>
+            {status == 0 && <>리뷰를 작성해 보세요</>}
+            {status == 1 && <>마음에 드는 리뷰를 스크랩해 보세요</>}
+          </Empty>
+        )}
+        {status == 0 && <PreviewSimple />}
+        {status == 1 && <PreviewSimple user />}
       </Content>
       <Bottom>
         <Nav />
       </Bottom>
-    </div>
+    </Container>
   );
 };
 
 export default Mypage;
 
+const Container = styled('div', {
+  overflow: 'hidden',
+  height: '100vh',
+});
+
 const Content = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '100%',
+  height: 'calc(100vh - 290px)',
+  overflowY: 'scroll',
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
   color: '$TextBlack',
 });
 
@@ -61,6 +71,7 @@ const StatusBox = styled('div', {
 });
 
 const Status = styled('div', {
+  backgroundColor: '$White',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -77,18 +88,21 @@ const Status = styled('div', {
       },
     },
   },
+  zIndex: 100,
 });
 
 const Empty = styled('div', {
   display: 'flex',
   justifyContent: 'center',
   width: '100%',
-  marginTop: '160px',
+  marginTop: '156px',
   color: '$Gray50',
 });
 
 const Bottom = styled('div', {
   position: 'fixed',
   bottom: '0',
-  width: '100%',
+  width: '390px',
+  display: 'flex',
+  justifyContent: 'center',
 });
