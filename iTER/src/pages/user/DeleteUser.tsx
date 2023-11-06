@@ -122,6 +122,7 @@ const Mini2 = styled("div", {
 })
 
 const Terms = styled('div', {
+    color: "$Gray50",
     display: 'flex',
     alignItems: 'center',
     marginBottom: '12px',
@@ -148,5 +149,5 @@ const ButtonLay = styled("div", {
 });
 
 const Tlay = styled("div", {
-    marginLeft: "4px",
+    marginLeft: "px",
 })
