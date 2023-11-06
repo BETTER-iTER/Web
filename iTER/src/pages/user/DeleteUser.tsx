@@ -122,9 +122,9 @@ const Mini2 = styled("div", {
 })
 
 const Terms = styled('div', {
+    alignItems: 'center',
     color: "$Gray50",
     display: 'flex',
-    alignItems: 'center',
     marginBottom: '12px',
     gap: '4px',
     variants: {
