@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { styled } from '../../../stitches.config';
 import Nav from '../../component/layout/Nav';
 import Top from '../../component/layout/Top';
+import DetailReview from '../../component/review/DetailReview';
 import PreviewSimple from '../../component/review/PreviewSimple';
 import ProfileFlat from '../../component/user/ProfileFlat';
 
@@ -30,14 +31,23 @@ const Mypage = () => {
         </Status>
       </StatusBox>
       <Content>
-        {false && (
+        {/* 데이터가 없을 경우 -> 나중에 조건 변경 */}
+        {true && (
           <Empty>
             {status == 0 && <>리뷰를 작성해 보세요</>}
             {status == 1 && <>마음에 드는 리뷰를 스크랩해 보세요</>}
           </Empty>
         )}
-        {status == 0 && <PreviewSimple />}
-        {status == 1 && <PreviewSimple user />}
+
+        {/* 데이터 존재할 때 */}
+        {/* {status == 0 && <PreviewSimple />}
+        {status == 1 && <PreviewSimple user />} */}
+
+        {/* 리뷰 상세 스크롤 */}
+        {/* <DetailReviews>
+          <DetailReview />
+          <DetailReview />
+        </DetailReviews> */}
       </Content>
       <Bottom>
         <Nav />
@@ -55,6 +65,7 @@ const Container = styled('div', {
 
 const Content = styled('div', {
   height: 'calc(100vh - 290px)',
+
   overflowY: 'scroll',
   '&::-webkit-scrollbar': {
     display: 'none',
@@ -105,4 +116,11 @@ const Bottom = styled('div', {
   width: '390px',
   display: 'flex',
   justifyContent: 'center',
+});
+
+const DetailReviews = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+  alignItems: 'center',
 });
