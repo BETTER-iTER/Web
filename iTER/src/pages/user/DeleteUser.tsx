@@ -143,11 +143,12 @@ const Options = styled("div", {
     marginTop: "19px",
 });
 
+const Tlay = styled("div", {
+    marginLeft: "px",
+})
+
 const ButtonLay = styled("div", {
     marginTop: "49px",
     marginLeft: "-5px",
 });
 
-const Tlay = styled("div", {
-    marginLeft: "px",
-})
