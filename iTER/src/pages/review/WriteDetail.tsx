@@ -1,4 +1,4 @@
-import InputComponent from "../../component/common/Input"
+import InputComponent, { InputComponentReiview } from "../../component/common/Input"
 import { styled } from "../../../stitches.config";
 import { useState } from "react";
 import RadioInput from "../../component/common/RadioInput";
@@ -48,7 +48,7 @@ const WriteDetail = ({ onDisabled }: {onDisabled: (value: boolean) => void }) =>
     return (
         <>
         <MainLay>
-            <InputComponent
+            <InputComponentReiview
                 placeholder="제품명을 입력해 주세요"
                 type="text"
                 labelName="제품명 *"
@@ -56,21 +56,21 @@ const WriteDetail = ({ onDisabled }: {onDisabled: (value: boolean) => void }) =>
             />
             <div style={{ marginTop: 20 }} />
 
-            <B1>제조사 *</B1>
+            <Label>제조사 *</Label>
             <div style={{ marginTop: 10 }} />
             <ButtonSelect children={selectedSortItem == null ? "제조사를 선택해주세요" : selectedSortItem} onClick={() => setSortBottom(!sortBottom)} />
            
 
             <div style={{ marginTop: 20 }} />
 
-            <B1>구매일</B1>
+            <Label>구매일</Label>
             <div style={{ marginTop: 10 }} />
             <ButtonSelect children={selectedDate ? selectedDate.toDateString() : '구매일을 입력해주세요'} onClick={() => setSortDate(!sortDate)} />
 
 
             <div style={{ marginTop: 20 }} />
 
-            <InputComponent
+            <InputComponentReiview
                 placeholder="₩ 금액을 입력해 주세요"
                 type="text"
                 labelName="금액"
@@ -78,7 +78,7 @@ const WriteDetail = ({ onDisabled }: {onDisabled: (value: boolean) => void }) =>
             />
             <div style={{ marginTop: 20 }} />
 
-            <B1>제품 스펙</B1>
+            <Label>제품 스펙</Label>
             <div style={{ marginTop: 10 }} />
             <ButtonSelect children={selectedCPU == null ? '코어 i 5-13세대 / 14인치 / 32GB / 256-129GB' : selectedCPU + '/' + selectedWINDOW + '/' + selectedRAM + '/' + selectedSIZE} onClick={openPopup}/>
             {isPopupOpen && (
@@ -91,7 +91,7 @@ const WriteDetail = ({ onDisabled }: {onDisabled: (value: boolean) => void }) =>
       
             <div style={{ marginTop: 20 }} />
 
-            <InputComponent
+            <InputComponentReiview
                 placeholder="제품명을 입력해 주세요"
                 type="text"
                 labelName="비교 제품"
@@ -128,3 +128,7 @@ const MainLay = styled("div", {
     height: "930px",
 })
 
+
+const Label = styled("div", {
+  bodyText:1
+})

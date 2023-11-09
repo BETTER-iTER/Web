@@ -49,14 +49,14 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
     <>
     <Cover>
       <Picture>
-        <B1>사진 *</B1>
+        <Label>사진 *</Label>
         <div style={{ marginTop: "10px" }} />
         <ImageUpload onImageSelected={handleImageSelected} />
       </Picture>
 
       <br />
       <OneLine>
-      <B1>한줄평 *</B1>
+      <Label>한줄평 *</Label>
         <div style={{ marginTop: "11px" }} />
         
         <ButtonCover>
@@ -73,7 +73,7 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
       </OneLine>
 
       <Rating>
-      <B1>별점 *</B1>
+      <Label>별점 *</Label>
         <Star>
             <div style={{ marginTop: "11px" }} />
             <StarRating totalStars={5} selectedStars={rating} onStarClick={handleStarClick} />
@@ -81,25 +81,25 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
       </Rating>
 
       <Like>
-      <B1>좋은 점 *</B1>
+      <Label>좋은 점 *</Label>
         <div style={{ marginTop: "11px" }} />
         <TextInput limit={500} placeholder="좋았던 점을 입력해주세요"/>
       </Like>
 
       <NotGood>
-      <B1>아쉬운 점 *</B1>
+      <Label>아쉬운 점 *</Label>
         <div style={{ marginTop: "11px" }} />
         <TextInput limit={500} placeholder="아쉬웠던 점을 입력해주세요"/>
       </NotGood>
 
       <UserInfo>
-      <B1>작성자 정보 *</B1>
+      <Label>작성자 정보 *</Label>
         <div style={{ marginTop: "11px" }} />
         <WriteUser img={User} name="미키마우스 제리" job="개발자" />
       </UserInfo>
 
       <Agree>
-      <B1>직접 사용한 제품에 대한 리뷰인가요? *</B1>
+      <Label>직접 사용한 제품에 대한 리뷰인가요? *</Label>
         <div style={{ marginTop: "11px" }} />
         <Terms onClick={() => setCheck(!check)} check={check}>
                 <CheckCircle fill={check ? '#8787F4' : '#C1C4CC'} />
@@ -171,4 +171,8 @@ const Terms = styled('div', {
 const Star = styled("div", {
     width: "340px",
     marginLeft: "40px",
+})
+
+const Label = styled("div", {
+  bodyText:1
 })

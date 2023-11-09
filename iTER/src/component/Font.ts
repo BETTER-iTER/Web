@@ -29,6 +29,7 @@ export const Caption1 = styled('div', {
   fontSize: '13px',
   fontWeight: '400',
   letterSpacing: '-0.26px',
+  lineHeight: "140%",
 });
 
 export const Caption2 = styled('div', {

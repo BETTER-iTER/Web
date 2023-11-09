@@ -35,7 +35,7 @@ const InputComponent: React.FC<InputProps> = ({
   return (
     <div>
       <Label>
-        <LabelText>{labelName}</LabelText>
+        <LabelName>{labelName}</LabelName>
       </Label>
       {notice && (
         <Notice>
@@ -66,6 +66,76 @@ const InputComponent: React.FC<InputProps> = ({
           )}
         </InBody>
       </Body>
+      {error && (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            color: '#F34F45',
+          }}
+        >
+          <ErrorIcon width={14} height={13} fill={'#f34f45'} />
+          <span style={{ marginLeft: '4px', marginBottom: '8px' }}>
+            <ErrorMessage>
+              <Caption1>{error}</Caption1>
+            </ErrorMessage>
+          </span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export const InputComponentReiview: React.FC<InputProps> = ({
+  labelName,
+  btnName,
+  placeholder,
+  type,
+  onClick,
+  onChange,
+  error,
+  disabled,
+  notice,
+
+}) => {
+  const handleInputValueChange = (value: string) => {
+    onChange && onChange(value);
+  };
+
+  return (
+    <div>
+      <Label>
+        <LabelName>{labelName}</LabelName>
+      </Label>
+      {notice && (
+        <Notice>
+          <Caption2>{notice}</Caption2>
+        </Notice>
+      )}
+      <BodyReview
+        style={{
+          border: !error ? '1px solid #D8DBE2' : '1px solid #F34F45',
+        }}
+      >
+        <InBody>
+          <Input
+            placeholder={placeholder}
+            onChange={handleInputValueChange}
+            type={type} // 입력 필드 타입 설정
+          />
+          {btnName && ( // btnName이 빈 문자열이 아닐 때만 버튼을 렌더링
+            <Button
+              style={{
+                backgroundColor: !disabled ? '#4C4E55' : '#c1c4cc',
+                pointerEvents: !disabled ? 'auto' : 'none',
+              }}
+              onClick={!disabled ? onClick : undefined}
+            >
+              {btnName}
+            </Button>
+          )}
+        </InBody>
+      </BodyReview>
       {error && (
         <div
           style={{
@@ -122,6 +192,17 @@ const Body = styled('div', {
   backgroundColor: '$White',
 });
 
+const BodyReview = styled("div", {
+  padding: '0 5px',
+  borderRadius: '10px',
+  width: '328px',
+  height: '48px',
+  alignItems: 'center',
+  display: 'flex',
+  flexDirection: 'column',
+  backgroundColor: '$White',
+});
+
 const InnerInput = styled('input', {
   border: 'none',
   height: '48px',
@@ -165,5 +246,9 @@ const Notice = styled('div', {
   marginTop: '-6px',
   marginBottom: '10px',
 });
+
+const LabelName = styled("div", {
+  bodyText:1
+})
 
 export default InputComponent;

@@ -15,8 +15,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
-      setSelectedImages([...selectedImages, file]);
-      onImageSelected(file);
+      // 이미 선택된 이미지 수 확인
+      if (selectedImages.length < 5) {
+        setSelectedImages([...selectedImages, file]);
+        onImageSelected(file);
+      } else {
+        console.log("이미지 한도초과")
+      }
     }
   };
 
@@ -33,7 +38,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
   };
 
   return (
-    <Container>
+    <div>
       <input
         type="file"
         accept="image/*"
@@ -41,59 +46,65 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
         ref={fileInputRef}
         style={{ display: 'none' }}
       />
-      <div onClick={handleImagePreviewClick} style={{ cursor: 'pointer', position: 'relative' }}>
+      <div
+        onClick={handleImagePreviewClick}
+        style={{ cursor: 'pointer', position: 'relative' }}
+      >
+       
+        
         <ImageGallery>
-          <Pluscover>
+        <PlusLay>
+        <Pluscover>
             <Cover>
               <Plus width="24px" height="24px" />
+              <ImageNumber>
+                <Caption1>({selectedImages.length}/5)</Caption1>
+              </ImageNumber>
             </Cover>
-            <Caption1>
-              <Count>(1/5)</Count>
-            </Caption1>
           </Pluscover>
-          {selectedImages.map((image, index) => (
-            <ImageContainer key={index}>
-              <XbtnContainer onClick={() => handleImageDelete(index)}>
-                <Xbtn />
-              </XbtnContainer>
-              <img src={URL.createObjectURL(image)} alt="Selected" width={100} height={100} />
-            </ImageContainer>
-          ))}
+          </PlusLay>
+          <ImagesContainer>
+            {selectedImages.map((image, index) => (
+              <ImageContainer key={index}>
+                <XbtnContainer onClick={() => handleImageDelete(index)}>
+                  <Xbtn />
+                </XbtnContainer>
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt="Selected"
+                  width={100}
+                />
+              </ImageContainer>
+            ))}
+          </ImagesContainer>
         </ImageGallery>
+     
       </div>
-    </Container>
+    </div>
   );
 };
 
 export default ImageUpload;
 
-const Container = styled('div', {
+const ImageGallery = styled('div', {
   display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
-  overflow: 'hidden',
+  flexDirection: 'row',
+  overflowX: 'auto',
+  maxWidth: '100%',
 });
 
-const ImageGallery = styled('div', {
-  display: 'inline-flex',
-  height: '100px',
-  width: '100%',
-  overflowX: 'scroll',
-  '&::-webkit-scrollbar': {
-    display: 'none',
-  },
+const ImagesContainer = styled('div', {
+  display: 'flex', 
 });
 
 const ImageContainer = styled('div', {
-  width: '100px',
-  minWidth: '100px',
-  height: '100px',
+  width: '120px',
+  height: '120px',
   backgroundColor: '#EAEEF2',
   margin: '0 10px',
   position: 'relative',
   textAlign: 'center',
   alignItems: 'center',
-  overflow: 'hidden',
 });
 
 const XbtnContainer = styled('div', {
@@ -101,33 +112,32 @@ const XbtnContainer = styled('div', {
   top: '0',
   right: '0',
   cursor: 'pointer',
-  width: '14px',
-  height: '14px',
-  borderRadius: '50%',
-  backgroundColor: '#D9D9D9',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  margin: '4px',
+  marginRight: '4px',
+  marginTop: '2px',
 });
 
 const Pluscover = styled('div', {
-  marginBottom: '-20px',
-  width: '100px',
-  minWidth: '100px',
-  height: '100px',
+  width: '120px',
+  height: '120px',
   backgroundColor: '#EAEEF2',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
 });
 
 const Cover = styled('div', {
-  textAlign: 'center',
-  marginTop: '29px',
-  height: '24px',
+  position: "relative",
+  top: "41px",
+  left: "50px",
+  width: "100%",
+  height: "100%",
 });
 
-const Count = styled('span', {
-  color: '#AFB8C1',
+const PlusLay = styled("div", {
+  width: "120px",
+  height: "120px",
 });
+
+const ImageNumber = styled("div", {
+  marginTop: " -5px",
+  color: "#AFB8C1",
+  width: "28px",
+  height: "18px",
+})
