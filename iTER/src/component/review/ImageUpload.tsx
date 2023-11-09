@@ -51,7 +51,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
         style={{ cursor: 'pointer', position: 'relative' }}
       >
        
-        
         <ImageGallery>
         <PlusLay>
         <Pluscover>
@@ -127,12 +126,11 @@ const Cover = styled('div', {
   top: "41px",
   left: "50px",
   width: "100%",
-  height: "100%",
+  
 });
 
 const PlusLay = styled("div", {
   width: "120px",
-  height: "120px",
 });
 
 const ImageNumber = styled("div", {
