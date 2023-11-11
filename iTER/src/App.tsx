@@ -15,6 +15,7 @@ import Onboading from './pages/Onboading';
 import Interest from './pages/mypage/Interest';
 import Like from './pages/mypage/Like';
 import Index from './pages/mypage/Index';
+import Follow from './pages/mypage/Follow';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
       <Route path="/mypage" element={<Index />} />
       <Route path="/mypage/interest" element={<Interest />} />
       <Route path="/mypage/like" element={<Like />} />
+      <Route path="/mypage/follow" element={<Follow />} />
     </Routes>
   );
 }
