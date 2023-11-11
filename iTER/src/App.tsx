@@ -16,6 +16,7 @@ import Interest from './pages/mypage/Interest';
 import Like from './pages/mypage/Like';
 import Index from './pages/mypage/Index';
 import Follow from './pages/mypage/Follow';
+import EditProfile from './pages/mypage/EditProfile';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
       <Route path="/mypage/interest" element={<Interest />} />
       <Route path="/mypage/like" element={<Like />} />
       <Route path="/mypage/follow" element={<Follow />} />
+      <Route path="/mypage/profile" element={<EditProfile />} />
     </Routes>
   );
 }
