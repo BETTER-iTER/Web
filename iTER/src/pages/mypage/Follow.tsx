@@ -4,16 +4,11 @@ import Top from '../../component/layout/Top';
 import UserIcon from '../../assets/icon/User.svg?react';
 import Bottom from '../../component/common/Bottom';
 import Nav from '../../component/layout/Nav';
-const dummyUser = [
-  { id: 0, username: 'asdmkf' },
-  { id: 1, username: 'asdmkf' },
-  { id: 2, username: 'asdmkf' },
-  { id: 3, username: 'asdmkf' },
-];
+
 const Follow = () => {
   const [status, setStatus] = useState<number>(0);
   return (
-    <div>
+    <Container>
       <Top title="마이페이지" />
       <StatusBox>
         <Status
@@ -49,7 +44,7 @@ const Follow = () => {
         ))}
       </Content>
       <Nav />
-    </div>
+    </Container>
   );
 };
 
@@ -64,6 +59,12 @@ const Item = ({ name }: { name: string }) => {
     </ItemBox>
   );
 };
+
+const Container = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100vh',
+});
 
 const StatusBox = styled('div', {
   display: 'flex',
@@ -100,8 +101,13 @@ const Content = styled('div', {
   flexDirection: 'column',
   alignItems: 'center',
   paddingTop: '9px',
+  paddingBottom: '60px',
   bodyText: 1,
   color: '$TitleBlack',
+  overflowY: 'scroll',
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
 });
 
 const Image = styled('div', {
@@ -123,3 +129,19 @@ const ItemBox = styled('div', {
 const Empty = styled('div', {
   marginTop: '180px',
 });
+
+const dummyUser = [
+  { id: 0, username: 'asdmkf' },
+  { id: 1, username: 'asdmkf' },
+  { id: 2, username: 'asdmkf' },
+  { id: 3, username: 'asdmkf' },
+  { id: 4, username: 'asdmkf' },
+  { id: 5, username: 'asdmkf' },
+  { id: 6, username: 'asdmkf' },
+  { id: 7, username: 'asdmkf' },
+  { id: 8, username: 'asdmkf' },
+  { id: 9, username: 'asdmkf' },
+  { id: 10, username: 'asdmkf' },
+  { id: 11, username: 'asdmkf' },
+  { id: 12, username: 'asdmkf' },
+];
