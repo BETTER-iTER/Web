@@ -1,6 +1,6 @@
 import { styled } from '../../../stitches.config';
 import Back from '../../assets/icon/Back.svg?react';
-import XbtnCircle from '../../assets/icon/XbtnCircle.svg?react';
+import XbtnCircle from '../../assets/icon/xbutton/XbtnCircle.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import RecommendItem from '../search/RecommendList';

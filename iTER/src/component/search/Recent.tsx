@@ -1,5 +1,5 @@
 import { styled } from '../../../stitches.config';
-import Xbtn from '../../assets/icon/Xbtn.svg?react';
+import Xbtn from '../../assets/icon/xbutton/Xbtn.svg?react';
 
 interface RecentProps {
   keywords: { id: number; text: string }[];

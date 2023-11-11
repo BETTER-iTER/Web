@@ -7,24 +7,28 @@ interface ButtonGridProps {
   onButtonClick: (item: string) => void;
 }
 
-const GridContainer = styled("div",{
-  display: "grid",
-  gridTemplateColumns: "repeat(3, 1fr)",
-  gap: "0px",
-})
+const GridContainer = styled('div', {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(3, 1fr)',
+  gap: '0px',
+});
 
-const GridItem = styled("button" , {
-  backgroundColor: "white",
-  color: "#8C959F",
-  border: "1px solid #EAEEF2",
-  padding: "10px",
-  cursor: "pointer",
-  height: "30px",
-})
+const GridItem = styled('button', {
+  backgroundColor: 'white',
+  color: '#8C959F',
+  border: '1px solid #EAEEF2',
+  padding: '10px',
+  cursor: 'pointer',
+  height: '30px',
+});
 
-const Item = styled("div", {
-  marginTop: "-3px"
-})
+const Item = styled('div', {
+  // marginTop: "-3px"
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: '100%',
+});
 
 const ButtonGrid: React.FC<ButtonGridProps> = ({ items, onButtonClick }) => {
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
@@ -43,10 +47,11 @@ const ButtonGrid: React.FC<ButtonGridProps> = ({ items, onButtonClick }) => {
           style={{
             backgroundColor: selectedItem === item ? '#4C4E55' : 'white', // 클릭된 버튼의 배경색을 변경
             color: selectedItem === item ? 'white' : '#8C959F', // 클릭된 버튼의 글자색을 변경
-            
           }}
         >
-          <Item><Caption1>{item}</Caption1></Item>
+          <Item>
+            <Caption1>{item}</Caption1>
+          </Item>
         </GridItem>
       ))}
     </GridContainer>

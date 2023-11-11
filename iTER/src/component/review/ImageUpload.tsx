@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, useRef } from 'react';
 import { styled } from '../../../stitches.config';
-import Xbtn from '../../assets/icon/Xbtn.svg?react';
+import Xbtn from '../../assets/icon/xbutton/Xbtn.svg?react';
 import Plus from '../../assets/icon/Plus.svg?react';
 import { Caption1 } from '../Font';
 
@@ -20,7 +20,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
         setSelectedImages([...selectedImages, file]);
         onImageSelected(file);
       } else {
-        console.log("이미지 한도초과")
+        console.log('이미지 한도초과');
       }
     }
   };
@@ -46,21 +46,17 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
         ref={fileInputRef}
         style={{ display: 'none' }}
       />
-      <div
-        onClick={handleImagePreviewClick}
-        style={{ cursor: 'pointer', position: 'relative' }}
-      >
-       
+      <div onClick={handleImagePreviewClick} style={{ cursor: 'pointer', position: 'relative' }}>
         <ImageGallery>
-        <PlusLay>
-        <Pluscover>
-            <Cover>
-              <Plus width="24px" height="24px" />
-              <ImageNumber>
-                <Caption1>({selectedImages.length}/5)</Caption1>
-              </ImageNumber>
-            </Cover>
-          </Pluscover>
+          <PlusLay>
+            <Pluscover>
+              <Cover>
+                <Plus width="24px" height="24px" />
+                <ImageNumber>
+                  <Caption1>({selectedImages.length}/5)</Caption1>
+                </ImageNumber>
+              </Cover>
+            </Pluscover>
           </PlusLay>
           <ImagesContainer>
             {selectedImages.map((image, index) => (
@@ -68,16 +64,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
                 <XbtnContainer onClick={() => handleImageDelete(index)}>
                   <Xbtn />
                 </XbtnContainer>
-                <img
-                  src={URL.createObjectURL(image)}
-                  alt="Selected"
-                  width={100}
-                />
+                <img src={URL.createObjectURL(image)} alt="Selected" width={100} />
               </ImageContainer>
             ))}
           </ImagesContainer>
         </ImageGallery>
-     
       </div>
     </div>
   );
@@ -93,7 +84,7 @@ const ImageGallery = styled('div', {
 });
 
 const ImagesContainer = styled('div', {
-  display: 'flex', 
+  display: 'flex',
 });
 
 const ImageContainer = styled('div', {
@@ -122,20 +113,19 @@ const Pluscover = styled('div', {
 });
 
 const Cover = styled('div', {
-  position: "relative",
-  top: "41px",
-  left: "50px",
-  width: "100%",
-  
+  position: 'relative',
+  top: '41px',
+  left: '50px',
+  width: '100%',
 });
 
-const PlusLay = styled("div", {
-  width: "120px",
+const PlusLay = styled('div', {
+  width: '120px',
 });
 
-const ImageNumber = styled("div", {
-  marginTop: " -5px",
-  color: "#AFB8C1",
-  width: "28px",
-  height: "18px",
-})
+const ImageNumber = styled('div', {
+  marginTop: ' -5px',
+  color: '#AFB8C1',
+  width: '28px',
+  height: '18px',
+});
