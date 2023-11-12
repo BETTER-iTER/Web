@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 function Redirect() {
     const localhost = 'http://13.124.170.30:8080';
+    //http://13.124.170.30:8080
+    
     const navigate = useNavigate();
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
@@ -13,7 +15,7 @@ function Redirect() {
     axios(`${localhost}/login/callback/kakao?code=${code}`, {
         method: "GET",
     })
-        .then(function (response) {
+    .then(function (response) {
             const {accessToken, refreshToken} = response.data;
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
@@ -21,9 +23,9 @@ function Redirect() {
             alert("카카오로그인이 되셨습니다.");
             console.log(response);
             console.log(response.data.status);
-            navigate('/home');
+            navigate('/');
         })
-        .catch(function (error) {
+    .catch(function (error) {
             console.log(error);
             console.log("에러남");
         });
