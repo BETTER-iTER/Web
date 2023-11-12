@@ -14,6 +14,7 @@ import Profile from './pages/user/Profile';
 import Onboading from './pages/Onboading';
 import Interest from './pages/mypage/Interest';
 import Like from './pages/mypage/Like';
+import Index from './pages/mypage/Index';
 import Setting from './pages/mypage/Setting';
 
 function App() {
@@ -31,6 +32,9 @@ function App() {
       <Route path="/search" element={<Search />} />
       <Route path="/search/review/:id" element={<ReviewDetail />} />
       <Route path="/onboading" element={<Onboading />} />
+      <Route path="/mypage" element={<Index />} />
+      <Route path="/mypage/interest" element={<Interest />} />
+      <Route path="/mypage/like" element={<Like />} />
       <Route path="/user/profile/:id" element={<Profile />} />
       <Route path="/user/interest" element={<Interest />} />
       <Route path="/user/like" element={<Like />} />
