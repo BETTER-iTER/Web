@@ -11,6 +11,10 @@ import Notice from './pages/Notice';
 import Search from './pages/Search';
 import ReviewDetail from './pages/review/ReviewDetail';
 import ReviewWrite from './pages/review/ReviewWrite';
+import Profile from './pages/user/Profile';
+import Onboading from './pages/Onboading';
+import Interest from './pages/mypage/Interest';
+import Like from './pages/mypage/Like';
 
 function App() {
   return (
@@ -27,6 +31,10 @@ function App() {
       <Route path="/search" element={<Search />} />
       <Route path="/search/review/:id" element={<ReviewDetail />} />
       <Route path="/review/write" element={<ReviewWrite />} />
+      <Route path="/user/profile/:id" element={<Profile />} />
+      <Route path="/onboading" element={<Onboading />} />
+      <Route path="/mypage/interest" element={<Interest />} />
+      <Route path="/mypage/like" element={<Like />} />
     </Routes>
   );
 }

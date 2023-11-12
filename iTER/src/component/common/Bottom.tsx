@@ -11,13 +11,15 @@ interface BottomProps {
 const Bottom = ({ title, component, onClose }: BottomProps) => {
   return (
     <Background onClick={onClose}>
-      <Container>
-        <Title>
-          <Bar />
-          <div>{title}</div>
-        </Title>
-        {component}
-      </Container>
+      <BackContainer>
+        <Container>
+          <Title>
+            <Bar />
+            <div>{title}</div>
+          </Title>
+          {component}
+        </Container>
+      </BackContainer>
     </Background>
   );
 };
@@ -86,12 +88,19 @@ export const BottomReviewSetting = ({
 export default Bottom;
 
 const Background = styled('div', {
-  position: 'fixed',
-  bottom: 0,
-  width: '390px',
+  width: '100%',
   height: '100vh',
   zIndex: 10,
   backgroundColor: 'rgba(36, 36, 36, 0.80)',
+  position: 'fixed',
+  top: 0,
+  left: 0,
+});
+
+const BackContainer = styled('div', {
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'center',
 });
 
 const Container = styled('div', {

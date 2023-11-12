@@ -27,7 +27,7 @@ const Container = styled('div', {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  borderBottom: 'solid 1px #EAEEF2',
+  borderBottom: 'solid 1px $Bar',
   color: '$TitleBlack',
   padding: '0 20px',
   zIndex: 2,
