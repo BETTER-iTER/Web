@@ -15,6 +15,11 @@ import Onboading from './pages/Onboading';
 import DeleteUser from './pages/user/DeleteUser';
 import Interest from './pages/mypage/Interest';
 import Like from './pages/mypage/Like';
+import Index from './pages/mypage/Index';
+import Follow from './pages/mypage/Follow';
+import EditProfile from './pages/mypage/EditProfile';
+import Setting from './pages/mypage/Setting';
+
 
 
 function App() {
@@ -31,11 +36,17 @@ function App() {
       <Route path="/password/reset" element={<ResetPassword />} />
       <Route path="/search" element={<Search />} />
       <Route path="/search/review/:id" element={<ReviewDetail />} />
-      <Route path="/user/profile/:id" element={<Profile />} />
       <Route path="/onboading" element={<Onboading />} />
       <Route path="/user/delete" element={<DeleteUser />} />
+      <Route path="/mypage" element={<Index />} />
       <Route path="/mypage/interest" element={<Interest />} />
       <Route path="/mypage/like" element={<Like />} />
+      <Route path="/mypage/follow" element={<Follow />} />
+      <Route path="/mypage/profile" element={<EditProfile />} />
+      <Route path="/user/profile/:id" element={<Profile />} />
+      <Route path="/user/interest" element={<Interest />} />
+      <Route path="/user/like" element={<Like />} />
+      <Route path="/user/setting" element={<Setting />} />
     </Routes>
   );
 }

@@ -41,7 +41,7 @@ const Container = styled('div', {
   gap: '8px',
   overflow: 'hidden',
   width: '100%',
-  height: '100%',
+  height: '390px',
   position: 'relative',
 });
 
@@ -65,6 +65,7 @@ const Indicators = styled('div', {
   left: '0',
   right: '0',
   bottom: '10px',
+  height: '6px',
   zIndex: '1',
 });
 
