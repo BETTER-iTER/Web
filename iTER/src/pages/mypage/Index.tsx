@@ -78,7 +78,7 @@ const StatusBox = styled('div', {
   alignItems: 'center',
   justifyContent: 'space-between',
   width: '100%',
-  height: '48px',
+  borderBottom: '1px solid $Bar',
 });
 
 const Status = styled('div', {
@@ -96,6 +96,7 @@ const Status = styled('div', {
       },
       false: {
         borderBottom: '3px solid $White',
+        color: '#AFB8C1',
       },
     },
   },
