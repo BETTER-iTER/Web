@@ -6,13 +6,14 @@ import { Caption1, Caption2, LabelText } from '../Font';
 interface InputProps {
   labelName: string;
   btnName?: string;
-  placeholder: string;
+  placeholder?: string;
   onClick?: () => void;
   type: 'text' | 'password'; // type prop 추가
   onChange?: (value: string) => void;
   error?: string;
   disabled?: boolean;
   notice?: string;
+  text?: string; // text prop 추가
 }
 
 const InputComponent: React.FC<InputProps> = ({
@@ -25,6 +26,7 @@ const InputComponent: React.FC<InputProps> = ({
   error,
   disabled,
   notice,
+  text,
 }) => {
   const handleInputValueChange = (value: string) => {
     onChange && onChange(value);
@@ -50,6 +52,7 @@ const InputComponent: React.FC<InputProps> = ({
             placeholder={placeholder}
             onChange={handleInputValueChange}
             type={type} // 입력 필드 타입 설정
+            text={text}
           />
           {btnName && ( // btnName이 빈 문자열이 아닐 때만 버튼을 렌더링
             <Button
@@ -88,7 +91,8 @@ const Input: React.FC<{
   placeholder: string;
   type: 'text' | 'password';
   onChange: (value: string) => void;
-}> = ({ placeholder, onChange, type }) => {
+  text?: string;
+}> = ({ placeholder, onChange, type, text }) => {
   const [inputValue, setInputValue] = useState<string>('');
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,7 +106,7 @@ const Input: React.FC<{
       <InnerInput
         type={type}
         placeholder={placeholder}
-        value={inputValue}
+        value={text || inputValue}
         onChange={handleInputChange}
       />
     </>
@@ -129,6 +133,9 @@ const InnerInput = styled('input', {
   width: '200px',
   backgroundColor: 'transparent',
   color: '$Gray50',
+  '&::placeholder': {
+    color: '#8C959F',
+  },
 });
 
 const Button = styled('button', {
