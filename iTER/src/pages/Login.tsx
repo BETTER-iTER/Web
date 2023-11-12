@@ -5,15 +5,17 @@ import Button from '../component/common/Button';
 import Kakao from '../assets/icon/Kakao.svg?react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import { Headline3 } from '../component/Font';
+import { Caption1, Headline3 } from '../component/Font';
+import LoginErrorIcon from '../assets/icon/LoginErrorIcon.svg?react';
 
 
 const Login = () => {
 
   const navigate = useNavigate();
-  const localhost = 'http://13.124.170.30:8080';
+  const localhost = 'https://dev.betteritem.store';
   const [emailValue, setEmailValue] = useState<string>(''); // 이메일 입력 값
   const [passwordValue, setPasswordValue] = useState<string>(''); // 비밀번호 입력 값
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleEmailChange = (newValue: string) => {
     setEmailValue(newValue);
@@ -41,7 +43,7 @@ const Login = () => {
             localStorage.setItem('refreshToken', refreshToken);
             localStorage.setItem('expiredTime', expiredTime);
             axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-            navigate('/home');
+            navigate('/');
 
         }
         else {
@@ -54,6 +56,7 @@ const Login = () => {
       .catch((error) => {
         console.log("로그인이 불가능합니다.");
         console.log(error);
+        setErrorMessage("이메일 또는 비밀번호를 확인해주세요");
       });
 
       // function getAccessToken() {
@@ -89,6 +92,12 @@ const Login = () => {
             onChange={handlePasswordChange}
           />
         </Password>
+        <Error>
+          <Icon>
+            <LoginErrorIcon />
+          </Icon>
+          <Caption1>{errorMessage}</Caption1>
+        </Error>
         <BtnBody>
           <Button children="로그인" disabled={!isButtonEnabled} onClick={() => handleLogin(emailValue, passwordValue)} />
         </BtnBody>
@@ -165,3 +174,13 @@ const Title = styled('div', {
   marginTop: '170px',
   marginLeft: '25px',
 });
+const Error = styled("div", {
+  color: "$ErrorRed",
+  display: "flex",
+  marginLeft: "-135px",
+  marginTop: "10px",
+});
+
+const Icon = styled("div", {
+  paddingRight: "4px",
+})
