@@ -5,6 +5,8 @@ import Top from '../../component/layout/Top';
 import { Headline3 } from '../../component/Font';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Timer from '../../component/signup/FindPasswordTimer';
+import axios from 'axios';
 
 const FindPassword = () => {
   const navigate = useNavigate();
@@ -14,6 +16,9 @@ const FindPassword = () => {
   const [emailWarning, setEmailWarning] = useState<string>('');
   const [authWarning, setAuthWarning] = useState<string>('');
 
+  const [timer, setTimer] = useState<boolean>(false); // 안증확인시 타이머 true->시간종료후 false
+  const localhost = 'https://dev.betteritem.store';
+
   // 이메일 유효성
   const validateEmail = (value: string) => {
     const isEmailValid = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value.trim());
@@ -22,9 +27,26 @@ const FindPassword = () => {
 
   const handleEmailButton = () => {
     console.log('Email click?');
-    validateEmail(email)
-      ? setEmailWarning('')
-      : setEmailWarning('올바른 이메일 주소를 입력해주세요');
+    if (validateEmail(email)) {
+      setEmailWarning('');
+
+      const requestBody = {
+        "email": email,
+      };
+      axios.post(`${localhost}/auth/password/emails`, requestBody)
+      .then((response) => {
+        console.log(response);
+        setTimer(true); 
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("에러남");
+      }) // 이메일이 유효한 경우 타이머 시작
+      // 여기에서 인증 이메일을 보내는 로직 추가 가능
+    } 
+    else {
+      setEmailWarning('올바른 이메일 주소를 입력해주세요');
+    }
   };
 
   const handleAuthButton = () => {
@@ -58,6 +80,13 @@ const FindPassword = () => {
         />
 
         <div style={{ marginTop: 20 }} />
+        <Timerlay>
+        {timer && (
+          <TimerBox>
+            <Timer min={3} onChange={() => setTimer(true)} />
+          </TimerBox>
+        )}
+        </Timerlay>
         <InputComponent
           placeholder="인증번호를 6자리를 입력해주세요"
           type="text"
@@ -101,3 +130,19 @@ const ButtonBody = styled('div', {
   position: 'absolute',
   bottom: '20px',
 });
+
+const TimerBox = styled("div", {
+    color: "$Gray50",
+    fontSize: "14px",
+    fontStyle: "normal",
+    fontWeight: "400",
+    lineHeight: "22px", 
+    letterSpacing: "-0.5px",
+    marginBottom: "-30px",
+    
+});
+
+const Timerlay = styled("div", {
+  display: "flex",
+  marginLeft: "300px",
+})
