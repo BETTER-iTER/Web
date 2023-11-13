@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Timer from '../../component/signup/FindPasswordTimer';
 import axios from 'axios';
+import Modal from '../../component/common/Modal';
 
 const FindPassword = () => {
   const navigate = useNavigate();
@@ -18,12 +19,19 @@ const FindPassword = () => {
 
   const [timer, setTimer] = useState<boolean>(false); // 안증확인시 타이머 true->시간종료후 false
   const localhost = 'https://dev.betteritem.store';
-
+  
   // 이메일 유효성
   const validateEmail = (value: string) => {
     const isEmailValid = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value.trim());
     return isEmailValid;
   };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState<string>('');
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
 
   const handleEmailButton = () => {
     console.log('Email click?');
@@ -36,13 +44,26 @@ const FindPassword = () => {
       axios.post(`${localhost}/auth/password/emails`, requestBody)
       .then((response) => {
         console.log(response);
-        setTimer(true); 
+        setTimer(true);
       })
       .catch((error) => {
-        console.log(error);
-        console.log("에러남");
-      }) // 이메일이 유효한 경우 타이머 시작
-      // 여기에서 인증 이메일을 보내는 로직 추가 가능
+        console.log(error.response.data.code);
+        if (error.response.data.code == 'USER_NOT_FOUND_400') {
+          console.log('일치하는 회원정보 없음');
+          setIsModalOpen(true);
+          setModalMessage('가입하지않은 이메일 입니다');
+        }
+        else if (error.response.data.code == 'AUTH_CODE_ALREADY_EXIST_401') {
+          console.log('이미 인증 코드가 존재');
+          setIsModalOpen(true);
+          setModalMessage('이미 인증 코드가 존재합니다');
+        }
+        else if (error.response.data.code == 'AUTH_SHOULD_BE_KAKAO_401')
+          console.log('카카오로 로그인한 회원');
+          setIsModalOpen(true);
+          setModalMessage('카카오로 로그인한 계정입니다');
+      }) 
+      
     } 
     else {
       setEmailWarning('올바른 이메일 주소를 입력해주세요');
@@ -105,6 +126,13 @@ const FindPassword = () => {
             children="다음"
           />
         </ButtonBody>
+        {isModalOpen && (
+        <Modal
+          text={modalMessage}
+          btn="확인"
+          onClick={handleModalClose}
+        />
+      )}
       </Body>
     </>
   );
