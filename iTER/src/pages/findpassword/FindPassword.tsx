@@ -44,24 +44,30 @@ const FindPassword = () => {
       axios.post(`${localhost}/auth/password/emails`, requestBody)
       .then((response) => {
         console.log(response);
-        setTimer(true);
+        if(response.data.code == 'SUCCESS_200') {
+          setTimer(true);
+          setModalMessage('인증번호가 발송되었습니다');
+          setIsModalOpen(true);
+        }
+        
       })
       .catch((error) => {
         console.log(error.response.data.code);
         if (error.response.data.code == 'USER_NOT_FOUND_400') {
           console.log('일치하는 회원정보 없음');
-          setIsModalOpen(true);
           setModalMessage('가입하지않은 이메일 입니다');
+          setIsModalOpen(true);
         }
         else if (error.response.data.code == 'AUTH_CODE_ALREADY_EXIST_401') {
           console.log('이미 인증 코드가 존재');
-          setIsModalOpen(true);
           setModalMessage('이미 인증 코드가 존재합니다');
-        }
-        else if (error.response.data.code == 'AUTH_SHOULD_BE_KAKAO_401')
-          console.log('카카오로 로그인한 회원');
           setIsModalOpen(true);
+        }
+        else if (error.response.data.code == 'AUTH_SHOULD_BE_KAKAO_401') {
+          console.log('카카오로 로그인한 회원');
           setModalMessage('카카오로 로그인한 계정입니다');
+          setIsModalOpen(true);
+        }
       }) 
       
     } 
@@ -72,7 +78,20 @@ const FindPassword = () => {
 
   const handleAuthButton = () => {
     console.log(authNum, 'Auth click');
-    authNum === '123456' ? setAuthWarning('') : setAuthWarning('인증번호가 올바르지 않습니다');
+    const requestBody = {
+      "email": email,
+      "code": authNum,
+    };
+    axios.post(`${localhost}/auth/password/emails/verification`, requestBody)
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+      if 
+    })
+
+    // authNum === '123456' ? setAuthWarning('') : setAuthWarning('인증번호가 올바르지 않습니다');
   };
 
   const handleNext = () => {
