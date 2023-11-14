@@ -5,7 +5,7 @@ import Top from '../../component/layout/Top';
 import { Headline3 } from '../../component/Font';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Timer from '../../component/signup/FindPasswordTimer';
+// import Timer from '../../component/signup/FindPasswordTimer';
 import axios from 'axios';
 
 const FindPassword = () => {
@@ -17,7 +17,7 @@ const FindPassword = () => {
   const [authWarning, setAuthWarning] = useState<string>('');
 
   const [timer, setTimer] = useState<boolean>(false); // 안증확인시 타이머 true->시간종료후 false
-  const localhost = 'https://dev.betteritem.store/swagger-ui';
+  const localhost = 'https://dev.betteritem.store';
   
   // 이메일 유효성
   const validateEmail = (value: string) => {

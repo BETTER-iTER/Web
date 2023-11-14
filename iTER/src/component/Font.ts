@@ -37,6 +37,12 @@ export const Caption2 = styled('div', {
   letterSpacing: '-0.24px',
 });
 
+export const Caption3 = styled("div", {
+  fontSize: "10px",
+  fontWeight: "600",
+  letterSpacing: "-0.2px",
+})
+
 export const ButtonText = styled('div', {
   fontSize: '15px',
   fontWeight: '600',
@@ -48,3 +54,9 @@ export const LabelText = styled('div', {
   fontSize: '16px',
   fontWeight: '600',
 });
+
+export const DayText = styled("div", {
+  fontSize: "10px",
+  fontWeight: "400",
+  letterSpacing: "-0.2px",
+})

@@ -6,8 +6,11 @@ import ShareIcon from '../../assets/icon/Share.svg?react';
 import Star from '../../assets/icon/star/Star.svg?react';
 import { Caption1 } from '../Font';
 import ReviewImage from './ReviewImage';
+import { useState } from 'react';
+import { CommentSort } from '../common/CommentSort';
 
 const DetailReview = () => {
+  const [setting, setSetting] = useState<boolean>(false);
   return (
     <>
       <ReviewImage />
@@ -20,7 +23,9 @@ const DetailReview = () => {
               99+
             </Active>
             <Active>
-              <CommentIcon />
+              <CommentIcon onClick={() => {
+              setSetting(!setting);
+            }}/>
               99+
             </Active>
           </div>
@@ -73,6 +78,14 @@ const DetailReview = () => {
         </Buy>
         2021.01.04 작성
       </Box>
+      
+      {setting && (
+        <CommentSort
+          onClose={() => {
+            setSetting(false);
+          }}
+        />
+      )}
     </>
   );
 };
