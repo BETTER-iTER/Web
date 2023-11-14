@@ -2,16 +2,41 @@ import Bottom from "./Bottom";
 import { styled } from "../../../stitches.config";
 import User from "../../assets/icon/User.svg?react";
 import { Caption2, Caption3, DayText } from "../Font";
-
+import { useEffect, useState } from "react";
 
 export const CommentSort = ({ onClose }: { onClose: () => void }) => {
+    const [comments, setComments] = useState([]);
+    const [commentCount, setCommentCount] = useState(0);
+
+    useEffect(() => {
+        // 서버에서 댓글 정보 및 댓글 수 가져오는거
+        fetchCommentDataFromServer().then((data) => {
+        setComments(data.comments);
+        setCommentCount(data.commentCount);
+        //여기서 정보 오는거 로직처리 갈기면됌
+        });
+    }, []); 
+
+    const fetchCommentDataFromServer = async () => {
+        try {
+          const response = await fetch('서버에서 댓글 정보 및 댓글 수를 가져오는 API URL갈겨주기');
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.error('댓글 정보를 가져오는 데 실패했습니다.', error);
+          return { comments: [], commentCount: 0 };
+        }
+      };
+
     return (
       <Bottom
         title="댓글"
         onClose={onClose}
         component={
           <SortBox>
-            <SortItem>
+            {/* 댓글이 오는 수만큼 댓글 만든거 갈기기 */}
+            {comments.map((comment, index) => (
+            <SortItem key={index}>
                 <UserImage>
                     <User width={35} height={35}/>
                 </UserImage>
@@ -54,6 +79,7 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
                     </BottomLay>
                 </TextLay>
             </SortItem>
+            ))}
           </SortBox>
         }
       />
