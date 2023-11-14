@@ -18,7 +18,7 @@ const FindPassword = () => {
   const [authWarning, setAuthWarning] = useState<string>('');
 
   const [timer, setTimer] = useState<boolean>(false); // 안증확인시 타이머 true->시간종료후 false
-  const localhost = 'https://dev.betteritem.store';
+  const localhost = 'http://13.124.170.30:8080';
   
   // 이메일 유효성
   const validateEmail = (value: string) => {
@@ -88,7 +88,7 @@ const FindPassword = () => {
     })
     .catch((error) => {
       console.log(error);
-      if 
+      
     })
 
     // authNum === '123456' ? setAuthWarning('') : setAuthWarning('인증번호가 올바르지 않습니다');
