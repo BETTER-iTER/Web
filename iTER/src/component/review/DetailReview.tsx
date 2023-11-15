@@ -6,8 +6,13 @@ import ShareIcon from '../../assets/icon/Share.svg?react';
 import Star from '../../assets/icon/star/Star.svg?react';
 import { Caption1 } from '../Font';
 import ReviewImage from './ReviewImage';
+import { useState } from 'react';
+import { LikeSort } from '../common/LikeSort';
 
 const DetailReview = () => {
+
+  const [settingLike, setSettingLike] = useState<boolean>(false);
+
   return (
     <>
       <ReviewImage />
@@ -17,7 +22,7 @@ const DetailReview = () => {
           <div style={{ display: 'flex' }}>
             <Active>
               <HeartIcon fill={'#4C4E55'} width={24} height={24} />
-              <HeartNum>99+</HeartNum>
+              <HeartNum onClick={() => {setSettingLike(!settingLike)}}>99+</HeartNum>
             </Active>
             <Active>
               <CommentIcon />
@@ -73,6 +78,10 @@ const DetailReview = () => {
         </Buy>
         2021.01.04 작성
       </Box>
+      {settingLike && (
+        <LikeSort onClose={() => 
+          {setSettingLike(!settingLike)}} 
+        />)}
     </>
   );
 };
