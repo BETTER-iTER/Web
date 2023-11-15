@@ -17,7 +17,7 @@ const DetailReview = () => {
           <div style={{ display: 'flex' }}>
             <Active>
               <HeartIcon fill={'#4C4E55'} width={24} height={24} />
-              99+
+              <HeartNum>99+</HeartNum>
             </Active>
             <Active>
               <CommentIcon />
@@ -155,3 +155,7 @@ const Buy = styled('div', {
   justifyContent: 'space-between',
   margin: '21px 0 16px 0',
 });
+
+const HeartNum = styled("div", {
+  
+})
