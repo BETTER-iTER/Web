@@ -17,6 +17,12 @@ const DetailReview = () => {
 
   const handleHeartClick = () => {
     setPushHeart(!pushHeart);
+    if (pushHeart) {
+      console.log("좋아요 누름");
+    }
+    else {
+      console.log("좋아요 취소함");
+    }
   }
   return (
     <>
@@ -180,5 +186,5 @@ const HeartNum = styled("div", {
 })
 
 const Hicon = styled("div", {
-
+  display: "flex",
 })
