@@ -1,5 +1,6 @@
 import { styled } from '../../../stitches.config';
 import HeartIcon from '../../assets/icon/Heart.svg?react';
+import HeartFill from '../../assets/icon/HeartFill.svg?react';
 import CommentIcon from '../../assets/icon/Comment.svg?react';
 import ScrapIcon from '../../assets/icon/Scrap.svg?react';
 import ShareIcon from '../../assets/icon/Share.svg?react';
@@ -12,7 +13,11 @@ import { LikeSort } from '../common/LikeSort';
 const DetailReview = () => {
 
   const [settingLike, setSettingLike] = useState<boolean>(false);
+  const [pushHeart, setPushHeart] = useState<boolean>(true);
 
+  const handleHeartClick = () => {
+    setPushHeart(!pushHeart);
+  }
   return (
     <>
       <ReviewImage />
@@ -21,7 +26,12 @@ const DetailReview = () => {
         <Actives>
           <div style={{ display: 'flex' }}>
             <Active>
-              <HeartIcon fill={'#4C4E55'} width={24} height={24} />
+              <Hicon onClick={handleHeartClick}>
+                {pushHeart ? 
+                  (<HeartIcon fill={'#4C4E55'} width={24} height={24} />)
+                    : 
+                  (<HeartFill width={24} height={24} />)}
+              </Hicon>
               <HeartNum onClick={() => {setSettingLike(!settingLike)}}>99+</HeartNum>
             </Active>
             <Active>
@@ -167,4 +177,8 @@ const Buy = styled('div', {
 
 const HeartNum = styled("div", {
   
+})
+
+const Hicon = styled("div", {
+
 })
