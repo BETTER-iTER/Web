@@ -9,7 +9,7 @@ export const LikeSort = ({ onClose }: { onClose: () => void }) => {
     const [commentCount, setCommentCount] = useState(0);
 
     useEffect(() => {
-        // 서버에서 댓글 정보 및 댓글 수 가져오는거
+        // 서버에서 좋아요 누른 유저 정보 가져오기
         fetchCommentDataFromServer().then((data) => {
         setComments(data.comments);
         setCommentCount(data.commentCount);
@@ -19,11 +19,11 @@ export const LikeSort = ({ onClose }: { onClose: () => void }) => {
 
     const fetchCommentDataFromServer = async () => {
         try {
-          const response = await fetch('서버에서 댓글 정보 및 댓글 수를 가져오는 API URL갈겨주기');
+          const response = await fetch('서버에서 좋아요 누르사람 데이터 가져오는 api');
           const data = await response.json();
           return data;
         } catch (error) {
-          console.error('댓글 정보를 가져오는 데 실패했습니다.', error);
+          console.error('좋아요 정보를 가져오는 데 실패했습니다.', error);
           return { comments: [], commentCount: 0 };
         }
       };
@@ -34,7 +34,7 @@ export const LikeSort = ({ onClose }: { onClose: () => void }) => {
         onClose={onClose}
         component={
           <SortBox>
-            {/* 댓글이 오는 수만큼 댓글 만든거 갈기기 */}
+            {/* 좋아요 오는 수만큼 좋아요 만든거 갈기기 */}
             {comments.map((comment, index) => (
             <SortItem 
             key={index}
