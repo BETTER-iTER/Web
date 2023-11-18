@@ -48,3 +48,10 @@ export const LabelText = styled('div', {
   fontSize: '16px',
   fontWeight: '600',
 });
+
+export const B2 = styled("div", {
+  fontSize: "14px",
+  fontStyle: "normal",
+  fontWeight: "400",
+  letterSpacing: "-0.28px",
+});
