@@ -16,6 +16,7 @@ function Redirect() {
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
             axios.defaults.headers.common['Authorization'] = `${accessToken}`;
+            axios.defaults.headers.common['Authorization-refresh'] = `${refreshToken}`;
             alert("카카오로그인이 되셨습니다.");
             console.log(response);
             console.log(response.data.status);
