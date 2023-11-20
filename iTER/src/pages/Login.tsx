@@ -10,7 +10,7 @@ import LoginErrorIcon from '../assets/icon/LoginErrorIcon.svg?react';
 
 
 const Login = () => {
-
+  
   const navigate = useNavigate();
   const localhost = 'https://dev.betteritem.store';
   const [emailValue, setEmailValue] = useState<string>(''); // 이메일 입력 값
@@ -70,19 +70,23 @@ const Login = () => {
 
         //각각의 에러 케이스 처리
         if (error.response.data.code = "USER_NOT_FOUND_400") {
+          console.log(error);
           console.log(error.response.data.code);
           console.log(error.response.data);
           setErrorMessage(error.response.data.message);
         }
         else if (error.response.data.code == "AUTH_PASSWORD_NOT_MATCH_401") {
+          console.log(error);
           console.log(error.response.data.code);
           setErrorMessage(error.response.data.message);
         }
         else if (error.response.data.code == "METHOD_ARGUMENT_ERROR") {
+          console.log(error);
           console.log(error.response.data.code);
           setErrorMessage("이메일 또는 비밀번호가 올바른 형식이 아닙니다.");
         }
         else if (error.response.data.code == "AUTH_SHOULD_BE_KAKAO_401") {
+          console.log(error);
           console.log(error.response.data.code);
           setErrorMessage("카카오로 로그인한 이메일입니다");
         }
@@ -116,15 +120,19 @@ const Login = () => {
             onChange={handlePasswordChange}
           />
         </Password>
-        <Error>
-          {loginState && (
-            <Icon>
-              <LoginErrorIcon />
-            </Icon>
-          )}
+        
+          <Error>
+         
+            {loginState && (
+              <Icon>
+                <LoginErrorIcon />
+              </Icon>
+            )}
           
-          <Caption1>{errorMessage}</Caption1>
-        </Error>
+            
+            <Caption1>{errorMessage}</Caption1>
+          </Error>
+        
         <BtnBody>
           <Button children="로그인" disabled={!isButtonEnabled} onClick={() => handleLogin(emailValue, passwordValue)} />
         </BtnBody>
@@ -204,11 +212,13 @@ const Title = styled('div', {
 const Error = styled("div", {
   color: "$ErrorRed",
   display: "flex",
-  marginLeft: "-135px",
   marginTop: "10px",
-  
+  float: "left",
+  width: "100%",
+  marginLeft: "50px",
 });
 
 const Icon = styled("div", {
   paddingRight: "4px",
 })
+
