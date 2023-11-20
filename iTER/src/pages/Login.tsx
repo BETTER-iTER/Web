@@ -71,13 +71,11 @@ const Login = () => {
         //각각의 에러 케이스 처리
         if (error.response.data.code = "USER_NOT_FOUND_400") {
           console.log(error);
-          console.log(error.response.data.code);
-          console.log(error.response.data);
           setErrorMessage(error.response.data.message);
         }
         else if (error.response.data.code == "AUTH_PASSWORD_NOT_MATCH_401") {
           console.log(error);
-          console.log(error.response.data.code);
+          
           setErrorMessage(error.response.data.message);
         }
         else if (error.response.data.code == "METHOD_ARGUMENT_ERROR") {
