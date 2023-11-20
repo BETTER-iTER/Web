@@ -1,11 +1,11 @@
-import Lodaing_ex from "../../assets/icon/Loading_ex.svg?react";
+import LoadingGif from "../../assets/icon/Iter_loading.gif";
 import { styled } from "../../../stitches.config";
 
 const LoadingPage = () => {
     return (
         <>
         <Lay>
-            <Lodaing_ex />
+            <img src={LoadingGif} alt="Loading" width={260} height={260}/>
         </Lay>
         </>
     )
@@ -20,3 +20,4 @@ const Lay = styled("div", {
     justifyContent: "center",
     alignItems: "center",
 })
+
