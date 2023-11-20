@@ -9,8 +9,22 @@ import Quiz from '../component/home/Quiz';
 import News from '../component/home/News';
 import Footer from '../component/layout/Footer';
 import Nav from '../component/layout/Nav';
+import { useQuery } from '@tanstack/react-query';
+import { getNews } from '../apis/home';
+import { NewsProps } from '../types/News';
+import { useEffect } from 'react';
 
 const Home = () => {
+  // const { data: newsData, isLoading, isError } = useQuery<NewsProps, Error>(['news'], getNews);
+  // useEffect(() => {
+  //   const fetchNews = async () => {
+  //     if (isLoading) return <div>로딩중</div>;
+  //     if (isError) return <div>에러</div>;
+  //     console.log(newsData);
+  //   };
+  //   if (!isLoading && !isError) fetchNews();
+  // }, []);
+
   return (
     <Container>
       <Top />
