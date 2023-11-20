@@ -17,7 +17,7 @@ export const postJoinEmail = async (email: string) => {
 export const postEmailVerify = async (body: { email: string; code: string }) => {
   console.log('이메일 코드 검증', body);
   try {
-    const response = await api.post('/auth/emails/verification', body);
+    const response = await api.post('/auth/join/emails/verification', body);
     return response;
   } catch (error) {
     console.log('이메일 코드 검증 오류', error);
