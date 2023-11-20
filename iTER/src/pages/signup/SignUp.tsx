@@ -25,6 +25,10 @@ const SignUp = () => {
   const [successModal, setSuccessModal] = useState<boolean>(false);
   const [duplicateModal, setDuplicateModal] = useState<boolean>(false);
 
+  // 버튼 활성화
+  const [emailDisabled, setEmailDisabled] = useState<boolean>(false);
+  const [codeDisabled, setCodeDisabled] = useState<boolean>(false);
+
   const navigate = useNavigate();
 
   //이메일 유효성 검사
@@ -54,14 +58,18 @@ const SignUp = () => {
       console.log('data', data);
       setSuccessModal(true);
       setTimer(true);
+      setCodeDisabled(false);
     },
+
     onError: (error) => {
       console.log('error', error);
+      setEmailDisabled(false);
       setDuplicateModal(true);
     },
   });
 
   const handleEmailButton = () => {
+    setEmailDisabled(true);
     console.log('Email click?');
     mutation.mutate(email);
   };
@@ -75,10 +83,12 @@ const SignUp = () => {
     onError: (error) => {
       console.log('codeerror', error);
       setAuthWarning('인증번호를 확인해주세요');
+      setCodeDisabled(false);
     },
   });
 
   const handleAuthButton = () => {
+    setCodeDisabled(true);
     console.log(authNum, 'Auth click');
     const data = {
       email: email,
@@ -114,7 +124,7 @@ const SignUp = () => {
           btnName="인증번호 전송"
           onClick={() => handleEmailButton()}
           onChange={setEmail}
-          disabled={email.length == 0 || !validateEmail(email)}
+          disabled={email.length == 0 || !validateEmail(email) || emailDisabled}
           error={
             validateEmail(email) || email.length == 0
               ? undefined
@@ -134,7 +144,7 @@ const SignUp = () => {
           btnName="확인"
           onClick={() => handleAuthButton()}
           onChange={setAuthNum}
-          disabled={authNum.length != 6}
+          disabled={authNum.length != 6 || codeDisabled}
           error={authWarning}
         />
         <div style={{ marginTop: 20 }} />
