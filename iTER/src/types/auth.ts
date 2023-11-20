@@ -3,7 +3,7 @@ export interface UserProps {
   password: string;
   nickName: string;
   job: number;
-  interests: string;
+  categories: string;
 }
 
 export interface LoginProps {

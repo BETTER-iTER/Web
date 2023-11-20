@@ -44,7 +44,7 @@ const SignupAdditional = () => {
   const userInfo: UserProps = {
     nickName: nickname,
     job: job,
-    interests: interest,
+    categories: interest,
     email: email,
     password: password,
   };
@@ -60,12 +60,13 @@ const SignupAdditional = () => {
   });
 
   const handleJoin = () => {
+    navigation('/signup/complete', { state: userInfo });
     const body = {
       email: email || '',
       password: password || '',
       nickName: nickname,
       job: job,
-      interests: interest,
+      categories: interest,
     };
     mutation.mutate(body);
   };

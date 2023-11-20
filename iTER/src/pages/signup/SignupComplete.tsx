@@ -9,14 +9,10 @@ const SignupComplete = () => {
   const location = useLocation();
   const state = location.state as UserProps;
   const nickname = state.nickName;
+  const categories = state.categories;
   const navigate = useNavigate();
 
-  const interest = state
-    ? CategoryList.filter((category) => state.interests.includes(category.id.toString())).map(
-        (category) => category.name
-      )
-    : [];
-  console.log('interest', interest);
+  const interest = categories.split(', ');
 
   return (
     <Container>
