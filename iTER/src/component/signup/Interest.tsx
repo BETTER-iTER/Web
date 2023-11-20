@@ -8,19 +8,20 @@ interface InterestProps {
   onChange: (value: string) => void;
 }
 const Interest = ({ onDisabled, onChange }: InterestProps) => {
-  const [selected, setSelected] = useState<number[]>([]);
-  const handleSelect = (id: number) => {
+  const [selected, setSelected] = useState<string[]>([]);
+  const handleSelect = (name: string) => {
     const selectedCount = selected.length;
 
-    if (selected.includes(id)) {
-      setSelected(selected.filter((item) => item !== id));
+    if (selected.includes(name)) {
+      setSelected(selected.filter((item) => item !== name));
     } else if (selectedCount < 3) {
-      setSelected([...selected, id]);
+      setSelected([...selected, name]);
     }
   };
+  console.log(selected);
 
   onDisabled(selected.length === 0);
-  onChange(selected.join(','));
+  onChange(selected.join(', '));
 
   return (
     <Container>
@@ -30,8 +31,8 @@ const Interest = ({ onDisabled, onChange }: InterestProps) => {
             key={item.id}
             id={item.id}
             name={item.name}
-            onClick={() => handleSelect(item.id)}
-            isSelected={selected.includes(item.id)}
+            onClick={() => handleSelect(item.name)}
+            isSelected={selected.includes(item.name)}
             gap={4}
           />
         );

@@ -12,6 +12,7 @@ interface InputSelectProps {
 const InputSelect: React.FC<InputSelectProps> = ({ labelName, placeholder, onChange, list }) => {
   const [click, setClick] = useState(false);
   const [value, setValue] = useState('');
+  const [selected, setSelected] = useState<string | null>(null);
 
   return (
     <>
@@ -33,9 +34,11 @@ const InputSelect: React.FC<InputSelectProps> = ({ labelName, placeholder, onCha
               onClick={() => {
                 setValue(item);
                 onChange && onChange(item);
+                setSelected(item);
               }}
               last={index === list.length - 1}
               first={index === 0}
+              selected={selected === item}
             >
               {item}
             </ListItem>
@@ -69,7 +72,7 @@ const Label = styled('div', {
 
 const List = styled('div', {
   width: '338px',
-  border: '1px solid $Gray10',
+  // border: '1px solid $Gray10',
   borderRadius: '7px',
 
   bodyText: 2,
@@ -82,10 +85,18 @@ const ListItem = styled('div', {
   alignItems: 'center',
   justifyContent: 'center',
   cursor: 'pointer',
-  '&:hover': {
-    backgroundColor: '$Gray10',
-  },
   variants: {
+    selected: {
+      true: {
+        border: '1px solid $Brand',
+        color: '$Brand',
+      },
+      false: {
+        border: '1px solid $Gray10',
+        color: '8C959F',
+        borderBottom: 'none',
+      },
+    },
     first: {
       true: {
         borderRadius: '6px 6px 0 0',
@@ -93,12 +104,10 @@ const ListItem = styled('div', {
     },
     last: {
       true: {
-        borderBottom: 'none',
+        border: '1px solid $Gray10',
         borderRadius: '0 0 6px 6px',
       },
-      false: {
-        borderBottom: '1px solid $Gray10',
-      },
+      false: {},
     },
   },
 });
