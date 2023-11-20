@@ -48,8 +48,9 @@ const Login = () => {
             localStorage.setItem('expiredTime', expiredTime);
 
             //저장한 토큰 값들 헤더에 저장(백에서 유효성 검사를 통해 엑세스와 리프레시 재발급 해줌)
-            //헤더에 두개 저장 이렇게 하는게 맞나..
-            axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken},${refreshToken}`;
+            //각각의 헤더에 저장
+            axios.defaults.headers.common['Authorization'] = accessToken;
+            axios.defaults.headers.common['Authorization-refresh'] = refreshToken;
             navigate('/');
 
         }
