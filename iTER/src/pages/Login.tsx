@@ -69,22 +69,19 @@ const Login = () => {
         setLoginState(true);
 
         //각각의 에러 케이스 처리
-        if (error.response.data.code = "USER_NOT_FOUND_400") {
-          console.log(error);
+        if (error.response.data.code == "USER_NOT_FOUND_400") {
+          console.log(error.response.data.code);
           setErrorMessage(error.response.data.message);
         }
         else if (error.response.data.code == "AUTH_PASSWORD_NOT_MATCH_401") {
-          console.log(error);
-          
+          console.log(error.response.data.code);
           setErrorMessage(error.response.data.message);
         }
         else if (error.response.data.code == "METHOD_ARGUMENT_ERROR") {
-          console.log(error);
           console.log(error.response.data.code);
           setErrorMessage("이메일 또는 비밀번호가 올바른 형식이 아닙니다.");
         }
         else if (error.response.data.code == "AUTH_SHOULD_BE_KAKAO_401") {
-          console.log(error);
           console.log(error.response.data.code);
           setErrorMessage("카카오로 로그인한 이메일입니다");
         }
