@@ -46,7 +46,7 @@ function App() {
       <Route path="/user/interest" element={<Interest />} />
       <Route path="/user/like" element={<Like />} />
       <Route path="/user/setting" element={<Setting />} />
-      <Route path="loading" element={<LoadingPage />} />
+      <Route path="/loading" element={<LoadingPage />} />
     </Routes>
   );
 }
