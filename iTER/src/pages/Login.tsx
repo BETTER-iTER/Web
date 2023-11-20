@@ -16,6 +16,7 @@ const Login = () => {
   const [emailValue, setEmailValue] = useState<string>(''); // 이메일 입력 값
   const [passwordValue, setPasswordValue] = useState<string>(''); // 비밀번호 입력 값
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [loginState, setLoginState] = useState<boolean>(false);
 
   const handleEmailChange = (newValue: string) => {
     setEmailValue(newValue);
@@ -32,21 +33,30 @@ const Login = () => {
         "password" : password,
       };
 
+      //로그인 api로 아이디 비밀번호 보내기
       axios.post(`${localhost}/auth/login`,requestBody)
       .then((response) => {
         if (response.status == 200) {
+          setLoginState(false);
             console.log("로그인 성공");
             console.log(response);
+            //로그인 성공시 토큰 값들과 만료기한 저장하기
             const {accessToken, refreshToken, expiredTime} = response.data;
-
+            //저장한 값들 로컬스토리지에 넣어주기
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
             localStorage.setItem('expiredTime', expiredTime);
-            axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+
+            //저장한 토큰 값들 헤더에 저장(백에서 유효성 검사를 통해 엑세스와 리프레시 재발급 해줌)
+            //헤더에 두개 저장 이렇게 하는게 맞나..
+            axios.defaults.headers.common['Authorization'] = `${accessToken},${refreshToken}`;
             navigate('/');
 
         }
         else {
+          //로그인이 성공시 추가 에러 처리(혹시몰라서)
+          setLoginState(true);
+          console.log(response);
           console.log("로그인 실패")
           const { messege } = response.data;
           console.log(messege);
@@ -54,18 +64,30 @@ const Login = () => {
 
       })
       .catch((error) => {
-        console.log("로그인이 불가능합니다.");
-        console.log(error);
-        setErrorMessage("이메일 또는 비밀번호를 확인해주세요");
-      });
+        //에러 발생시 로그인상태 불린값 변경해주기(에러 아이콘때매)
+        setLoginState(true);
 
-      // function getAccessToken() {
-      //   return localStorage.getItem('accessToken');
-      // }
-      
-      // function getRefreshToken() {
-      //   return localStorage.getItem('refreshToken');
-      // }
+        //각각의 에러 케이스 처리
+        if (error.response.data.code = "USER_NOT_FOUND_400") {
+          console.log(error.response.data.code);
+          setErrorMessage(error.response.data.message);
+        }
+        else if (error.response.data.code == "AUTH_PASSWORD_NOT_MATCH_401") {
+          console.log(error.response.data.code);
+          setErrorMessage(error.response.data.message);
+        }
+        else if (error.response.data.code == "METHOD_ARGUMENT_ERROR") {
+          console.log(error.response.data.code);
+          setErrorMessage(error.response.data.message);
+        }
+        else if (error.response.data.code == "AUTH_SHOULD_BE_KAKAO_401") {
+          console.log(error.response.data.code);
+          setErrorMessage(error.response.data.message);
+        }
+        else {
+          console.log(error.response);
+        }
+      });
   };
 
   // 입력 필드가 비어있지 않은 경우에만 버튼 활성화
@@ -93,9 +115,12 @@ const Login = () => {
           />
         </Password>
         <Error>
-          <Icon>
-            <LoginErrorIcon />
-          </Icon>
+          {loginState && (
+            <Icon>
+              <LoginErrorIcon />
+            </Icon>
+          )}
+          
           <Caption1>{errorMessage}</Caption1>
         </Error>
         <BtnBody>
@@ -179,6 +204,7 @@ const Error = styled("div", {
   display: "flex",
   marginLeft: "-135px",
   marginTop: "10px",
+  
 });
 
 const Icon = styled("div", {
