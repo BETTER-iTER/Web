@@ -16,14 +16,16 @@ const Modal: FC<ModalProps> = ({ text, btn, onClick, onClosed }) => {
         onClosed && onClosed();
       }}
     >
-      <ModalBox>
-        <div style={{ height: 110 }}>
-          <Headline4>{text}</Headline4>
-        </div>
-        <Button onClick={onClick}>
-          <ButtonText>{btn}</ButtonText>
-        </Button>
-      </ModalBox>
+      <Container>
+        <ModalBox>
+          <div style={{ height: 110 }}>
+            <Headline4>{text}</Headline4>
+          </div>
+          <Button onClick={onClick}>
+            <ButtonText>{btn}</ButtonText>
+          </Button>
+        </ModalBox>
+      </Container>
     </Back>
   );
 };
@@ -35,19 +37,21 @@ export const ModalSelect: FC<ModalProps> = ({ text, btn, onClick, onClosed }) =>
         onClosed && onClosed();
       }}
     >
-      <ModalBox>
-        <div style={{ height: 110 }}>
-          <Headline4>{text}</Headline4>
-        </div>
-        <Buttons>
-          <SelectButton onClick={onClosed}>
-            <ButtonText>취소</ButtonText>
-          </SelectButton>
-          <SelectButton onClick={onClick}>
-            <ButtonText>{btn}</ButtonText>
-          </SelectButton>
-        </Buttons>
-      </ModalBox>
+      <Container>
+        <ModalBox>
+          <div style={{ height: 110 }}>
+            <Headline4>{text}</Headline4>
+          </div>
+          <Buttons>
+            <SelectButton onClick={onClosed}>
+              <ButtonText>취소</ButtonText>
+            </SelectButton>
+            <SelectButton onClick={onClick}>
+              <ButtonText>{btn}</ButtonText>
+            </SelectButton>
+          </Buttons>
+        </ModalBox>
+      </Container>
     </Back>
   );
 };
@@ -58,17 +62,25 @@ const Back = styled('div', {
   backgroundColor: 'rgba(25, 25, 25, 0.8)',
   width: '390px',
   height: '100vh',
-  position: 'absolute',
-  top: '0',
+  position: 'fixed',
   left: '0',
-  display: 'flex',
+  top: '0',
   justifyContent: 'center',
   alignItems: 'center',
   pointerEvents: 'auto',
-  zIndex: 2,
+  zIndex: 1000,
+});
+
+const Container = styled('div', {
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  pointerEvents: 'none',
 });
 
 const ModalBox = styled('div', {
+  marginTop: '50%',
   width: '340px',
   backgroundColor: `$White`,
   borderRadius: '20px',
@@ -80,6 +92,7 @@ const ModalBox = styled('div', {
     alignItems: 'center',
   },
   overflow: 'hidden',
+  pointerEvents: 'auto',
 });
 
 const Button = styled('div', {

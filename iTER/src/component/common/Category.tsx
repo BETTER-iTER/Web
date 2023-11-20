@@ -1,48 +1,39 @@
 import { styled } from '../../../stitches.config';
 import { CategoryProps } from '../../constants/Category';
-import Phone from '../../assets/icon/category/Phone.svg?react';
-import Laptop from '../../assets/icon/category/Laptop.svg?react';
-import PC from '../../assets/icon/category/PC.svg?react';
-import Watch from '../../assets/icon/category/Watch.svg?react';
-import Tablet from '../../assets/icon/category/Tablet.svg?react';
-import Mouse from '../../assets/icon/category/Mouse.svg?react';
-import Keyboard from '../../assets/icon/category/Keyboard.svg?react';
-import Headphone from '../../assets/icon/category/Headphone.svg?react';
-import Speaker from '../../assets/icon/category/Speaker.svg?react';
-import Charger from '../../assets/icon/category/Charger.svg?react';
-import Accessory from '../../assets/icon/category/Accessory.svg?react';
-import Etc from '../../assets/icon/category/Etc.svg?react';
 
 interface CategoryItem extends CategoryProps {
   onClick: () => void;
-  isSelected: boolean;
+  isSelected?: boolean;
+  isSelectedBorer?: boolean;
   gap?: number;
 }
 
 type IconType = {
-  [key: string]: React.ReactNode;
+  [key: string]: JSX.Element;
 };
 
 const iconMapping: IconType = {
-  휴대폰: <Phone />,
-  노트북: <Laptop />,
-  PC: <PC />,
-  스마트워치: <Watch />,
-  태블릿: <Tablet />,
-  마우스: <Mouse />,
-  키보드: <Keyboard />,
-  헤드폰: <Headphone />,
-  스피커: <Speaker />,
-  보조배터리: <Charger />,
-  악세사리: <Accessory />,
-  기타: <Etc />,
+  휴대폰: <img src={`../../src/assets/png/Phone.png`} width={69} height={43} />,
+  노트북: <img src={`../../src/assets/png/Laptop.png`} width={54} height={53} />,
+  PC: <img src={`../../src/assets/png/PC.png`} width={47} height={48} />,
+  스마트워치: <img src={`../../src/assets/png/Watch.png`} width={45} height={49} />,
+  태블릿: <img src={`../../src/assets/png/Tablet.png`} width={60} height={58} />,
+  마우스: <img src={`../../src/assets/png/Mouse.png`} width={59} height={46} />,
+  키보드: <img src={`../../src/assets/png/Keyboard.png`} width={61} height={40} />,
+  헤드폰: <img src={`../../src/assets/png/Headphone.png`} width={50} height={54} />,
+  스피커: <img src={`../../src/assets/png/Speaker.png`} width={50} height={43} />,
+  보조배터리: <img src={`../../src/assets/png/Battery.png`} width={61} height={38} />,
+  악세사리: <img src={`../../src/assets/png/Accessory.png`} width={42} height={47} />,
+  기타: <img src={`../../src/assets/png/Etc.png`} width={27} height={5} />,
 };
 
-const Category = ({ name, onClick, isSelected, gap }: CategoryItem) => {
-  const selectedIcon = iconMapping[name];
+const Category = ({ name, onClick, isSelected, isSelectedBorer, gap }: CategoryItem) => {
+  const Icon = iconMapping[name];
   return (
     <ItemBox onClick={onClick} style={{ gap: gap }} gap={gap}>
-      <Image isSelected={isSelected}>{selectedIcon}</Image>
+      <Image isSelected={isSelected} isSelectedBorder={isSelectedBorer}>
+        {Icon}
+      </Image>
       <Name>{name}</Name>
     </ItemBox>
   );
@@ -81,8 +72,12 @@ const Image = styled('div', {
       true: {
         backgroundColor: 'rgba(135, 135, 244, 0.30)',
       },
-      false: {
-        backgroundColor: '$White',
+    },
+    isSelectedBorder: {
+      true: {
+        border: '1px solid $Brand',
+        width: '68px',
+        height: '68px',
       },
     },
   },
