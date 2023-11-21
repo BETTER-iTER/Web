@@ -5,11 +5,21 @@ import Top from '../../component/layout/Top';
 import { Headline3 } from '../../component/Font';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+import Modal from '../../component/common/Modal';
 
 const ResetPassword = () => {
-   const navigate = useNavigate();
+  const localhost = 'https://dev.betteritem.store';
+  const navigate = useNavigate();
   const [password, setPassword] = useState<string>('');
   const [checkPassword, setCheckPassword] = useState<string>('');
+
+  //모달 상태관리 state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const handleModalClose = () => {
+    navigate('/login');
+  };
 
   const validatePassword = (value: string) => {
     const isPasswordValid = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/i.test(
@@ -18,8 +28,20 @@ const ResetPassword = () => {
     return isPasswordValid;
   };
 
+  //비밀번호 변경 api 호출
   const handleNext = () => {
-    
+    const requestBody = {
+      "email": localStorage.getItem("email"),
+      "password": password,
+    };
+    axios.patch(`${localhost}/auth/password/reset`, requestBody)
+    .then((response) => {
+      console.log(response);
+      setIsModalOpen(true);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   }
 
   return (
@@ -59,10 +81,17 @@ const ResetPassword = () => {
         <ButtonBody>
           <Button
             disabled={!(checkPassword === password && checkPassword && password)}
-            onClick={() => console.log('비번 재설정 버튼')}
+            onClick={handleNext}
             children="비밀번호 재설정"
           />
         </ButtonBody>
+        {isModalOpen && (
+        <Modal
+          text="비밀번호가 재설정되었습니다"
+          btn="로그인 화면으로 이동"
+          onClick={handleModalClose}
+        />
+      )}
       </Body>
     </>
   );

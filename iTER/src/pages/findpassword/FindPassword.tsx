@@ -86,11 +86,12 @@ const FindPassword = () => {
     .then((response) => {
       console.log(response);
       setCheckAuth(true);
-      setModalMessage('인증번호가 확인되었습니다.');
+      setAuthWarning("인증번호가 확인되었습니다.");
+      localStorage.setItem('email', email);
     })
     .catch((error) => {
       console.log(error);
-      setModalMessage('인증번호가 일치하지않습니다.');
+      setAuthWarning("인증번호가 일치하지 않습니다");
     })
   };
 
@@ -115,7 +116,7 @@ const FindPassword = () => {
           btnName="인증번호 전송"
           onClick={() => handleEmailButton()}
           onChange={setEmail}
-          disabled={email.length == 0}
+          disabled={email.length == 0 || checkAuth}
           error={emailWarning}
         />
 
@@ -134,7 +135,7 @@ const FindPassword = () => {
           btnName="확인"
           onClick={() => handleAuthButton()}
           onChange={setAuthNum}
-          disabled={authNum.length != 6}
+          disabled={authNum.length != 6 || checkAuth}
           error={authWarning}
         />
 
