@@ -9,6 +9,7 @@ import axios from "axios";
 import Modal from '../../component/common/Modal';
 
 const ResetPassword = () => {
+  //도메인 주소
   const localhost = 'https://dev.betteritem.store';
   const navigate = useNavigate();
   const [password, setPassword] = useState<string>('');
@@ -16,11 +17,12 @@ const ResetPassword = () => {
 
   //모달 상태관리 state
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+
+  //모달 버튼 수행 함수
   const handleModalClose = () => {
     navigate('/login');
   };
-
+  //비밀번호 유효성 검사 수행
   const validatePassword = (value: string) => {
     const isPasswordValid = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/i.test(
       value.trim()
@@ -80,6 +82,7 @@ const ResetPassword = () => {
 
         <ButtonBody>
           <Button
+          //비밀번호와 재입력한 비밀번호가 같으면 버튼 활성화
             disabled={!(checkPassword === password && checkPassword && password)}
             onClick={handleNext}
             children="비밀번호 재설정"

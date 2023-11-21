@@ -18,21 +18,26 @@ const FindPassword = () => {
   const [authWarning, setAuthWarning] = useState<string>('');
 
   const [timer, setTimer] = useState<boolean>(false); // 안증확인시 타이머 true->시간종료후 false
+
+  //도메인 주소
   const localhost = 'https://dev.betteritem.store';
   
-  // 이메일 유효성
+  // 이메일 유효성 검사하기
   const validateEmail = (value: string) => {
     const isEmailValid = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value.trim());
     return isEmailValid;
   };
 
+  //모달 상태관리 state
   const [isModalOpen, setIsModalOpen] = useState(false);
+  //모달 메세지 상태관리
   const [modalMessage, setModalMessage] = useState<string>('');
+  //모달 동작 수행 함수
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
 
-
+  //이메일 인증번호 요청 api 연동
   const handleEmailButton = () => {
     console.log('Email click?');
     if (validateEmail(email)) {
@@ -49,8 +54,8 @@ const FindPassword = () => {
           setModalMessage('인증번호가 발송되었습니다');
           setIsModalOpen(true);
         }
-        
       })
+      //이메일 응답별 에러처리
       .catch((error) => {
         console.log(error.response.data.code);
         if (error.response.data.code == 'USER_NOT_FOUND_400') {
@@ -69,13 +74,13 @@ const FindPassword = () => {
           setIsModalOpen(true);
         }
       }) 
-      
     } 
+    //이메일 유효성 에러 처리
     else {
       setEmailWarning('올바른 이메일 주소를 입력해주세요');
     }
   };
-
+  //인증번호 검증 api 연동
   const handleAuthButton = () => {
     console.log(authNum, 'Auth click');
     const requestBody = {
@@ -89,12 +94,13 @@ const FindPassword = () => {
       setAuthWarning("인증번호가 확인되었습니다.");
       localStorage.setItem('email', email);
     })
+    //인증번호 검증 에러처리
     .catch((error) => {
       console.log(error);
       setAuthWarning("인증번호가 일치하지 않습니다");
     })
   };
-
+  //다음 버튼 수행 함수
   const handleNext = () => {
     console.log("다음 버튼");
     navigate('/password/reset');
