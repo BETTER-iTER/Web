@@ -13,12 +13,12 @@ const FindPassword = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>('');
   const [authNum, setAuthNum] = useState<string>('');
-
+  const [checkAuth, setCheckAuth] = useState<boolean>(false);
   const [emailWarning, setEmailWarning] = useState<string>('');
   const [authWarning, setAuthWarning] = useState<string>('');
 
   const [timer, setTimer] = useState<boolean>(false); // 안증확인시 타이머 true->시간종료후 false
-  const localhost = 'http://13.124.170.30:8080';
+  const localhost = 'https://dev.betteritem.store';
   
   // 이메일 유효성
   const validateEmail = (value: string) => {
@@ -85,13 +85,13 @@ const FindPassword = () => {
     axios.post(`${localhost}/auth/password/emails/verification`, requestBody)
     .then((response) => {
       console.log(response);
+      setCheckAuth(true);
+      setModalMessage('인증번호가 확인되었습니다.');
     })
     .catch((error) => {
       console.log(error);
-      
+      setModalMessage('인증번호가 일치하지않습니다.');
     })
-
-    // authNum === '123456' ? setAuthWarning('') : setAuthWarning('인증번호가 올바르지 않습니다');
   };
 
   const handleNext = () => {
@@ -140,7 +140,7 @@ const FindPassword = () => {
 
         <ButtonBody>
           <Button
-            disabled={!validateEmail(email) || authNum.length != 6}
+            disabled={!checkAuth}
             onClick={handleNext}
             children="다음"
           />
