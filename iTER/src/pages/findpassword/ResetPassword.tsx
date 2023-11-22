@@ -83,7 +83,7 @@ const ResetPassword = () => {
         <ButtonBody>
           <Button
           //비밀번호와 재입력한 비밀번호가 같으면 버튼 활성화
-            disabled={!(checkPassword === password && checkPassword && password)}
+            disabled={!(checkPassword === password && validatePassword(checkPassword) && password)}
             onClick={handleNext}
             children="비밀번호 재설정"
           />

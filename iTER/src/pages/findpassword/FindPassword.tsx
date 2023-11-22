@@ -91,7 +91,6 @@ const FindPassword = () => {
     .then((response) => {
       console.log(response);
       setCheckAuth(true);
-      setAuthWarning("인증번호가 확인되었습니다.");
       localStorage.setItem('email', email);
     })
     //인증번호 검증 에러처리
