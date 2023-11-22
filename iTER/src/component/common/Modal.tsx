@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { styled } from '../../../stitches.config';
 import { ButtonText, Headline4 } from '../Font';
+import Xbtn from "../../assets/icon/Xbtn.svg?react";
 
 interface ModalProps {
   text: string;
@@ -73,6 +74,9 @@ export const ModalMyPoint: FC<ModalProps> = ({ onClick, onClosed }) => {
     >
       <Container>
         <PointModalBox>
+          <XbtnLay>
+            <Xbtn width={28} height={28} onClick={onClick}/>
+          </XbtnLay>
           <Title>
             <Headline4>포인트가 500점 이상이면<br />ITet가 인정하는 IT 전문가에요</Headline4>
           </Title>
@@ -173,7 +177,7 @@ const PointModalBox = styled("div", {
 const Title = styled("div", {
   color: "24292F",
   textAlign: "center",
-  marginTop: "30px",
+  marginTop: "-10px",
 })
 
 //여기서부터 point 모달창 스타일
@@ -199,4 +203,11 @@ const ScoreContainer = styled("div", {
 
 const Info = styled("div", {
   marginTop: "30px",
+})
+
+const XbtnLay = styled("div", {
+  display: "flex",
+  justifyContent: "flex-end",  // 오른쪽 정렬
+  marginRight: "16px",  // 오른쪽 여백 조절
+  marginTop: "16px",  // 위쪽 여백 조절
 })

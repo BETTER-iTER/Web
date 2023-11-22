@@ -45,7 +45,7 @@ const PointPage = () => {
             </ButtonLay>
 
             {isModalOpen && (
-                <ModalMyPoint text="gd" onClosed={closeModalNo} onClick={closeModal} />
+                <ModalMyPoint onClosed={closeModalNo} onClick={closeModal} />
             )}
         </>
     )
