@@ -2,6 +2,7 @@ import Top from "../../component/layout/Top";
 import { styled } from "../../../stitches.config";
 import { Headline3 } from "../../component/Font";
 import PointLay from "../../component/user/Point";
+import { ButtonBlack, ButtonPoint } from "../../component/common/Button";
 
 const PointPage = () => {
     return (
@@ -17,13 +18,24 @@ const PointPage = () => {
                 </Headline3>
                 입니다.
             </RankLay>
-            <PointLay />
+            <Play>
+                <PointLay />
+            </Play>
+            <ButtonLay>
+                <ButtonPoint>
+                    전문가 등급이 되려면?
+                </ButtonPoint>
+            </ButtonLay>
         </>
     )
 }
 
 export default PointPage;
 
+const ButtonLay = styled("div", {
+    marginLeft: "25px",
+    marginTop: "41px",
+})
 const RankLay = styled("div", {
     marginLeft: "30px",
     marginTop: "64px",
@@ -36,4 +48,10 @@ const RankLay = styled("div", {
 
 const MText = styled("div", {
     marginRight: "5px",
+})
+
+const Play = styled("div", {
+    marginTop: "31px",
+    marginLeft: "30px",
+   
 })

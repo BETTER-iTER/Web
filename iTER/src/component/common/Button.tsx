@@ -86,6 +86,16 @@ export const ButtonBlack: FC<ButtonProps> = ({ onClick, children }) => {
   );
 };
 
+export const ButtonPoint: FC<ButtonProps> =({ onClick, children}) => {
+  return (
+    <>
+    <ButtonBody style={{backgroundColor: "#4C4E55"}} onClick={onClick}>
+      <ButtonText style={{color: "#FFF"}}>{children}</ButtonText>
+    </ButtonBody>
+    </>
+  )
+}
+
 const ButtonBody = styled('button', {
   width: '340px',
   height: '45px',

@@ -7,7 +7,6 @@ const PointLay = () => {
         { title: "현재 포인트" , score:"234점" },
         { title: "작성한 리뷰" , score:"8개" },
         { title: "IT 퀴즈" , score:"21개" },
-        { title: "현재 포인트" , score:"234점" },
         { title: "리뷰 반응" , score: <img src={Heart} alt="heart" width={22} height={22} /> + "15" + <img src={Scrap} alt="scrap" width={22} height={22} /> + "3" },
     ];
 
@@ -15,8 +14,14 @@ const PointLay = () => {
         <>
             {score.map((item, index) => (
                 <Item key={index}>
-                    {item.title}
-                    {item.score}
+                    <Container>
+                        <TitleContainer isCurrentPoint={item.title === "현재 포인트"}>
+                            {item.title}
+                        </TitleContainer>
+                        <ScoreContainer isCurrentScore={item.score === "234점"}>
+                            {item.score}
+                        </ScoreContainer>
+                    </Container>
                 </Item>
             ))}
         </>
@@ -25,6 +30,40 @@ const PointLay = () => {
 
 export default PointLay;
 
+const Container = styled("div", {
+    width: "300px",
+});
+
 const Item = styled("div", {
     bodyText: 1,
-})
+    display: "flex",
+    marginBottom: "8px",
+});
+
+const TitleContainer = styled("div", {
+    float: "left",
+    variants: {
+        isCurrentPoint: {
+            true: {
+                color: "#24292F", 
+            },
+            false: {
+                color: "#8E9198", 
+            },
+        },
+    },
+});
+
+const ScoreContainer = styled("div", {
+    float: "right",
+    variants: {
+        isCurrentScore: {
+            true: {
+                color: "#24292F", 
+            },
+            false: {
+                color: "#8E9198", 
+            },
+        },
+    },
+});
