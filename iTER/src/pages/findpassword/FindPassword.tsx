@@ -9,6 +9,7 @@ import Timer from '../../component/signup/FindPasswordTimer';
 import axios from 'axios';
 import Modal from '../../component/common/Modal';
 import { postEmail } from '../../apis/login';
+import { postAuthNum } from '../../apis/login';
 
 const FindPassword = () => {
   const navigate = useNavigate();
@@ -75,26 +76,39 @@ const handleEmailButton = async (email: string) => {
   }
 };
 
-
-  //인증번호 검증 api 연동
-  const handleAuthButton = () => {
-    console.log(authNum, 'Auth click');
-    const requestBody = {
-      "email": email,
-      "code": authNum,
-    };
-    axios.post(`${localhost}/auth/password/emails/verification`, requestBody)
-    .then((response) => {
-      console.log(response);
+  const handleAuthButton = async (email: string, code: string) => {
+    try {
+      const AuthData = await postAuthNum(email, code);
+      console.log(AuthData);
       setCheckAuth(true);
       localStorage.setItem('email', email);
-    })
-    //인증번호 검증 에러처리
-    .catch((error) => {
-      console.log(error);
+    }
+    catch(error) {
+      const AuthError = error.response.data.code;
+      console.log(AuthError);
       setAuthWarning("인증번호가 일치하지 않습니다");
-    })
+    }
   };
+
+  //인증번호 검증 api 연동
+  // const handleAuthButton = () => {
+  //   console.log(authNum, 'Auth click');
+  //   const requestBody = {
+  //     "email": email,
+  //     "code": authNum,
+  //   };
+  //   axios.post(`${localhost}/auth/password/emails/verification`, requestBody)
+  //   .then((response) => {
+  //     console.log(response);
+  //     setCheckAuth(true);
+  //     localStorage.setItem('email', email);
+  //   })
+  //   //인증번호 검증 에러처리
+  //   .catch((error) => {
+  //     console.log(error);
+  //     setAuthWarning("인증번호가 일치하지 않습니다");
+  //   })
+  // };
   //다음 버튼 수행 함수
   const handleNext = () => {
     console.log("다음 버튼");
@@ -134,7 +148,7 @@ const handleEmailButton = async (email: string) => {
           type="text"
           labelName="인증번호"
           btnName="확인"
-          onClick={() => handleAuthButton()}
+          onClick={() => handleAuthButton(email, authNum)}
           onChange={setAuthNum}
           disabled={authNum.length != 6 || checkAuth}
           error={authWarning}

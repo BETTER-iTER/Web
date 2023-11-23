@@ -41,3 +41,21 @@ export const postEmail = async (
 };
 
 //인증번호 검수 api 연동
+export const postAuthNum = async (
+    email: string,
+    code: string,
+) => {
+    const requestBody = {
+        "email": email,
+        "code": code,
+    };
+
+    try {
+        const response = await api.post('/auth/password/emails/verification', requestBody);
+        return response;
+    }
+    catch(error) {
+        console.log("에러", error);
+        throw error;
+    }
+};
