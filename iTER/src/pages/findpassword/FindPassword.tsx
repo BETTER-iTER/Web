@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import Timer from '../../component/signup/FindPasswordTimer';
 import axios from 'axios';
 import Modal from '../../component/common/Modal';
+import { postEmail } from '../../apis/login';
 
 const FindPassword = () => {
   const navigate = useNavigate();
@@ -37,49 +38,44 @@ const FindPassword = () => {
     setIsModalOpen(false);
   };
 
-  //이메일 인증번호 요청 api 연동
-  const handleEmailButton = () => {
-    console.log('Email click?');
-    if (validateEmail(email)) {
-      setEmailWarning('');
-
-      const requestBody = {
-        "email": email,
-      };
-      axios.post(`${localhost}/auth/password/emails`, requestBody)
-      .then((response) => {
-        console.log(response);
-        if(response.data.code == 'SUCCESS_200') {
-          setTimer(true);
-          setModalMessage('인증번호가 발송되었습니다');
-          setIsModalOpen(true);
-        }
-      })
-      //이메일 응답별 에러처리
-      .catch((error) => {
-        console.log(error.response.data.code);
-        if (error.response.data.code == 'USER_NOT_FOUND_400') {
-          console.log('일치하는 회원정보 없음');
-          setModalMessage('가입하지않은 이메일 입니다');
-          setIsModalOpen(true);
-        }
-        else if (error.response.data.code == 'AUTH_CODE_ALREADY_EXIST_401') {
-          console.log('이미 인증 코드가 존재');
-          setModalMessage('이미 인증 코드가 존재합니다');
-          setIsModalOpen(true);
-        }
-        else if (error.response.data.code == 'AUTH_SHOULD_BE_KAKAO_401') {
-          console.log('카카오로 로그인한 회원');
-          setModalMessage('카카오로 로그인한 계정입니다');
-          setIsModalOpen(true);
-        }
-      }) 
-    } 
-    //이메일 유효성 에러 처리
-    else {
-      setEmailWarning('올바른 이메일 주소를 입력해주세요');
+const handleEmailButton = async (email: string) => {
+  if (validateEmail(email)) {
+    setEmailWarning('');
+    try{
+      const emailData = await postEmail(email);
+      console.log(emailData);
+      const Code = emailData.data.code;
+      if(Code == 'SUCCESS_200') {
+        setTimer(true);
+        setModalMessage('인증번호가 발송되었습니다');
+        setIsModalOpen(true);
+      }
     }
-  };
+    catch(error) {
+      const emailError = error.response.data.code;
+      if (emailError == 'USER_NOT_FOUND_400') {
+        console.log('일치하는 회원정보 없음');
+        setModalMessage('가입하지않은 이메일 입니다');
+        setIsModalOpen(true);
+      }
+      else if (emailError == 'AUTH_CODE_ALREADY_EXIST_401') {
+        console.log('이미 인증 코드가 존재');
+        setModalMessage('이미 인증 코드가 존재합니다');
+        setIsModalOpen(true);
+      }
+      else if (emailError == 'AUTH_SHOULD_BE_KAKAO_401') {
+        console.log('카카오로 로그인한 회원');
+        setModalMessage('카카오로 로그인한 계정입니다');
+        setIsModalOpen(true);
+      }
+    }
+  }
+  else {
+    setEmailWarning('올바른 이메일 주소를 입력해주세요');
+  }
+};
+
+
   //인증번호 검증 api 연동
   const handleAuthButton = () => {
     console.log(authNum, 'Auth click');
@@ -119,7 +115,7 @@ const FindPassword = () => {
           type="text"
           labelName="이메일"
           btnName="인증번호 전송"
-          onClick={() => handleEmailButton()}
+          onClick={() => handleEmailButton(email)}
           onChange={setEmail}
           disabled={email.length == 0 || checkAuth}
           error={emailWarning}

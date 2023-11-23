@@ -21,3 +21,23 @@ export const postLogin = async (
         throw error;
     }
 };
+
+//이메일 인증요청 api 연동(비밀번호 재설정중)
+export const postEmail = async (
+    email: string,
+) => {
+    const requestBody = {
+        "email": email,
+    };
+
+    try {
+        const response = await api.post('/auth/password/emails', requestBody);
+        return response;
+    }
+    catch (error) {
+        console.log("로그인 에러", error);
+        throw error;
+    }
+};
+
+//인증번호 검수 api 연동
