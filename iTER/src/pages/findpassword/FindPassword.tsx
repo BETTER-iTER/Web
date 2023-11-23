@@ -5,33 +5,101 @@ import Top from '../../component/layout/Top';
 import { Headline3 } from '../../component/Font';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Timer from '../../component/signup/FindPasswordTimer';
+import axios from 'axios';
+import Modal from '../../component/common/Modal';
 
 const FindPassword = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>('');
   const [authNum, setAuthNum] = useState<string>('');
-
+  const [checkAuth, setCheckAuth] = useState<boolean>(false);
   const [emailWarning, setEmailWarning] = useState<string>('');
   const [authWarning, setAuthWarning] = useState<string>('');
 
-  // 이메일 유효성
+  const [timer, setTimer] = useState<boolean>(false); // 안증확인시 타이머 true->시간종료후 false
+
+  //도메인 주소
+  const localhost = 'https://dev.betteritem.store';
+  
+  // 이메일 유효성 검사하기
   const validateEmail = (value: string) => {
     const isEmailValid = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value.trim());
     return isEmailValid;
   };
 
+  //모달 상태관리 state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  //모달 메세지 상태관리
+  const [modalMessage, setModalMessage] = useState<string>('');
+  //모달 동작 수행 함수
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  //이메일 인증번호 요청 api 연동
   const handleEmailButton = () => {
     console.log('Email click?');
-    validateEmail(email)
-      ? setEmailWarning('')
-      : setEmailWarning('올바른 이메일 주소를 입력해주세요');
-  };
+    if (validateEmail(email)) {
+      setEmailWarning('');
 
+      const requestBody = {
+        "email": email,
+      };
+      axios.post(`${localhost}/auth/password/emails`, requestBody)
+      .then((response) => {
+        console.log(response);
+        if(response.data.code == 'SUCCESS_200') {
+          setTimer(true);
+          setModalMessage('인증번호가 발송되었습니다');
+          setIsModalOpen(true);
+        }
+      })
+      //이메일 응답별 에러처리
+      .catch((error) => {
+        console.log(error.response.data.code);
+        if (error.response.data.code == 'USER_NOT_FOUND_400') {
+          console.log('일치하는 회원정보 없음');
+          setModalMessage('가입하지않은 이메일 입니다');
+          setIsModalOpen(true);
+        }
+        else if (error.response.data.code == 'AUTH_CODE_ALREADY_EXIST_401') {
+          console.log('이미 인증 코드가 존재');
+          setModalMessage('이미 인증 코드가 존재합니다');
+          setIsModalOpen(true);
+        }
+        else if (error.response.data.code == 'AUTH_SHOULD_BE_KAKAO_401') {
+          console.log('카카오로 로그인한 회원');
+          setModalMessage('카카오로 로그인한 계정입니다');
+          setIsModalOpen(true);
+        }
+      }) 
+    } 
+    //이메일 유효성 에러 처리
+    else {
+      setEmailWarning('올바른 이메일 주소를 입력해주세요');
+    }
+  };
+  //인증번호 검증 api 연동
   const handleAuthButton = () => {
     console.log(authNum, 'Auth click');
-    authNum === '123456' ? setAuthWarning('') : setAuthWarning('인증번호가 올바르지 않습니다');
+    const requestBody = {
+      "email": email,
+      "code": authNum,
+    };
+    axios.post(`${localhost}/auth/password/emails/verification`, requestBody)
+    .then((response) => {
+      console.log(response);
+      setCheckAuth(true);
+      localStorage.setItem('email', email);
+    })
+    //인증번호 검증 에러처리
+    .catch((error) => {
+      console.log(error);
+      setAuthWarning("인증번호가 일치하지 않습니다");
+    })
   };
-
+  //다음 버튼 수행 함수
   const handleNext = () => {
     console.log("다음 버튼");
     navigate('/password/reset');
@@ -53,11 +121,18 @@ const FindPassword = () => {
           btnName="인증번호 전송"
           onClick={() => handleEmailButton()}
           onChange={setEmail}
-          disabled={email.length == 0}
+          disabled={email.length == 0 || checkAuth}
           error={emailWarning}
         />
 
         <div style={{ marginTop: 20 }} />
+        <Timerlay>
+        {timer && (
+          <TimerBox>
+            <Timer min={3} onChange={() => setTimer(true)} />
+          </TimerBox>
+        )}
+        </Timerlay>
         <InputComponent
           placeholder="인증번호를 6자리를 입력해주세요"
           type="text"
@@ -65,17 +140,24 @@ const FindPassword = () => {
           btnName="확인"
           onClick={() => handleAuthButton()}
           onChange={setAuthNum}
-          disabled={authNum.length != 6}
+          disabled={authNum.length != 6 || checkAuth}
           error={authWarning}
         />
 
         <ButtonBody>
           <Button
-            disabled={!validateEmail(email) || authNum.length != 6}
+            disabled={!checkAuth}
             onClick={handleNext}
             children="다음"
           />
         </ButtonBody>
+        {isModalOpen && (
+        <Modal
+          text={modalMessage}
+          btn="확인"
+          onClick={handleModalClose}
+        />
+      )}
       </Body>
     </>
   );
@@ -101,3 +183,19 @@ const ButtonBody = styled('div', {
   position: 'absolute',
   bottom: '20px',
 });
+
+const TimerBox = styled("div", {
+    color: "$Gray50",
+    fontSize: "14px",
+    fontStyle: "normal",
+    fontWeight: "400",
+    lineHeight: "22px", 
+    letterSpacing: "-0.5px",
+    marginBottom: "-30px",
+    
+});
+
+const Timerlay = styled("div", {
+  display: "flex",
+  marginLeft: "300px",
+})
