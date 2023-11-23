@@ -9,9 +9,11 @@ import axios from "axios";
 import Modal from '../../component/common/Modal';
 
 const ResetPassword = () => {
+
   //도메인 주소
   const localhost = 'https://dev.betteritem.store';
   const navigate = useNavigate();
+
   const [password, setPassword] = useState<string>('');
   const [checkPassword, setCheckPassword] = useState<string>('');
 
@@ -32,6 +34,7 @@ const ResetPassword = () => {
 
   //비밀번호 변경 api 호출
   const handleNext = () => {
+
     const requestBody = {
       "email": localStorage.getItem("email"),
       "password": password,
@@ -82,8 +85,10 @@ const ResetPassword = () => {
 
         <ButtonBody>
           <Button
+
           //비밀번호와 재입력한 비밀번호가 같으면 버튼 활성화
             disabled={!(checkPassword === password && validatePassword(checkPassword) && password)}
+
             onClick={handleNext}
             children="비밀번호 재설정"
           />
