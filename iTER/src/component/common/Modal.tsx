@@ -68,14 +68,14 @@ export const ModalMyPoint: FC<ModalProps> = ({ onClick, onClosed }) => {
 
   return (
     <Back
-      onClick={() => {
-        onClosed && onClosed();
-      }}
+    onClick={() => {
+      onClosed && onClosed();
+    }}
     >
       <Container>
         <PointModalBox>
-          <XbtnLay>
-            <Xbtn width={28} height={28} onClick={onClick}/>
+          <XbtnLay onClick={onClosed}>
+            <Xbtn width={28} height={28} />
           </XbtnLay>
           <Title>
             <Headline4>포인트가 500점 이상이면<br />ITet가 인정하는 IT 전문가에요</Headline4>
@@ -207,7 +207,8 @@ const Info = styled("div", {
 
 const XbtnLay = styled("div", {
   display: "flex",
-  justifyContent: "flex-end",  // 오른쪽 정렬
-  marginRight: "16px",  // 오른쪽 여백 조절
-  marginTop: "16px",  // 위쪽 여백 조절
+  justifyContent: "flex-end",  
+  marginRight: "16px",  
+  marginTop: "16px",
+  cursor: "pointer",  
 })

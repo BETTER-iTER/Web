@@ -1,5 +1,5 @@
-import Heart from "../../assets/icon/Heart.svg";
-import Scrap from "../../assets/icon/Scrap.svg";
+import Heart from "../../assets/icon/MyPointHeart.svg";
+import Scrap from "../../assets/icon/ScrapMyPoint.svg";
 import { styled } from "../../../stitches.config";
 
 const PointLay = () => {
@@ -7,7 +7,7 @@ const PointLay = () => {
         { title: "현재 포인트" , score:"234점" },
         { title: "작성한 리뷰" , score:"8개" },
         { title: "IT 퀴즈" , score:"21개" },
-        { title: "리뷰 반응" , score: <img src={Heart} alt="heart" width={22} height={22} /> + "15" + <img src={Scrap} alt="scrap" width={22} height={22} /> + "3" },
+        { title: "리뷰 반응" , score: (<div style={{display: "flex", alignItems:"center"}}><img src={Heart} alt="heart" width={22} height={22} style={{marginRight: "3px"}}/> {"15"} <img src={Scrap} alt="scrap" width={22} height={22} style={{marginLeft: "10px"}} /> {"3"}</div>) },
     ];
 
     return (
@@ -37,7 +37,7 @@ const Container = styled("div", {
 const Item = styled("div", {
     bodyText: 1,
     display: "flex",
-    marginBottom: "8px",
+    marginBottom: "8px"
 });
 
 const TitleContainer = styled("div", {
@@ -67,3 +67,4 @@ const ScoreContainer = styled("div", {
         },
     },
 });
+
