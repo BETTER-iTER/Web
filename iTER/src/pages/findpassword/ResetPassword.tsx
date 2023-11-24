@@ -32,21 +32,6 @@ const ResetPassword = () => {
   };
 
   //비밀번호 변경 api 호출
-  // const handleNext = () => {
-
-  //   const requestBody = {
-  //     "email": localStorage.getItem("email"),
-  //     "password": password,
-  //   };
-  //   axios.patch(`${localhost}/auth/password/reset`, requestBody)
-  //   .then((response) => {
-  //     console.log(response);
-  //     setIsModalOpen(true);
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   })
-  // }
 
   const handleNext = async (email: string, password: string) => {
     try {
