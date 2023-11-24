@@ -5,6 +5,7 @@ import { styled } from "../../../stitches.config";
 import CheckCircle from "../../assets/icon/CheckCircle.svg?react";
 import Button from "../../component/common/Button";
 import { ModalSelect } from "../../component/common/Modal";
+import { deleteUser } from "../../apis/login";
 
 type SelectedOptions = {
     [key: string]: boolean;

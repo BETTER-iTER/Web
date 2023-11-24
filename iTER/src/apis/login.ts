@@ -21,3 +21,20 @@ export const postLogin = async (
         throw error;
     }
 };
+
+export const deleteUser = async (
+    reason: string,
+) => {
+    const requestBody = {
+        "reason": reason,
+    };
+
+    try {
+        const response = await api.delete('/user/withdraw/:reasons', requestBody);
+        return response;
+    }
+    catch(error) {
+        console.log("에러:", error);
+        throw error;
+    }
+}
