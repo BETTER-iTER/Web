@@ -5,12 +5,26 @@ import Top from '../../component/layout/Top';
 import { Headline3 } from '../../component/Font';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+import Modal from '../../component/common/Modal';
 
 const ResetPassword = () => {
-   const navigate = useNavigate();
+
+  //도메인 주소
+  const localhost = 'https://dev.betteritem.store';
+  const navigate = useNavigate();
+
   const [password, setPassword] = useState<string>('');
   const [checkPassword, setCheckPassword] = useState<string>('');
 
+  //모달 상태관리 state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  //모달 버튼 수행 함수
+  const handleModalClose = () => {
+    navigate('/login');
+  };
+  //비밀번호 유효성 검사 수행
   const validatePassword = (value: string) => {
     const isPasswordValid = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/i.test(
       value.trim()
@@ -18,8 +32,21 @@ const ResetPassword = () => {
     return isPasswordValid;
   };
 
+  //비밀번호 변경 api 호출
   const handleNext = () => {
-    
+
+    const requestBody = {
+      "email": localStorage.getItem("email"),
+      "password": password,
+    };
+    axios.patch(`${localhost}/auth/password/reset`, requestBody)
+    .then((response) => {
+      console.log(response);
+      setIsModalOpen(true);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   }
 
   return (
@@ -58,11 +85,21 @@ const ResetPassword = () => {
 
         <ButtonBody>
           <Button
-            disabled={!(checkPassword === password && checkPassword && password)}
-            onClick={() => console.log('비번 재설정 버튼')}
+
+          //비밀번호와 재입력한 비밀번호가 같으면 버튼 활성화
+            disabled={!(checkPassword === password && validatePassword(checkPassword) && password)}
+
+            onClick={handleNext}
             children="비밀번호 재설정"
           />
         </ButtonBody>
+        {isModalOpen && (
+        <Modal
+          text="비밀번호가 재설정되었습니다"
+          btn="로그인 화면으로 이동"
+          onClick={handleModalClose}
+        />
+      )}
       </Body>
     </>
   );
