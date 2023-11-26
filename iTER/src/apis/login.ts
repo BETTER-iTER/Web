@@ -1,5 +1,5 @@
 import api from './index';
-
+import axios from "axios";
 //로그인 api 연결
 export const postLogin = async (
     //이메일과 비번을 받아서 api연결 시도
@@ -22,19 +22,27 @@ export const postLogin = async (
     }
 };
 
-export const deleteUser = async (
-    reason: string,
-) => {
+export const deleteUser = async (reason: string) => {
     const requestBody = {
         "reason": reason,
-    };
-
+    }
     try {
-        const response = await api.delete('/user/withdraw/:reasons', requestBody);
-        return response;
+      const accessToken = localStorage.getItem('accessToken');
+      const refreshToken = localStorage.getItem('refreshToken');
+  
+      // 헤더에 토큰 추가
+      axios.defaults.headers.common['Authorization'] = accessToken;
+      axios.defaults.headers.common['Authorization-refresh'] = refreshToken;
+  
+      // DELETE 요청
+      const response = await api.delete(`/user/withdraw/${reason}`, {data: requestBody});
+      
+      // 서버로부터의 응답 처리
+      console.log(response.data);
+      return response;
+    } catch (error) {
+      console.error('에러:', error);
+      throw error;
     }
-    catch(error) {
-        console.log("에러:", error);
-        throw error;
-    }
-}
+  };
+  
