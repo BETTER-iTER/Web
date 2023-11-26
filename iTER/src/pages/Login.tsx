@@ -41,8 +41,10 @@ const Login = () => {
 
       //저장한 토큰 값들 헤더에 저장(백에서 유효성 검사를 통해 엑세스와 리프레시 재발급 해줌)
       //각각의 헤더에 저장
-      axios.defaults.headers.common['Authorization'] = accessToken;
-      // axios.defaults.headers.common['Authorization-refresh'] = refreshToken;
+      axios.defaults.headers.common['Authorization'] = `${accessToken}`;
+      axios.defaults.headers.common['Authorization-refresh'] = `${refreshToken}`;
+      console.log('Headers:', axios.defaults.headers.common);
+
       navigate('/');
     }
     catch(error) {

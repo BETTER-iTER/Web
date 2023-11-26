@@ -23,25 +23,24 @@ export const postLogin = async (
 };
 
 export const deleteUser = async (reason: string) => {
-    const requestBody = {
-        "reason": reason,
-    }
     try {
       const accessToken = localStorage.getItem('accessToken');
-      const refreshToken = localStorage.getItem('refreshToken');
-  
-      // 헤더에 토큰 추가
-      axios.defaults.headers.common['Authorization'] = accessToken;
-      axios.defaults.headers.common['Authorization-refresh'] = refreshToken;
-  
-      // DELETE 요청
-      const response = await api.delete(`/user/withdraw/${reason}`, {data: requestBody});
       
-      // 서버로부터의 응답 처리
+      // axios 헤더에 토큰 추가
+      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+  
+      // 요청 URL에 쿼리 스트링 추가
+      const response = await api.delete('/user/withdraw', {
+        params: {
+          reasons: reason,
+        },
+      });
+  
       console.log(response.data);
       return response;
     } catch (error) {
       console.error('에러:', error);
+      console.log('Headers:', axios.defaults.headers.common);
       throw error;
     }
   };

@@ -20,9 +20,20 @@ const DeleteUser = () => {
         setSelectedOptions((prevSelectedOptions) => {
           const updatedSelectedOptions = { ...prevSelectedOptions };
           updatedSelectedOptions[optionKey] = !updatedSelectedOptions[optionKey];
+          
+          // 선택된 값들을 문자열로 나타내기
+          const selectedNumbers = Object.keys(updatedSelectedOptions)
+            .filter((key) => updatedSelectedOptions[key])
+            .map(Number);
+            const selectedNumbersString = selectedNumbers.join(',');
+
+          // 여기서 선택된 값 출력 또는 다른 작업 수행
+          console.log(selectedNumbersString);
+          setReason(selectedNumbersString);
           return updatedSelectedOptions;
         });
       };
+      
 
       const isButtonEnabled = Object.values(selectedOptions).filter((value) => value).length >= 1 ;
     
@@ -31,25 +42,18 @@ const DeleteUser = () => {
       };
     
       const handleDeleteUser = async (reason: string) => {
-        const selectedNumbers = Object.keys(selectedOptions)
-            .filter((key) => selectedOptions[key])
-            .map(Number);
-        const selectedNumbersString = selectedNumbers.join(', ');
-        setReason(selectedNumbersString);
         try {
             setIsModalOpen(false);
             console.log("탈퇴처리");
-            // deleteUser 함수 호출 시 await 키워드 사용
-            const deleteData = await deleteUser(reason);
-            // deleteData를 여기서 사용할 수 있습니다.
+            const deleteData = deleteUser(reason);
             console.log(deleteData);
-        } catch(error) {
+        }
+        catch(error) {
             const errorData = error.response.data;
             console.log(errorData.code);
             console.log(errorData.message);
         }
-    };
-    
+      };
 
       const closeModalNo = () => {
         setIsModalOpen(false);
@@ -109,7 +113,7 @@ const DeleteUser = () => {
             </Text>
         </Cover>
         {isModalOpen && (
-                <ModalSelect text="탈퇴하시겠습니까?" btn="탈퇴하기" onClosed={closeModalNo} onClick={handleDeleteUser(reason)} />
+                <ModalSelect text="탈퇴하시겠습니까?" btn="탈퇴하기" onClosed={closeModalNo} onClick={()=> handleDeleteUser(reason)} />
             
             )}
         </>
