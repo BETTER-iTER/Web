@@ -2,14 +2,21 @@ import { styled } from '../../../stitches.config';
 import Heart from '../../assets/icon/Heart.svg?react';
 import Scrap from '../../assets/icon/Scrap.svg?react';
 import { Caption2 } from '../Font';
+import ProfileSimple from '../user/ProfileSimple';
 
-const PreviewSimple = () => {
+interface ItemProps {
+  user?: boolean;
+}
+
+const PreviewSimple = ({ user }: ItemProps) => {
   return (
     <Container>
       <Items>
-        <Item />
-        <Item />
-        <Item />
+        <Item user={user} />
+        <Item user={user} />
+        <Item user={user} />
+        <Item user={user} />
+        <Item user={user} />
       </Items>
     </Container>
   );
@@ -17,10 +24,17 @@ const PreviewSimple = () => {
 
 export default PreviewSimple;
 
-const Item = () => {
+const Item = ({ user }: ItemProps) => {
   return (
     <ItemContainer>
-      <Image />
+      <ImageBox>
+        <Image />
+        {user && (
+          <ProfileBox>
+            <ProfileSimple color="white" />
+          </ProfileBox>
+        )}
+      </ImageBox>
       <Title>한성컴퓨터 GK896B</Title>
       <Caption2>
         <Action>
@@ -61,11 +75,24 @@ const ItemContainer = styled('div', {
   borderRadius: '10px',
 });
 
+const ImageBox = styled('div', {
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'relative',
+});
+
 const Image = styled('div', {
   width: '168px',
   height: '200px',
   backgroundColor: '$Gray20',
   borderRadius: '10px',
+});
+
+const ProfileBox = styled('div', {
+  position: 'absolute',
+  bottom: '7px',
+  left: '8px',
+  width: 'fit-content',
 });
 
 const Title = styled('div', {

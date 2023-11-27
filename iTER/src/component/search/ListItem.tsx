@@ -2,9 +2,9 @@ import { styled } from '../../../stitches.config';
 import { ButtonEmpty } from '../common/Button';
 import { Caption2 } from '../Font';
 import Star from '../../assets/icon/star/Star.svg?react';
-import UserIcon from '../../assets/icon/User.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import ProfileSimple from '../user/ProfileSimple';
 
 interface ListItemProps {
   id: number;
@@ -37,11 +37,7 @@ const ListItem: React.FC<ListItemProps> = ({ title, spec, star, review, user, id
               {review}
             </Reviews>
           </Caption2>
-          <User>
-            <UserIcon width={16} height={16} />
-            {/* <UserImage></UserImage> */}
-            {user} | 개발자
-          </User>
+          <ProfileSimple />
         </div>
       </Box>
       <Buttons>
@@ -105,20 +101,6 @@ const Reviews = styled('div', {
 const Stars = styled('div', {
   display: 'flex',
   gap: '5.5px',
-});
-
-const User = styled('div', {
-  bodyText: 3,
-  display: 'flex',
-  alignItems: 'center',
-  gap: '4px',
-});
-
-const UserImage = styled('div', {
-  width: '20px',
-  height: '20px',
-  backgroundColor: '$Gray20',
-  borderRadius: '50%',
 });
 
 const Buttons = styled('div', {

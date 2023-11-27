@@ -15,7 +15,7 @@ const InputSelect: React.FC<InputSelectProps> = ({ labelName, placeholder, onCha
   const [selected, setSelected] = useState<string | null>(null);
 
   return (
-    <>
+    <div>
       <Label>
         <LabelText>{labelName}</LabelText>
       </Label>
@@ -45,7 +45,7 @@ const InputSelect: React.FC<InputSelectProps> = ({ labelName, placeholder, onCha
           ))}
         </List>
       )}
-    </>
+    </div>
   );
 };
 
@@ -61,13 +61,14 @@ const Body = styled('div', {
   textAlign: 'left',
   cursor: 'pointer',
 
-  color: '$Gray30',
+  color: '$Gray50',
   bodyText: 2,
 });
 
 const Label = styled('div', {
   color: 'black',
   marginBottom: '10px',
+  width: '340px',
 });
 
 const List = styled('div', {

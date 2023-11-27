@@ -1,4 +1,5 @@
 import { styled } from '../../../stitches.config';
+import axios from 'axios';
 import Button from '../../component/common/Button';
 import InputComponent from '../../component/common/Input';
 import { Caption2, Headline3 } from '../../component/Font';
@@ -122,7 +123,7 @@ const SignUp = () => {
           type="text"
           labelName="이메일"
           btnName="인증번호 전송"
-          onClick={() => handleEmailButton()}
+          onClick={() => handleEmailButton(email)}
           onChange={setEmail}
           disabled={email.length == 0 || !validateEmail(email) || emailDisabled}
           error={
@@ -142,7 +143,7 @@ const SignUp = () => {
           type="text"
           labelName="인증번호"
           btnName="확인"
-          onClick={() => handleAuthButton()}
+          onClick={() => handleAuthButton(email, authNum)}
           onChange={setAuthNum}
           disabled={authNum.length != 6 || codeDisabled}
           error={authWarning}
