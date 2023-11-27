@@ -96,6 +96,69 @@ export const ButtonPoint: FC<ButtonProps> =({ onClick, children}) => {
   )
 }
 
+//선택 버튼
+export const ButtonSelect: FC<ButtonProps> = ({ onClick, children, disabled }) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    if (!disabled && onClick) {
+      onClick(event);
+    }
+  };
+
+  return (
+    <>
+      <ButtonBody1 onClick={handleClick} disabled={disabled}>
+        <RText>{children}</RText>
+      </ButtonBody1>
+    </>
+  );
+};
+
+// 팝업 버튼
+export const ButtonPopup: FC<ButtonProps> = ({ onClick, children, disabled }) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    if (!disabled && onClick) {
+      onClick(event);
+    }
+  };
+
+  return (
+    <>
+      <ButtonBody2 onClick={handleClick} disabled={disabled}>
+        <ButtonText>{children}</ButtonText>
+      </ButtonBody2>
+    </>
+  );
+};
+
+const ButtonBody2 = styled('button', {
+  width: '380px',
+  height: '50px',
+  borderBottomLeftRadius: '20px', 
+  borderBottomRightRadius: '20px', 
+  border: "none",
+  backgroundColor: "$Gray50",
+  color: "white",
+});
+
+
+const RText = styled('div', {
+  fontSize: "14px",
+  fontWeight: "400",
+  color: "$Gray40",
+  float: "left",
+  marginLeft: "10px"
+})
+
+const ButtonBody1 = styled('button', {
+  width: '340px',
+  height: '50px',
+  borderRadius: '10px',
+  border: "1px solid $Gray10",
+  backgroundColor: "white",
+});
+
+
+
 const ButtonBody = styled('button', {
   width: '340px',
   height: '45px',
