@@ -15,8 +15,6 @@ const GridContainer = styled('div', {
 
 const GridItem = styled('button', {
   backgroundColor: 'white',
-  color: '#8C959F',
-  border: '1px solid #EAEEF2',
   padding: '10px',
   cursor: 'pointer',
   height: '30px',
@@ -45,8 +43,8 @@ const ButtonGrid: React.FC<ButtonGridProps> = ({ items, onButtonClick }) => {
           key={index}
           onClick={() => handleButtonClick(item)}
           style={{
-            backgroundColor: selectedItem === item ? '#4C4E55' : 'white', // 클릭된 버튼의 배경색을 변경
-            color: selectedItem === item ? 'white' : '#8C959F', // 클릭된 버튼의 글자색을 변경
+            border: selectedItem === item ? '1px solid #8787F4' : '1px solid #EAEEF2', // 클릭된 버튼의 테두리를 변경
+            color: selectedItem === item ? '#8787F4' : '#8C959F', // 클릭된 버튼의 글자색을 변경
           }}
         >
           <Item>
