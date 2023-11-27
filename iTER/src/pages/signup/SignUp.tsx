@@ -6,17 +6,31 @@ import { Caption2, Headline3 } from '../../component/Font';
 import Top from '../../component/layout/Top';
 import CheckCircle from '../../assets/icon/CheckCircle.svg?react';
 import { useState } from 'react';
+import { postJoinEmail, postEmailVerify } from '../../apis/auth';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { LoginProps } from '../../types/auth';
+import Timer from '../../component/signup/Timer';
+import Modal from '../../component/common/Modal';
 
 const SignUp = () => {
-  const [check, setCheck] = useState<boolean>(false);
+  const [codeCheck, setCodeCheck] = useState<boolean>(false);
+  const [termsCheck, setTermsCheck] = useState<boolean>(false);
+
   const [email, setEmail] = useState<string>('');
   const [authNum, setAuthNum] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-
-  const [emailWarning, setEmailWarning] = useState<string>('');
   const [authWarning, setAuthWarning] = useState<string>('');
+  const [timer, setTimer] = useState<boolean>(false); // 안증확인시 타이머 true->시간종료후 false
 
-  const localhost = 'http://13.124.170.30:8080';
+  const [successModal, setSuccessModal] = useState<boolean>(false);
+  const [duplicateModal, setDuplicateModal] = useState<boolean>(false);
+
+  // 버튼 활성화
+  const [emailDisabled, setEmailDisabled] = useState<boolean>(false);
+  const [codeDisabled, setCodeDisabled] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   //이메일 유효성 검사
   const validateEmail = (value: string) => {
@@ -31,47 +45,69 @@ const SignUp = () => {
     return isPasswordValid;
   };
 
-  const handleEmailButton = (email: string): void => {
-    console.log('Email click?');
-    
-    // 이메일 유효성 검사
-    if (validateEmail(email)) {
-      setEmailWarning('');
-  
-      const requestBody={
-        "email": email,
-      };
-      axios.post(`${localhost}/auth/join/emails`,requestBody)
-      .then((response) => {
-        console.log("이메일보내기 성공");
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log("에러남");
-        console.log(error);
-      });
-    } else {
-      setEmailWarning('올바른 이메일 주소를 입력해주세요');
+  //다음 버튼 활성화
+  const onDisabled = () => {
+    if (codeCheck && termsCheck && validatePassword(password)) {
+      return false;
     }
+    return true;
   };
-  const handleAuthButton = (email: string, authNum: string) => {
+
+  // 인증번호 전송
+  const mutation = useMutation(postJoinEmail, {
+    onSuccess: (data) => {
+      console.log('data', data);
+      setSuccessModal(true);
+      setTimer(true);
+      setCodeDisabled(false);
+    },
+
+    onError: (error) => {
+      console.log('error', error);
+      setEmailDisabled(false);
+      setDuplicateModal(true);
+    },
+  });
+
+  const handleEmailButton = () => {
+    setEmailDisabled(true);
+    console.log('Email click?');
+    mutation.mutate(email);
+  };
+
+  // 인증번호 확인
+  const coedMutation = useMutation(postEmailVerify, {
+    onSuccess: (data) => {
+      console.log('codedata', data);
+      setCodeCheck(true);
+    },
+    onError: (error) => {
+      console.log('codeerror', error);
+      setAuthWarning('인증번호를 확인해주세요');
+      setCodeDisabled(false);
+    },
+  });
+
+  const handleAuthButton = () => {
+    setCodeDisabled(true);
     console.log(authNum, 'Auth click');
-    authNum === '123456' ? setAuthWarning('') : setAuthWarning('인증번호가 올바르지 않습니다');
-    const requestBody = {
-      "email": email,
-      "code": authNum,
+    const data = {
+      email: email,
+      code: authNum,
     };
-    axios.post(`${localhost}/auth/emails/verification`,requestBody)
-    .then((response) => {
-      console.log("인증번호 인증 성공");
-      console.log(response);
-      setAuthWarning('인증이 완료되었습니다.');
-    })
-    .catch((error) => {
-      console.log("에러남");
-      console.log(error);
-      setAuthWarning('인증번호가 일치하지 않습니다.');
-    })
+    coedMutation.mutate(data);
+  };
+
+  // 다음버튼
+  const loginInfo: LoginProps = {
+    // email: 'already.nyeong@gmail.com',
+    // password: 'qwer1234!',
+    email: email,
+    password: password,
+  };
+
+  const handleNext = () => {
+    navigate('/signup/additional', { state: loginInfo });
   };
 
   return (
@@ -89,10 +125,19 @@ const SignUp = () => {
           btnName="인증번호 전송"
           onClick={() => handleEmailButton(email)}
           onChange={setEmail}
-          disabled={email.length == 0}
-          error={emailWarning}
+          disabled={email.length == 0 || !validateEmail(email) || emailDisabled}
+          error={
+            validateEmail(email) || email.length == 0
+              ? undefined
+              : '올바른 이메일 주소를 입력해주세요'
+          }
         />
         <div style={{ marginTop: 20 }} />
+        {timer && (
+          <TimerBox>
+            <Timer min={3} onChange={() => setTimer(true)} />
+          </TimerBox>
+        )}
         <InputComponent
           placeholder="인증번호를 6자리를 입력해주세요"
           type="text"
@@ -100,7 +145,7 @@ const SignUp = () => {
           btnName="확인"
           onClick={() => handleAuthButton(email, authNum)}
           onChange={setAuthNum}
-          disabled={authNum.length != 6}
+          disabled={authNum.length != 6 || codeDisabled}
           error={authWarning}
         />
         <div style={{ marginTop: 20 }} />
@@ -118,13 +163,22 @@ const SignUp = () => {
         />
 
         <Bottom>
-          <Terms onClick={() => setCheck(!check)} check={check}>
-            <CheckCircle fill={check ? '#8787F4' : '#C1C4CC'} />
+          <Terms onClick={() => setTermsCheck(!termsCheck)} check={termsCheck}>
+            <CheckCircle fill={termsCheck ? '#8787F4' : '#C1C4CC'} />
             <Caption2>ITer 서비스이용약관에 동의합니다.</Caption2>
           </Terms>
-          <Button disabled>다음</Button>
+          <Button disabled={onDisabled()} onClick={() => handleNext()}>
+            다음
+          </Button>
         </Bottom>
       </Content>
+
+      {successModal && (
+        <Modal text="인증번호가 전송되었습니다" onClick={() => setSuccessModal(false)} btn="확인" />
+      )}
+      {duplicateModal && (
+        <Modal text="이미 가입된 이메일입니다" onClick={() => navigate('/login')} btn="확인" />
+      )}
     </>
   );
 };
@@ -163,4 +217,12 @@ const Bottom = styled('div', {
   borderBottom: 'solid 1px $Bar',
   position: 'absolute',
   bottom: '20px',
+});
+
+const TimerBox = styled('div', {
+  width: '330px',
+  display: 'flex',
+  justifyContent: 'flex-end',
+  position: 'absolute',
+  top: '352px',
 });
