@@ -25,15 +25,18 @@ export const postLogin = async (
 export const deleteUser = async (reason: string) => {
     try {
       const accessToken = localStorage.getItem('accessToken');
-      
+      console.log(accessToken);
       // axios 헤더에 토큰 추가
       axios.defaults.headers.common['Authorization'] = `${accessToken}`;
-  
-      // 요청 URL에 쿼리 스트링 추가
+      axios.defaults.headers.common['Content-Type'] = 'application/json';
+
       const response = await api.delete('/user/withdraw', {
         params: {
           reasons: reason,
         },
+        headers: {
+            Authorization: `${accessToken}`,
+          }, 
       });
   
       console.log(response.data);

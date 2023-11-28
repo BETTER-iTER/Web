@@ -32,7 +32,7 @@ const Login = () => {
       const loginData = await postLogin(email, password);
 
       //로그인 성공시 토큰 값들과 만료기한 저장하기
-      const {accessToken, refreshToken, expiredTime} = loginData;
+      const {accessToken, refreshToken, expiredTime} = loginData.result;
 
       //저장한 값들 로컬스토리지에 넣어주기
       localStorage.setItem('accessToken', accessToken);

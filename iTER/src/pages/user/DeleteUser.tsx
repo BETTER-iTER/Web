@@ -45,7 +45,8 @@ const DeleteUser = () => {
         try {
             setIsModalOpen(false);
             console.log("탈퇴처리");
-            const deleteData = deleteUser(reason);
+            const deleteData = await deleteUser(reason);
+            console.log(reason)
             console.log(deleteData);
         }
         catch(error) {
