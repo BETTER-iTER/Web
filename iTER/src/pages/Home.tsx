@@ -9,13 +9,21 @@ import Quiz from '../component/home/Quiz';
 import News from '../component/home/News';
 import Footer from '../component/layout/Footer';
 import Nav from '../component/layout/Nav';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <Container>
       <Top />
       <div style={{ height: 20 }} />
-      <ButtonWrite>리뷰 쓰러가기</ButtonWrite>
+      <ButtonWrite
+        onClick={() => {
+          navigate('/review/write');
+        }}
+      >
+        리뷰 쓰러가기
+      </ButtonWrite>
 
       <Label>최신IT 소식</Label>
       <News />
