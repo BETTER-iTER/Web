@@ -28,7 +28,6 @@ export const deleteUser = async (reason: string) => {
       console.log(accessToken);
       // axios 헤더에 토큰 추가
       axios.defaults.headers.common['Authorization'] = `${accessToken}`;
-      axios.defaults.headers.common['Content-Type'] = 'application/json';
 
       const response = await api.delete('/user/withdraw', {
         params: {

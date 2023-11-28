@@ -6,12 +6,14 @@ import CheckCircle from "../../assets/icon/CheckCircle.svg?react";
 import Button from "../../component/common/Button";
 import { ModalSelect } from "../../component/common/Modal";
 import { deleteUser } from "../../apis/login";
+import { useNavigate } from "react-router-dom";
 
 type SelectedOptions = {
     [key: string]: boolean;
   };
   
 const DeleteUser = () => {
+    const navigate = useNavigate();
     // const [check, setCheck] = useState<boolean>(false);
     const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({});
     const [reason, setReason] = useState<string>('');
@@ -48,6 +50,7 @@ const DeleteUser = () => {
             const deleteData = await deleteUser(reason);
             console.log(reason)
             console.log(deleteData);
+            navigate('/login');
         }
         catch(error) {
             const errorData = error.response.data;
