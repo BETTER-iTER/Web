@@ -1,13 +1,19 @@
 import { Headline2, Headline3 } from '../../component/Font';
 import { styled } from '@stitches/react';
 import Button from '../../component/common/Button';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { UserProps } from '../../types/auth';
+import CategoryList from '../../constants/Category';
 
 const SignupComplete = () => {
-  const nickname = 'test';
-  const interest = ['tag1', 'tag2', 'tag3'];
-
+  const location = useLocation();
+  const state = location.state as UserProps;
+  const nickname = state.nickName;
+  const categories = state.categories;
   const navigate = useNavigate();
+
+  const interest = categories.split(', ');
+
   return (
     <Container>
       <div style={{ margin: '0 auto' }}>
@@ -19,17 +25,19 @@ const SignupComplete = () => {
         <Headline3>나의 관심분야는</Headline3>
         <Hash>
           <Headline3>
-            #{interest[0]} #{interest[1]} #{interest[2]}
+            {interest.map((item, index) => {
+              return <span key={index}>#{item} </span>;
+            })}
           </Headline3>
         </Hash>
 
         <Bottom>
           <Button
             onClick={() => {
-              navigate('/');
+              navigate('/login');
             }}
           >
-            홈으로 가기
+            로그인 하기
           </Button>
         </Bottom>
       </div>
@@ -60,6 +68,6 @@ const Hash = styled('div', {
 
 const Bottom = styled('div', {
   position: 'absolute',
-  bottom: '10px',
+  bottom: '20px',
   left: '25px',
 });

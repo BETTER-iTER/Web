@@ -6,6 +6,10 @@ import { Headline3, Headline4 } from '../../component/Font';
 import Nickname from '../../component/signup/Nickname';
 import Job from '../../component/signup/Job';
 import Interest from '../../component/signup/Interest';
+import { postJoin } from '../../apis/auth';
+import { useMutation } from '@tanstack/react-query';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { LoginProps, UserProps } from '../../types/auth';
 
 const SignupAdditional = () => {
   const title = [
@@ -15,16 +19,63 @@ const SignupAdditional = () => {
   ];
   const [count, setCount] = useState<number>(1);
   const [disabled, setDisabled] = useState<boolean>(true);
+  const [nickname, setNickname] = useState<string>('');
+  const [job, setJob] = useState<number>(-1);
+  const [interest, setInterest] = useState<string>('');
+  const location = useLocation();
+  const navigation = useNavigate();
+  const state = location.state as LoginProps;
+  const { email, password } = state || { email: '', password: '' };
+
+  const handleNickname = (value: string) => {
+    setNickname(value);
+  };
+  const handleJob = (value: number) => {
+    setJob(value);
+  };
+  const handleInterest = (value: string) => {
+    setInterest(value);
+  };
 
   const onDisabled = (value: boolean) => {
     setDisabled(value);
+  };
+
+  const userInfo: UserProps = {
+    nickName: nickname,
+    job: job,
+    categories: interest,
+    email: email,
+    password: password,
+  };
+
+  const mutation = useMutation(postJoin, {
+    onSuccess: (data) => {
+      console.log('data', data);
+      navigation('/signup/complete', { state: userInfo });
+    },
+    onError: (error) => {
+      console.log('error', error);
+    },
+  });
+
+  const handleJoin = () => {
+    navigation('/signup/complete', { state: userInfo });
+    const body = {
+      email: email || '',
+      password: password || '',
+      nickName: nickname,
+      job: job,
+      categories: interest,
+    };
+    mutation.mutate(body);
   };
 
   const handleNext = () => {
     if (count < 3) {
       setCount(count + 1);
     } else {
-      console.log('회원가입 완료');
+      handleJoin();
     }
   };
 
@@ -56,11 +107,11 @@ const SignupAdditional = () => {
           )}
         </Title>
         {count == 1 ? (
-          <Nickname onDisabled={onDisabled} />
+          <Nickname onDisabled={onDisabled} onChange={handleNickname} />
         ) : count == 2 ? (
-          <Job onDisabled={onDisabled} />
+          <Job onDisabled={onDisabled} onChange={handleJob} />
         ) : (
-          <Interest onDisabled={onDisabled} />
+          <Interest onDisabled={onDisabled} onChange={handleInterest} />
         )}
         <Bottom>
           <Button

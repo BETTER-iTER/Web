@@ -19,8 +19,8 @@ import Index from './pages/mypage/Index';
 import Follow from './pages/mypage/Follow';
 import EditProfile from './pages/mypage/EditProfile';
 import Setting from './pages/mypage/Setting';
-
-
+import PointPage from './pages/mypage/PointPage';
+import LoadingPage from './component/common/Loading';
 
 function App() {
   return (
@@ -47,6 +47,8 @@ function App() {
       <Route path="/user/interest" element={<Interest />} />
       <Route path="/user/like" element={<Like />} />
       <Route path="/user/setting" element={<Setting />} />
+      <Route path="/user/point" element={<PointPage />} />
+      <Route path="/loading" element={<LoadingPage />} />
     </Routes>
   );
 }

@@ -5,12 +5,25 @@ import Top from '../../component/layout/Top';
 import { Headline3 } from '../../component/Font';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Modal from '../../component/common/Modal';
+import { patchChangePassword } from '../../apis/login';
 
 const ResetPassword = () => {
-//   const navigate = useNavigate();
+
+  //도메인 주소
+  const navigate = useNavigate();
+  const emailData  = localStorage.getItem("email");
   const [password, setPassword] = useState<string>('');
   const [checkPassword, setCheckPassword] = useState<string>('');
 
+  //모달 상태관리 state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  //모달 버튼 수행 함수
+  const handleModalClose = () => {
+    navigate('/login');
+  };
+  //비밀번호 유효성 검사 수행
   const validatePassword = (value: string) => {
     const isPasswordValid = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/i.test(
       value.trim()
@@ -18,10 +31,19 @@ const ResetPassword = () => {
     return isPasswordValid;
   };
 
-  const handleNext = () => {
-    console.log("비번 재설정 버튼");
-    // 비번 재설정 api 연결후 navigate로 경로 이동
-  }
+  //비밀번호 변경 api 호출
+
+  const handleNext = async (email: string, password: string) => {
+    try {
+      const changeData = patchChangePassword(email, password);
+      console.log(changeData);
+      setIsModalOpen(true);
+    }
+    catch(error) {
+      const changeError = error.response.data.code;
+      console.log(changeError);
+    }
+  };
 
   return (
     <>
@@ -59,11 +81,20 @@ const ResetPassword = () => {
 
         <ButtonBody>
           <Button
-            disabled={!(checkPassword === password && checkPassword && password)}
-            onClick={handleNext}
+
+          //비밀번호와 재입력한 비밀번호가 같으면 버튼 활성화
+            disabled={!(checkPassword === password && validatePassword(checkPassword) && password)}
+            onClick={()=> handleNext(emailData, password)}
             children="비밀번호 재설정"
           />
         </ButtonBody>
+        {isModalOpen && (
+        <Modal
+          text="비밀번호가 재설정되었습니다"
+          btn="로그인 화면으로 이동"
+          onClick={handleModalClose}
+        />
+      )}
       </Body>
     </>
   );

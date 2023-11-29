@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { styled } from '../../../stitches.config';
 import { ButtonText, Headline4 } from '../Font';
+import Xbtn from '../../assets/icon/Xbtn.svg?react';
 
 interface ModalProps {
   text: string;
@@ -56,11 +57,54 @@ export const ModalSelect: FC<ModalProps> = ({ text, btn, onClick, onClosed }) =>
   );
 };
 
+export const ModalMyPoint: FC<ModalProps> = ({ onClick, onClosed }) => {
+  const score = [
+    { title: '리뷰를 작성하면', score: '+ 20점' },
+    { title: 'IT 퀴즈를 풀면', score: '+3점' },
+    { title: 'IT 퀴즈 정답을 맞히면', score: '+5점' },
+    { title: '리뷰 좋아요', score: '+7점' },
+    { title: '리뷰 스크랩', score: '+10점' },
+  ];
+
+  return (
+    <Back
+      onClick={() => {
+        onClosed && onClosed();
+      }}
+    >
+      <Container>
+        <PointModalBox>
+          <XbtnLay onClick={onClosed}>
+            <Xbtn width={28} height={28} />
+          </XbtnLay>
+          <Title>
+            <Headline4>
+              포인트가 500점 이상이면
+              <br />
+              ITet가 인정하는 IT 전문가에요
+            </Headline4>
+          </Title>
+          <Info>
+            {score.map((item, index) => (
+              <Item key={index}>
+                <ContainerP>
+                  <TitleContainer>{item.title}</TitleContainer>
+                  <ScoreContainer>{item.score}</ScoreContainer>
+                </ContainerP>
+              </Item>
+            ))}
+          </Info>
+        </PointModalBox>
+      </Container>
+    </Back>
+  );
+};
+
 export default Modal;
 
 const Back = styled('div', {
   backgroundColor: 'rgba(25, 25, 25, 0.8)',
-  width: '100vw',
+  width: '100%',
   height: '100vh',
   position: 'fixed',
   left: '0',
@@ -80,7 +124,6 @@ const Container = styled('div', {
 });
 
 const ModalBox = styled('div', {
-  marginTop: '50%',
   width: '340px',
   backgroundColor: `$White`,
   borderRadius: '20px',
@@ -93,6 +136,9 @@ const ModalBox = styled('div', {
   },
   overflow: 'hidden',
   pointerEvents: 'auto',
+  position: 'fixed',
+  transform: 'translateY(-50%)',
+  top: '50%',
 });
 
 const Button = styled('div', {
@@ -120,4 +166,53 @@ const SelectButton = styled('div', {
     backgroundColor: '$Gray40',
     color: '$White',
   },
+});
+
+const PointModalBox = styled('div', {
+  width: '340px',
+  height: '296px',
+  borderRadius: '20px',
+  backgroundColor: '#FFF',
+  position: 'fixed',
+  transform: 'translateY(-50%)',
+  top: '50%',
+});
+
+const Title = styled('div', {
+  color: '24292F',
+  textAlign: 'center',
+  marginTop: '-10px',
+});
+
+//여기서부터 point 모달창 스타일
+const ContainerP = styled('div', {
+  width: '250px',
+  marginLeft: '46px',
+});
+
+const Item = styled('div', {
+  bodyText: 1,
+  display: 'flex',
+  marginBottom: '8px',
+  color: '#8E9198',
+});
+
+const TitleContainer = styled('div', {
+  float: 'left',
+});
+
+const ScoreContainer = styled('div', {
+  float: 'right',
+});
+
+const Info = styled('div', {
+  marginTop: '30px',
+});
+
+const XbtnLay = styled('div', {
+  display: 'flex',
+  justifyContent: 'flex-end',
+  marginRight: '16px',
+  marginTop: '16px',
+  cursor: 'pointer',
 });
