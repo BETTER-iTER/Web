@@ -86,15 +86,15 @@ export const ButtonBlack: FC<ButtonProps> = ({ onClick, children }) => {
   );
 };
 
-export const ButtonPoint: FC<ButtonProps> =({ onClick, children}) => {
+export const ButtonPoint: FC<ButtonProps> = ({ onClick, children }) => {
   return (
     <>
-    <ButtonBody style={{backgroundColor: "#4C4E55"}} onClick={onClick}>
-      <ButtonText style={{color: "#FFF"}}>{children}</ButtonText>
-    </ButtonBody>
+      <ButtonBody style={{ backgroundColor: '#4C4E55' }} onClick={onClick}>
+        <ButtonText style={{ color: '#FFF' }}>{children}</ButtonText>
+      </ButtonBody>
     </>
-  )
-}
+  );
+};
 
 //선택 버튼
 export const ButtonSelect: FC<ButtonProps> = ({ onClick, children, disabled }) => {
@@ -133,31 +133,28 @@ export const ButtonPopup: FC<ButtonProps> = ({ onClick, children, disabled }) =>
 const ButtonBody2 = styled('button', {
   width: '380px',
   height: '50px',
-  borderBottomLeftRadius: '20px', 
-  borderBottomRightRadius: '20px', 
-  border: "none",
-  backgroundColor: "$Gray50",
-  color: "white",
+  borderBottomLeftRadius: '20px',
+  borderBottomRightRadius: '20px',
+  border: 'none',
+  backgroundColor: '$Gray50',
+  color: 'white',
 });
 
-
 const RText = styled('div', {
-  fontSize: "14px",
-  fontWeight: "400",
-  color: "$Gray40",
-  float: "left",
-  marginLeft: "10px"
-})
+  fontSize: '14px',
+  fontWeight: '400',
+  color: '$Gray40',
+  float: 'left',
+  marginLeft: '10px',
+});
 
 const ButtonBody1 = styled('button', {
   width: '340px',
   height: '50px',
   borderRadius: '10px',
-  border: "1px solid $Gray10",
-  backgroundColor: "white",
+  border: '1px solid $Gray10',
+  backgroundColor: 'white',
 });
-
-
 
 const ButtonBody = styled('button', {
   width: '340px',

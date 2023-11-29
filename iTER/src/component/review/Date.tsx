@@ -33,7 +33,7 @@ const DateComponent: React.FC<DateProps> = ({ selectedDate, onDateChange }) => {
 export default DateComponent;
 
 const StyledDatePicker = styled(DatePicker, {
-  width: '324px',
+  width: '321px',
   height: '46px',
   borderRadius: '10px',
   border: '1px solid $Gray10',
