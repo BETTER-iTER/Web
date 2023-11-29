@@ -6,13 +6,12 @@ import { Headline3 } from '../../component/Font';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../component/common/Modal';
-import { patchChangePassword } from '../../apis/login';
+import { patchChangePassword } from '../../apis/auth';
 
 const ResetPassword = () => {
-
   //도메인 주소
   const navigate = useNavigate();
-  const emailData  = localStorage.getItem("email");
+  const emailData = localStorage.getItem('email');
   const [password, setPassword] = useState<string>('');
   const [checkPassword, setCheckPassword] = useState<string>('');
 
@@ -38,8 +37,7 @@ const ResetPassword = () => {
       const changeData = patchChangePassword(email, password);
       console.log(changeData);
       setIsModalOpen(true);
-    }
-    catch(error) {
+    } catch (error) {
       const changeError = error.response.data.code;
       console.log(changeError);
     }
@@ -81,20 +79,19 @@ const ResetPassword = () => {
 
         <ButtonBody>
           <Button
-
-          //비밀번호와 재입력한 비밀번호가 같으면 버튼 활성화
+            //비밀번호와 재입력한 비밀번호가 같으면 버튼 활성화
             disabled={!(checkPassword === password && validatePassword(checkPassword) && password)}
-            onClick={()=> handleNext(emailData, password)}
+            onClick={() => handleNext(emailData, password)}
             children="비밀번호 재설정"
           />
         </ButtonBody>
         {isModalOpen && (
-        <Modal
-          text="비밀번호가 재설정되었습니다"
-          btn="로그인 화면으로 이동"
-          onClick={handleModalClose}
-        />
-      )}
+          <Modal
+            text="비밀번호가 재설정되었습니다"
+            btn="로그인 화면으로 이동"
+            onClick={handleModalClose}
+          />
+        )}
       </Body>
     </>
   );
