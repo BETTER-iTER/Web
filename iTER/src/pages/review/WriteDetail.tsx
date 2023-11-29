@@ -1,4 +1,4 @@
-import InputComponent from '../../component/common/Input';
+import InputComponent, { InputComponentReiview } from '../../component/common/Input';
 import { styled } from '../../../stitches.config';
 import { useState } from 'react';
 import RadioInput from '../../component/common/RadioInput';
@@ -47,7 +47,7 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
   return (
     <>
       <MainLay>
-        <InputComponent
+        <InputComponentReiview
           placeholder="제품명을 입력해 주세요"
           type="text"
           labelName="제품명 *"
@@ -70,7 +70,7 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
 
         <div style={{ marginTop: 20 }} />
 
-        <InputComponent
+        <InputComponentReiview
           placeholder="₩ 금액을 입력해 주세요"
           type="text"
           labelName="금액"
@@ -102,7 +102,7 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
 
         <div style={{ marginTop: 20 }} />
 
-        <InputComponent
+        <InputComponentReiview
           placeholder="제품명을 입력해 주세요"
           type="text"
           labelName="비교 제품"
