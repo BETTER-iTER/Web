@@ -2,15 +2,34 @@ import { styled } from '@stitches/react';
 import { useState } from 'react';
 import InputComponent from '../common/Input';
 import { Caption1 } from '../Font';
+import { getNicknameVerify } from '../../apis/auth';
+import { useMutation } from '@tanstack/react-query';
 
-const Nickname = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
-  const [nickname, setNickname] = useState('');
+interface NicknameProps {
+  onDisabled: (value: boolean) => void;
+  onChange: (value: string) => void;
+}
+
+const Nickname = ({ onDisabled, onChange }: NicknameProps) => {
+  const [value, setValue] = useState('');
   const [error, setError] = useState(false);
+
+  const mutation = useMutation(getNicknameVerify, {
+    onSuccess: (data) => {
+      console.log('data', data);
+      setError(false);
+      onChange(value);
+      onDisabled(false);
+    },
+    onError: (error) => {
+      console.log('error', error);
+      setError(true);
+    },
+  });
   const DuplicationCheck = () => {
     console.log('중복체크');
-    setError(false);
+    mutation.mutate(value);
   };
-  onDisabled(nickname === '');
   return (
     <NicknameBox>
       <InputComponent
@@ -21,14 +40,14 @@ const Nickname = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
         onClick={() => {
           DuplicationCheck();
         }}
-        onChange={setNickname}
-        error={error ? '이미 사용중인 닉네임입니다.' : undefined}
-        disabled={nickname.length == 0}
+        onChange={setValue}
+        error={error ? '이미 사용중인 닉네임입니다' : undefined}
+        disabled={value.length == 0}
         notice="영문/숫자 조합 1~20자"
       />
-      {!error && (
+      {!error && mutation.data && (
         <Notice>
-          <Caption1>사용 가능한 닉네임입니다.</Caption1>
+          <Caption1>사용 가능한 닉네임입니다</Caption1>
         </Notice>
       )}
     </NicknameBox>

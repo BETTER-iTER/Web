@@ -5,15 +5,14 @@ import Top from '../../component/layout/Top';
 import { Headline3 } from '../../component/Font';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
 import Modal from '../../component/common/Modal';
+import { patchChangePassword } from '../../apis/login';
 
 const ResetPassword = () => {
 
   //도메인 주소
-  const localhost = 'https://dev.betteritem.store';
   const navigate = useNavigate();
-
+  const emailData  = localStorage.getItem("email");
   const [password, setPassword] = useState<string>('');
   const [checkPassword, setCheckPassword] = useState<string>('');
 
@@ -33,21 +32,18 @@ const ResetPassword = () => {
   };
 
   //비밀번호 변경 api 호출
-  const handleNext = () => {
 
-    const requestBody = {
-      "email": localStorage.getItem("email"),
-      "password": password,
-    };
-    axios.patch(`${localhost}/auth/password/reset`, requestBody)
-    .then((response) => {
-      console.log(response);
+  const handleNext = async (email: string, password: string) => {
+    try {
+      const changeData = patchChangePassword(email, password);
+      console.log(changeData);
       setIsModalOpen(true);
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-  }
+    }
+    catch(error) {
+      const changeError = error.response.data.code;
+      console.log(changeError);
+    }
+  };
 
   return (
     <>
@@ -88,8 +84,7 @@ const ResetPassword = () => {
 
           //비밀번호와 재입력한 비밀번호가 같으면 버튼 활성화
             disabled={!(checkPassword === password && validatePassword(checkPassword) && password)}
-
-            onClick={handleNext}
+            onClick={()=> handleNext(emailData, password)}
             children="비밀번호 재설정"
           />
         </ButtonBody>

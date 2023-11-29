@@ -70,7 +70,7 @@ const Image = styled('div', {
   variants: {
     isSelected: {
       true: {
-        boxShadow: '2px 4px 4px 2px rgba(135, 135, 244, 0.5)',
+        backgroundColor: 'rgba(135, 135, 244, 0.30)',
       },
     },
     isSelectedBorder: {
