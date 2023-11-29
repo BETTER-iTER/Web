@@ -144,7 +144,7 @@ const ButtonBody2 = styled('button', {
 const RText = styled('div', {
   fontSize: "14px",
   fontWeight: "400",
-  color: "$Gray40",
+  color: "#8C959F",
   float: "left",
   marginLeft: "10px"
 })

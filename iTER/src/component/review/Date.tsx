@@ -43,7 +43,7 @@ const StyledDatePicker = styled(DatePicker, {
     outline: 'none',
   },
   '&::placeholder': {
-    color: '$Gray40',
+    color: '#8C959F',
     fontSize: '14px',
   },
   '& .react-datepicker__close-icon': {
