@@ -1,6 +1,6 @@
 import { styled } from '../../../stitches.config';
-import ErrorNetwork from '../../assets/icon/ErrorNetwork.svg?react';
-import ErrorIcon from '../../assets/icon/ErrorIcon.svg?react';
+import ErrorNetwork from '../../assets/icon/error/ErrorNetwork.svg?react';
+import ErrorIcon from '../../assets/icon/error/ErrorIcon.svg?react';
 const ErrorPage = ({ type }: { type: number }) => {
   return (
     <Container>

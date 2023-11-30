@@ -1,35 +1,14 @@
 import { useState, useEffect } from 'react';
 import { styled } from '../../../stitches.config';
+import { NewsProps } from '../../types/News';
 
-const banners = [
-  {
-    src: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1769&q=80',
-    alt: 'Banner 1',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1772&q=80',
-    alt: 'Banner 2',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto.format&fit=crop&w=1770&q=80',
-    alt: 'Banner 3',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1503252947848-7338d3f92f31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1931&q=80',
-    alt: 'Banner 4',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80',
-    alt: 'Banner 5',
-  },
-];
-
-const News = () => {
+const News: React.FC<{ newsData: NewsProps[] }> = (props) => {
+  const { newsData } = props;
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentBannerIndex((prevIndex) => (prevIndex + 1) % banners.length);
+      setCurrentBannerIndex((prevIndex) => (prevIndex + 1) % newsData.length);
     }, 3000);
 
     return () => clearInterval(interval);
@@ -38,14 +17,14 @@ const News = () => {
   return (
     <Container>
       <Slider style={{ transform: `translateX(-${currentBannerIndex * 100}%)` }}>
-        {banners.map((banner, index) => (
+        {newsData.map((banner, index) => (
           <Banner key={index}>
-            <img src={banner.src} alt={banner.alt} width={340} height={180} />
+            <img src={banner.imageUrl} alt={banner.title} width={340} height={180} />
           </Banner>
         ))}
       </Slider>
       <Indicators>
-        {banners.map((_, index) => (
+        {newsData.map((_, index) => (
           <Indicator key={index} active={index === currentBannerIndex} />
         ))}
       </Indicators>

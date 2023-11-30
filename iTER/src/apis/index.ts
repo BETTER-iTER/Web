@@ -1,11 +1,11 @@
 import axios from 'axios';
 
+axios.defaults.withCredentials = true;
+axios.defaults.headers.common['Content-Type'] = 'application/json';
+axios.defaults.headers.common['Accept'] = 'application/json';
 const api = axios.create({
   baseURL: 'https://dev.betteritem.store',
   timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
 });
 
 export default api;

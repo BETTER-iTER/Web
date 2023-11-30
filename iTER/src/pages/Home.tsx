@@ -12,18 +12,14 @@ import Nav from '../component/layout/Nav';
 import { useQuery } from '@tanstack/react-query';
 import { getNews } from '../apis/home';
 import { NewsProps } from '../types/News';
-import { useEffect } from 'react';
+import LoadingPage from '../component/common/Loading';
+import ErrorPage from '../component/common/Error';
 
 const Home = () => {
-  // const { data: newsData, isLoading, isError } = useQuery<NewsProps, Error>(['news'], getNews);
-  // useEffect(() => {
-  //   const fetchNews = async () => {
-  //     if (isLoading) return <div>로딩중</div>;
-  //     if (isError) return <div>에러</div>;
-  //     console.log(newsData);
-  //   };
-  //   if (!isLoading && !isError) fetchNews();
-  // }, []);
+  const { data: newsData, isLoading, isError } = useQuery<NewsProps[], Error>(['news'], getNews);
+  if (isLoading) return <LoadingPage />;
+  if (isError) return <ErrorPage type={2} />;
+  console.log(newsData.length);
 
   return (
     <Container>
@@ -32,7 +28,7 @@ const Home = () => {
       <ButtonWrite>리뷰 쓰러가기</ButtonWrite>
 
       <Label>최신IT 소식</Label>
-      <News />
+      <News newsData={newsData} />
 
       <Label>아이터에서 찐 리뷰를 살펴보세요</Label>
       <CategoryScroll />
