@@ -18,9 +18,15 @@ const News: React.FC<{ newsData: NewsProps[] }> = (props) => {
     <Container>
       <Slider style={{ transform: `translateX(-${currentBannerIndex * 100}%)` }}>
         {newsData.map((banner, index) => (
-          <Banner key={index}>
-            <img src={banner.imageUrl} alt={banner.title} width={340} height={180} />
-          </Banner>
+          <>
+            <Banner key={index}>
+              <img src={banner.imageUrl} alt={banner.title} width={340} height={180} />
+            </Banner>
+            <TextBox>
+              <div>{banner.title}</div>
+              <div>{banner.content}</div>
+            </TextBox>
+          </>
         ))}
       </Slider>
       <Indicators>
@@ -77,4 +83,13 @@ const Indicator = styled('div', {
       },
     },
   },
+});
+
+const TextBox = styled('div', {
+  position: 'absolute',
+  bottom: '22px',
+  left: '21px',
+  zIndex: '1',
+  bodyText: 1,
+  color: '$White',
 });
