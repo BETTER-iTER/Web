@@ -124,7 +124,7 @@ const SignUp = () => {
           type="text"
           labelName="이메일"
           btnName="인증번호 전송"
-          onClick={() => handleEmailButton(email)}
+          onClick={() => handleEmailButton()}
           onChange={setEmail}
           disabled={email.length == 0 || !validateEmail(email) || emailDisabled}
           error={
@@ -144,7 +144,7 @@ const SignUp = () => {
           type="text"
           labelName="인증번호"
           btnName="확인"
-          onClick={() => handleAuthButton(email, authNum)}
+          onClick={() => handleAuthButton()}
           onChange={setAuthNum}
           disabled={authNum.length != 6 || codeDisabled}
           error={authWarning}
@@ -184,7 +184,6 @@ const SignUp = () => {
       {mutation.isLoading && <LoadingPage />}
       {coedMutation.isError && <ErrorPage type={2} />}
       {coedMutation.isLoading && <LoadingPage />}
-      <ErrorPage type={2} />
     </>
   );
 };

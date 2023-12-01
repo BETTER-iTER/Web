@@ -10,6 +10,8 @@ import { postJoin } from '../../apis/auth';
 import { useMutation } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LoginProps, UserProps } from '../../types/auth';
+import LoadingPage from '../../component/common/Loading';
+import ErrorPage from '../../component/common/Error';
 
 const SignupAdditional = () => {
   const title = [
@@ -124,6 +126,8 @@ const SignupAdditional = () => {
           </Button>
         </Bottom>
       </Content>
+      {mutation.isLoading && <LoadingPage />}
+      {mutation.isError && <ErrorPage type={2} />}
     </>
   );
 };
