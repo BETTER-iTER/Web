@@ -10,16 +10,31 @@ import News from '../component/home/News';
 import Footer from '../component/layout/Footer';
 import Nav from '../component/layout/Nav';
 import { useQuery } from '@tanstack/react-query';
-import { getNews } from '../apis/home';
+import { getHome, getNews } from '../apis/home';
 import { NewsProps } from '../types/News';
 import LoadingPage from '../component/common/Loading';
 import ErrorPage from '../component/common/Error';
 
 const Home = () => {
-  const { data: newsData, isLoading, isError } = useQuery<NewsProps[], Error>(['news'], getNews);
-  if (isLoading) return <LoadingPage />;
-  if (isError) return <ErrorPage type={2} />;
-  console.log(newsData.length);
+  // 뉴스 데이터 가져오기
+  const {
+    data: newsData,
+    isLoading: newsLoading,
+    isError: newsError,
+  } = useQuery<NewsProps[], Error>(['news'], getNews);
+  // 홈 데이터 가져오기
+  // const {
+  //   data: homeData,
+  //   isLoading: homeLoading,
+  //   isError: homeError,
+  // } = useQuery<JSON, Error>(['home'], getHome);
+
+  if (newsLoading) return <LoadingPage />;
+  if (newsError) return <ErrorPage type={2} />;
+  // if (homeLoading) return <LoadingPage />;
+  // if (homeError) return <ErrorPage type={2} />;
+
+  console.log(newsData, 'newsData');
 
   return (
     <Container>
