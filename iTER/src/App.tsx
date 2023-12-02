@@ -21,6 +21,7 @@ import EditProfile from './pages/mypage/EditProfile';
 import Setting from './pages/mypage/Setting';
 import PointPage from './pages/mypage/PointPage';
 import LoadingPage from './component/common/Loading';
+import ReviewWrite from './pages/review/ReviewWrite';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
       <Route path="/password/reset" element={<ResetPassword />} />
       <Route path="/search" element={<Search />} />
       <Route path="/search/review/:id" element={<ReviewDetail />} />
+      <Route path="/review/write" element={<ReviewWrite />} />
       <Route path="/onboading" element={<Onboading />} />
       <Route path="/user/delete" element={<DeleteUser />} />
       <Route path="/mypage" element={<Index />} />

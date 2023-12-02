@@ -55,3 +55,26 @@ export const B2 = styled("div", {
   fontWeight: "400",
   letterSpacing: "-0.28px",
 });
+
+export const RadioText = styled('div', {
+  fontSize: '14px',
+  fontWeight: '400',
+  color: "#8C959F",
+})
+
+export const Caption4 = styled("div", {
+  fontSize: "10px",
+  fontWeight: "400",
+  color: "#AFB8C1",
+  fontStyle: "normal",
+  letterSpacing: "-0.2px",
+})
+
+export const B1 = styled("div", {
+  fontSize: "15px",
+  fontStyle: "normal",
+  fontWeight: "600",
+  color: "#24292F",
+  letterSpacing: "-0.3px",
+})
+
