@@ -1,11 +1,12 @@
 import { styled } from '../../../stitches.config';
-import { CategoryProps } from '../../constants/Category';
 
-interface CategoryItem extends CategoryProps {
+interface CategoryItem {
   onClick: () => void;
   isSelected?: boolean;
   isSelectedBorer?: boolean;
   gap?: number;
+  name: string;
+  imageUrl?: string;
 }
 
 type IconType = {
@@ -23,16 +24,16 @@ const iconMapping: IconType = {
   헤드폰: <img src={`../../src/assets/png/Headphone.png`} width={50} height={54} />,
   스피커: <img src={`../../src/assets/png/Speaker.png`} width={50} height={43} />,
   보조배터리: <img src={`../../src/assets/png/Battery.png`} width={61} height={38} />,
-  악세사리: <img src={`../../src/assets/png/Accessory.png`} width={42} height={47} />,
+  악세서리: <img src={`../../src/assets/png/Accessory.png`} width={42} height={47} />,
   기타: <img src={`../../src/assets/png/Etc.png`} width={27} height={5} />,
 };
 
-const Category = ({ name, onClick, isSelected, isSelectedBorer, gap }: CategoryItem) => {
-  const Icon = iconMapping[name];
+const Category = ({ imageUrl, name, onClick, isSelected, isSelectedBorer, gap }: CategoryItem) => {
+  // const Icon = iconMapping[name];
   return (
     <ItemBox onClick={onClick} style={{ gap: gap }} gap={gap}>
       <Image isSelected={isSelected} isSelectedBorder={isSelectedBorer}>
-        {Icon}
+        <img src={imageUrl} alt={imageUrl} />
       </Image>
       <Name>{name}</Name>
     </ItemBox>

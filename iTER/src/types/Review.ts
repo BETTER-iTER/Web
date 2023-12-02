@@ -1,7 +1,13 @@
 export interface ReviewPreviewProps {
   id: number;
-  image?: string;
-  title: string;
+  imageUrl?: string;
+  productName: string;
   nickname: string;
-  profileImage?: string;
+  profileImageUrl?: string;
+  expert?: boolean;
+}
+
+export interface CategoryProps {
+  name: string;
+  imageUrl: string;
 }
