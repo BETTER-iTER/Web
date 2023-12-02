@@ -68,8 +68,10 @@ export default Home;
 const CategoryScroll = ({ list }: { list: HomeProps['categories'] }) => {
   return (
     <CategoryBox>
-      {list.map((item) => {
-        return <Category name={item.name} isSelected={false} gap={8.98} onClick={() => {}} />;
+      {list.map((item, index) => {
+        return (
+          <Category key={index} name={item.name} isSelected={false} gap={8.98} onClick={() => {}} />
+        );
       })}
     </CategoryBox>
   );

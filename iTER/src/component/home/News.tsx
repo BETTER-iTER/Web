@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '../../../stitches.config';
 import { NewsProps } from '../../types/News';
 
@@ -18,15 +18,15 @@ const News: React.FC<{ newsData: NewsProps[] }> = (props) => {
     <Container>
       <Slider style={{ transform: `translateX(-${currentBannerIndex * 100}%)` }}>
         {newsData.map((banner, index) => (
-          <>
-            <Banner key={index}>
+          <React.Fragment key={index}>
+            <Banner>
               <img src={banner.imageUrl} alt={banner.title} width={340} height={180} />
             </Banner>
             <TextBox>
               <div>{banner.title}</div>
               <div>{banner.content}</div>
             </TextBox>
-          </>
+          </React.Fragment>
         ))}
       </Slider>
       <Indicators>
