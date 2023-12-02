@@ -39,7 +39,7 @@ const CheckCategory: React.FC<CheckCategoryProps> = ({ onDisabled, onCategorySel
           <Category
             key={index}
             name={category.name}
-            onClick={() => handleCategoryClick(category.name, category.name)}
+            onClick={() => handleCategoryClick(category.name)}
             isSelected={selectedCategory.name === category.name} // 선택 여부에 따라 스타일 변경
             gap={4}
           />
