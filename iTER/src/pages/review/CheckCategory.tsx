@@ -1,25 +1,32 @@
-import React, { useState } from "react";
-import { ButtonText } from "../../component/Font";
-import CategoryList from "../../constants/Category";
-import Category from "../../component/common/Category";
-import { styled } from "../../../stitches.config";
+import React, { useState } from 'react';
+import { ButtonText } from '../../component/Font';
+import Category from '../../component/common/Category';
+import { styled } from '../../../stitches.config';
+import { useQuery } from '@tanstack/react-query';
+import { CategoryProps } from '../../types/Review';
+import { getCategory } from '../../apis/Common';
+import LoadingPage from '../../component/common/Loading';
+import ErrorPage from '../../component/common/Error';
 
 interface CheckCategoryProps {
   onDisabled: (value: boolean) => void;
-  onCategorySelect: (id: number, name: string) => void;
+  onCategorySelect: (name: string) => void;
 }
 
 const CheckCategory: React.FC<CheckCategoryProps> = ({ onDisabled, onCategorySelect }) => {
-  const [selectedCategory, setSelectedCategory] = useState<{ id: number | null; name: string | null }>({
-    id: null,
+  const [selectedCategory, setSelectedCategory] = useState<{ name: string | null }>({
     name: null,
   });
 
-  const handleCategoryClick = (id: number, name: string) => {
-    setSelectedCategory({ id, name });
-    onDisabled(true); 
-    onCategorySelect(id, name);
-    console.log(id, name);
+  const { data, isLoading, isError } = useQuery<CategoryProps[], Error>(['category'], getCategory);
+  if (isLoading) return <LoadingPage />;
+  if (isError) return <ErrorPage type={2} />;
+
+  const handleCategoryClick = (name: string) => {
+    setSelectedCategory({ name });
+    onDisabled(true);
+    onCategorySelect(name);
+    console.log(name);
   };
 
   return (
@@ -28,34 +35,31 @@ const CheckCategory: React.FC<CheckCategoryProps> = ({ onDisabled, onCategorySel
         <ButtonText>카테고리를 선택해주세요</ButtonText>
       </InfoMessage>
       <CategoryBox>
-        {CategoryList.map((category) => (
+        {data?.map((category, index) => (
           <Category
-            key={category.id}
+            key={index}
             name={category.name}
-            onClick={() => handleCategoryClick(category.id, category.name)}
-            isSelected={selectedCategory.id === category.id} // 선택 여부에 따라 스타일 변경
+            onClick={() => handleCategoryClick(category.name, category.name)}
+            isSelected={selectedCategory.name === category.name} // 선택 여부에 따라 스타일 변경
             gap={4}
-            id={category.id}
           />
         ))}
       </CategoryBox>
-
-      
     </>
   );
 };
 
 export default CheckCategory;
 
-const CategoryBox = styled("div", {
-  display: "grid",
-  gridTemplateColumns: "repeat(4, 1fr)",
-  padding: "25px 0 60px 27px",
-  marginTop: "30px",
+const CategoryBox = styled('div', {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(4, 1fr)',
+  padding: '25px 0 60px 27px',
+  marginTop: '30px',
 });
 
-const InfoMessage = styled("div", {
-  textAlign: "center",
-  color: "$Brand",
-  marginTop: "104px",
+const InfoMessage = styled('div', {
+  textAlign: 'center',
+  color: '$Brand',
+  marginTop: '104px',
 });
