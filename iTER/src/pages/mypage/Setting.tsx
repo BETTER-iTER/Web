@@ -3,6 +3,11 @@ import { styled } from '../../../stitches.config';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { ModalSelect } from '../../component/common/Modal';
+import { useMutation } from '@tanstack/react-query';
+import ErrorPage from '../../component/common/Error';
+import axios from 'axios';
+import LoadingPage from '../../component/common/Loading';
+import { postLogout } from '../../apis/login';
 
 const Setting = () => {
   const navigate = useNavigate();
@@ -14,6 +19,23 @@ const Setting = () => {
     { title: '관심 카테고리 설정', link: '/user/interest' },
     { title: '좋아요한 리뷰', link: '/user/like' },
   ];
+
+  const mutation = useMutation(postLogout, {
+    onSuccess: () => {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      axios.defaults.headers.common['Authorization'] = '';
+      navigate('/onboading');
+    },
+    onError: (error) => {
+      console.log('error', error);
+      return <ErrorPage type={2} />;
+    },
+  });
+
+  const handleLogout = () => {
+    mutation.mutate();
+  };
   return (
     <>
       <Top title="설정" />
@@ -40,13 +62,14 @@ const Setting = () => {
           text={'로그아웃 하시겠습니까?'}
           btn={'로그아웃'}
           onClick={() => {
-            console.log('로그아웃');
+            handleLogout();
           }}
           onClosed={() => {
             setLogout(false);
           }}
         />
       )}
+      {mutation.isLoading && <LoadingPage />}
     </>
   );
 };
