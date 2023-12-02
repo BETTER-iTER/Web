@@ -107,8 +107,8 @@ const CategoryBox = styled('div', {
 });
 
 // const dummy: ReviewPreviewProps[] = [
-//   { id: 1, title: '로지텍 MK470 Slim', nickname: '로지' },
-//   { id: 2, title: '한성컴퓨터 GK896B', nickname: '김한성' },
-//   { id: 3, title: '앱코 HACKER', nickname: '찡긋' },
-//   { id: 4, title: '아이폰 SE3', nickname: '클로버' },
+//   { id: 1, productName: '로지텍 MK470 Slim', nickname: '로지', expert: true },
+//   { id: 2, productName: '한성컴퓨터 GK896B', nickname: '김한성', expert: true },
+//   { id: 3, productName: '앱코 HACKER', nickname: '찡긋', expert: false },
+//   { id: 4, productName: '아이폰 SE3', nickname: '클로버', expert: false },
 // ];

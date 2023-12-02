@@ -1,6 +1,7 @@
 import { styled } from '../../../stitches.config';
 import { ReviewPreviewProps } from '../../types/Review';
 import { Caption2 } from '../Font';
+import ExpertIcon from '../../assets/icon/Expert.svg?react';
 
 const Review = ({ list }: { list: ReviewPreviewProps[] }) => {
   return (
@@ -15,11 +16,16 @@ const Review = ({ list }: { list: ReviewPreviewProps[] }) => {
 const Item = ({ list }: { list: ReviewPreviewProps }) => {
   return (
     <div>
-      <Image></Image>
-      <Title>{list.title}</Title>
+      <Image>
+        <img src={list.imageUrl} alt={list.productName} />
+      </Image>
+      <Title>{list.productName}</Title>
       <User>
-        <Profile></Profile>
+        <Profile>
+          <img src={list.profileImageUrl} alt={list.nickname} />
+        </Profile>
         <Caption2>{list.nickname}</Caption2>
+        {list.expert && <ExpertIcon />}
       </User>
     </div>
   );
@@ -46,6 +52,7 @@ const Image = styled('div', {
   height: '140px',
   borderRadius: '10px',
   backgroundColor: '$Gray10',
+  overflow: 'hidden',
 });
 
 const Title = styled('div', {
@@ -59,7 +66,6 @@ const User = styled('div', {
   color: '#57606A',
   display: 'flex',
   alignItems: 'center',
-  gap: '4px',
 });
 
 const Profile = styled('div', {
@@ -67,4 +73,6 @@ const Profile = styled('div', {
   height: '20px',
   borderRadius: '50%',
   backgroundColor: '#d9d9d9',
+  overflow: 'hidden',
+  marginRight: '4px',
 });
