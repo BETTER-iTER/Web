@@ -19,9 +19,17 @@ const ReviewWrite = () => {
   };
 
   const handleNext = () => {
-    if (count < 4) {
-      setCount(count + 1);
-    } else {
+    if (count == 1) {
+        setCount(count + 1);
+        
+    }
+    else if (count == 2) {
+        setCount(count + 1);
+    }
+    else if (count == 3) {
+        setCount(count + 1);
+    }
+    else {
       console.log('회원가입 완료');
     }
   };

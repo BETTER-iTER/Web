@@ -22,11 +22,13 @@ const CheckCategory: React.FC<CheckCategoryProps> = ({ onDisabled, onCategorySel
   if (isLoading) return <LoadingPage />;
   if (isError) return <ErrorPage type={2} />;
 
-  const handleCategoryClick = (name: string) => {
+  const handleCategoryClick = (name: string, index: number) => {
     setSelectedCategory({ name });
     onDisabled(true);
     onCategorySelect(name);
     console.log(name);
+    console.log(index);
+    localStorage.setItem("selectCategory", name);
   };
 
   return (
@@ -39,8 +41,8 @@ const CheckCategory: React.FC<CheckCategoryProps> = ({ onDisabled, onCategorySel
           <Category
             key={index}
             name={category.name}
-            onClick={() => handleCategoryClick(category.name)}
-            isSelected={selectedCategory.name === category.name} // 선택 여부에 따라 스타일 변경
+            onClick={() => handleCategoryClick(category.name, index)}
+            isSelected={selectedCategory.name === category.name} 
             gap={4}
           />
         ))}

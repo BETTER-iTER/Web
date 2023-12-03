@@ -2,6 +2,8 @@ import React from "react";
 import { Caption1, Headline4 } from "../Font";
 import ButtonGrid from "./ButtonGrid"
 import { styled } from "../../../stitches.config";
+import { useEffect } from "react";
+import { getSpecData } from "../../apis/review";
 
 interface SelectBoxCPUProps {
     onCPUClick: (item: string) => void;
@@ -16,7 +18,22 @@ export const SelectBoxCPU: React.FC <SelectBoxCPUProps> = ({ onCPUClick, onWINDO
     const itemsWINDOW = ['17인치', '16인치', '15인치', '14인치', '13인치', '기타'];
     const itemsRAM = ['64GB', '32GB', '16GB', '8GB', '4GB', '기타'];
     const itemsSIZE = ['1TB 초과', '1TB-513GB', '512-257GB', '256-129GB', '128-120GB', '기타'];
+    useEffect(() => {
+        const handleCategory = async () => {
+            try {
+                const selectedCategory = localStorage.getItem("selectCategory");
+                const responseData = await getSpecData(String(selectedCategory));
+                console.log(responseData.data.result.specs);
+                const specData = responseData.data.result.specs;
+                console.log(specData[0].id);
 
+            }
+            catch(error) {
+                console.log(error);
+            }
+        };
+        handleCategory();
+    }, [])
     const handleCPUClick = (item: string) => {
         console.log(`클릭한 버튼: ${item}`);
         onCPUClick(item);
