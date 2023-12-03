@@ -25,6 +25,9 @@ const Bottom = ({ title, component, onClose }: BottomProps) => {
   if (title === '정렬') {
     defaultSnap = 300;
   }
+  if (title === '제조사') {
+    defaultSnap = 800;
+  }
 
   return (
     <BottomSheet
