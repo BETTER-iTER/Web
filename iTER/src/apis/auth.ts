@@ -48,3 +48,19 @@ export const postJoin = async (body: UserProps) => {
     throw error;
   }
 };
+
+//비밀번호 재설정 api 연동
+export const patchChangePassword = async (email: string, password: string) => {
+  const requestBody = {
+    email: email,
+    password: password,
+  };
+
+  try {
+    const response = await api.patch('/auth/password/reset', requestBody);
+    return response;
+  } catch (error) {
+    console.log('에러', error);
+    throw error;
+  }
+};

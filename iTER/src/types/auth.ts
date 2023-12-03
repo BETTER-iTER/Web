@@ -3,7 +3,7 @@ export interface UserProps {
   password: string;
   nickName: string;
   job: number;
-  categories: string;
+  i: string; // 관심카테고리
 }
 
 export interface LoginProps {

@@ -1,7 +1,11 @@
 import { styled } from '../../../stitches.config';
 import Category from '../common/Category';
-import CategoryList from '../../constants/Category';
 import Recent from './Recent';
+import { useQuery } from '@tanstack/react-query';
+import { CategoryProps } from '../../types/Review';
+import { getCategory } from '../../apis/Common';
+import LoadingPage from '../common/Loading';
+import ErrorPage from '../common/Error';
 
 interface RecentProps {
   keywords: { id: number; text: string }[];
@@ -9,19 +13,22 @@ interface RecentProps {
 }
 
 const SearchCategory: React.FC<RecentProps> = ({ keywords, onDelete }) => {
+  const { data, isLoading, isError } = useQuery<CategoryProps[], Error>(['category'], getCategory);
+  if (isLoading) return <LoadingPage />;
+  if (isError) return <ErrorPage type={2} />;
+
   return (
     <Container>
       {keywords.length > 0 && <Recent keywords={keywords} onDelete={onDelete} />}
       <div>카테고리</div>
       <Content>
-        {CategoryList.map((category) => (
+        {data?.map((category, index) => (
           <Category
-            key={category.id}
+            key={index}
             name={category.name}
             onClick={() => console.log('click')}
             isSelected={false}
             gap={4}
-            id={category.id}
           />
         ))}
       </Content>

@@ -3,16 +3,30 @@ import Category from '../component/common/Category';
 import { ButtonWrite } from '../component/common/Button';
 import Review from '../component/home/Review';
 import Top from '../component/home/Top';
-import CategoryList from '../constants/Category';
-import { ReviewPreviewProps } from '../types/Review';
 import Quiz from '../component/home/Quiz';
 import News from '../component/home/News';
 import Footer from '../component/layout/Footer';
 import Nav from '../component/layout/Nav';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { getHome } from '../apis/home';
+import LoadingPage from '../component/common/Loading';
+import ErrorPage from '../component/common/Error';
+import { HomeProps } from '../types/Home';
+import React from 'react';
 
 const Home = () => {
   const navigate = useNavigate();
+  // 홈 데이터 가져오기
+  const {
+    data: homeData,
+    isLoading: homeLoading,
+    isError: homeError,
+  } = useQuery<HomeProps, Error>(['home'], getHome);
+
+  if (homeLoading) return <LoadingPage />;
+  if (homeError) return <ErrorPage type={2} />;
+
   return (
     <Container>
       <Top />
@@ -26,13 +40,27 @@ const Home = () => {
       </ButtonWrite>
 
       <Label>최신IT 소식</Label>
-      <News />
+      <News newsData={homeData?.news} />
 
-      <Label>아이터에서 찐 리뷰를 살펴보세요</Label>
-      <CategoryScroll />
+      <Label>카테고리별로 찐 리뷰를 살펴보세요</Label>
+      <CategoryScroll list={homeData?.categories} />
+
+      {/* 관심카테고리 리뷰 리스트 */}
+      {Object.keys(homeData.categoryReviews).map((category: string) => {
+        const categoryName = category as string;
+        return (
+          <React.Fragment key={categoryName}>
+            <Label>{categoryName}</Label>
+            <Review list={homeData?.categoryReviews[categoryName]} />
+          </React.Fragment>
+        );
+      })}
+
+      <Label>팔로우들의 리뷰</Label>
+      <Review list={homeData?.followingReviews} />
 
       <Label>리뷰보고 구매했어요</Label>
-      <Review list={dummy} />
+      <Review list={homeData?.mostScrapedAndLikedReviews} />
 
       <Label>🪙 IT 퀴즈풀고 포인트 받기</Label>
       <Quiz id={1} question={'CPU는 중앙처리장치이다'} />
@@ -45,19 +73,12 @@ const Home = () => {
 
 export default Home;
 
-const CategoryScroll = () => {
+const CategoryScroll = ({ list }: { list: HomeProps['categories'] }) => {
   return (
     <CategoryBox>
-      {CategoryList.map((item) => {
+      {list.map((item, index) => {
         return (
-          <Category
-            key={item.id}
-            id={item.id}
-            name={item.name}
-            isSelected={false}
-            gap={8.98}
-            onClick={() => {}}
-          />
+          <Category key={index} name={item.name} isSelected={false} gap={8.98} onClick={() => {}} />
         );
       })}
     </CategoryBox>
@@ -93,9 +114,9 @@ const CategoryBox = styled('div', {
   },
 });
 
-const dummy: ReviewPreviewProps[] = [
-  { id: 1, title: '로지텍 MK470 Slim', nickname: '로지' },
-  { id: 2, title: '한성컴퓨터 GK896B', nickname: '김한성' },
-  { id: 3, title: '앱코 HACKER', nickname: '찡긋' },
-  { id: 4, title: '아이폰 SE3', nickname: '클로버' },
-];
+// const dummy: ReviewPreviewProps[] = [
+//   { id: 1, productName: '로지텍 MK470 Slim', nickname: '로지', expert: true },
+//   { id: 2, productName: '한성컴퓨터 GK896B', nickname: '김한성', expert: true },
+//   { id: 3, productName: '앱코 HACKER', nickname: '찡긋', expert: false },
+//   { id: 4, productName: '아이폰 SE3', nickname: '클로버', expert: false },
+// ];

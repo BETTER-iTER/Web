@@ -7,8 +7,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Timer from '../../component/signup/FindPasswordTimer';
 import Modal from '../../component/common/Modal';
-import { postEmail } from '../../apis/login';
-import { postAuthNum } from '../../apis/login';
+import { postJoinEmail, postEmailVerify } from '../../apis/auth';
 
 const FindPassword = () => {
   const navigate = useNavigate();
@@ -40,7 +39,7 @@ const FindPassword = () => {
     if (validateEmail(email)) {
       setEmailWarning('');
       try {
-        const emailData = await postEmail(email);
+        const emailData = await postJoinEmail(email);
         console.log(emailData);
         const Code = emailData.data.code;
         if (Code == 'SUCCESS_200') {
@@ -72,7 +71,7 @@ const FindPassword = () => {
   //인증번호 검증 api 연동
   const handleAuthButton = async (email: string, code: string) => {
     try {
-      const AuthData = await postAuthNum(email, code);
+      const AuthData = await postEmailVerify(email, code);
       console.log(AuthData);
       setCheckAuth(true);
       localStorage.setItem('email', email);

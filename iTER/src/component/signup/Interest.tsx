@@ -1,7 +1,11 @@
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { styled } from '../../../stitches.config';
-import CategoryList from '../../constants/Category';
+import { getCategory } from '../../apis/Common';
+import { CategoryProps } from '../../types/Review';
 import Category from '../common/Category';
+import ErrorPage from '../common/Error';
+import LoadingPage from '../common/Loading';
 
 interface InterestProps {
   onDisabled: (value: boolean) => void;
@@ -18,18 +22,20 @@ const Interest = ({ onDisabled, onChange }: InterestProps) => {
       setSelected([...selected, name]);
     }
   };
-  console.log(selected);
 
   onDisabled(selected.length === 0);
   onChange(selected.join(', '));
 
+  const { data, isLoading, isError } = useQuery<CategoryProps[], Error>(['categort'], getCategory);
+  if (isLoading) return <LoadingPage />;
+  if (isError) return <ErrorPage type={2} />;
+
   return (
     <Container>
-      {CategoryList.map((item) => {
+      {data?.map((item, index) => {
         return (
           <Category
-            key={item.id}
-            id={item.id}
+            key={index}
             name={item.name}
             onClick={() => handleSelect(item.name)}
             isSelected={selected.includes(item.name)}

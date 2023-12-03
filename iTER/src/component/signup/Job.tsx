@@ -3,14 +3,14 @@ import InputSelect from '../common/InputSelect';
 
 interface JobProps {
   onDisabled: (value: boolean) => void;
-  onChange: (value: number) => void;
+  onChange: (value: string) => void;
 }
 const Job = ({ onDisabled, onChange }: JobProps) => {
   const [value, setValue] = useState('');
-  const jobs = ['개발자', '학생', '선생님', '디자이너', '프로듀서', '에디터'];
+  const jobs = ['개발자', '학생', '선생님', '디자이너'];
 
   onDisabled(value === '');
-  onChange(jobs.indexOf(value));
+  onChange(value);
   return (
     <>
       <InputSelect

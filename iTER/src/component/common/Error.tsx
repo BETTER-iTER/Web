@@ -1,11 +1,13 @@
 import { styled } from '../../../stitches.config';
-import ErrorNetwork from '../../assets/icon/ErrorNetwork.svg?react';
-import ErrorIcon from '../../assets/icon/ErrorIcon.svg?react';
+import ErrorNetwork from '../../assets/icon/error/ErrorNetwork.svg?react';
+import ErrorIcon from '../../assets/icon/error/ErrorIcon.svg?react';
 const ErrorPage = ({ type }: { type: number }) => {
   return (
     <Container>
       {type == 1 ? <ErrorNetwork /> : <ErrorIcon width={50} height={50} fill={'black'} />}
-      {type == 1 ? '네크워크 다시 연결하기' : '다시 시도하기'}
+      <div onClick={() => location.reload()}>
+        {type == 1 ? '네크워크 다시 연결하기' : '다시 시도하기'}
+      </div>
     </Container>
   );
 };
@@ -20,4 +22,9 @@ const Container = styled('div', {
   color: '$Gray50',
   flexDirection: 'column',
   gap: '26px',
+  zIndex: 10000,
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  backgroundColor: '$White',
 });

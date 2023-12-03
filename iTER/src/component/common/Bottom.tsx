@@ -1,6 +1,10 @@
+import { useQuery } from '@tanstack/react-query';
 import { styled } from '../../../stitches.config';
-import CategoryList from '../../constants/Category';
+import { getCategory } from '../../apis/Common';
+import { CategoryProps } from '../../types/Review';
 import Category from './Category';
+import ErrorPage from './Error';
+import LoadingPage from './Loading';
 
 interface BottomProps {
   title: string;
@@ -25,20 +29,23 @@ const Bottom = ({ title, component, onClose }: BottomProps) => {
 };
 
 export const BottomCategory = ({ onClose }: { onClose: () => void }) => {
+  const { data, isLoading, isError } = useQuery<CategoryProps[], Error>(['category'], getCategory);
+  if (isLoading) return <LoadingPage />;
+  if (isError) return <ErrorPage type={2} />;
+
   return (
     <Bottom
       title="카테고리"
       onClose={onClose}
       component={
         <CategoryBox>
-          {CategoryList.map((category) => (
+          {data?.map((category, index) => (
             <Category
-              key={category.id}
+              key={index}
               name={category.name}
               onClick={() => console.log('click')}
               isSelected={false}
               gap={4}
-              id={category.id}
             />
           ))}
         </CategoryBox>

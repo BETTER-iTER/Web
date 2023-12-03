@@ -3,13 +3,12 @@ import { styled } from '@stitches/react';
 import Button from '../../component/common/Button';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserProps } from '../../types/auth';
-import CategoryList from '../../constants/Category';
 
 const SignupComplete = () => {
   const location = useLocation();
   const state = location.state as UserProps;
   const nickname = state.nickName;
-  const categories = state.categories;
+  const categories = state.i;
   const navigate = useNavigate();
 
   const interest = categories.split(', ');

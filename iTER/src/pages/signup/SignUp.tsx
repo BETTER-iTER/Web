@@ -1,5 +1,4 @@
 import { styled } from '../../../stitches.config';
-import axios from 'axios';
 import Button from '../../component/common/Button';
 import InputComponent from '../../component/common/Input';
 import { Caption2, Headline3 } from '../../component/Font';
@@ -12,6 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import { LoginProps } from '../../types/auth';
 import Timer from '../../component/signup/Timer';
 import Modal from '../../component/common/Modal';
+import ErrorPage from '../../component/common/Error';
+import LoadingPage from '../../component/common/Loading';
 
 const SignUp = () => {
   const [codeCheck, setCodeCheck] = useState<boolean>(false);
@@ -123,7 +124,7 @@ const SignUp = () => {
           type="text"
           labelName="이메일"
           btnName="인증번호 전송"
-          onClick={() => handleEmailButton(email)}
+          onClick={() => handleEmailButton()}
           onChange={setEmail}
           disabled={email.length == 0 || !validateEmail(email) || emailDisabled}
           error={
@@ -143,7 +144,7 @@ const SignUp = () => {
           type="text"
           labelName="인증번호"
           btnName="확인"
-          onClick={() => handleAuthButton(email, authNum)}
+          onClick={() => handleAuthButton()}
           onChange={setAuthNum}
           disabled={authNum.length != 6 || codeDisabled}
           error={authWarning}
@@ -179,6 +180,10 @@ const SignUp = () => {
       {duplicateModal && (
         <Modal text="이미 가입된 이메일입니다" onClick={() => navigate('/login')} btn="확인" />
       )}
+      {mutation.isError && <ErrorPage type={2} />}
+      {mutation.isLoading && <LoadingPage />}
+      {coedMutation.isError && <ErrorPage type={2} />}
+      {coedMutation.isLoading && <LoadingPage />}
     </>
   );
 };
