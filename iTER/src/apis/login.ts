@@ -92,3 +92,15 @@ export const patchChangePassword = async (email: string, password: string) => {
     throw error;
   }
 };
+
+//로그아웃 api 연동
+export const postLogout = async () => {
+  console.log('로그아웃 api 연동');
+  try {
+    const response = await api.post('/user/logout');
+    return response;
+  } catch (error) {
+    console.log('로그아웃 에러', error);
+    throw error;
+  }
+};
