@@ -19,7 +19,6 @@ export const SelectBoxCPU: React.FC <SelectBoxCPUProps> = ({ onCPUClick, onWINDO
     const [specdata2, setSpecdata2] = useState<string>('');
     const [specdata3, setSpecdata3] = useState<string>('');
 
-
     useEffect(() => {
         const handleCategory = async () => {
             try {
@@ -41,18 +40,21 @@ export const SelectBoxCPU: React.FC <SelectBoxCPUProps> = ({ onCPUClick, onWINDO
     const handleCPUClick = (item: string) => {
         console.log(`클릭한 버튼: ${item}`);
         onCPUClick(item);
+        localStorage.setItem("spec",specdata0.id);
       };
     const handleWINDOWClick = (item: string) => {
         console.log(`클릭한 버튼: ${item}`);
         onWINDOWClick(item);
+        localStorage.setItem("spec",specdata1.id);
       };
     const handleRAMClick = (item: string) => {
         console.log(`클릭한 버튼: ${item}`);
-        onRAMClick(item);
+        localStorage.setItem("spec",specdata2.id);
       };
     const handleSIZEClick = (item: string) => {
         console.log(`클릭한 버튼: ${item}`);
         onSIZEClick(item);
+        localStorage.setItem("spec",specdata3.id);
       };
 
     return (
@@ -76,21 +78,24 @@ export const SelectBoxCPU: React.FC <SelectBoxCPUProps> = ({ onCPUClick, onWINDO
                 <div style={{ marginTop: 11 }} />
                 <ButtonGrid items={specdata1 && Array.isArray(specdata1.specData)
                     ? specdata1.specData.map(item => (item && item.data) || 'default value')
-                    : []} onButtonClick={handleWINDOWClick} />
+                    : []} 
+                    onButtonClick={handleWINDOWClick} />
             </WINDOWcover>
             <RAMcover>
                 <Caption1>* {specdata2.title}</Caption1>
                 <div style={{ marginTop: 11 }} />
                 <ButtonGrid items={specdata2 && Array.isArray(specdata2.specData)
                     ? specdata2.specData.map(item => (item && item.data) || 'default value')
-                    : []} onButtonClick={handleRAMClick} />
+                    : []} 
+                    onButtonClick={handleRAMClick} />
             </RAMcover>
             <SIZEcover>
                 <Caption1>* {specdata3.title}</Caption1>
                 <div style={{ marginTop: 11 }} />
                 <ButtonGrid items={specdata3 && Array.isArray(specdata3.specData)
                     ? specdata3.specData.map(item => (item && item.data) || 'default value')
-                    : []} onButtonClick={handleSIZEClick} />
+                    : []} 
+                    onButtonClick={handleSIZEClick} />
             </SIZEcover>
         </Cover>
         </>

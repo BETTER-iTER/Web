@@ -20,6 +20,8 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
   const [selectedSIZE, setSelectedSIZE] = useState<string | null>(null);
   const [productName, setProductName] = useState<string>('');
   const [price, setPrice] = useState<string>('');
+  const [compareProduct, setCompareProduct] = useState<string>('');
+
 
   const openPopup = () => {
     setIsPopupOpen(true);
@@ -56,6 +58,11 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
   const handleChangePrice = (event:string) => {
     setPrice(event);
     localStorage.setItem('price', event);
+  }
+
+  const handleCompareProductValue = (event: string) => {
+    setCompareProduct(event);
+    localStorage.setItem('compareProduct', event);
   }
 
 
@@ -127,6 +134,8 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
           type="text"
           labelName="비교 제품"
           btnName=""
+          value={compareProduct}
+          onChange={handleCompareProductValue}
         />
       </MainLay>
       {sortBottom && (

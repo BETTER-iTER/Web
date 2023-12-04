@@ -12,6 +12,7 @@ const RadioInput: React.FC<RadioInputProps> = ({ options, label }) => {
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(event.target.value);
+    localStorage.setItem("radioValue", event.target.value);
   };
 
   return (
