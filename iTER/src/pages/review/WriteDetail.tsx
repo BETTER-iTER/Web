@@ -18,7 +18,8 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
   const [selectedWINDOW, setSelectedWINDOW] = useState<string | null>(null);
   const [selectedRAM, setSelectedRAM] = useState<string | null>(null);
   const [selectedSIZE, setSelectedSIZE] = useState<string | null>(null);
-
+  const [productName, setProductName] = useState<string>('');
+  const [price, setPrice] = useState<string>('');
 
   const openPopup = () => {
     setIsPopupOpen(true);
@@ -26,10 +27,13 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
 
   const handleSortItemSelected = (selectedItem: string) => {
     setSelectedSortItem(selectedItem);
+    localStorage.setItem('madeCompany', selectedItem);
   };
 
   const handleSortDateSelected = (date: Date | null) => {
     setSelectedDate(date);
+    const formattedDate = date.toLocaleDateString('en-CA');
+    localStorage.setItem('boughtAt',formattedDate);
   };
 
   const handleSelectionComplete = (cpu: string, window: string, ram: string, size: string) => {
@@ -44,6 +48,17 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
 
   const options = ['공식홈페이지', '쿠팡', '학생복지스토어', '기타'];
 
+  const handleProductNameChange = (event:string) => {
+    setProductName(event);
+    localStorage.setItem('productName', event);
+  };
+
+  const handleChangePrice = (event:string) => {
+    setPrice(event);
+    localStorage.setItem('price', event);
+  }
+
+
   onDisabled;
   return (
     <>
@@ -53,6 +68,8 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
           type="text"
           labelName="제품명 *"
           btnName=""
+          value={productName}
+          onChange={handleProductNameChange}
         />
         <div style={{ marginTop: 20 }} />
 
@@ -76,6 +93,8 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
           type="text"
           labelName="금액"
           btnName=""
+          value={price}
+          onChange={handleChangePrice}
         />
         <div style={{ marginTop: 20 }} />
 

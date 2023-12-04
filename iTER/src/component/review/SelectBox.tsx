@@ -65,23 +65,32 @@ export const SelectBoxCPU: React.FC <SelectBoxCPUProps> = ({ onCPUClick, onWINDO
             <CPUcover>
                 <Caption1>* {specdata0.title}</Caption1>
                 <div style={{ marginTop: 11 }} />
-                <ButtonGrid items={specdata0.specData.map(item => item.data)} onButtonClick={handleCPUClick} />
+                <ButtonGrid items={specdata0 && Array.isArray(specdata0.specData)
+                    ? specdata0.specData.map(item => (item && item.data) || 'default value')
+                    : []}
+                    onButtonClick={handleCPUClick} />
             </CPUcover>
 
             <WINDOWcover>
                 <Caption1>* {specdata1.title}</Caption1>
                 <div style={{ marginTop: 11 }} />
-                <ButtonGrid items={specdata1.specData.map(item => item.data)} onButtonClick={handleWINDOWClick} />
+                <ButtonGrid items={specdata1 && Array.isArray(specdata1.specData)
+                    ? specdata1.specData.map(item => (item && item.data) || 'default value')
+                    : []} onButtonClick={handleWINDOWClick} />
             </WINDOWcover>
             <RAMcover>
                 <Caption1>* {specdata2.title}</Caption1>
                 <div style={{ marginTop: 11 }} />
-                <ButtonGrid items={specdata2.specData.map(item => item.data)} onButtonClick={handleRAMClick} />
+                <ButtonGrid items={specdata2 && Array.isArray(specdata2.specData)
+                    ? specdata2.specData.map(item => (item && item.data) || 'default value')
+                    : []} onButtonClick={handleRAMClick} />
             </RAMcover>
             <SIZEcover>
                 <Caption1>* {specdata3.title}</Caption1>
                 <div style={{ marginTop: 11 }} />
-                <ButtonGrid items={specdata3.specData.map(item => item.data)} onButtonClick={handleSIZEClick} />
+                <ButtonGrid items={specdata3 && Array.isArray(specdata3.specData)
+                    ? specdata3.specData.map(item => (item && item.data) || 'default value')
+                    : []} onButtonClick={handleSIZEClick} />
             </SIZEcover>
         </Cover>
         </>
