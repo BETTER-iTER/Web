@@ -41,3 +41,20 @@ export const getSpecData = async (category : string) => {
     }
 }
 
+export const getUserInfo = async () => {
+    try {
+        const accessToken = localStorage.getItem('accessToken');
+        console.log(accessToken);
+        const userData = await api.get('/user/info', {
+            headers: {
+                Authorization: `${accessToken}`,
+            },
+        });
+        console.log(userData);
+        return userData;
+    }
+    catch(error) {
+        console.log(error);
+        throw error;
+    }
+}

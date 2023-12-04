@@ -19,10 +19,7 @@ export const SelectBoxCPU: React.FC <SelectBoxCPUProps> = ({ onCPUClick, onWINDO
     const [specdata2, setSpecdata2] = useState<string>('');
     const [specdata3, setSpecdata3] = useState<string>('');
 
-    const itemsCPU = ['코어 i 5-13세대', '코어 i 7-12세대', '코어 i 5-12세대', '라이젠 7-5세대', '라이젠 5-4세대', '기타'];
-    const itemsWINDOW = ['17인치', '16인치', '15인치', '14인치', '13인치', '기타'];
-    const itemsRAM = ['64GB', '32GB', '16GB', '8GB', '4GB', '기타'];
-    const itemsSIZE = ['1TB 초과', '1TB-513GB', '512-257GB', '256-129GB', '128-120GB', '기타'];
+
     useEffect(() => {
         const handleCategory = async () => {
             try {

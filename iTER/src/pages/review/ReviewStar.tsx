@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Caption2, LabelText } from "../../component/Font";
 import { styled } from "../../../stitches.config";
 import ButtonGrid from "../../component/review/ButtonGrid";
@@ -8,12 +8,36 @@ import TextInput from "../../component/review/TextInput";
 import WriteUser from "../../component/review/WriteUser";
 import User from "../../assets/icon/User.svg";
 import CheckCircle from '../../assets/icon/CheckCircle.svg?react';
+import { getUserInfo } from "../../apis/review";
 
 const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
+
+  useEffect(() => {
+    const handleUserInfo = async () => {
+        try {
+            const responseData = await getUserInfo();
+            const userData = responseData.data.result;
+            setUserName(userData.nickName);
+            setUserJob(userData.job);
+            setUserImageUrl(userData.profileImage);
+            setExpert(userData.expert);
+
+        }
+        catch(error) {
+            console.log(error);
+        }
+    };
+    handleUserInfo();
+}, [])
+
+  const [userName, setUserName] = useState<string>('');
+  const [userJob, setUserJob] = useState<string>('');
+  const [userImageUrl, setUserImageUrl] = useState<string>('');
+  const [expert, setExpert] = useState<boolean>(false);
+
   const items1 = ['가벼워요', '적당해요', '무거워요'];
   const items2 = ['저렴해요', '적당해요', '비싸요'];
   const items3 = ['별로에요', '무난해요', '예뻐요'];
-
 
   const [rating, setRating] = useState<number>(0); //이건 별점
   const [check, setCheck] = useState<boolean>(false); //이건 체크 했나 안했나
@@ -21,6 +45,7 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
   const [selectedItem1, setSelectedItem1] = useState<string | null>(null); //이건 무게
   const [selectedItem2, setSelectedItem2] = useState<string | null>(null); //이건 가격
   const [selectedItem3, setSelectedItem3] = useState<string | null>(null); //이건 디자인
+
 
   onDisabled
   const handleImageSelected = (image: File) => {
@@ -95,7 +120,7 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
       <UserInfo>
         <LabelText>작성자 정보 *</LabelText>
         <div style={{ marginTop: "11px" }} />
-        <WriteUser img={User} name="미키마우스 제리" job="개발자" />
+        <WriteUser img={userImageUrl} name={userName} job={userJob} />
       </UserInfo>
 
       <Agree>
