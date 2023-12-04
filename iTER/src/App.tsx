@@ -37,7 +37,7 @@ function App() {
           path="/notice/:id"
           element={<PrivateRoute path="/notice/:id" element={<Notice />} />}
         />
-        <Route path="/search" element={<PrivateRoute path="/search" element={<Search />} />} />
+        <Route path="/search/*" element={<PrivateRoute path="/search" element={<Search />} />} />
         <Route
           path="/search/review/:id"
           element={<PrivateRoute path="/search/review/:id" element={<ReviewDetail />} />}
