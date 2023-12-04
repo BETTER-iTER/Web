@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Caption1, Headline4 } from "../Font";
 import ButtonGrid from "./ButtonGrid"
 import { styled } from "../../../stitches.config";
@@ -14,6 +14,11 @@ interface SelectBoxCPUProps {
 
   
 export const SelectBoxCPU: React.FC <SelectBoxCPUProps> = ({ onCPUClick, onWINDOWClick, onRAMClick, onSIZEClick }) => {
+    const [specdata0, setSpecdata0] = useState<string>('');
+    const [specdata1, setSpecdata1] = useState<string>('');
+    const [specdata2, setSpecdata2] = useState<string>('');
+    const [specdata3, setSpecdata3] = useState<string>('');
+
     const itemsCPU = ['코어 i 5-13세대', '코어 i 7-12세대', '코어 i 5-12세대', '라이젠 7-5세대', '라이젠 5-4세대', '기타'];
     const itemsWINDOW = ['17인치', '16인치', '15인치', '14인치', '13인치', '기타'];
     const itemsRAM = ['64GB', '32GB', '16GB', '8GB', '4GB', '기타'];
@@ -23,10 +28,12 @@ export const SelectBoxCPU: React.FC <SelectBoxCPUProps> = ({ onCPUClick, onWINDO
             try {
                 const selectedCategory = localStorage.getItem("selectCategory");
                 const responseData = await getSpecData(String(selectedCategory));
-                console.log(responseData.data.result.specs);
                 const specData = responseData.data.result.specs;
-                console.log(specData[0].id);
-
+                console.log(specData);
+                setSpecdata0(specData[0]);
+                setSpecdata1(specData[1]);
+                setSpecdata2(specData[2]);
+                setSpecdata3(specData[3]);
             }
             catch(error) {
                 console.log(error);
@@ -57,27 +64,27 @@ export const SelectBoxCPU: React.FC <SelectBoxCPUProps> = ({ onCPUClick, onWINDO
             <Head>
                 <Headline4>제품 스펙</Headline4>
             </Head>
-
+            
             <CPUcover>
-                <Caption1>* CPU 종류</Caption1>
+                <Caption1>* {specdata0.title}</Caption1>
                 <div style={{ marginTop: 11 }} />
-                <ButtonGrid items={itemsCPU} onButtonClick={handleCPUClick} />
+                <ButtonGrid items={specdata0.specData.map(item => item.data)} onButtonClick={handleCPUClick} />
             </CPUcover>
 
             <WINDOWcover>
-                <Caption1>* 화면 크기</Caption1>
+                <Caption1>* {specdata1.title}</Caption1>
                 <div style={{ marginTop: 11 }} />
-                <ButtonGrid items={itemsWINDOW} onButtonClick={handleWINDOWClick} />
+                <ButtonGrid items={specdata1.specData.map(item => item.data)} onButtonClick={handleWINDOWClick} />
             </WINDOWcover>
             <RAMcover>
-                <Caption1>* 램</Caption1>
+                <Caption1>* {specdata2.title}</Caption1>
                 <div style={{ marginTop: 11 }} />
-                <ButtonGrid items={itemsRAM} onButtonClick={handleRAMClick} />
+                <ButtonGrid items={specdata2.specData.map(item => item.data)} onButtonClick={handleRAMClick} />
             </RAMcover>
             <SIZEcover>
-                <Caption1>* 저장 용량</Caption1>
+                <Caption1>* {specdata3.title}</Caption1>
                 <div style={{ marginTop: 11 }} />
-                <ButtonGrid items={itemsSIZE} onButtonClick={handleSIZEClick} />
+                <ButtonGrid items={specdata3.specData.map(item => item.data)} onButtonClick={handleSIZEClick} />
             </SIZEcover>
         </Cover>
         </>

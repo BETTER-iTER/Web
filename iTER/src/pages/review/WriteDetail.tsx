@@ -1,6 +1,6 @@
 import InputComponent, { InputComponentReiview } from '../../component/common/Input';
 import { styled } from '../../../stitches.config';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import RadioInput from '../../component/common/RadioInput';
 import { ButtonSelect } from '../../component/common/Button';
 import ReviewSort from '../../component/review/ReviewSort';
@@ -18,6 +18,7 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
   const [selectedWINDOW, setSelectedWINDOW] = useState<string | null>(null);
   const [selectedRAM, setSelectedRAM] = useState<string | null>(null);
   const [selectedSIZE, setSelectedSIZE] = useState<string | null>(null);
+
 
   const openPopup = () => {
     setIsPopupOpen(true);
@@ -83,7 +84,7 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
         <ButtonSelect
           children={
             selectedCPU == null
-              ? '코어 i 5-13세대 / 14인치 / 32GB / 256-129GB'
+              ? '제품 스펙을 선택하세요'
               : selectedCPU + '/' + selectedWINDOW + '/' + selectedRAM + '/' + selectedSIZE
           }
           onClick={openPopup}
