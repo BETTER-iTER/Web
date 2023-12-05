@@ -11,3 +11,21 @@ export interface CategoryProps {
   name: string;
   imageUrl: string;
 }
+
+export interface CategoryReviewProps {
+  hasNext: boolean;
+  reviews: {
+    id: number;
+    productName: string;
+    reviewSpecData: string[];
+    starPoint: number;
+    shortReview: string;
+    userInfo: {
+      nickname: string;
+      job: string;
+      profileImage?: string;
+    };
+    scrapedCount: number;
+    likedCount: number;
+  }[];
+}

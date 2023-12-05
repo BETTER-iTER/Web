@@ -8,6 +8,7 @@ import { getCategoryReview } from '../../apis/Review';
 import { useQuery } from '@tanstack/react-query';
 import LoadingPage from '../common/Loading';
 import ErrorPage from '../common/Error';
+import { CategoryReviewProps } from '../../types/Review';
 
 const Result = ({ keyword }: { keyword: string }) => {
   const [categoryBottom, setCategoryBottom] = useState<boolean>(false);
@@ -19,7 +20,7 @@ const Result = ({ keyword }: { keyword: string }) => {
     data: categoryData,
     error: categoryError,
     isLoading: categoryIsLoading,
-  } = useQuery<JSON, Error>(['categoryReview'], () => getCategoryReview(keyword));
+  } = useQuery<CategoryReviewProps, Error>(['categoryReview'], () => getCategoryReview(keyword));
 
   if (categoryIsLoading) return <LoadingPage />;
   if (categoryError) return <ErrorPage type={2} />;
@@ -34,11 +35,17 @@ const Result = ({ keyword }: { keyword: string }) => {
           <Recommend>다른 유저들은 이런 제품을 찾아봤어요</Recommend>
           <ListItem
             id={0}
-            title={'마샬 STANMORE III'}
-            spec={'코어 i 5-13세대 / 14인치 / 32GB / 256-129GB'}
-            star={4.5}
-            review={'"가벼워요", "적당해요", "예뻐요"'}
-            user={'제리'}
+            productName={'마샬 STANMORE III'}
+            reviewSpecData={['코어 i 5-13세대', '14인치', '32GB', '256-129GB']}
+            starPoint={4.5}
+            shortReview={'"가벼워요", "적당해요", "예뻐요"'}
+            userInfo={{
+              nickname: '김지수',
+              profileImage: 'https://avatars.githubusercontent.com/u/77308744?v=4',
+              job: '디자이너',
+            }}
+            scrapedCount={0}
+            likedCount={0}
           />
         </>
       ) : (
@@ -55,17 +62,19 @@ const Result = ({ keyword }: { keyword: string }) => {
             </div>
           </Control>
 
-          {/* {categoryData.map((item, index) => (
-        <ListItem
-          key={index}
-          id={index}
-          title={'마샬 STANMORE III'}
-          spec={'코어 i 5-13세대 / 14인치 / 32GB / 256-129GB'}
-          star={4.5}
-          review={'"가벼워요", "적당해요", "예뻐요"'}
-          user={'제리'}
-        />
-      ))} */}
+          {categoryData?.reviews.map((item, index) => (
+            <ListItem
+              key={index}
+              id={item.id}
+              productName={item.productName}
+              reviewSpecData={item.reviewSpecData}
+              starPoint={item.starPoint}
+              shortReview={item.shortReview}
+              userInfo={item.userInfo}
+              scrapedCount={item.scrapedCount}
+              likedCount={item.likedCount}
+            />
+          ))}
         </>
       )}
 
