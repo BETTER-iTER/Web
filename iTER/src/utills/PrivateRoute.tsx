@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+import { useNavigate } from 'react-router-dom';
 import Modal from '../component/common/Modal';
 import { getHome } from '../apis/home';
 import { useQuery } from '@tanstack/react-query';
@@ -11,9 +10,8 @@ interface PrivateRouteProps {
   element: React.ReactNode;
 }
 
-const PrivateRoute = ({ path, element }: PrivateRouteProps) => {
+const PrivateRoute = ({ element }: PrivateRouteProps) => {
   const navigate = useNavigate();
-  // const { isAuthentificated } = useAuth();
   const [isAuthentificated, setIsAuthentificated] = useState(false);
 
   const {
@@ -26,13 +24,14 @@ const PrivateRoute = ({ path, element }: PrivateRouteProps) => {
     // 홈 데이터를 기반으로 인증 상태를 결정
     if (homeError) {
       setIsAuthentificated(false);
-    } else if (homeLoading) {
-      <LoadingPage />;
     } else if (homeData) {
       setIsAuthentificated(true);
     }
   }, [homeData, homeError, homeLoading]);
 
+  if (homeLoading) {
+    return <LoadingPage />;
+  }
   if (!isAuthentificated) {
     return (
       <Modal
