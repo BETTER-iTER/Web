@@ -8,11 +8,12 @@ import LoadingPage from '../common/Loading';
 import ErrorPage from '../common/Error';
 
 interface RecentProps {
-  keywords: { id: number; text: string }[];
+  keywords: { id: number; text: string }[]; // 최근 검색어
   onDelete: (id: number) => void;
+  onClick: (text: string) => void;
 }
 
-const SearchCategory: React.FC<RecentProps> = ({ keywords, onDelete }) => {
+const SearchCategory: React.FC<RecentProps> = ({ keywords, onDelete, onClick }) => {
   const { data, isLoading, isError } = useQuery<CategoryProps[], Error>(['category'], getCategory);
   if (isLoading) return <LoadingPage />;
   if (isError) return <ErrorPage type={2} />;
@@ -26,7 +27,7 @@ const SearchCategory: React.FC<RecentProps> = ({ keywords, onDelete }) => {
           <Category
             key={index}
             name={category.name}
-            onClick={() => console.log('click')}
+            onClick={() => onClick(category.name)}
             isSelected={false}
             gap={4}
           />

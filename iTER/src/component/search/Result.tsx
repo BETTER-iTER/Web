@@ -4,31 +4,71 @@ import { BottomCategory, BottomSort } from '../common/Bottom';
 import { ButtonControl } from '../common/Button';
 import ListItem from './ListItem';
 import Sort from '../../assets/icon/Sort.svg?react';
+import { getCategoryReview } from '../../apis/Review';
+import { useQuery } from '@tanstack/react-query';
+import LoadingPage from '../common/Loading';
+import ErrorPage from '../common/Error';
 
-const Result = () => {
+const Result = ({ keyword }: { keyword: string }) => {
   const [categoryBottom, setCategoryBottom] = useState<boolean>(false);
   const [sortBottom, setSortBottom] = useState<boolean>(false);
+
+  // interface CategoryReviewProps {
+
+  const {
+    data: categoryData,
+    error: categoryError,
+    isLoading: categoryIsLoading,
+  } = useQuery<JSON, Error>(['categoryReview'], () => getCategoryReview(keyword));
+
+  if (categoryIsLoading) return <LoadingPage />;
+  if (categoryError) return <ErrorPage type={2} />;
+
+  console.log(categoryData, 'categoryData');
+
   return (
     <Container>
-      <Control>
-        <Filter>
-          <ButtonControl type="toggle" onClick={() => setCategoryBottom(!categoryBottom)}>
-            카테고리
-          </ButtonControl>
-          <ButtonControl>전문가</ButtonControl>
-        </Filter>
-        <div onClick={() => setSortBottom(!sortBottom)}>
-          <Sort />
-        </div>
-      </Control>
-      <ListItem
-        id={0}
-        title={'마샬 STANMORE III'}
-        spec={'코어 i 5-13세대 / 14인치 / 32GB / 256-129GB'}
-        star={4.5}
-        review={'"가벼워요", "적당해요", "예뻐요"'}
-        user={'제리'}
-      />
+      {categoryData.reviews?.length == 0 ? (
+        <>
+          <NoData>찾으시는 제품 리뷰가 없어요</NoData>
+          <Recommend>다른 유저들은 이런 제품을 찾아봤어요</Recommend>
+          <ListItem
+            id={0}
+            title={'마샬 STANMORE III'}
+            spec={'코어 i 5-13세대 / 14인치 / 32GB / 256-129GB'}
+            star={4.5}
+            review={'"가벼워요", "적당해요", "예뻐요"'}
+            user={'제리'}
+          />
+        </>
+      ) : (
+        <>
+          <Control>
+            <Filter>
+              <ButtonControl type="toggle" onClick={() => setCategoryBottom(!categoryBottom)}>
+                카테고리
+              </ButtonControl>
+              <ButtonControl>전문가</ButtonControl>
+            </Filter>
+            <div onClick={() => setSortBottom(!sortBottom)}>
+              <Sort />
+            </div>
+          </Control>
+
+          {/* {categoryData.map((item, index) => (
+        <ListItem
+          key={index}
+          id={index}
+          title={'마샬 STANMORE III'}
+          spec={'코어 i 5-13세대 / 14인치 / 32GB / 256-129GB'}
+          star={4.5}
+          review={'"가벼워요", "적당해요", "예뻐요"'}
+          user={'제리'}
+        />
+      ))} */}
+        </>
+      )}
+
       {categoryBottom && (
         <BottomCategory
           onClose={() => {
@@ -69,4 +109,23 @@ const Filter = styled('div', {
   display: 'flex',
   alignItems: 'center',
   gap: '10px',
+});
+
+const NoData = styled('div', {
+  width: '390px',
+  height: '182px',
+  bodyText: 2,
+  color: '$Gray50',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderBottom: '1px solid $Bar',
+});
+
+const Recommend = styled('div', {
+  bodyText: 1,
+  width: '350px',
+  textAlign: 'left',
+  color: '$TitleBlack',
+  margin: '40px 0 10px 0',
 });
