@@ -14,8 +14,6 @@ const Result = ({ keyword }: { keyword: string }) => {
   const [categoryBottom, setCategoryBottom] = useState<boolean>(false);
   const [sortBottom, setSortBottom] = useState<boolean>(false);
 
-  // interface CategoryReviewProps {
-
   const {
     data: categoryData,
     error: categoryError,

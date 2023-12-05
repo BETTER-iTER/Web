@@ -4,12 +4,24 @@ import { useEffect, useState } from 'react';
 import SearchCategory from '../component/search/Category';
 import TopSearch from '../component/layout/TopSearch';
 import Result from '../component/search/Result';
+import { useLocation } from 'react-router-dom';
 
 const Search = () => {
   const [keyword, setKeyword] = useState<string>(''); // 검색어
   const [recentKeywords, setRecentKeywords] = useState<{ id: number; text: string }[]>( // 최근 검색어
     JSON.parse(localStorage.getItem('keywords') || '[]')
   );
+
+  // 홈에서 가져온 카테고리
+  const location = useLocation();
+  const keywordHome = location.state?.category;
+
+  useEffect(() => {
+    if (keywordHome) {
+      setKeyword(keywordHome);
+    }
+  }, [keywordHome]);
+
   // 카테고리 선택
   const handleCategory = (text: string) => {
     setKeyword(text);
@@ -36,7 +48,6 @@ const Search = () => {
     setRecentKeywords([newKeyword, ...recentKeywords]);
   };
 
-  console.log(keyword, 'keyword!!');
   return (
     <Container>
       <TopSearch
