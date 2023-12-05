@@ -6,7 +6,6 @@ import TopSearch from '../component/layout/TopSearch';
 import Result from '../component/search/Result';
 
 const Search = () => {
-  const [count, setCount] = useState<number>(1); // 페이지
   const [keyword, setKeyword] = useState<string>(''); // 검색어
   const [recentKeywords, setRecentKeywords] = useState<{ id: number; text: string }[]>( // 최근 검색어
     JSON.parse(localStorage.getItem('keywords') || '[]')
@@ -14,7 +13,6 @@ const Search = () => {
   // 카테고리 선택
   const handleCategory = (text: string) => {
     setKeyword(text);
-    setCount(2);
   };
   // 최근 검색어
   useEffect(() => {
@@ -43,16 +41,10 @@ const Search = () => {
     <Container>
       <TopSearch
         onHandle={handleAdd}
-        back={
-          count > 1
-            ? () => {
-                setCount(count - 1);
-              }
-            : undefined
-        }
+        back={keyword.length > 0 ? () => setKeyword('') : undefined}
       />
 
-      {count == 1 ? (
+      {keyword.length <= 0 ? (
         <SearchCategory
           keywords={recentKeywords}
           onDelete={handleDelete}
