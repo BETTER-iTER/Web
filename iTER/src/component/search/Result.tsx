@@ -18,12 +18,12 @@ const Result = ({ keyword }: { keyword: string }) => {
     data: categoryData,
     error: categoryError,
     isLoading: categoryIsLoading,
-  } = useQuery<CategoryReviewProps, Error>(['categoryReview'], () => getCategoryReview(keyword));
+  } = useQuery<CategoryReviewProps, Error>(['categoryReview', keyword], () =>
+    getCategoryReview(keyword)
+  );
 
   if (categoryIsLoading) return <LoadingPage />;
   if (categoryError) return <ErrorPage type={2} />;
-
-  console.log(categoryData, 'categoryData');
 
   return (
     <Container>

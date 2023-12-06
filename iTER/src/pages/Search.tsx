@@ -32,8 +32,8 @@ const Search = () => {
       id: Date.now(),
       text: text,
     };
-    setRecentKeywords([newKeyword, ...recentKeywords]);
     setKeyword(text);
+    setRecentKeywords([newKeyword, ...recentKeywords]);
   };
 
   // 최근 검색어
