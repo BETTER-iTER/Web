@@ -11,16 +11,17 @@ interface RecentProps {
   keywords: { id: number; text: string }[]; // 최근 검색어
   onDelete: (id: number) => void;
   onClick: (text: string) => void;
+  onRecent: (text: string) => void;
 }
 
-const SearchCategory: React.FC<RecentProps> = ({ keywords, onDelete, onClick }) => {
+const SearchCategory: React.FC<RecentProps> = ({ keywords, onDelete, onClick, onRecent }) => {
   const { data, isLoading, isError } = useQuery<CategoryProps[], Error>(['category'], getCategory);
   if (isLoading) return <LoadingPage />;
   if (isError) return <ErrorPage type={2} />;
 
   return (
     <Container>
-      {keywords.length > 0 && <Recent keywords={keywords} onDelete={onDelete} />}
+      {keywords.length > 0 && <Recent keywords={keywords} onDelete={onDelete} onClick={onRecent} />}
       <div>카테고리</div>
       <Content>
         {data?.map((category, index) => (

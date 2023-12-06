@@ -12,33 +12,20 @@ const Search = () => {
     JSON.parse(localStorage.getItem('keywords') || '[]')
   );
 
-  // 홈에서 가져온 카테고리
+  // 카테고리 선택
+  const handleCategory = (text: string) => {
+    setKeyword(text);
+  };
+
+  // 홈에서 선택한 카테고리
   const location = useLocation();
   const keywordHome = location.state?.category;
-
   useEffect(() => {
     if (keywordHome) {
       setKeyword(keywordHome);
     }
   }, [keywordHome]);
 
-  // 카테고리 선택
-  const handleCategory = (text: string) => {
-    setKeyword(text);
-  };
-  // 최근 검색어
-  useEffect(() => {
-    const currentDate = Date.now();
-    const filteredKeywords = recentKeywords
-      .filter((keyword) => currentDate - keyword.id <= 604800000)
-      .slice(0, 7);
-    localStorage.setItem('keywords', JSON.stringify(filteredKeywords));
-  }, [recentKeywords]);
-
-  const handleDelete = (id: number) => {
-    const nextKeywords = recentKeywords.filter((keyword) => keyword.id !== id);
-    setRecentKeywords(nextKeywords);
-  };
   // 엔터를 눌러 키워드를 입력했을 때
   const handleAdd = (text: string) => {
     const newKeyword = {
@@ -46,8 +33,34 @@ const Search = () => {
       text: text,
     };
     setRecentKeywords([newKeyword, ...recentKeywords]);
+    setKeyword(text);
   };
 
+  // 최근 검색어
+  useEffect(() => {
+    const currentDate = Date.now();
+
+    const validKeywords = recentKeywords.filter((keyword) => keyword !== undefined);
+
+    const uniqueKeywords = Array.from(new Set(validKeywords.map((keyword) => keyword.text))).map(
+      (text) => validKeywords.find((keyword) => keyword?.text === text)
+    );
+
+    const filteredKeywords = uniqueKeywords
+      .filter((keyword) => keyword && currentDate - keyword.id <= 604800000)
+      .slice(0, 7);
+
+    localStorage.setItem('keywords', JSON.stringify(filteredKeywords));
+  }, [recentKeywords]);
+  // 최근검색어 삭제
+  const handleDelete = (id: number) => {
+    const nextKeywords = recentKeywords.filter((keyword) => keyword.id !== id);
+    setRecentKeywords(nextKeywords);
+  };
+  // 최근검색어 선택
+  const handleRecent = (text: string) => {
+    setKeyword(text);
+  };
   return (
     <Container>
       <TopSearch
@@ -59,6 +72,7 @@ const Search = () => {
         <SearchCategory
           keywords={recentKeywords}
           onDelete={handleDelete}
+          onRecent={handleRecent}
           onClick={handleCategory}
         />
       ) : (
