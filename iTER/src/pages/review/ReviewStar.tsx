@@ -34,18 +34,30 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
   const [userJob, setUserJob] = useState<string>('');
   const [userImageUrl, setUserImageUrl] = useState<string>('');
   const [expert, setExpert] = useState<boolean>(false);
+  const [shortReview, setShortReview] = useState<string[]>([]);
+  
+  const items1 = [
+    { data: '가벼워요', id: 'light' },
+    { data: '적당해요', id: 'moderate' },
+    { data: '무거워요', id: 'heavy' },
+  ];
 
-  const items1 = ['가벼워요', '적당해요', '무거워요'];
-  const items2 = ['저렴해요', '적당해요', '비싸요'];
-  const items3 = ['별로에요', '무난해요', '예뻐요'];
+  const items2 = [
+    { data: '저렴해요', id: 'cheap' },
+    { data: '적당해요', id: 'moderate' },
+    { data: '비싸요', id: 'expensive' },
+  ];
+
+  const items3 = [
+    { data: '별로에요', id: 'not_good' },
+    { data: '무난해요', id: 'average' },
+    { data: '예뻐요', id: 'good' },
+  ];
 
   const [rating, setRating] = useState<number>(0); //이건 별점
   const [check, setCheck] = useState<boolean>(false); //이건 체크 했나 안했나
   const [selectedImage, setSelectedImage] = useState<File | null>(null); //이건 선택한 이미지
-  const [selectedItem1, setSelectedItem1] = useState<string | null>(null); //이건 무게
-  const [selectedItem2, setSelectedItem2] = useState<string | null>(null); //이건 가격
-  const [selectedItem3, setSelectedItem3] = useState<string | null>(null); //이건 디자인
-
+  
 
   onDisabled
   const handleImageSelected = (image: File) => {
@@ -56,19 +68,24 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
 
   const handleStarClick = (star: number) => {
     setRating(star);
+    localStorage.setItem("starRating", String(star - 0.5));
   };
 
-  const handle1Click = (item: string) => {
-    setSelectedItem1(item);
+  const handle1Click = (item: { data: string; id: string }) => {
+    shortReview[0] = item.data;
+    localStorage.setItem("reviewShort", String(shortReview));
   };
 
-  const handle2Click = (item: string) => {
-    setSelectedItem2(item);
+  const handle2Click = (item: { data: string; id: string }) => {
+    shortReview[1] = item.data;
+    localStorage.setItem("reviewShort", String(shortReview));
   };
 
-  const handle3Click = (item: string) => {
-    setSelectedItem3(item);
+  const handle3Click = (item: { data: string; id: string }) => {
+    shortReview[2] = item.data;
+    localStorage.setItem("reviewShort", String(shortReview));
   };
+  
 
   return (
     <>
@@ -108,13 +125,21 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
       <Like>
         <LabelText>좋은 점 *</LabelText>
         <div style={{ marginTop: "11px" }} />
-        <TextInput limit={500} placeholder="좋았던 점을 입력해주세요"/>
+        <TextInput
+          limit={500}
+          placeholder="좋았던 점을 입력해주세요"
+          type = "good"
+        />
       </Like>
 
       <NotGood>
         <LabelText>아쉬운 점 *</LabelText>
         <div style={{ marginTop: "11px" }} />
-        <TextInput limit={500} placeholder="아쉬웠던 점을 입력해주세요"/>
+        <TextInput 
+          limit={500} 
+          placeholder="아쉬웠던 점을 입력해주세요"
+          type = "bad"
+          />
       </NotGood>
 
       <UserInfo>

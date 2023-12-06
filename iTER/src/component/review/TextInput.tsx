@@ -5,15 +5,21 @@ import { Caption4, B2 } from "../Font";
 interface TextInput {
     limit: number;
     placeholder: string;
+    type: string;
 }
 
-const TextInput: React.FC<TextInput> = ({limit, placeholder}) => {
+const TextInput: React.FC<TextInput> = ({limit, placeholder, type}) => {
     const [text, setText] = useState<string>("");
 
     const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const inputValue = event.target.value;
-        if(inputValue.length <= limit ) {
+        if(inputValue.length <= limit && type == "good") {
             setText(inputValue);
+            localStorage.setItem("goodValue", inputValue);
+        }
+        else if(inputValue.length <= limit && type == "bad") {
+            setText(inputValue);
+            localStorage.setItem("badValue", inputValue);
         }
     };
 
