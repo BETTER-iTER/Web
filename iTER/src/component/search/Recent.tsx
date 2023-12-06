@@ -46,8 +46,8 @@ interface ItemProps {
 
 const Item: React.FC<ItemProps> = ({ item, onDelete, onClick }) => {
   return (
-    <ItemBox onClick={onClick}>
-      <div>{item.text}</div>
+    <ItemBox>
+      <div onClick={onClick}>{item.text}</div>
       <Xbox onClick={() => onDelete(item.id)}>
         <Xbtn />
       </Xbox>
@@ -68,6 +68,7 @@ const ItemBox = styled('div', {
   bodyText: 2,
   color: '#8C959F',
   whiteSpace: 'nowrap',
+  pointerEvents: 'auto',
 });
 
 const Xbox = styled('div', {
