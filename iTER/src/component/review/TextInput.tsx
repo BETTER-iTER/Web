@@ -25,7 +25,6 @@ const TextInput: React.FC<TextInput> = ({limit, placeholder, type}) => {
 
     return (
         <>
-           
             <textarea
                 rows={5}
                 cols={30}

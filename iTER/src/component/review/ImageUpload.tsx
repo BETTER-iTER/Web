@@ -17,6 +17,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
     if (file) {
       setSelectedImages([...selectedImages, file]);
       onImageSelected(file);
+      console.log(selectedImages);
     }
   };
 
