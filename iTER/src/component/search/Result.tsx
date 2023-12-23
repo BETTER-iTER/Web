@@ -13,21 +13,24 @@ import { CategoryReviewProps } from '../../types/Review';
 const Result = ({ keyword }: { keyword: string }) => {
   const [categoryBottom, setCategoryBottom] = useState<boolean>(false);
   const [sortBottom, setSortBottom] = useState<boolean>(false);
+  const [sort, setSort] = useState<string>('latest');
+  const [page, setPage] = useState<number>(0);
+  const [keywordLast, setKeywordLast] = useState<string>(keyword);
 
   const {
     data: categoryData,
     error: categoryError,
     isLoading: categoryIsLoading,
-  } = useQuery<CategoryReviewProps, Error>(['categoryReview'], () => getCategoryReview(keyword));
+  } = useQuery<CategoryReviewProps, Error>(['categoryReview', keywordLast], () =>
+    getCategoryReview({ keywordLast, sort, page })
+  );
 
   if (categoryIsLoading) return <LoadingPage />;
   if (categoryError) return <ErrorPage type={2} />;
 
-  console.log(categoryData, 'categoryData');
-
   return (
     <Container>
-      {categoryData.reviews?.length == 0 ? (
+      {categoryData.reviews?.length === 0 ? (
         <>
           <NoData>찾으시는 제품 리뷰가 없어요</NoData>
           <Recommend>다른 유저들은 이런 제품을 찾아봤어요</Recommend>
@@ -81,12 +84,18 @@ const Result = ({ keyword }: { keyword: string }) => {
           onClose={() => {
             setCategoryBottom(false);
           }}
+          onChange={(value: string) => {
+            setKeywordLast(value);
+          }}
         />
       )}
       {sortBottom && (
         <BottomSort
           onClose={() => {
             setSortBottom(false);
+          }}
+          onChange={(value: string) => {
+            setSort(value);
           }}
         />
       )}

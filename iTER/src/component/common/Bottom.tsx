@@ -43,7 +43,13 @@ const Bottom = ({ title, component, onClose }: BottomProps) => {
   );
 };
 
-export const BottomCategory = ({ onClose }: { onClose: () => void }) => {
+export const BottomCategory = ({
+  onClose,
+  onChange,
+}: {
+  onClose: () => void;
+  onChange: (value: string) => void;
+}) => {
   const { data, isLoading, isError } = useQuery<CategoryProps[], Error>(['category'], getCategory);
   if (isLoading) return <LoadingPage />;
   if (isError) return <ErrorPage type={2} />;
@@ -58,7 +64,8 @@ export const BottomCategory = ({ onClose }: { onClose: () => void }) => {
             <Category
               key={index}
               name={category.name}
-              onClick={() => console.log('click')}
+              onChange={() => onChange(category.name)}
+              onClose={onClose}
               isSelected={false}
               gap={4}
             />
@@ -69,17 +76,23 @@ export const BottomCategory = ({ onClose }: { onClose: () => void }) => {
   );
 };
 
-export const BottomSort = ({ onClose }: { onClose: () => void }) => {
+export const BottomSort = ({
+  onClose,
+  onChange,
+}: {
+  onClose: () => void;
+  onChange: (value: string) => void;
+}) => {
   return (
     <Bottom
       title="정렬"
       onClose={onClose}
       component={
         <SortBox>
-          <SortItem>최근 작성순(기본)</SortItem>
-          <SortItem>좋아요 많은 순</SortItem>
-          <SortItem>스크랩 많은 순</SortItem>
-          <SortItem>팔로워 많은 순</SortItem>
+          <SortItem onClick={() => onChange('latest')}>최근 작성순(기본)</SortItem>
+          <SortItem onClick={() => onChange('mostLiked')}>좋아요 많은 순</SortItem>
+          <SortItem onClick={() => onChange('mostScraped')}>스크랩 많은 순</SortItem>
+          <SortItem onClick={() => onChange('mostFollowers')}>팔로워 많은 순</SortItem>
         </SortBox>
       }
     />
