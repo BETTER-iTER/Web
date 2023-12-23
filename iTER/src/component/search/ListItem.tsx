@@ -5,19 +5,24 @@ import Star from '../../assets/icon/star/Star.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import ProfileSimple from '../user/ProfileSimple';
+import { CategoryReviewProps } from '../../types/Review';
 
-interface ListItemProps {
-  id: number;
-  title: string;
-  spec: string;
-  star: number;
-  review: string;
-  user: string;
-}
-
-const ListItem: React.FC<ListItemProps> = ({ title, spec, star, review, user, id }) => {
+const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
+  id,
+  productName,
+  starPoint,
+  shortReview,
+  userInfo,
+  reviewSpecData,
+  scrapedCount,
+  likedCount,
+}) => {
   const navigate = useNavigate();
   const [active, setActive] = useState<boolean>(false);
+
+  const spec = reviewSpecData.map((item: string, index: number) => {
+    return index == reviewSpecData.length - 1 ? item : item + ' / ';
+  });
   return (
     <Container>
       <Box
@@ -25,19 +30,26 @@ const ListItem: React.FC<ListItemProps> = ({ title, spec, star, review, user, id
           navigate(`/search/review/${id}`);
         }}
       >
-        <Image></Image>
+        <Image>
+          <img src={userInfo.profileImage} alt="" width={120} height={120} />
+        </Image>
+
         <div>
-          <Title>{title}</Title>
+          <Title>{productName}</Title>
           <Caption2>
             {spec}
             <Reviews>
               <Stars>
-                <Star fill={'#8787F4'} width={15} height={15} /> {star}
+                <Star fill={'#8787F4'} width={15} height={15} /> {starPoint}
               </Stars>
-              {review}
+              {shortReview}
             </Reviews>
           </Caption2>
-          <ProfileSimple />
+          <ProfileSimple
+            nickname={userInfo.nickname}
+            profileImage={userInfo.profileImage}
+            job={userInfo.job}
+          />
         </div>
       </Box>
       <Buttons>
@@ -48,7 +60,7 @@ const ListItem: React.FC<ListItemProps> = ({ title, spec, star, review, user, id
           active={active}
           type="like"
         >
-          리뷰 좋아요
+          리뷰 좋아요 ({likedCount})
         </ButtonEmpty>
         <ButtonEmpty
           onClick={() => {
@@ -57,7 +69,7 @@ const ListItem: React.FC<ListItemProps> = ({ title, spec, star, review, user, id
           active={active}
           type="scrap"
         >
-          리뷰 스크랩
+          리뷰 스크랩 ({scrapedCount})
         </ButtonEmpty>
       </Buttons>
     </Container>
@@ -85,6 +97,7 @@ const Image = styled('div', {
   height: '120px',
   backgroundColor: '$Gray20',
   borderRadius: '10px',
+  overflow: 'hidden',
 });
 
 const Title = styled('div', {

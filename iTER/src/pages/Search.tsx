@@ -4,23 +4,40 @@ import { useEffect, useState } from 'react';
 import SearchCategory from '../component/search/Category';
 import TopSearch from '../component/layout/TopSearch';
 import Result from '../component/search/Result';
+import { useLocation } from 'react-router-dom';
 
 const Search = () => {
-  const [keywords, setKeywords] = useState<{ id: number; text: string }[]>(
+  const [keyword, setKeyword] = useState<string>(''); // 검색어
+  const [recentKeywords, setRecentKeywords] = useState<{ id: number; text: string }[]>( // 최근 검색어
     JSON.parse(localStorage.getItem('keywords') || '[]')
   );
+
+  // 홈에서 가져온 카테고리
+  const location = useLocation();
+  const keywordHome = location.state?.category;
+
+  useEffect(() => {
+    if (keywordHome) {
+      setKeyword(keywordHome);
+    }
+  }, [keywordHome]);
+
+  // 카테고리 선택
+  const handleCategory = (text: string) => {
+    setKeyword(text);
+  };
   // 최근 검색어
   useEffect(() => {
     const currentDate = Date.now();
-    const filteredKeywords = keywords
+    const filteredKeywords = recentKeywords
       .filter((keyword) => currentDate - keyword.id <= 604800000)
       .slice(0, 7);
     localStorage.setItem('keywords', JSON.stringify(filteredKeywords));
-  }, [keywords]);
+  }, [recentKeywords]);
 
   const handleDelete = (id: number) => {
-    const nextKeywords = keywords.filter((keyword) => keyword.id !== id);
-    setKeywords(nextKeywords);
+    const nextKeywords = recentKeywords.filter((keyword) => keyword.id !== id);
+    setRecentKeywords(nextKeywords);
   };
   // 엔터를 눌러 키워드를 입력했을 때
   const handleAdd = (text: string) => {
@@ -28,15 +45,25 @@ const Search = () => {
       id: Date.now(),
       text: text,
     };
-    setKeywords([newKeyword, ...keywords]);
+    setRecentKeywords([newKeyword, ...recentKeywords]);
   };
 
   return (
     <Container>
-      <TopSearch onHandle={handleAdd} />
-      <Result />
-      {/* <SearchCategory keywords={keywords} onDelete={handleDelete} /> */}
+      <TopSearch
+        onHandle={handleAdd}
+        back={keyword.length > 0 ? () => setKeyword('') : undefined}
+      />
 
+      {keyword.length <= 0 ? (
+        <SearchCategory
+          keywords={recentKeywords}
+          onDelete={handleDelete}
+          onClick={handleCategory}
+        />
+      ) : (
+        <Result keyword={keyword} />
+      )}
       <Nav />
     </Container>
   );

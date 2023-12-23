@@ -13,7 +13,7 @@ import { getHome } from '../apis/home';
 import LoadingPage from '../component/common/Loading';
 import ErrorPage from '../component/common/Error';
 import { HomeProps } from '../types/Home';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -74,11 +74,33 @@ const Home = () => {
 export default Home;
 
 const CategoryScroll = ({ list }: { list: HomeProps['categories'] }) => {
+  const navigation = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState<{ name: string | null }>({
+    name: null,
+  });
+  const handleCategoryClick = (name: string) => {
+    setSelectedCategory({ name });
+    console.log(selectedCategory);
+  };
+
+  useEffect(() => {
+    if (selectedCategory.name) {
+      navigation('/search', { state: { category: selectedCategory.name } });
+    }
+  }, [selectedCategory]);
   return (
     <CategoryBox>
       {list.map((item, index) => {
         return (
-          <Category key={index} name={item.name} isSelected={false} gap={8.98} onClick={() => {}} />
+          <Category
+            key={index}
+            name={item.name}
+            isSelected={false}
+            gap={8.98}
+            onClick={() => {
+              handleCategoryClick(item.name);
+            }}
+          />
         );
       })}
     </CategoryBox>
