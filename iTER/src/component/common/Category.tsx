@@ -1,7 +1,9 @@
 import { styled } from '../../../stitches.config';
 
 interface CategoryItem {
-  onClick: () => void;
+  onClick?: () => void;
+  onChange?: (value: string) => void;
+  onClose: () => void;
   isSelected?: boolean;
   isSelectedBorer?: boolean;
   gap?: number;
@@ -28,10 +30,27 @@ interface CategoryItem {
 //   기타: <img src={`../../src/assets/png/Etc.png`} width={27} height={5} />,
 // };
 
-const Category = ({ imageUrl, name, onClick, isSelected, isSelectedBorer, gap }: CategoryItem) => {
+const Category = ({
+  imageUrl,
+  name,
+  isSelected,
+  isSelectedBorer,
+  gap,
+  onChange,
+  onClose,
+}: CategoryItem) => {
   // const Icon = iconMapping[name];
+
+  const handleClicked = () => {
+    if (onChange) {
+      onChange(name);
+    }
+    console.log(name);
+    onClose();
+  };
+
   return (
-    <ItemBox onClick={onClick} style={{ gap: gap }} gap={gap}>
+    <ItemBox style={{ gap: gap }} gap={gap} onClick={() => handleClicked()}>
       <Image isSelected={isSelected} isSelectedBorder={isSelectedBorer}>
         <img src={imageUrl} alt={imageUrl} />
       </Image>
