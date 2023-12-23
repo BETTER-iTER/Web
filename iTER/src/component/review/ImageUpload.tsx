@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useRef } from 'react';
+import React, { useState, ChangeEvent, useRef, useEffect } from 'react';
 import { styled } from '../../../stitches.config';
 import Xbtn from '../../assets/icon/Xbtn.svg?react';
 import Plus from '../../assets/icon/Plus.svg?react';
@@ -7,19 +7,23 @@ import { Caption1 } from '../Font';
 interface ImageUploadProps {
   onImageSelected: (image: File) => void;
 }
-
 const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+   
+    console.log('선택된 이미지파일들:', selectedImages);
+  }, [selectedImages]); 
+
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
-      setSelectedImages([...selectedImages, file]);
+      setSelectedImages((prevImages) => [...prevImages, file]);
       onImageSelected(file);
-      console.log(selectedImages);
     }
   };
+  
 
   const handleImagePreviewClick = () => {
     if (fileInputRef.current) {
