@@ -38,7 +38,7 @@ const ProfileFlat = ({ userId, type }: ProfileFlatProps) => {
         ) : (
           <IconBox
             onClick={() => {
-              navigate('/setting');
+              navigate('/user/setting');
             }}
           >
             <SettingIcon />

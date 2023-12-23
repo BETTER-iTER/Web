@@ -25,7 +25,7 @@ const Setting = () => {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       axios.defaults.headers.common['Authorization'] = '';
-      navigate('/onboading');
+      navigate('/onboarding');
     },
     onError: (error) => {
       console.log('error', error);
