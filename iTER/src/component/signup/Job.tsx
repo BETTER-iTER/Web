@@ -7,8 +7,18 @@ interface JobProps {
 }
 const Job = ({ onDisabled, onChange }: JobProps) => {
   const [value, setValue] = useState('');
-  const jobs = ['개발자', '학생', '선생님', '디자이너'];
-
+  const jobs = [
+    'SW개발자',
+    '게임 개발자',
+    '학생',
+    '선생님',
+    '영상 디자이너',
+    '시각 디자이너',
+    '데이터 분석가',
+    '기획자',
+    '에디터',
+    'CEO',
+  ];
   onDisabled(value === '');
   onChange(value);
   return (
