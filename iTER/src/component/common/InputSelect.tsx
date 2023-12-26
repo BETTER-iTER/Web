@@ -73,6 +73,8 @@ const Label = styled('div', {
 
 const List = styled('div', {
   width: '338px',
+  maxHeight: '185px',
+  overflow: 'scroll',
   // border: '1px solid $Gray10',
   borderRadius: '7px',
 
