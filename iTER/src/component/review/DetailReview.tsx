@@ -7,7 +7,11 @@ import Star from '../../assets/icon/star/Star.svg?react';
 import { Caption1 } from '../Font';
 import ReviewImage from './ReviewImage';
 
-const DetailReview = () => {
+const DetailReview = (props: { data }) => {
+  const { data } = props;
+
+  const short = data.shortReview.replace(/['"]/g, '').split(', ');
+
   return (
     <>
       <ReviewImage />
@@ -17,17 +21,17 @@ const DetailReview = () => {
           <div style={{ display: 'flex' }}>
             <Active>
               <HeartIcon fill={'#4C4E55'} width={24} height={24} />
-              99+
+              {data.likedCount}
             </Active>
             <Active>
               <CommentIcon />
-              99+
+              {data.commentCount}
             </Active>
           </div>
           <div style={{ display: 'flex' }}>
             <Active>
               <ScrapIcon fill={'#4C4E55'} width={24} height={24} />
-              99+
+              {data.scrapedCount}
             </Active>
             <div>
               <ShareIcon />
@@ -35,43 +39,42 @@ const DetailReview = () => {
           </div>
         </Actives>
         {/* 리뷰 내용 */}
-        <Title>마샬 STANMORE III</Title>
-        <Caption1 style={{ color: '#57606A' }}>
-          코어 i 5-13세대 / 14인치 / 32GB / 256-129GB
-        </Caption1>
+        <Title>{data.productName}</Title>
+        <Caption1 style={{ color: '#57606A' }}>{data.reviewSpecData.join(' / ')}</Caption1>
         {/* 별점 */}
         <Stars>
-          <Star width={24} height={24} />
-          <Star width={24} height={24} />
-          <Star width={24} height={24} />
-          <Star width={24} height={24} />
+          수정필요
           <Star width={24} height={24} />
         </Stars>
         {/* 간단리뷰 */}
         <SimpleReviews>
           <SimpleReview>
-            <Label>무게</Label>가벼워요
+            <Label>무게</Label>
+            {short[0]}
           </SimpleReview>
           <SimpleReview>
-            <Label>가격</Label>적당해요
+            <Label>가격</Label>
+            {short[1]}
           </SimpleReview>
           <SimpleReview>
-            <Label>디자인</Label>예뻐요
+            <Label>디자인</Label>
+            {short[2]}
           </SimpleReview>
         </SimpleReviews>
         {/* 상세 리뷰 */}
         <Point>👍 좋은 점</Point>
-        <Content>스피커가 예뻐서 인테리어 효과가 있음 베이스 음역대가 잘 들림</Content>
+        <Content>{data.goodPoint}</Content>
         <Point>👎 아쉬운 점</Point>
-        <Content>블루투스 연결이 쉽게 끊어짐</Content>
+        <Content>{data.badPoint}</Content>
         <Point>⚖️ 비교 제품</Point>
-        <Content>SONY SRS-XB100</Content>
+        <Content>수정필요</Content>
         {/* 구매정보 */}
         <Buy>
+          수정필요
           <div>마샬 | 공식 홈페이지 구매</div>
-          <div>60만원 | 2023.01.04 구매</div>
+          <div>60만원 | {data.boughtAt} 구매</div>
         </Buy>
-        2021.01.04 작성
+        {data.createdAt}
       </Box>
     </>
   );

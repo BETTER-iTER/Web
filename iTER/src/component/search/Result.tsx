@@ -10,6 +10,21 @@ import LoadingPage from '../common/Loading';
 import ErrorPage from '../common/Error';
 import { CategoryReviewProps } from '../../types/Review';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const dummy: CategoryReviewProps['reviews'][0] = {
+  id: 0,
+  productName: '마샬 STANMORE III',
+  reviewSpecData: ['코어 i 5-13세대', '14인치', '32GB', '256-129GB'],
+  starPoint: 4.5,
+  shortReview: '"가벼워요", "적당해요", "예뻐요"',
+  userInfo: {
+    nickname: '김지수',
+    profileImage: 'https://avatars.githubusercontent.com/u/77308744?v=4',
+    job: '디자이너',
+  },
+  scrapedCount: 0,
+  likedCount: 0,
+};
 const Result = ({ keyword }: { keyword: string }) => {
   const [categoryBottom, setCategoryBottom] = useState<boolean>(false);
   const [sortBottom, setSortBottom] = useState<boolean>(false);
@@ -34,20 +49,7 @@ const Result = ({ keyword }: { keyword: string }) => {
         <>
           <NoData>찾으시는 제품 리뷰가 없어요</NoData>
           <Recommend>다른 유저들은 이런 제품을 찾아봤어요</Recommend>
-          <ListItem
-            id={0}
-            productName={'마샬 STANMORE III'}
-            reviewSpecData={['코어 i 5-13세대', '14인치', '32GB', '256-129GB']}
-            starPoint={4.5}
-            shortReview={'"가벼워요", "적당해요", "예뻐요"'}
-            userInfo={{
-              nickname: '김지수',
-              profileImage: 'https://avatars.githubusercontent.com/u/77308744?v=4',
-              job: '디자이너',
-            }}
-            scrapedCount={0}
-            likedCount={0}
-          />
+          <ListItem {...dummy} />
         </>
       ) : (
         <>

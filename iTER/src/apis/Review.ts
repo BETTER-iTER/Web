@@ -1,6 +1,23 @@
 import api from './index';
 
-// 리뷰 조회
+// 리뷰 상세 조회
+export const getReviewDetail = async (id: number) => {
+  const accessToken = localStorage.getItem('accessToken');
+  console.log('리뷰 상세 조회', id);
+  try {
+    const response = await api.get(`/review/${id}/detail`, {
+      headers: {
+        Authorization: accessToken ? `${accessToken}` : '',
+      },
+    });
+    return response.data.result;
+  } catch (error) {
+    console.log('리뷰 상세 조회 오류', error);
+    throw error;
+  }
+};
+
+// 리뷰 검색 조회
 export const getCategoryReview = async ({
   keywordLast,
   sort,
