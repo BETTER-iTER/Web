@@ -3,6 +3,7 @@ import { styled } from '../../../stitches.config';
 import Xbtn from '../../assets/icon/Xbtn.svg?react';
 import Plus from '../../assets/icon/Plus.svg?react';
 import { Caption1 } from '../Font';
+import AWS from 'aws-sdk';
 
 interface ImageUploadProps {
   onImageSelected: (image: File) => void;
@@ -12,18 +13,22 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-   
     console.log('선택된 이미지파일들:', selectedImages);
-  }, [selectedImages]); 
+  }, [selectedImages]);
 
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
       setSelectedImages((prevImages) => [...prevImages, file]);
       onImageSelected(file);
+      try {
+        const imageUrl = await uploadImageToS3(file);
+        console.log(imageUrl);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
-  
 
   const handleImagePreviewClick = () => {
     if (fileInputRef.current) {
@@ -35,6 +40,33 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
     const newImages = [...selectedImages];
     newImages.splice(index, 1);
     setSelectedImages(newImages);
+  };
+
+  //s3에서 이미지 url추출 부분
+
+  const s3 = new AWS.S3({
+    accessKeyId: 'AKIAQXCQ75TVZX3FMN37',
+    secretAccessKey: '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',
+    region: '아시아 태평양(서울) ap-northeast-2',
+  });
+
+  const uploadImageToS3 = async (file) => {
+    const params = {
+      Bucket: 'better-iter-application',
+      Key: `images/${encodeURIComponent(file.name)}`, // 파일 이름을 인코딩하여 사용
+      Body: file,
+      ContentType: 'image/jpeg', // 또는 다른 적절한 MIME 타입
+      ACL: 'public-read',
+    };
+
+    try {
+      const data = await s3.upload(params).promise();
+      console.log('이미지 업로드 성공 이미지 url:', data.Location);
+      return data.Location;
+    } catch (error) {
+      console.error('이미지 업로드 중 에러 발생:', error);
+      throw error;
+    }
   };
 
   return (

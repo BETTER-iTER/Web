@@ -12,4 +12,10 @@ export default defineConfig({
   //     },
   //   },
   // },
+  optimizeDeps: {
+    include: ['aws-sdk'],
+  },
+  define: {
+    global: {},
+  },
 });
