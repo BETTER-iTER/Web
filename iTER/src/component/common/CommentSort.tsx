@@ -3,6 +3,7 @@ import { styled } from '../../../stitches.config';
 import User from '../../assets/icon/User.svg?react';
 import { Caption2, Caption3, DayText } from '../Font';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export const CommentSort = ({ onClose }: { onClose: () => void }) => {
   const [comments, setComments] = useState([]);
@@ -17,11 +18,28 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
     });
   }, []);
 
+  // const fetchCommentDataFromServer = async () => {
+  //   try {
+  //     const response = await fetch('서버에서 댓글 정보 및 댓글 수를 가져오는 API URL갈겨주기');
+  //     const data = await response.json();
+  //     return data;
+  //   } catch (error) {
+  //     console.error('댓글 정보를 가져오는 데 실패했습니다.', error);
+  //     return { comments: [], commentCount: 0 };
+  //   }
+  // };
+
   const fetchCommentDataFromServer = async () => {
     try {
-      const response = await fetch('서버에서 댓글 정보 및 댓글 수를 가져오는 API URL갈겨주기');
-      const data = await response.json();
-      return data;
+      const accessToken = localStorage.getItem('accessToken');
+      const response = await axios.get('https://dev.betteritem.store/review/1/detail/comments', {
+        headers: {
+          Authorization: `${accessToken}`,
+        },
+      });
+
+      console.log(response.data);
+      return response.data;
     } catch (error) {
       console.error('댓글 정보를 가져오는 데 실패했습니다.', error);
       return { comments: [], commentCount: 0 };
