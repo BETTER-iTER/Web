@@ -6,11 +6,12 @@ import ShareIcon from '../../assets/icon/Share.svg?react';
 import Star from '../../assets/icon/star/Star.svg?react';
 import { Caption1 } from '../Font';
 import ReviewImage from './ReviewImage';
-
+import { useState } from 'react';
 const DetailReview = (props: { data }) => {
   const { data } = props;
 
   const short = data.shortReview.replace(/['"]/g, '').split(', ');
+  const [setting, setSetting] = useState<boolean>(false);
 
   return (
     <>
@@ -24,7 +25,11 @@ const DetailReview = (props: { data }) => {
               {data.likedCount}
             </Active>
             <Active>
-              <CommentIcon />
+              <CommentIcon
+                onClick={() => {
+                  setSetting(!setting);
+                }}
+              />
               {data.commentCount}
             </Active>
           </div>
