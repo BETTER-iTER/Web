@@ -2,6 +2,7 @@ import Bottom from './Bottom';
 import { styled } from '../../../stitches.config';
 import User from '../../assets/icon/User.svg?react';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export const LikeSort = ({ onClose }: { onClose: () => void }) => {
   const [comments, setComments] = useState([]);
@@ -18,15 +19,20 @@ export const LikeSort = ({ onClose }: { onClose: () => void }) => {
 
   const fetchCommentDataFromServer = async () => {
     try {
-      const response = await fetch('서버에서 좋아요 누르사람 데이터 가져오는 api');
-      const data = await response.json();
-      return data;
+      const accessToken = localStorage.getItem('accessToken');
+      const response = await axios.get('https://dev.betteritem.store/review/1/detail/likes', {
+        headers: {
+          Authorization: `${accessToken}`,
+        },
+      });
+
+      console.log(response.data);
+      return response.data;
     } catch (error) {
       console.error('좋아요 정보를 가져오는 데 실패했습니다.', error);
       return { comments: [], commentCount: 0 };
     }
   };
-
   return (
     <Bottom
       title="좋아요"
@@ -34,7 +40,7 @@ export const LikeSort = ({ onClose }: { onClose: () => void }) => {
       component={
         <SortBox>
           {/* 좋아요 오는 수만큼 좋아요 만든거 갈기기 */}
-          {comments.map((comment, index) => (
+          {comments.map((index) => (
             <SortItem key={index}>
               <Likelay>
                 <UserImage>
