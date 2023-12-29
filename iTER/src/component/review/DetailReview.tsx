@@ -6,11 +6,27 @@ import ShareIcon from '../../assets/icon/Share.svg?react';
 import Star from '../../assets/icon/star/Star.svg?react';
 import { Caption1 } from '../Font';
 import ReviewImage from './ReviewImage';
+import { LikeSort } from '../common/LikeSort';
+import { useState } from 'react';
 
 const DetailReview = (props: { data }) => {
   const { data } = props;
 
   const short = data.shortReview.replace(/['"]/g, '').split(', ');
+
+  //좋아요 부분
+  const [settingLike, setSettingLike] = useState<boolean>(false);
+  const [pushHeart, setPushHeart] = useState<boolean>(true);
+
+  const handleHeartClick = () => {
+    setPushHeart(!pushHeart);
+    if (pushHeart) {
+      console.log("좋아요 누름");
+    }
+    else {
+      console.log("좋아요 취소함");
+    }
+  }
 
   return (
     <>
@@ -20,8 +36,15 @@ const DetailReview = (props: { data }) => {
         <Actives>
           <div style={{ display: 'flex' }}>
             <Active>
-              <HeartIcon fill={'#4C4E55'} width={24} height={24} />
-              {data.likedCount}
+            <Hicon onClick={handleHeartClick}>
+              {pushHeart ? 
+                  (<HeartIcon fill={'#4C4E55'} width={24} height={24} />
+                  {data.likedCount})
+                    : 
+                  (<HeartFill width={24} height={24} />
+                  {data.likedCount})
+                  }
+            </Hicon>
             </Active>
             <Active>
               <CommentIcon />
@@ -158,3 +181,6 @@ const Buy = styled('div', {
   justifyContent: 'space-between',
   margin: '21px 0 16px 0',
 });
+const Hicon = styled("div", {
+  display: "flex",
+})
