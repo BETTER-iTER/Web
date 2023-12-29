@@ -1,5 +1,6 @@
 import { styled } from '../../../stitches.config';
 import HeartIcon from '../../assets/icon/Heart.svg?react';
+import HeartFill from '../../assets/icon/HeartFill.svg?react';
 import CommentIcon from '../../assets/icon/Comment.svg?react';
 import ScrapIcon from '../../assets/icon/Scrap.svg?react';
 import ShareIcon from '../../assets/icon/Share.svg?react';
@@ -21,12 +22,11 @@ const DetailReview = (props: { data }) => {
   const handleHeartClick = () => {
     setPushHeart(!pushHeart);
     if (pushHeart) {
-      console.log("좋아요 누름");
+      console.log('좋아요 누름');
+    } else {
+      console.log('좋아요 취소함');
     }
-    else {
-      console.log("좋아요 취소함");
-    }
-  }
+  };
 
   return (
     <>
@@ -36,15 +36,24 @@ const DetailReview = (props: { data }) => {
         <Actives>
           <div style={{ display: 'flex' }}>
             <Active>
-            <Hicon onClick={handleHeartClick}>
-              {pushHeart ? 
-                  (<HeartIcon fill={'#4C4E55'} width={24} height={24} />
-                  {data.likedCount})
-                    : 
-                  (<HeartFill width={24} height={24} />
-                  {data.likedCount})
-                  }
-            </Hicon>
+              <Hicon onClick={handleHeartClick}>
+                {pushHeart ? (
+                  <>
+                    <HeartIcon fill={'#4C4E55'} width={24} height={24} />
+                  </>
+                ) : (
+                  <>
+                    <HeartFill width={24} height={24} />
+                  </>
+                )}
+              </Hicon>
+              <HeartNum
+                onClick={() => {
+                  setSettingLike(!settingLike);
+                }}
+              >
+                {data.likedCount}
+              </HeartNum>
             </Active>
             <Active>
               <CommentIcon />
@@ -99,6 +108,13 @@ const DetailReview = (props: { data }) => {
         </Buy>
         {data.createdAt}
       </Box>
+      {settingLike && (
+        <LikeSort
+          onClose={() => {
+            setSettingLike(!settingLike);
+          }}
+        />
+      )}
     </>
   );
 };
@@ -181,6 +197,8 @@ const Buy = styled('div', {
   justifyContent: 'space-between',
   margin: '21px 0 16px 0',
 });
-const Hicon = styled("div", {
-  display: "flex",
-})
+const Hicon = styled('div', {
+  display: 'flex',
+});
+
+const HeartNum = styled('div', {});
