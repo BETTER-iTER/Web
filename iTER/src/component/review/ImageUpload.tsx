@@ -8,6 +8,7 @@ import AWS from 'aws-sdk';
 interface ImageUploadProps {
   onImageSelected: (image: File) => void;
 }
+
 const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -42,20 +43,18 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
     setSelectedImages(newImages);
   };
 
-  //s3에서 이미지 url추출 부분
-
   const s3 = new AWS.S3({
-    accessKeyId: 'AKIAQXCQ75TVZX3FMN37',
-    secretAccessKey: 'vyl0rL10qijQuWDEM63v4ORlodSwYQqtWBRJ13Pi',
-    region: '아시아 태평양(서울) ap-northeast-2',
+    accessKeyId: 'AKIAQXCQ75TVZX3FMN37', // Replace with your AWS access key
+    secretAccessKey: 'vyl0rL10qijQuWDEM63v4ORlodSwYQqtWBRJ13Pi', // Replace with your AWS secret key
+    region: '아시아 태평양(서울) ap-northeast-2', // Replace with your AWS region
   });
 
-  const uploadImageToS3 = async (file) => {
+  const uploadImageToS3 = async (file: File) => {
     const params = {
       Bucket: 'better-iter-application',
-      Key: `images/${encodeURIComponent(file.name)}`, // 파일 이름을 인코딩하여 사용
+      Key: `images/${encodeURIComponent(file.name)}`,
       Body: file,
-      ContentType: 'image/jpeg', // 또는 다른 적절한 MIME 타입
+      ContentType: 'image/jpeg',
       ACL: 'public-read',
     };
 
