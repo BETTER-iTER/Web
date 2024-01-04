@@ -83,6 +83,7 @@ const DetailReview = (props: { data }) => {
         </Buy>
         {data.createdAt}
       </Box>
+
       {setting && (
         <CommentSort
           onClose={() => {
