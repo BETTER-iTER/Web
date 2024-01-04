@@ -7,13 +7,13 @@ import axios from 'axios';
 
 export const CommentSort = ({ onClose }: { onClose: () => void }) => {
   const [comments, setComments] = useState([]);
-  const [commentDate, setCommentDate] = useState(0);
+  const [commentCount, setCommentCount] = useState(0);
 
   useEffect(() => {
     // 서버에서 댓글 정보 및 댓글 수 가져오는거
     fetchCommentDataFromServer().then((data) => {
-      setComments(data.result[0].comment);
-      setCommentDate(data.result[0].createdAt);
+      setComments(data.comments);
+      setCommentCount(data.commentCount);
     });
   }, []);
 
@@ -56,27 +56,29 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
                     <Info>
                       <Name>
                         <Caption2>
-                          {comment.nickname} {/* 닉네임 받아오기 */}
+                          블루투스 하트
+                          {/* 여기에 닉네임 받아오기 */}
                         </Caption2>
                       </Name>
                       <Line>|</Line>
                       <Job>
                         <Caption2>
-                          {comment.job} {/* 직업 받아오기 */}
+                          개발자
+                          {/* 여기에 직업 받아오기 */}
                         </Caption2>
                       </Job>
                     </Info>
-                    <CommentText>{comment.text}</CommentText>
+                    <CommentText>좋은 리뷰글 잘 보고 갑니다~</CommentText>
                     <BottomLay>
                       <ReComment>
                         <Caption3>
                           답글 달기
-                          {/* 여기에 클릭했을 때 답글 다는 이벤트 추가 */}
+                          {/* 여기에 클릭했을때 답글다는 이벤트추가 */}
                         </Caption3>
                       </ReComment>
                       <DandD>
                         <Datelay>
-                          <DayText>{comment.createdAt}</DayText>
+                          <DayText>2023.09.11</DayText>
                           {/* 여기에 당시 날짜 받아오기 */}
                         </Datelay>
                         <Delete>
