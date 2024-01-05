@@ -36,6 +36,28 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
     }
   };
 
+  //댓글 삭제 api
+  const commentDelete = async (comment) => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      const response = await axios.post(
+        `https://dev.betteritem.store/comment/delete/`,
+        {
+          comment_id: comment,
+        },
+        {
+          headers: {
+            Authorization: `${accessToken}`,
+          },
+        }
+      );
+
+      console.log(response);
+    } catch (error) {
+      console.log('에러', error);
+    }
+  };
+
   return (
     <B>
       <Bottom
@@ -66,7 +88,7 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
                       </Datelay>
                       {/* mine이 true인 경우에만 삭제 버튼 보이기 */}
                       {comment.mine && (
-                        <Delete>
+                        <Delete onClick={() => commentDelete(comment.id)}>
                           <DayText>삭제</DayText>
                         </Delete>
                       )}
