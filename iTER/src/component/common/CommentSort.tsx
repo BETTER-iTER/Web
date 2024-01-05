@@ -60,9 +60,6 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
                   </Info>
                   <CommentText>{comment.comment}</CommentText>
                   <BottomLay>
-                    <ReComment>
-                      <Caption3>답글 달기</Caption3>
-                    </ReComment>
                     <DandD>
                       <Datelay>
                         <DayText>{comment.createdAt}</DayText>
@@ -98,16 +95,16 @@ const B = styled('div', {
 });
 
 const UserImage = styled('div', {
-  // marginLeft: '-10px',
+  marginLeft: '-10px',
 });
 const TextLay = styled('div', {
-  // marginLeft: '37px',
-  // marginTop: '-40px',
+  marginLeft: '37px',
+  marginTop: '-40px',
 });
 const SortBox = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  // marginBottom: '60px',
+  marginBottom: '60px',
   height: '720px',
   width: '360px',
 });
@@ -129,18 +126,18 @@ const Name = styled('div', {
 
 const Line = styled('div', {
   color: '#EAEEF2',
-  // marginLeft: '2.5px',
+  marginLeft: '2.5px',
 });
 
 const Job = styled('div', {
   color: '#57606A',
-  // marginLeft: '2.5px',
+  marginLeft: '2.5px',
 });
 
 const CommentText = styled('div', {
   bodyText: 2,
   color: '#24292F',
-  // marginTop: '2px',
+  marginTop: '2px',
 });
 
 const ReComment = styled('div', {
@@ -155,15 +152,15 @@ const Datelay = styled('div', {
 const Delete = styled('div', {
   color: '#C1C4CC',
   textDecorationLine: 'underline',
-  // marginLeft: '4px',
+  marginLeft: '4px',
 });
 
 const BottomLay = styled('div', {
   display: 'flex',
-  // marginTop: '4px',
+  marginTop: '4px',
 });
 
 const DandD = styled('div', {
   display: 'flex',
-  // marginLeft: '189px',
+  marginLeft: '189px',
 });
