@@ -5,26 +5,29 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export const LikeSort = ({ onClose }: { onClose: () => void }) => {
-  const [comments, setComments] = useState([]);
-  const [commentCount, setCommentCount] = useState(0);
+  const [likeArray, setLikeArray] = useState([]);
 
   useEffect(() => {
     // 서버에서 좋아요 누른 유저 정보 가져오기
     fetchCommentDataFromServer().then((data) => {
-      setComments(data.comments);
-      setCommentCount(data.commentCount);
+      setLikeArray(data.result);
+
       //여기서 정보 오는거 로직처리 갈기면됌
     });
   }, []);
 
   const fetchCommentDataFromServer = async () => {
+    const reviewId = 1;
     try {
       const accessToken = localStorage.getItem('accessToken');
-      const response = await axios.get('https://dev.betteritem.store/review/1/detail/likes', {
-        headers: {
-          Authorization: `${accessToken}`,
-        },
-      });
+      const response = await axios.get(
+        `https://dev.betteritem.store/review/${reviewId}/detail/likes`,
+        {
+          headers: {
+            Authorization: `${accessToken}`,
+          },
+        }
+      );
 
       console.log(response.data);
       return response.data;
@@ -40,21 +43,22 @@ export const LikeSort = ({ onClose }: { onClose: () => void }) => {
       component={
         <SortBox>
           {/* 좋아요 오는 수만큼 좋아요 만든거 갈기기 */}
-          {comments.map((index) => (
-            <SortItem key={index}>
+          {likeArray.map((like) => (
+            <SortItem key={like.id}>
               <Likelay>
                 <UserImage>
-                  <User width={35} height={35} />
+                  {/* <User width={35} height={35} /> */}
+                  <img src={like.profileImage} width={35} height={35} />
                 </UserImage>
                 <TextLay>
                   <Info>
                     <Name>
-                      블루투스 하트
+                      {like.nickname}
                       {/* 여기에 닉네임 받아오기 */}
                     </Name>
                     <Line>|</Line>
                     <Job>
-                      개발자
+                      {like.job}
                       {/* 여기에 직업 받아오기 */}
                     </Job>
                   </Info>
@@ -67,6 +71,9 @@ export const LikeSort = ({ onClose }: { onClose: () => void }) => {
     />
   );
 };
+
+// 좋아요 정보로 넘어오는 정보들
+// 좋아요 누른 유저 아이디: {like.userId}
 
 const Likelay = styled('div', {
   display: 'flex',
