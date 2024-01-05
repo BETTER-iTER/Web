@@ -6,14 +6,12 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export const CommentSort = ({ onClose }: { onClose: () => void }) => {
-  const [comments, setComments] = useState([]);
-  const [commentCount, setCommentCount] = useState(0);
+  const [commentArray, setCommentArray] = useState([]);
 
   useEffect(() => {
     // 서버에서 댓글 정보 및 댓글 수 가져오는거
     fetchCommentDataFromServer().then((data) => {
-      setComments(data.comments);
-      setCommentCount(data.commentCount);
+      setCommentArray(data.result);
     });
   }, []);
 
@@ -30,7 +28,7 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
         }
       );
 
-      console.log(response.data);
+      console.log(response.data.result);
       return response.data;
     } catch (error) {
       console.error('댓글 정보를 가져오는 데 실패했습니다.', error);
@@ -45,51 +43,49 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
         onClose={onClose}
         component={
           <SortBox>
-            {/* 댓글이 오는 수만큼 댓글 만든거 갈기기 */}
-            {comments &&
-              comments.map((comment, index) => (
-                <SortItem key={index}>
-                  <UserImage>
-                    <User width={35} height={35} />
-                  </UserImage>
-                  <TextLay>
-                    <Info>
-                      <Name>
-                        <Caption2>
-                          블루투스 하트
-                          {/* 여기에 닉네임 받아오기 */}
-                        </Caption2>
-                      </Name>
-                      <Line>|</Line>
-                      <Job>
-                        <Caption2>
-                          개발자
-                          {/* 여기에 직업 받아오기 */}
-                        </Caption2>
-                      </Job>
-                    </Info>
-                    <CommentText>좋은 리뷰글 잘 보고 갑니다~</CommentText>
-                    <BottomLay>
-                      <ReComment>
-                        <Caption3>
-                          답글 달기
-                          {/* 여기에 클릭했을때 답글다는 이벤트추가 */}
-                        </Caption3>
-                      </ReComment>
-                      <DandD>
-                        <Datelay>
-                          <DayText>2023.09.11</DayText>
-                          {/* 여기에 당시 날짜 받아오기 */}
-                        </Datelay>
-                        <Delete>
-                          <DayText>삭제</DayText>
-                          {/* 여기에 버튼 누르면 댓글 삭제 */}
-                        </Delete>
-                      </DandD>
-                    </BottomLay>
-                  </TextLay>
-                </SortItem>
-              ))}
+            {commentArray.map((comment) => (
+              <SortItem key={comment.id}>
+                <UserImage>
+                  <img src={comment.reviewCommentUserInfo.profileImage} width={35} height={35} />
+                </UserImage>
+                <TextLay>
+                  <Info>
+                    <Name>
+                      <Caption2>{comment.reviewCommentUserInfo.nickname}</Caption2>
+                    </Name>
+                    <Line>|</Line>
+                    <Job>
+                      <Caption2>{comment.reviewCommentUserInfo.job}</Caption2>
+                    </Job>
+                  </Info>
+                  <CommentText>{comment.comment}</CommentText>
+                  <BottomLay>
+                    <ReComment>
+                      <Caption3>답글 달기</Caption3>
+                    </ReComment>
+                    <DandD>
+                      <Datelay>
+                        <DayText>{comment.createdAt}</DayText>
+                      </Datelay>
+                      <Delete>
+                        <DayText>삭제</DayText>
+                      </Delete>
+                    </DandD>
+                  </BottomLay>
+                </TextLay>
+                {/* 댓글 정보로 넘어오는 것들 */}
+                {/* <p>댓글 아이디: {comment.id}</p>
+                <p>댓글: {comment.comment}</p>
+                <p>작성 일자: {comment.createdAt}</p>
+                <p>내 댓글 여부: {comment.mine}</p>
+                <p>댓글 아이디: {comment.id}</p>
+                <p>사용자 정보</p>
+                <p>사용자 id: {comment.reviewCommentUserInfo.userId}</p>
+                <p>사용자 직업: {comment.reviewCommentUserInfo.job}</p>
+                <p>사용자 닉네임: {comment.reviewCommentUserInfo.nickname}</p>
+                <p>사용자 사진: {comment.reviewCommentUserInfo.profileImage}</p> */}
+              </SortItem>
+            ))}
           </SortBox>
         }
       />
@@ -102,16 +98,16 @@ const B = styled('div', {
 });
 
 const UserImage = styled('div', {
-  marginLeft: '-10px',
+  // marginLeft: '-10px',
 });
 const TextLay = styled('div', {
-  marginLeft: '37px',
-  marginTop: '-40px',
+  // marginLeft: '37px',
+  // marginTop: '-40px',
 });
 const SortBox = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  marginBottom: '60px',
+  // marginBottom: '60px',
   height: '720px',
   width: '360px',
 });
@@ -133,18 +129,18 @@ const Name = styled('div', {
 
 const Line = styled('div', {
   color: '#EAEEF2',
-  marginLeft: '2.5px',
+  // marginLeft: '2.5px',
 });
 
 const Job = styled('div', {
   color: '#57606A',
-  marginLeft: '2.5px',
+  // marginLeft: '2.5px',
 });
 
 const CommentText = styled('div', {
   bodyText: 2,
   color: '#24292F',
-  marginTop: '2px',
+  // marginTop: '2px',
 });
 
 const ReComment = styled('div', {
@@ -159,15 +155,15 @@ const Datelay = styled('div', {
 const Delete = styled('div', {
   color: '#C1C4CC',
   textDecorationLine: 'underline',
-  marginLeft: '4px',
+  // marginLeft: '4px',
 });
 
 const BottomLay = styled('div', {
   display: 'flex',
-  marginTop: '4px',
+  // marginTop: '4px',
 });
 
 const DandD = styled('div', {
   display: 'flex',
-  marginLeft: '189px',
+  // marginLeft: '189px',
 });
