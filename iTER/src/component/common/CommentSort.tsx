@@ -64,23 +64,15 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
                       <Datelay>
                         <DayText>{comment.createdAt}</DayText>
                       </Datelay>
-                      <Delete>
-                        <DayText>삭제</DayText>
-                      </Delete>
+                      {/* mine이 true인 경우에만 삭제 버튼 보이기 */}
+                      {comment.mine && (
+                        <Delete>
+                          <DayText>삭제</DayText>
+                        </Delete>
+                      )}
                     </DandD>
                   </BottomLay>
                 </TextLay>
-                {/* 댓글 정보로 넘어오는 것들 */}
-                {/* <p>댓글 아이디: {comment.id}</p>
-                <p>댓글: {comment.comment}</p>
-                <p>작성 일자: {comment.createdAt}</p>
-                <p>내 댓글 여부: {comment.mine}</p>
-                <p>댓글 아이디: {comment.id}</p>
-                <p>사용자 정보</p>
-                <p>사용자 id: {comment.reviewCommentUserInfo.userId}</p>
-                <p>사용자 직업: {comment.reviewCommentUserInfo.job}</p>
-                <p>사용자 닉네임: {comment.reviewCommentUserInfo.nickname}</p>
-                <p>사용자 사진: {comment.reviewCommentUserInfo.profileImage}</p> */}
               </SortItem>
             ))}
           </SortBox>
@@ -89,6 +81,21 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
     </B>
   );
 };
+{
+  /* 댓글 정보로 넘어오는 것들 */
+}
+{
+  /* <p>댓글 아이디: {comment.id}</p>
+                <p>댓글: {comment.comment}</p>
+                <p>작성 일자: {comment.createdAt}</p>
+                <p>내 댓글 여부: {comment.mine}</p>
+                <p>댓글 아이디: {comment.id}</p>
+                <p>사용자 정보</p>
+                <p>사용자 id: {comment.reviewCommentUserInfo.userId}</p>
+                <p>사용자 직업: {comment.reviewCommentUserInfo.job}</p>
+                <p>사용자 닉네임: {comment.reviewCommentUserInfo.nickname}</p>
+                <p>사용자 사진: {comment.reviewCommentUserInfo.profileImage}</p> */
+}
 
 const B = styled('div', {
   width: '360px',
