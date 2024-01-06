@@ -4,10 +4,22 @@ import User from '../../assets/icon/User.svg?react';
 import { Caption2, Caption3, DayText } from '../Font';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Input } from './Input';
+import { ButtonComment } from './Button';
 
 export const CommentSort = ({ onClose }: { onClose: () => void }) => {
   const [commentArray, setCommentArray] = useState([]);
+  const [addComment, setAddComment] = useState<string>('');
+  const [isInputEmpty, setIsInputEmpty] = useState(true);
 
+  const handleCommentChange = (value: string) => {
+    setAddComment(value);
+    setIsInputEmpty(value.trim() === '');
+  };
+
+  const sendComment = async () => {
+    console.log('댓글');
+  };
   useEffect(() => {
     // 서버에서 댓글 정보 및 댓글 수 가져오는거
     fetchCommentDataFromServer().then((data) => {
@@ -64,40 +76,57 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
         title="댓글"
         onClose={onClose}
         component={
-          <SortBox>
-            {commentArray.map((comment) => (
-              <SortItem key={comment.id}>
-                <UserImage>
-                  <img src={comment.reviewCommentUserInfo.profileImage} width={35} height={35} />
-                </UserImage>
-                <TextLay>
-                  <Info>
-                    <Name>
-                      <Caption2>{comment.reviewCommentUserInfo.nickname}</Caption2>
-                    </Name>
-                    <Line>|</Line>
-                    <Job>
-                      <Caption2>{comment.reviewCommentUserInfo.job}</Caption2>
-                    </Job>
-                  </Info>
-                  <CommentText>{comment.comment}</CommentText>
-                  <BottomLay>
-                    <DandD>
-                      <Datelay>
-                        <DayText>{comment.createdAt}</DayText>
-                      </Datelay>
-                      {/* mine이 true인 경우에만 삭제 버튼 보이기 */}
-                      {comment.mine && (
-                        <Delete onClick={() => commentDelete(comment.id)}>
-                          <DayText>삭제</DayText>
-                        </Delete>
-                      )}
-                    </DandD>
-                  </BottomLay>
-                </TextLay>
-              </SortItem>
-            ))}
-          </SortBox>
+          <>
+            <SortBox>
+              {commentArray.map((comment) => (
+                <SortItem key={comment.id}>
+                  <UserImage>
+                    <img src={comment.reviewCommentUserInfo.profileImage} width={35} height={35} />
+                  </UserImage>
+                  <TextLay>
+                    <Info>
+                      <Name>
+                        <Caption2>{comment.reviewCommentUserInfo.nickname}</Caption2>
+                      </Name>
+                      <Line>|</Line>
+                      <Job>
+                        <Caption2>{comment.reviewCommentUserInfo.job}</Caption2>
+                      </Job>
+                    </Info>
+                    <CommentText>{comment.comment}</CommentText>
+                    <BottomLay>
+                      <DandD>
+                        <Datelay>
+                          <DayText>{comment.createdAt}</DayText>
+                        </Datelay>
+                        {/* mine이 true인 경우에만 삭제 버튼 보이기 */}
+                        {comment.mine && (
+                          <Delete onClick={() => commentDelete(comment.id)}>
+                            <DayText>삭제</DayText>
+                          </Delete>
+                        )}
+                      </DandD>
+                    </BottomLay>
+                  </TextLay>
+                </SortItem>
+              ))}
+            </SortBox>
+            <BottomInputLay>
+              <InputBtnLay>
+                <Input
+                  type="text"
+                  placeholder="댓글을 입력해주세요"
+                  onChange={handleCommentChange}
+                  text={addComment}
+                />
+                <ButtonLay>
+                  <ButtonComment onClick={sendComment} disabled={isInputEmpty}>
+                    입력
+                  </ButtonComment>
+                </ButtonLay>
+              </InputBtnLay>
+            </BottomInputLay>
+          </>
         }
       />
     </B>
@@ -118,6 +147,29 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
                 <p>사용자 닉네임: {comment.reviewCommentUserInfo.nickname}</p>
                 <p>사용자 사진: {comment.reviewCommentUserInfo.profileImage}</p> */
 }
+
+const ButtonLay = styled('div', {
+  paddingLeft: '55px',
+  paddingTop: '5px',
+});
+const InputBtnLay = styled('div', {
+  width: '350px',
+  height: '45px',
+  border: 'solid #D8DBE2 1px',
+  borderRadius: '10px',
+  display: 'flex',
+  gap: '20px',
+  marginTop: '10px',
+});
+const BottomInputLay = styled('div', {
+  position: 'fixed',
+  bottom: '0',
+  left: '0',
+  width: '100%',
+  height: '65px',
+  backgroundColor: 'white',
+  border: 'solid #D8DBE2 1px',
+});
 
 const B = styled('div', {
   width: '360px',

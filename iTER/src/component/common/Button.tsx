@@ -130,6 +130,50 @@ export const ButtonPopup: FC<ButtonProps> = ({ onClick, children, disabled }) =>
   );
 };
 
+//댓글 작성 버튼
+export const ButtonComment: FC<ButtonProps> = ({ onClick, children, disabled }) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    if (!disabled && onClick) {
+      onClick(event);
+    }
+  };
+
+  return (
+    <>
+      <CommentBody onClick={handleClick} disabled={disabled}>
+        <CommentText>{children}</CommentText>
+      </CommentBody>
+    </>
+  );
+};
+
+const CommentText = styled('div', {
+  fontSize: '15px',
+  color: 'White',
+  textAlign: 'center',
+  justifyContent: 'center',
+  alignItems: 'center',
+  paddingTop: '6px',
+});
+const CommentBody = styled('div', {
+  width: '58px',
+  height: '37px',
+  borderRadius: '8px',
+  backgroundColor: '#8E9198',
+  variants: {
+    disabled: {
+      true: {
+        backgroundColor: '#8E9198',
+        cursor: 'not-allowed',
+      },
+      false: {
+        backgroundColor: '#4C4E55',
+        cursor: 'pointer',
+      },
+    },
+  },
+});
+
 const ButtonBody2 = styled('button', {
   width: '380px',
   height: '50px',
