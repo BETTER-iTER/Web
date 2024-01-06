@@ -18,8 +18,19 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
   };
 
   const sendComment = async () => {
-    console.log('댓글');
+    const reviewId = 1;
+    // const accessToken = localStorage.getItem('accessToken');
+    try {
+      const response = await axios.post('https://dev.betteritem.store/comment/create', {
+        review_id: reviewId,
+        comment: addComment,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log('에러', error);
+    }
   };
+
   useEffect(() => {
     // 서버에서 댓글 정보 및 댓글 수 가져오는거
     fetchCommentDataFromServer().then((data) => {
