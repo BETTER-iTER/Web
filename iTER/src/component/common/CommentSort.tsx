@@ -6,25 +6,37 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Input } from './Input';
 import { ButtonComment } from './Button';
+import { ModalSelect } from './Modal';
 
 export const CommentSort = ({ onClose }: { onClose: () => void }) => {
   const [commentArray, setCommentArray] = useState([]);
   const [addComment, setAddComment] = useState<string>('');
   const [isInputEmpty, setIsInputEmpty] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCommentId, setSelectedCommentId] = useState(null);
 
   const handleCommentChange = (value: string) => {
     setAddComment(value);
     setIsInputEmpty(value.trim() === '');
   };
 
+  const handleOpenModal = (commentId) => {
+    setSelectedCommentId(commentId);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   const sendComment = async () => {
     const reviewId = 1;
-    // const accessToken = localStorage.getItem('accessToken');
     try {
       const response = await axios.post('https://dev.betteritem.store/comment/create', {
         review_id: reviewId,
         comment: addComment,
       });
+      setAddComment('');
       console.log(response);
     } catch (error) {
       console.log('에러', error);
@@ -60,13 +72,13 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
   };
 
   //댓글 삭제 api
-  const commentDelete = async (comment) => {
+  const commentDelete = async () => {
     try {
       const accessToken = localStorage.getItem('accessToken');
       const response = await axios.post(
         `https://dev.betteritem.store/comment/delete/`,
         {
-          comment_id: comment,
+          comment_id: selectedCommentId,
         },
         {
           headers: {
@@ -76,71 +88,91 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
       );
 
       console.log(response);
+
+      // 성공적으로 삭제되면 모달을 닫습니다.
+      handleCloseModal();
     } catch (error) {
       console.log('에러', error);
     }
   };
 
   return (
-    <B>
-      <Bottom
-        title="댓글"
-        onClose={onClose}
-        component={
-          <>
-            <SortBox>
-              {commentArray.map((comment) => (
-                <SortItem key={comment.id}>
-                  <UserImage>
-                    <img src={comment.reviewCommentUserInfo.profileImage} width={35} height={35} />
-                  </UserImage>
-                  <TextLay>
-                    <Info>
-                      <Name>
-                        <Caption2>{comment.reviewCommentUserInfo.nickname}</Caption2>
-                      </Name>
-                      <Line>|</Line>
-                      <Job>
-                        <Caption2>{comment.reviewCommentUserInfo.job}</Caption2>
-                      </Job>
-                    </Info>
-                    <CommentText>{comment.comment}</CommentText>
-                    <BottomLay>
-                      <DandD>
-                        <Datelay>
-                          <DayText>{comment.createdAt}</DayText>
-                        </Datelay>
-                        {/* mine이 true인 경우에만 삭제 버튼 보이기 */}
-                        {comment.mine && (
-                          <Delete onClick={() => commentDelete(comment.id)}>
-                            <DayText>삭제</DayText>
-                          </Delete>
-                        )}
-                      </DandD>
-                    </BottomLay>
-                  </TextLay>
-                </SortItem>
-              ))}
-            </SortBox>
-            <BottomInputLay>
-              <InputBtnLay>
-                <Input
-                  type="text"
-                  placeholder="댓글을 입력해주세요"
-                  onChange={handleCommentChange}
-                  text={addComment}
-                />
-                <ButtonLay>
-                  <ButtonComment onClick={sendComment} disabled={isInputEmpty}>
-                    입력
-                  </ButtonComment>
-                </ButtonLay>
-              </InputBtnLay>
-            </BottomInputLay>
-          </>
-        }
-      />
-    </B>
+    <>
+      <B>
+        <Bottom
+          title="댓글"
+          onClose={onClose}
+          component={
+            <>
+              <SortBox>
+                {commentArray.map((comment) => (
+                  <SortItem key={comment.id}>
+                    <UserImage>
+                      <img
+                        src={comment.reviewCommentUserInfo.profileImage}
+                        width={35}
+                        height={35}
+                      />
+                    </UserImage>
+                    <TextLay>
+                      <Info>
+                        <Name>
+                          <Caption2>{comment.reviewCommentUserInfo.nickname}</Caption2>
+                        </Name>
+                        <Line>|</Line>
+                        <Job>
+                          <Caption2>{comment.reviewCommentUserInfo.job}</Caption2>
+                        </Job>
+                      </Info>
+                      <CommentText>{comment.comment}</CommentText>
+                      <BottomLay>
+                        <DandD>
+                          <Datelay>
+                            <DayText>{comment.createdAt}</DayText>
+                          </Datelay>
+
+                          {/* mine이 true인 경우에만 삭제 버튼 보이기 */}
+                          {comment.mine && (
+                            <Delete onClick={() => handleOpenModal(comment.id)}>
+                              <DayText>삭제</DayText>
+                            </Delete>
+                          )}
+                        </DandD>
+                      </BottomLay>
+                    </TextLay>
+                  </SortItem>
+                ))}
+              </SortBox>
+              <BottomInputLay>
+                <InputBtnLay>
+                  <Input
+                    type="text"
+                    placeholder="댓글을 입력해주세요"
+                    onChange={handleCommentChange}
+                    text={addComment}
+                  />
+                  <ButtonLay>
+                    <ButtonComment onClick={sendComment} disabled={isInputEmpty}>
+                      입력
+                    </ButtonComment>
+                  </ButtonLay>
+                </InputBtnLay>
+              </BottomInputLay>
+            </>
+          }
+        />
+      </B>
+      <ModalLay>
+        {isModalOpen && (
+          <ModalSelect
+            text="댓글을 삭제하시겠습니까?"
+            btn="삭제하기"
+            onClick={() => commentDelete()}
+            onClosed={() => handleCloseModal()}
+          />
+        )}
+      </ModalLay>
+    </>
   );
 };
 {
@@ -159,6 +191,11 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
                 <p>사용자 사진: {comment.reviewCommentUserInfo.profileImage}</p> */
 }
 
+const ModalLay = styled('div', {
+  width: '100%',
+  height: '800px',
+  zIndex: '99',
+});
 const ButtonLay = styled('div', {
   paddingLeft: '55px',
   paddingTop: '5px',
@@ -197,7 +234,7 @@ const SortBox = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   marginBottom: '60px',
-  height: '720px',
+  paddingBottom: '10px',
   width: '360px',
 });
 
