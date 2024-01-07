@@ -7,6 +7,7 @@ import { CategoryProps } from '../../types/Review';
 import { getCategory } from '../../apis/Common';
 import LoadingPage from '../../component/common/Loading';
 import ErrorPage from '../../component/common/Error';
+import { useData } from '../../context/DataContext';
 
 interface CheckCategoryProps {
   onDisabled: (value: boolean) => void;
@@ -17,6 +18,8 @@ const CheckCategory: React.FC<CheckCategoryProps> = ({ onDisabled, onCategorySel
   const [selectedCategory, setSelectedCategory] = useState<{ name: string | null }>({
     name: null,
   });
+
+  const { updateFormData } = useData();
 
   const { data, isLoading, isError } = useQuery<CategoryProps[], Error>(['category'], getCategory);
   if (isLoading) return <LoadingPage />;
@@ -29,6 +32,8 @@ const CheckCategory: React.FC<CheckCategoryProps> = ({ onDisabled, onCategorySel
     console.log(name);
     console.log(index);
     localStorage.setItem('selectCategory', name);
+    const newData = { category: name };
+    updateFormData(newData);
   };
 
   return (

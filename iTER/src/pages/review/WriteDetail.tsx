@@ -1,6 +1,6 @@
 import InputComponent, { InputComponentReiview } from '../../component/common/Input';
 import { styled } from '../../../stitches.config';
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import RadioInput from '../../component/common/RadioInput';
 import { ButtonSelect } from '../../component/common/Button';
 import ReviewSort from '../../component/review/ReviewSort';
@@ -8,6 +8,7 @@ import { B1 } from '../../component/Font';
 import DateSort from '../../component/review/DateSort';
 import SpecPopup from '../../component/review/SpecPopup';
 import DateComponent from '../../component/review/Date';
+import { useData } from '../../context/DataContext';
 
 const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
   const [selectedSortItem, setSelectedSortItem] = useState<string | null>(null);
@@ -22,6 +23,7 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
   const [price, setPrice] = useState<string>('');
   const [compareProduct, setCompareProduct] = useState<string>('');
 
+  const { updateFormData } = useData();
 
   const openPopup = () => {
     setIsPopupOpen(true);
@@ -30,12 +32,16 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
   const handleSortItemSelected = (selectedItem: string) => {
     setSelectedSortItem(selectedItem);
     localStorage.setItem('madeCompany', selectedItem);
+    const newData = { madeCompany: selectedItem };
+    updateFormData(newData);
   };
 
   const handleSortDateSelected = (date: Date | null) => {
     setSelectedDate(date);
     const formattedDate = date.toLocaleDateString('en-CA');
-    localStorage.setItem('boughtAt',formattedDate);
+    localStorage.setItem('boughtAt', formattedDate);
+    const newData = { boughtAt: formattedDate };
+    updateFormData(newData);
   };
 
   const handleSelectionComplete = (cpu: string, window: string, ram: string, size: string) => {
@@ -50,21 +56,26 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
 
   const options = ['공식홈페이지', '쿠팡', '학생복지스토어', '기타'];
 
-  const handleProductNameChange = (event:string) => {
+  const handleProductNameChange = (event: string) => {
     setProductName(event);
     localStorage.setItem('productName', event);
+    const newData = { productName: event };
+    updateFormData(newData);
   };
 
-  const handleChangePrice = (event:string) => {
+  const handleChangePrice = (event: string) => {
     setPrice(event);
     localStorage.setItem('price', event);
-  }
+    const newData = { price: event };
+    updateFormData(newData);
+  };
 
   const handleCompareProductValue = (event: string) => {
     setCompareProduct(event);
     localStorage.setItem('compareProduct', event);
-  }
-
+    const newData = { compareProduct: event };
+    updateFormData(newData);
+  };
 
   onDisabled;
   return (
