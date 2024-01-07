@@ -15,7 +15,6 @@ import { HomeProps } from '../types/Home';
 import React, { useEffect, useState } from 'react';
 
 const Home = () => {
-  console.log('Home');
   const navigate = useNavigate();
   // 홈 데이터 가져오기
   const {

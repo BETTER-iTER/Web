@@ -1,6 +1,6 @@
 import { styled } from '../../../stitches.config';
 import Notification from '../../assets/icon/Notification.svg?react';
-import ITER from '../../assets/icon/ITER.svg?react';
+import ITER from '../../assets/icon/iTER.svg?react';
 import { useNavigate } from 'react-router-dom';
 
 const Top = () => {
