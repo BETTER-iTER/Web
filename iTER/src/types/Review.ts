@@ -49,7 +49,7 @@ export interface ReviewDetailProps {
     boughtAt: string;
     createdAt: string;
     reviewImages: {
-      imageUrl: string;
+      imgUrl: string;
       orderNum: number;
     }[];
     scrapedCount: number;

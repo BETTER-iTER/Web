@@ -4,7 +4,7 @@ import 'swiper/swiper-bundle.css';
 import { styled } from '../../../stitches.config';
 interface imageProps {
   orderNum: number;
-  imageUrl: string;
+  imgUrl: string;
 }
 const ReviewImage = ({ list }: { list: imageProps[] }) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -25,7 +25,7 @@ const ReviewImage = ({ list }: { list: imageProps[] }) => {
             <SwiperSlide className="my-swiper-slide-class">
               <Image
                 key={index}
-                src={image.imageUrl}
+                src={image.imgUrl}
                 alt={image.orderNum.toString()}
                 width={390}
                 height={390}
@@ -56,7 +56,7 @@ const Container = styled('div', {
 
 const ImageBox = styled('div', {
   display: 'flex',
-  width: '100%',
+  width: '390px',
   height: '390px',
 });
 
