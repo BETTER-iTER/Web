@@ -30,13 +30,16 @@ const DetailReview = (props: { data }) => {
     }
   };
 
-  //이건 좋아요 취소 api (아직 안나옴)
-  // const CancleLike = async () => {
-  //   const reviewId = 1;
-  //   try {
-  //     const response = await axios.
-  //   }
-  // }
+  // 좋아요 취소 api
+  const CancleLike = async () => {
+    const reviewId = 1;
+    try {
+      const response = await axios.delete(`https://dev.betteritem.store/review/like/${reviewId}`);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleHeartClick = () => {
     setPushHeart(!pushHeart);
@@ -45,8 +48,7 @@ const DetailReview = (props: { data }) => {
       LikeReview();
     } else {
       console.log('좋아요 취소함');
-      //CancleLike();
-      //좋아요 취소
+      CancleLike();
     }
   };
 
