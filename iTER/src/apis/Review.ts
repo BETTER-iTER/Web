@@ -18,7 +18,7 @@ export const getReviewDetail = async (id: string) => {
 };
 
 // 리뷰 검색 조회
-export const getCategoryReview = async ({
+export const getReviewList = async ({
   keywordLast,
   sort,
   page,

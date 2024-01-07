@@ -4,7 +4,7 @@ import { BottomCategory, BottomSort } from '../common/Bottom';
 import { ButtonControl } from '../common/Button';
 import ListItem from './ListItem';
 import Sort from '../../assets/icon/Sort.svg?react';
-import { getCategoryReview } from '../../apis/Review';
+import { getReviewList } from '../../apis/Review';
 import { useQuery } from '@tanstack/react-query';
 import LoadingPage from '../common/Loading';
 import ErrorPage from '../common/Error';
@@ -18,7 +18,7 @@ const dummy: CategoryReviewProps['reviews'][0] = {
   starPoint: 4.5,
   shortReview: '"가벼워요", "적당해요", "예뻐요"',
   userInfo: {
-    nickname: '김지수',
+    nickName: '김지수',
     profileImage: 'https://avatars.githubusercontent.com/u/77308744?v=4',
     job: '디자이너',
   },
@@ -33,19 +33,21 @@ const Result = ({ keyword }: { keyword: string }) => {
   const [keywordLast, setKeywordLast] = useState<string>(keyword);
 
   const {
-    data: categoryData,
-    error: categoryError,
-    isLoading: categoryIsLoading,
-  } = useQuery<CategoryReviewProps, Error>(['categoryReview', keywordLast], () =>
-    getCategoryReview({ keywordLast, sort, page })
+    data: listData,
+    error: listError,
+    isLoading: listIsLoading,
+  } = useQuery<CategoryReviewProps, Error>(['reviewList', keywordLast, sort], () =>
+    getReviewList({ keywordLast, sort, page })
   );
 
-  if (categoryIsLoading) return <LoadingPage />;
-  if (categoryError) return <ErrorPage type={2} />;
+  if (listIsLoading) return <LoadingPage />;
+  if (listError) return <ErrorPage type={2} />;
+
+  console.log(listData, 'Data');
 
   return (
     <Container>
-      {categoryData.reviews?.length === 0 ? (
+      {listData.reviews?.length === 0 ? (
         <>
           <NoData>찾으시는 제품 리뷰가 없어요</NoData>
           <Recommend>다른 유저들은 이런 제품을 찾아봤어요</Recommend>
@@ -65,7 +67,7 @@ const Result = ({ keyword }: { keyword: string }) => {
             </div>
           </Control>
 
-          {categoryData?.reviews.map((item, index) => (
+          {listData?.reviews.map((item, index) => (
             <ListItem
               key={index}
               id={item.id}

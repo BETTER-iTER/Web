@@ -17,7 +17,7 @@ export interface ReviewProps {
   starPoint: number;
   shortReview: string;
   userInfo: {
-    nickname: string;
+    nickName: string;
     job: string;
     profileImage?: string;
   };
