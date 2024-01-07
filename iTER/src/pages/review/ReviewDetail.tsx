@@ -69,14 +69,13 @@ const ReviewDetail = () => {
               <Dots3 />
             </div>
           ) : (
-            <div
-              style={{ cursor: 'pointer' }}
+            <FollowButton
               onClick={() => {
                 console.log('팔로우');
               }}
             >
               팔로우
-            </div>
+            </FollowButton>
           )}
         </User>
         <DetailReview data={reviewDetail} />
@@ -85,7 +84,7 @@ const ReviewDetail = () => {
             setSetting(!setting);
           }}
         >
-          {reviewDetail.mine ? '수정/삭제하기' : '신고하기'}
+          {reviewDetail.mine && '수정/삭제하기'}
         </Report>
         <Relation list={relatedReviews} />
       </Container>
@@ -169,4 +168,18 @@ const Report = styled('div', {
   textAlign: 'right',
   color: '#AFB8C1',
   bodyText: 2,
+});
+
+const FollowButton = styled('div', {
+  width: '96px',
+  height: '35px',
+  borderRadius: '10px',
+  backgroundColor: '#242424',
+  color: '$White',
+  border: 'none',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  bodyText: 2,
+  cursor: 'pointer',
 });

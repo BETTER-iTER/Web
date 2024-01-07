@@ -11,7 +11,7 @@ import StarRatingShow from '../../component/review/StarRatingShow';
 const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
   const { data } = props;
 
-  const short = data.shortReview.replace(/['"]/g, '').split(', ');
+  const short = data.shortReview.replace(/['"]/g, '').split(',');
 
   function formatDateString(inputDate: string): string {
     const date = new Date(inputDate);
@@ -24,7 +24,7 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
 
   return (
     <>
-      <ReviewImage />
+      <ReviewImage list={data.reviewImages} />
       <Box>
         {/* 좋아요 등의 액션 아이콘 */}
         <Actives>
@@ -53,7 +53,7 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
         <Caption1 style={{ color: '#57606A' }}>{data.reviewSpecData.join(' / ')}</Caption1>
         {/* 별점 */}
         <Stars>
-          <StarRatingShow rating={1.5} />
+          <StarRatingShow rating={data.starPoint} />
         </Stars>
         {/* 간단리뷰 */}
         <SimpleReviews>
