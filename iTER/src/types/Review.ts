@@ -12,6 +12,7 @@ export interface ReviewPreviewProps {
 
 export interface ReviewProps {
   id: number;
+  reviewImage: string;
   productName: string;
   reviewSpecData: string[];
   starPoint: number;
@@ -49,7 +50,7 @@ export interface ReviewDetailProps {
     boughtAt: string;
     createdAt: string;
     reviewImages: {
-      imageUrl: string;
+      imgUrl: string;
       orderNum: number;
     }[];
     scrapedCount: number;

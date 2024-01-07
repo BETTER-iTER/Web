@@ -19,7 +19,7 @@ const Item = ({ list }: { list: ReviewPreviewProps }) => {
   return (
     <div onClick={() => navigate(`/search/review/${list.id}`)}>
       <Image>
-        <img src={list.imageUrl} alt={list.productName} />
+        <img src={list.imageUrl} alt={list.productName} width={140} height={140} />
       </Image>
       <Title>{list.productName}</Title>
       <User>

@@ -16,9 +16,11 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
   reviewSpecData,
   scrapedCount,
   likedCount,
+  reviewImage,
 }) => {
   const navigate = useNavigate();
   const [active, setActive] = useState<boolean>(false);
+  const shortReviewList = shortReview.split(',');
 
   const spec = reviewSpecData.map((item: string, index: number) => {
     return index == reviewSpecData.length - 1 ? item : item + ' / ';
@@ -31,7 +33,7 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
         }}
       >
         <Image>
-          <img src={userInfo.profileImage} alt="" width={120} height={120} />
+          <img src={reviewImage} alt="" width={120} height={120} />
         </Image>
 
         <div>
@@ -42,7 +44,9 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
               <Stars>
                 <Star fill={'#8787F4'} width={15} height={15} /> {starPoint}
               </Stars>
-              {shortReview}
+              {shortReviewList.map((item: string, index: number) => {
+                return index == shortReviewList.length - 1 ? `"${item}"` : `"${item}"` + ', ';
+              })}
             </Reviews>
           </Caption2>
           <ProfileSimple
@@ -95,7 +99,6 @@ const Box = styled('div', {
 const Image = styled('div', {
   width: '120px',
   height: '120px',
-  backgroundColor: '$Gray20',
   borderRadius: '10px',
   overflow: 'hidden',
 });
@@ -107,13 +110,14 @@ const Title = styled('div', {
 
 const Reviews = styled('div', {
   display: 'flex',
+  width: '190px',
   justifyContent: 'space-between',
   margin: '10px 0 21px 0',
 });
 
 const Stars = styled('div', {
   display: 'flex',
-  gap: '5.5px',
+  gap: '4px',
 });
 
 const Buttons = styled('div', {

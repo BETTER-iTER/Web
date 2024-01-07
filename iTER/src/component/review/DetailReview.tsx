@@ -23,6 +23,15 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
     return `${year}.${month}.${day}`;
   }
 
+  function formatPriceString(inputPrice: number) {
+    const man = Math.floor(inputPrice / 10000);
+    const rest = inputPrice % 10000;
+
+    if (man === 0) return `${rest}원`;
+    if (rest === 0) return `${man}만원`;
+    return `${man}만 ${rest}원`;
+  }
+
   return (
     <>
       <ReviewImage list={data.reviewImages} />
@@ -84,10 +93,10 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
             {data.manufacturer} | {Store[data.storeName]}
           </div>
           <div>
-            {data.price}원 | {formatDateString(data.boughtAt)} 구매
+            {formatPriceString(data.price)} | {formatDateString(data.boughtAt)} 구매
           </div>
         </Buy>
-        {formatDateString(data.createdAt)}
+        {formatDateString(data.createdAt)} 작성
       </Box>
     </>
   );

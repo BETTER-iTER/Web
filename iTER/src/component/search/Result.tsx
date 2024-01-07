@@ -43,8 +43,6 @@ const Result = ({ keyword }: { keyword: string }) => {
   if (listIsLoading) return <LoadingPage />;
   if (listError) return <ErrorPage type={2} />;
 
-  console.log(listData, 'Data');
-
   return (
     <Container>
       {listData.reviews?.length === 0 ? (
@@ -78,6 +76,7 @@ const Result = ({ keyword }: { keyword: string }) => {
               userInfo={item.userInfo}
               scrapedCount={item.scrapedCount}
               likedCount={item.likedCount}
+              reviewImage={item.reviewImage}
             />
           ))}
         </>
