@@ -50,20 +50,29 @@ const Home = () => {
         const categoryName = category as string;
         return (
           <React.Fragment key={categoryName}>
-            <Label>{categoryName}</Label>
-            <Review list={homeData?.categoryReviews[categoryName]} />
+            {homeData.categoryReviews[categoryName].length > 0 && (
+              <>
+                <Label>{categoryName}</Label>
+                <Review list={homeData?.categoryReviews[categoryName]} />
+              </>
+            )}
           </React.Fragment>
         );
       })}
 
-      <Label>팔로우들의 리뷰</Label>
-      <Review list={homeData?.followingReviews} />
+      {homeData.followingReviews.length > 0 && (
+        <>
+          <Label>팔로우들의 리뷰</Label>
+          <Review list={homeData?.followingReviews} />
+        </>
+      )}
 
       <Label>리뷰보고 구매했어요</Label>
       <Review list={homeData?.mostScrapedAndLikedReviews} />
 
-      <Label>🪙 IT 퀴즈풀고 포인트 받기</Label>
-      <Quiz id={1} question={'CPU는 중앙처리장치이다'} />
+      {/* <Label>🪙 IT 퀴즈풀고 포인트 받기</Label>
+      <Quiz id={1} question={'CPU는 중앙처리장치이다'} /> */}
+      <div style={{ height: 100 }} />
 
       <Footer />
       <Nav />
