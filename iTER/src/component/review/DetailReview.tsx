@@ -30,7 +30,7 @@ const DetailReview = (props: { data }) => {
     }
   };
 
-  //이건 좋아요 취소 api
+  //이건 좋아요 취소 api (아직 안나옴)
   // const CancleLike = async () => {
   //   const reviewId = 1;
   //   try {
