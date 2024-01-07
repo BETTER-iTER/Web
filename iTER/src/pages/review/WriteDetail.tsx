@@ -31,7 +31,7 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
 
   const handleSortItemSelected = (selectedItem: string) => {
     setSelectedSortItem(selectedItem);
-    localStorage.setItem('madeCompany', selectedItem);
+    // localStorage.setItem('madeCompany', selectedItem);
     const newData = { madeCompany: selectedItem };
     updateFormData(newData);
   };
@@ -39,7 +39,7 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
   const handleSortDateSelected = (date: Date | null) => {
     setSelectedDate(date);
     const formattedDate = date.toLocaleDateString('en-CA');
-    localStorage.setItem('boughtAt', formattedDate);
+    // localStorage.setItem('boughtAt', formattedDate);
     const newData = { boughtAt: formattedDate };
     updateFormData(newData);
   };
@@ -58,21 +58,21 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
 
   const handleProductNameChange = (event: string) => {
     setProductName(event);
-    localStorage.setItem('productName', event);
+    // localStorage.setItem('productName', event);
     const newData = { productName: event };
     updateFormData(newData);
   };
 
   const handleChangePrice = (event: string) => {
     setPrice(event);
-    localStorage.setItem('price', event);
+    // localStorage.setItem('price', event);
     const newData = { price: event };
     updateFormData(newData);
   };
 
   const handleCompareProductValue = (event: string) => {
     setCompareProduct(event);
-    localStorage.setItem('compareProduct', event);
+    // localStorage.setItem('compareProduct', event);
     const newData = { compareProduct: event };
     updateFormData(newData);
   };

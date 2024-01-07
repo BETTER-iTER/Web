@@ -31,7 +31,7 @@ const CheckCategory: React.FC<CheckCategoryProps> = ({ onDisabled, onCategorySel
     onCategorySelect(name);
     console.log(name);
     console.log(index);
-    localStorage.setItem('selectCategory', name);
+    // localStorage.setItem('selectCategory', name);
     const newData = { category: name };
     updateFormData(newData);
   };
