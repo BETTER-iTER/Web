@@ -1,10 +1,6 @@
 import svgr from 'vite-plugin-svgr';
+import { defineConfig } from 'vite';
 
-export default {
+export default defineConfig({
   plugins: [svgr()],
-  build: {
-    rollupOptions: {
-      input: 'src/main.tsx',
-    },
-  },
-};
+});
