@@ -28,9 +28,6 @@ const Follow = () => {
   followerLoading && followingLoading && <LoadingPage />;
   followerError && followingError && <ErrorPage type={2} />;
 
-  console.log(followerData, 'followerData');
-  console.log(followingData, 'followingData');
-
   return (
     <Container>
       <Top title="마이페이지" />
