@@ -167,7 +167,10 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
           <ModalSelect
             text="댓글을 삭제하시겠습니까?"
             btn="삭제하기"
-            onClick={() => commentDelete()}
+            onClick={() => {
+              console.log('버튼 누름');
+              // commentDelete();
+            }}
             onClosed={() => handleCloseModal()}
           />
         )}
@@ -194,7 +197,7 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
 const ModalLay = styled('div', {
   width: '100%',
   height: '800px',
-  zIndex: '99',
+  zIndex: '999999',
 });
 const ButtonLay = styled('div', {
   paddingLeft: '55px',
