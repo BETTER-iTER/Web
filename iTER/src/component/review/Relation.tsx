@@ -58,7 +58,7 @@ const Item = (data: ReviewPreviewProps) => {
         )}
         <Caption2>
           <Nickname>
-            {data.nickname}
+            {data.writerName}
             {data.expert && <Expert />}
           </Nickname>
         </Caption2>

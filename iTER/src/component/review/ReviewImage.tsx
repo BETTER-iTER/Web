@@ -7,7 +7,6 @@ interface imageProps {
   imageUrl: string;
 }
 const ReviewImage = ({ list }: { list: imageProps[] }) => {
-  console.log(list);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const handleSlideChange = (swiper) => {

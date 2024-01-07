@@ -4,7 +4,8 @@ export interface ReviewPreviewProps {
   id: number;
   imageUrl?: string;
   productName: string;
-  nickname: string;
+  nickname?: string;
+  writerName?: string;
   profileImageUrl?: string;
   expert?: boolean;
 }
@@ -58,6 +59,7 @@ export interface ReviewDetailProps {
     mine: boolean;
     like: boolean;
     scrap: boolean;
+    price: number;
   };
   writerInfo: UserViewProps;
   relatedReviews: ReviewPreviewProps[];

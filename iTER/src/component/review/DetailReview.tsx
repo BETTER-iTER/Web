@@ -83,7 +83,9 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
           <div>
             {data.manufacturer} | {Store[data.storeName]}
           </div>
-          <div>60만원 | {formatDateString(data.boughtAt)} 구매</div>
+          <div>
+            {data.price}원 | {formatDateString(data.boughtAt)} 구매
+          </div>
         </Buy>
         {formatDateString(data.createdAt)}
       </Box>
