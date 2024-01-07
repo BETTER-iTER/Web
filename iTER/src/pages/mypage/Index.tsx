@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from '../../../stitches.config';
 import Nav from '../../component/layout/Nav';
 import Top from '../../component/layout/Top';
@@ -6,8 +6,12 @@ import DetailReview from '../../component/review/DetailReview';
 import PreviewSimple from '../../component/review/PreviewSimple';
 import ProfileFlat from '../../component/user/ProfileFlat';
 
+import { getMyPageProfile } from '../../apis/Mypage';
+import { useMutation } from '@tanstack/react-query';
+
 const Mypage = () => {
   const [status, setStatus] = useState<number>(0);
+
   return (
     <Container>
       <Top title="마이페이지" />
