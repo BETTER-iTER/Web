@@ -75,19 +75,22 @@ export default Home;
 
 const CategoryScroll = ({ list }: { list: HomeProps['categories'] }) => {
   const navigation = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState<{ name: string | null }>({
-    name: null,
-  });
-  const handleCategoryClick = (name: string) => {
-    setSelectedCategory({ name });
-    console.log(selectedCategory);
-  };
 
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+
+  console.log(selectedCategory, 'selectedCategory');
+
+  const handleCategoryClick = (name: string) => {
+    console.log('click', name);
+    setSelectedCategory(name);
+    console.log('set', name, selectedCategory);
+  };
   useEffect(() => {
-    if (selectedCategory.name) {
-      navigation('/search', { state: { category: selectedCategory.name } });
+    if (selectedCategory.length > 0) {
+      console.log(selectedCategory, 'selectedCategory');
+      navigation('/search', { state: { category: selectedCategory } });
     }
-  }, [selectedCategory]);
+  }, [navigation, selectedCategory]);
   return (
     <CategoryBox>
       {list.map((item, index) => {
@@ -95,6 +98,7 @@ const CategoryScroll = ({ list }: { list: HomeProps['categories'] }) => {
           <Category
             key={index}
             name={item.name}
+            imageUrl={item.imageUrl}
             isSelected={false}
             gap={8.98}
             onClick={() => {
@@ -135,10 +139,3 @@ const CategoryBox = styled('div', {
     display: 'none',
   },
 });
-
-// const dummy: ReviewPreviewProps[] = [
-//   { id: 1, productName: '로지텍 MK470 Slim', nickname: '로지', expert: true },
-//   { id: 2, productName: '한성컴퓨터 GK896B', nickname: '김한성', expert: true },
-//   { id: 3, productName: '앱코 HACKER', nickname: '찡긋', expert: false },
-//   { id: 4, productName: '아이폰 SE3', nickname: '클로버', expert: false },
-// ];

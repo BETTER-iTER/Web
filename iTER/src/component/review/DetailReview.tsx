@@ -7,6 +7,7 @@ import { Caption1 } from '../Font';
 import ReviewImage from './ReviewImage';
 import { ReviewDetailProps } from '../../types/Review';
 import StarRatingShow from '../../component/review/StarRatingShow';
+import { Store } from '../../constants/Store';
 
 const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
   const { data } = props;
@@ -79,7 +80,9 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
         <Content>수정필요</Content>
         {/* 구매정보 */}
         <Buy>
-          <div>{data.manufacturer} | 공식 홈페이지 구매</div>
+          <div>
+            {data.manufacturer} | {Store[data.storeName]}
+          </div>
           <div>60만원 | {formatDateString(data.boughtAt)} 구매</div>
         </Buy>
         {formatDateString(data.createdAt)}
