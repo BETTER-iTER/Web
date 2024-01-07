@@ -8,7 +8,7 @@ const SignupComplete = () => {
   const location = useLocation();
   const state = location.state as UserProps;
   const nickname = state.nickName;
-  const categories = state.i;
+  const categories = state.categories.join(', ');
   const navigate = useNavigate();
 
   const interest = categories.split(', ');

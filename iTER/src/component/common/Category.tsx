@@ -3,32 +3,13 @@ import { styled } from '../../../stitches.config';
 interface CategoryItem {
   onClick?: () => void;
   onChange?: (value: string) => void;
-  onClose: () => void;
+  onClose?: () => void;
   isSelected?: boolean;
   isSelectedBorer?: boolean;
   gap?: number;
   name: string;
   imageUrl?: string;
 }
-
-// type IconType = {
-//   [key: string]: JSX.Element;
-// };
-
-// const iconMapping: IconType = {
-//   휴대폰: <img src={`../../src/assets/png/Phone.png`} width={69} height={43} />,
-//   노트북: <img src={`../../src/assets/png/Laptop.png`} width={54} height={53} />,
-//   PC: <img src={`../../src/assets/png/PC.png`} width={47} height={48} />,
-//   스마트워치: <img src={`../../src/assets/png/Watch.png`} width={45} height={49} />,
-//   태블릿: <img src={`../../src/assets/png/Tablet.png`} width={60} height={58} />,
-//   마우스: <img src={`../../src/assets/png/Mouse.png`} width={59} height={46} />,
-//   키보드: <img src={`../../src/assets/png/Keyboard.png`} width={61} height={40} />,
-//   헤드폰: <img src={`../../src/assets/png/Headphone.png`} width={50} height={54} />,
-//   스피커: <img src={`../../src/assets/png/Speaker.png`} width={50} height={43} />,
-//   보조배터리: <img src={`../../src/assets/png/Battery.png`} width={61} height={38} />,
-//   악세서리: <img src={`../../src/assets/png/Accessory.png`} width={42} height={47} />,
-//   기타: <img src={`../../src/assets/png/Etc.png`} width={27} height={5} />,
-// };
 
 const Category = ({
   imageUrl,
@@ -37,6 +18,7 @@ const Category = ({
   isSelectedBorer,
   gap,
   onChange,
+  onClick,
   onClose,
 }: CategoryItem) => {
   // const Icon = iconMapping[name];
@@ -45,14 +27,14 @@ const Category = ({
     if (onChange) {
       onChange(name);
     }
-    console.log(name);
-    onClose();
+    onClick && onClick();
+    onClose && onClose();
   };
 
   return (
     <ItemBox style={{ gap: gap }} gap={gap} onClick={() => handleClicked()}>
       <Image isSelected={isSelected} isSelectedBorder={isSelectedBorer}>
-        <img src={imageUrl} alt={imageUrl} />
+        <img src={imageUrl} alt={imageUrl} width={50} height={50} />
       </Image>
       <Name>{name}</Name>
     </ItemBox>

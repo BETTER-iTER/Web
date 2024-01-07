@@ -5,6 +5,7 @@ import { useState } from 'react';
 import InputComponent from '../../component/common/Input';
 import InputSelect from '../../component/common/InputSelect';
 import Button from '../../component/common/Button';
+import { jobs } from '../../constants/Jobs';
 
 const EditProfile = () => {
   const [email, setEmail] = useState<string>('example@naver.com');
@@ -12,7 +13,6 @@ const EditProfile = () => {
   const [job, setJob] = useState<string>('개발자');
 
   const [emailWarning, setEmailWarning] = useState<string>('');
-  const jobs = ['개발자', '학생', '선생님', '디자이너', '프로듀서', '에디터'];
   return (
     <Container>
       <Top title="프로필" />

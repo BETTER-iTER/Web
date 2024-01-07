@@ -2,14 +2,29 @@ import { styled } from '../../../stitches.config';
 import { Caption2, LabelText } from '../Font';
 import Heart from '../../assets/icon/Heart.svg?react';
 import UserIcon from '../../assets/icon/User.svg?react';
+import { ReviewPreviewProps } from '../../types/Review';
+import Expert from '../../assets/icon/Expert.svg?react';
 
-const Relation = () => {
+const Relation = (props: { list?: ReviewPreviewProps[] }) => {
+  const { list } = props;
+  if (!list || !Array.isArray(list) || list.length === 0) {
+    console.error('잘못된 또는 누락된 목록:', list);
+    return (
+      <Container>
+        <LabelText>연관 제품 리뷰</LabelText>
+        <div style={{ marginTop: 10 }}>연관된 리뷰가 없습니다</div>
+      </Container>
+    );
+  }
   return (
     <Container>
       <LabelText>연관 제품 리뷰</LabelText>
       <Items>
-        <Item />
-        <Item />
+        <Items>
+          {list.map((item, index) => (
+            <Item {...item} key={index} />
+          ))}
+        </Items>
       </Items>
     </Container>
   );
@@ -17,20 +32,36 @@ const Relation = () => {
 
 export default Relation;
 
-const Item = () => {
+const Item = (data: ReviewPreviewProps) => {
   return (
-    <ItemContainer>
-      <Image />
+    <ItemContainer
+      onClick={() => {
+        window.location.href = `/search/review/${data.id}`;
+      }}
+    >
+      <Image>
+        <img src={data.imageUrl} alt="product" width={170} height={170} />
+      </Image>
       <Title>
-        한성컴퓨터 GK896B
+        {data.productName}
         <div>
           <Heart width={17} height={15} fill={'#AFB8C1'} />
         </div>
       </Title>
       <User>
-        <UserIcon width={16} height={16} />
-        {/* <UserImage></UserImage> */}
-        <Caption2>미키마움스 제리</Caption2>
+        {data.imageUrl ? (
+          <UserImage>
+            <img src={data.imageUrl} alt="user" width={15} height={15} />
+          </UserImage>
+        ) : (
+          <UserIcon width={15} height={15} />
+        )}
+        <Caption2>
+          <Nickname>
+            {data.writerName}
+            {data.expert && <Expert />}
+          </Nickname>
+        </Caption2>
       </User>
     </ItemContainer>
   );
@@ -62,6 +93,7 @@ const Image = styled('div', {
   height: '170px',
   backgroundColor: '$Gray40',
   borderRadius: '10px',
+  overflow: 'hidden',
 });
 
 const Title = styled('div', {
@@ -82,4 +114,18 @@ const User = styled('div', {
   marginTop: '4px',
   color: '#57606A',
   width: '150px',
+});
+
+const UserImage = styled('div', {
+  width: '15px',
+  height: '15px',
+  borderRadius: '50%',
+  backgroundColor: '#EAEEF2',
+  overflow: 'hidden',
+});
+
+const Nickname = styled('div', {
+  gap: '4px',
+  display: 'flex',
+  alignItems: 'center',
 });

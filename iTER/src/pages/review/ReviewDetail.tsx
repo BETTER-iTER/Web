@@ -10,36 +10,98 @@ import { ModalSelect } from '../../component/common/Modal';
 import Relation from '../../component/review/Relation';
 import Toast from '../../component/common/Toast';
 import DetailReview from '../../component/review/DetailReview';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import LoadingPage from '../../component/common/Loading';
+import ErrorPage from '../../component/common/Error';
+import { deleteReview, getReviewDetail } from '../../apis/Review';
+import { ReviewDetailProps } from '../../types/Review';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 const ReviewDetail = () => {
   const [setting, setSetting] = useState<boolean>(false);
   const [select, setSelect] = useState<number>(0);
   const [toast, setToast] = useState<boolean>(false);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const id = location.pathname.split('/')[3];
+
+  const mutation = useMutation(deleteReview, {
+    onSuccess: (data) => {
+      console.log('data', data);
+      setToast(true);
+      navigate(-1);
+    },
+    onError: (error) => {
+      console.log('error', error);
+      return <ErrorPage type={2} />;
+    },
+  });
+
+  const handleDelete = () => {
+    mutation.mutate(id);
+  };
+
+  // 리뷰 상세 데이터 가져오기
+  const {
+    data: reviewDetailData,
+    error: reviewDetailError,
+    isLoading: reviewDetailIsLoading,
+  } = useQuery<ReviewDetailProps, Error>(['reviewDetail', id], () => getReviewDetail(id));
+
+  if (reviewDetailIsLoading) return <LoadingPage />;
+  if (reviewDetailError) return <ErrorPage type={2} />;
+
+  const reviewDetail = reviewDetailData?.reviewDetail;
+  const writerInfo = reviewDetailData?.writerInfo;
+  const relatedReviews = reviewDetailData?.relatedReviews;
   return (
     <>
-      <Top title="스피커" />
+      <Top title={reviewDetail.productName} />
       <Container>
         {/* 상단 유저 정보 및 설정 버튼 */}
         <User>
           <Right>
-            <UserIcon width={35} height={35} />
-            {/* <UserImage></UserImage> */}
-            블루투스 하트
+            {writerInfo.profileImage && writerInfo.profileImage.length > 0 ? (
+              <UserImage>
+                <img src={writerInfo.profileImage} alt="user" width={35} height={35} />
+              </UserImage>
+            ) : (
+              <UserIcon width={35} height={35} />
+            )}
+            {writerInfo.nickName}
             <Job>
-              <Caption2>개발자</Caption2>
+              <Caption2>{writerInfo.job}</Caption2>
             </Job>
           </Right>
-          <div
-            style={{ cursor: 'pointer' }}
-            onClick={() => {
-              setSetting(!setting);
-            }}
-          >
-            <Dots3 />
-          </div>
+          {reviewDetail.mine ? (
+            <div
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                setSetting(!setting);
+              }}
+            >
+              <Dots3 />
+            </div>
+          ) : (
+            <FollowButton
+              onClick={() => {
+                console.log('팔로우');
+              }}
+            >
+              팔로우
+            </FollowButton>
+          )}
         </User>
-        <DetailReview />
-        <Report>신고하기</Report>
-        <Relation />
+        <DetailReview data={reviewDetail} />
+        <Report
+          onClick={() => {
+            setSetting(!setting);
+          }}
+        >
+          {reviewDetail.mine && '수정/삭제하기'}
+        </Report>
+        <Relation list={relatedReviews} />
       </Container>
 
       <Nav />
@@ -49,6 +111,7 @@ const ReviewDetail = () => {
             setSetting(false);
           }}
           onChange={(index: number) => {
+            setSetting(false);
             setSelect(index);
           }}
         />
@@ -58,7 +121,7 @@ const ReviewDetail = () => {
           text={'리뷰를 삭제하시겠습니까?'}
           btn={'삭제하기'}
           onClick={() => {
-            setToast(true);
+            handleDelete();
           }}
           onClosed={() => {
             setSelect(0);
@@ -103,6 +166,7 @@ const UserImage = styled('div', {
   height: '35px',
   borderRadius: '50%',
   backgroundColor: '#EAEEF2',
+  overflow: 'hidden',
 });
 
 const Job = styled('div', {
@@ -119,4 +183,18 @@ const Report = styled('div', {
   textAlign: 'right',
   color: '#AFB8C1',
   bodyText: 2,
+});
+
+const FollowButton = styled('div', {
+  width: '96px',
+  height: '35px',
+  borderRadius: '10px',
+  backgroundColor: '#242424',
+  color: '$White',
+  border: 'none',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  bodyText: 2,
+  cursor: 'pointer',
 });

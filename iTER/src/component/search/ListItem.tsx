@@ -46,7 +46,7 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
             </Reviews>
           </Caption2>
           <ProfileSimple
-            nickname={userInfo.nickname}
+            nickName={userInfo.nickName}
             profileImage={userInfo.profileImage}
             job={userInfo.job}
           />

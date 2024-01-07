@@ -4,11 +4,11 @@ import { Caption2 } from '../Font';
 
 interface ProfileSimpleProps {
   color?: string;
-  nickname?: string;
+  nickName?: string;
   job?: string;
   profileImage?: string;
 }
-const ProfileSimple = ({ color, nickname, job, profileImage }: ProfileSimpleProps) => {
+const ProfileSimple = ({ color, nickName, job, profileImage }: ProfileSimpleProps) => {
   return (
     <User color={'white'}>
       {profileImage ? (
@@ -20,11 +20,11 @@ const ProfileSimple = ({ color, nickname, job, profileImage }: ProfileSimpleProp
       )}
       {color == 'white' ? (
         <Caption2 style={{ color: '#fff' }}>
-          {nickname} | {job}
+          {nickName} | {job}
         </Caption2>
       ) : (
         <>
-          {nickname} | {job}
+          {nickName} | {job}
         </>
       )}
     </User>
