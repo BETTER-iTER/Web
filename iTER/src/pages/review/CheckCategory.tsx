@@ -28,7 +28,7 @@ const CheckCategory: React.FC<CheckCategoryProps> = ({ onDisabled, onCategorySel
     onCategorySelect(name);
     console.log(name);
     console.log(index);
-    localStorage.setItem("selectCategory", name);
+    localStorage.setItem('selectCategory', name);
   };
 
   return (
@@ -42,7 +42,7 @@ const CheckCategory: React.FC<CheckCategoryProps> = ({ onDisabled, onCategorySel
             key={index}
             name={category.name}
             onClick={() => handleCategoryClick(category.name, index)}
-            isSelected={selectedCategory.name === category.name} 
+            isSelected={selectedCategory.name === category.name}
             gap={4}
           />
         ))}
