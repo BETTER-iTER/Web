@@ -7,13 +7,16 @@ import axios from 'axios';
 import { Input } from './Input';
 import { ButtonComment } from './Button';
 import { ModalSelect } from './Modal';
+import Toast from './Toast';
 
 export const CommentSort = ({ onClose }: { onClose: () => void }) => {
   const [commentArray, setCommentArray] = useState([]);
-  const [addComment, setAddComment] = useState<string>('');
+  const [addComment, setAddComment] = useState('');
   const [isInputEmpty, setIsInputEmpty] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCommentId, setSelectedCommentId] = useState(null);
+  const [bottom, setBottom] = useState(true);
+  const [toast, setToast] = useState(false);
 
   const handleCommentChange = (value: string) => {
     setAddComment(value);
@@ -23,6 +26,8 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
   const handleOpenModal = (commentId) => {
     setSelectedCommentId(commentId);
     setIsModalOpen(true);
+    console.log('삭제모달');
+    setBottom(false);
   };
 
   const handleCloseModal = () => {
@@ -37,6 +42,11 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
         comment: addComment,
       });
       setAddComment('');
+      // 댓글을 전송한 후 댓글 목록을 다시 불러와서 화면을 갱신
+      fetchCommentDataFromServer().then((data) => {
+        setCommentArray(data.result);
+      });
+
       console.log(response);
     } catch (error) {
       console.log('에러', error);
@@ -98,70 +108,7 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
 
   return (
     <>
-      <B>
-        <Bottom
-          title="댓글"
-          onClose={onClose}
-          component={
-            <>
-              <SortBox>
-                {commentArray.map((comment) => (
-                  <SortItem key={comment.id}>
-                    <UserImage>
-                      <img
-                        src={comment.reviewCommentUserInfo.profileImage}
-                        width={35}
-                        height={35}
-                      />
-                    </UserImage>
-                    <TextLay>
-                      <Info>
-                        <Name>
-                          <Caption2>{comment.reviewCommentUserInfo.nickname}</Caption2>
-                        </Name>
-                        <Line>|</Line>
-                        <Job>
-                          <Caption2>{comment.reviewCommentUserInfo.job}</Caption2>
-                        </Job>
-                      </Info>
-                      <CommentText>{comment.comment}</CommentText>
-                      <BottomLay>
-                        <DandD>
-                          <Datelay>
-                            <DayText>{comment.createdAt}</DayText>
-                          </Datelay>
-
-                          {/* mine이 true인 경우에만 삭제 버튼 보이기 */}
-                          {comment.mine && (
-                            <Delete onClick={() => handleOpenModal(comment.id)}>
-                              <DayText>삭제</DayText>
-                            </Delete>
-                          )}
-                        </DandD>
-                      </BottomLay>
-                    </TextLay>
-                  </SortItem>
-                ))}
-              </SortBox>
-              <BottomInputLay>
-                <InputBtnLay>
-                  <Input
-                    type="text"
-                    placeholder="댓글을 입력해주세요"
-                    onChange={handleCommentChange}
-                    text={addComment}
-                  />
-                  <ButtonLay>
-                    <ButtonComment onClick={sendComment} disabled={isInputEmpty}>
-                      입력
-                    </ButtonComment>
-                  </ButtonLay>
-                </InputBtnLay>
-              </BottomInputLay>
-            </>
-          }
-        />
-      </B>
+      {toast && <Toast message={'댓글이 삭제되었습니다.'} onClose={() => setToast(false)} />}
       <ModalLay>
         {isModalOpen && (
           <ModalSelect
@@ -169,12 +116,84 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
             btn="삭제하기"
             onClick={() => {
               console.log('버튼 누름');
-              // commentDelete();
+              commentDelete();
+              setToast(true);
             }}
-            onClosed={() => handleCloseModal()}
+            onClosed={() => setIsModalOpen(false)}
           />
         )}
       </ModalLay>
+      {bottom && (
+        <B>
+          <Bottom
+            title="댓글"
+            onClose={() => setBottom(false)}
+            component={
+              <>
+                <SortBox>
+                  {commentArray.map((comment) => (
+                    <SortItem key={comment.id}>
+                      <UserImage>
+                        <img
+                          src={comment.reviewCommentUserInfo.profileImage}
+                          width={35}
+                          height={35}
+                        />
+                      </UserImage>
+                      <TextLay>
+                        <Info>
+                          <Name>
+                            <Caption2>{comment.reviewCommentUserInfo.nickname}</Caption2>
+                          </Name>
+                          <Line>|</Line>
+                          <Job>
+                            <Caption2>{comment.reviewCommentUserInfo.job}</Caption2>
+                          </Job>
+                        </Info>
+                        <CommentText>{comment.comment}</CommentText>
+                        <BottomLay>
+                          <DandD>
+                            <Datelay>
+                              <DayText>{comment.createdAt}</DayText>
+                            </Datelay>
+
+                            {/* mine이 true인 경우에만 삭제 버튼 보이기 */}
+                            {comment.mine && (
+                              <Delete onClick={() => handleOpenModal(comment.id)}>
+                                <DayText>삭제</DayText>
+                              </Delete>
+                            )}
+                          </DandD>
+                        </BottomLay>
+                      </TextLay>
+                    </SortItem>
+                  ))}
+                </SortBox>
+                <BottomInputLay>
+                  <InputBtnLay>
+                    <Input
+                      type="text"
+                      placeholder="댓글을 남겨보세요"
+                      onChange={handleCommentChange}
+                      text={addComment}
+                    />
+                    <ButtonLay>
+                      <ButtonComment
+                        onClick={() => {
+                          sendComment();
+                        }}
+                        disabled={isInputEmpty}
+                      >
+                        작성
+                      </ButtonComment>
+                    </ButtonLay>
+                  </InputBtnLay>
+                </BottomInputLay>
+              </>
+            }
+          />
+        </B>
+      )}
     </>
   );
 };
@@ -195,9 +214,7 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
 }
 
 const ModalLay = styled('div', {
-  width: '100%',
-  height: '800px',
-  zIndex: '999999',
+  zIndex: '99',
 });
 const ButtonLay = styled('div', {
   paddingLeft: '55px',

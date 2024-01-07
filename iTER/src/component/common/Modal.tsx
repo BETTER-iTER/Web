@@ -44,7 +44,7 @@ export const ModalSelect: FC<ModalProps> = ({ text, btn, onClick, onClosed }) =>
             <Headline4>{text}</Headline4>
           </div>
           <Buttons>
-            <SelectButton onClick={() => console.log('클릭')}>
+            <SelectButton onClick={onClosed}>
               <ButtonText>취소</ButtonText>
             </SelectButton>
             <SelectButton onClick={onClick}>
@@ -112,7 +112,6 @@ const Back = styled('div', {
   justifyContent: 'center',
   alignItems: 'center',
   pointerEvents: 'auto',
-  zIndex: 1000,
 });
 
 const Container = styled('div', {
