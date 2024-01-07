@@ -3,7 +3,6 @@ import Category from '../component/common/Category';
 import { ButtonWrite } from '../component/common/Button';
 import Review from '../component/home/Review';
 import Top from '../component/home/Top';
-import Quiz from '../component/home/Quiz';
 import News from '../component/home/News';
 import Footer from '../component/layout/Footer';
 import Nav from '../component/layout/Nav';
