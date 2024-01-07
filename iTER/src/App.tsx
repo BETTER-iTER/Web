@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './utills/AuthContext';
 import PrivateRoute from './utills/PrivateRoute';
 import Login from './pages/Login';
 import Home from './pages/Home';

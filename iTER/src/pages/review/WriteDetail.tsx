@@ -1,4 +1,4 @@
-import InputComponent, { InputComponentReiview } from '../../component/common/Input';
+import { InputComponentReiview } from '../../component/common/Input';
 import { styled } from '../../../stitches.config';
 import { useState } from 'react';
 import RadioInput from '../../component/common/RadioInput';
@@ -6,7 +6,7 @@ import { ButtonSelect } from '../../component/common/Button';
 import ReviewSort from '../../component/review/ReviewSort';
 import { B1 } from '../../component/Font';
 import DateSort from '../../component/review/DateSort';
-import SpecPopup from '../../component/review/SpecPopup';
+// import SpecPopup from '../../component/review/SpecPopup';
 import DateComponent from '../../component/review/Date';
 
 const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
@@ -18,6 +18,8 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
   const [selectedWINDOW, setSelectedWINDOW] = useState<string | null>(null);
   const [selectedRAM, setSelectedRAM] = useState<string | null>(null);
   const [selectedSIZE, setSelectedSIZE] = useState<string | null>(null);
+
+  console.log(isPopupOpen);
 
   const openPopup = () => {
     setIsPopupOpen(true);
@@ -37,6 +39,8 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
     setSelectedRAM(ram);
     setSelectedSIZE(size);
   };
+
+  handleSelectionComplete;
 
   const [sortBottom, setSortBottom] = useState<boolean>(false);
   const [sortDate, setSortDate] = useState<boolean>(false);
@@ -88,13 +92,13 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
           }
           onClick={openPopup}
         />
-        {isPopupOpen && (
+        {/* {isPopupOpen && (
           <SpecPopup
             isOpen={isPopupOpen}
             onClose={() => setIsPopupOpen(false)}
             onSelectionComplete={handleSelectionComplete}
           />
-        )}
+        )} */}
 
         <div style={{ marginTop: 20 }} />
 

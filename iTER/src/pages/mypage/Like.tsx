@@ -1,6 +1,6 @@
 import { styled } from '../../../stitches.config';
 import Top from '../../component/layout/Top';
-import ListItem from '../../component/search/ListItem';
+// import ListItem from '../../component/search/ListItem';
 
 const Like = () => {
   const data = [];
@@ -11,7 +11,7 @@ const Like = () => {
         <Empty>마음에 드는 리뷰에 좋아요를 눌러보세요</Empty>
       ) : (
         <List>
-          <ListItem
+          {/* <ListItem
             id={0}
             title={'마샬 STANMORE III'}
             spec={'코어 i 5-13세대 / 14인치 / 32GB / 256-129GB'}
@@ -26,7 +26,7 @@ const Like = () => {
             star={4.5}
             review={'"가벼워요", "적당해요", "예뻐요"'}
             user={'제리'}
-          />
+          /> */}
         </List>
       )}
     </Container>

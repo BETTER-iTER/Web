@@ -14,6 +14,8 @@ const ReviewWrite = () => {
   // const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const [selectedCategoryName, setSelectedCategoryName] = useState<string | null>(null);
 
+  console.log(selectedCategoryName);
+
   const handleCategorySelect = (name: string) => {
     setSelectedCategoryName(name);
   };

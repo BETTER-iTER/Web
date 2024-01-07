@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { styled } from '../../stitches.config';
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import LoginInput from '../component/common/LoginInput';
 import Button from '../component/common/Button';
 import Kakao from '../assets/icon/Kakao.svg?react';
@@ -45,7 +46,7 @@ const Login = () => {
       console.log('Headers:', axios.defaults.headers.common);
 
       navigate('/');
-    } catch (error) {
+    } catch (error: any) {
       setLoginState(true);
       const errorData = error.response.data.code;
       const errorMessage = error.response.data.message;

@@ -32,7 +32,11 @@ const Category = ({
   };
 
   return (
-    <ItemBox style={{ gap: gap }} gap={gap} onClick={() => handleClicked()}>
+    <ItemBox
+      style={{ gap: gap }}
+      gap={gap === 4 || gap === 8.98 ? gap : undefined}
+      onClick={() => handleClicked()}
+    >
       <Image isSelected={isSelected} isSelectedBorder={isSelectedBorer}>
         <img src={imageUrl} alt={imageUrl} width={50} height={50} />
       </Image>

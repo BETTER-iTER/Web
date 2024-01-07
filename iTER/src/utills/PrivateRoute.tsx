@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../component/common/Modal';
-import { getHome } from '../apis/home';
+import { getHome } from '../apis/Home';
 import { useQuery } from '@tanstack/react-query';
 import LoadingPage from '../component/common/Loading';
 

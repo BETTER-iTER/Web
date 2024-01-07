@@ -6,7 +6,7 @@ import { Caption1, Caption2, LabelText } from '../Font';
 interface InputProps {
   labelName: string;
   btnName?: string;
-  placeholder?: string;
+  placeholder?: string | undefined;
   onClick?: () => void;
   type: 'text' | 'password'; // type prop 추가
   onChange?: (value: string) => void;
@@ -97,7 +97,6 @@ export const InputComponentReiview: React.FC<InputProps> = ({
   error,
   disabled,
   notice,
-
 }) => {
   const handleInputValueChange = (value: string) => {
     onChange && onChange(value);
@@ -157,9 +156,8 @@ export const InputComponentReiview: React.FC<InputProps> = ({
   );
 };
 
-
 const Input: React.FC<{
-  placeholder: string;
+  placeholder: string | undefined;
   type: 'text' | 'password';
   onChange: (value: string) => void;
   text?: string;
@@ -195,7 +193,7 @@ const Body = styled('div', {
   backgroundColor: '$White',
 });
 
-const BodyReview = styled("div", {
+const BodyReview = styled('div', {
   padding: '0 5px',
   borderRadius: '10px',
   width: '328px',
@@ -205,7 +203,6 @@ const BodyReview = styled("div", {
   flexDirection: 'column',
   backgroundColor: '$White',
 });
-
 
 const InnerInput = styled('input', {
   border: 'none',
@@ -254,9 +251,8 @@ const Notice = styled('div', {
   marginBottom: '10px',
 });
 
-const LabelName = styled("div", {
-  bodyText:1
-})
-
+const LabelName = styled('div', {
+  bodyText: 1,
+});
 
 export default InputComponent;

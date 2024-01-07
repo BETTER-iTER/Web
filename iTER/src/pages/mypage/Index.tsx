@@ -1,13 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { styled } from '../../../stitches.config';
 import Nav from '../../component/layout/Nav';
 import Top from '../../component/layout/Top';
-import DetailReview from '../../component/review/DetailReview';
-import PreviewSimple from '../../component/review/PreviewSimple';
 import ProfileFlat from '../../component/user/ProfileFlat';
-
-import { getMyPageProfile } from '../../apis/Mypage';
-import { useMutation } from '@tanstack/react-query';
 
 const Mypage = () => {
   const [status, setStatus] = useState<number>(0);
@@ -123,9 +118,9 @@ const Bottom = styled('div', {
   justifyContent: 'center',
 });
 
-const DetailReviews = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
-  alignItems: 'center',
-});
+// const DetailReviews = styled('div', {
+//   display: 'flex',
+//   flexDirection: 'column',
+//   width: '100%',
+//   alignItems: 'center',
+// });

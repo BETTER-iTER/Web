@@ -7,6 +7,7 @@ import Button from '../../component/common/Button';
 import { ModalSelect } from '../../component/common/Modal';
 import { deleteUser } from '../../apis/login';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
 
 type SelectedOptions = {
   [key: string]: boolean;
@@ -18,6 +19,17 @@ const DeleteUser = () => {
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({});
   const [reason, setReason] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const mutation = useMutation(deleteUser, {
+    onSuccess: () => {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      navigate('/onboarding');
+    },
+    onError: (error) => {
+      console.log('error', error);
+    },
+  });
+
   const handleOptionClick = (optionKey: string) => {
     setSelectedOptions((prevSelectedOptions) => {
       const updatedSelectedOptions = { ...prevSelectedOptions };
@@ -42,19 +54,8 @@ const DeleteUser = () => {
     setIsModalOpen(true);
   };
 
-  const handleDeleteUser = async (reason: string) => {
-    try {
-      setIsModalOpen(false);
-      console.log('탈퇴처리');
-      const deleteData = await deleteUser(reason);
-      console.log(reason);
-      console.log(deleteData);
-      navigate('/onboading');
-    } catch (error) {
-      const errorData = error.response.data;
-      console.log(errorData.code);
-      console.log(errorData.message);
-    }
+  const handleDeleteUser = (reason: string) => {
+    mutation.mutateAsync(reason);
   };
 
   const closeModalNo = () => {

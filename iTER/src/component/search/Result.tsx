@@ -10,7 +10,6 @@ import LoadingPage from '../common/Loading';
 import ErrorPage from '../common/Error';
 import { CategoryReviewProps } from '../../types/Review';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const dummy: CategoryReviewProps['reviews'][0] = {
   id: 0,
   productName: '마샬 STANMORE III',
@@ -24,12 +23,14 @@ const dummy: CategoryReviewProps['reviews'][0] = {
   },
   scrapedCount: 0,
   likedCount: 0,
+  reviewImage: '',
 };
 const Result = ({ keyword }: { keyword: string }) => {
   const [categoryBottom, setCategoryBottom] = useState<boolean>(false);
   const [sortBottom, setSortBottom] = useState<boolean>(false);
   const [sort, setSort] = useState<string>('latest');
-  const [page, setPage] = useState<number>(0);
+  // const [page, setPage] = useState<number>(0);
+  const page = 0;
   const [keywordLast, setKeywordLast] = useState<string>(keyword);
 
   const {

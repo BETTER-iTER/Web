@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { styled } from '../../../stitches.config';
 import Top from '../../component/layout/Top';
 import UserIcon from '../../assets/icon/User.svg?react';
-import Bottom from '../../component/common/Bottom';
 import Nav from '../../component/layout/Nav';
 
 const Follow = () => {
@@ -110,12 +109,12 @@ const Content = styled('div', {
   },
 });
 
-const Image = styled('div', {
-  width: '45px',
-  height: '45px',
-  borderRadius: '50%',
-  backgroundColor: '$Gray20',
-});
+// const Image = styled('div', {
+//   width: '45px',
+//   height: '45px',
+//   borderRadius: '50%',
+//   backgroundColor: '$Gray20',
+// });
 
 const ItemBox = styled('div', {
   height: '45px',
@@ -126,9 +125,9 @@ const ItemBox = styled('div', {
   gap: '12px',
 });
 
-const Empty = styled('div', {
-  marginTop: '180px',
-});
+// const Empty = styled('div', {
+//   marginTop: '180px',
+// });
 
 const dummyUser = [
   { id: 0, username: 'asdmkf' },
