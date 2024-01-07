@@ -9,6 +9,7 @@ import { Caption1 } from '../Font';
 import ReviewImage from './ReviewImage';
 import { LikeSort } from '../common/LikeSort';
 import { useState } from 'react';
+import axios from 'axios';
 
 const DetailReview = (props: { data }) => {
   const { data } = props;
@@ -19,12 +20,33 @@ const DetailReview = (props: { data }) => {
   const [settingLike, setSettingLike] = useState<boolean>(false);
   const [pushHeart, setPushHeart] = useState<boolean>(true);
 
+  const LikeReview = async () => {
+    const reviewId = 1;
+    try {
+      const response = await axios.post(`https://dev.betteritem.store/review/like/${reviewId}`);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //이건 좋아요 취소 api
+  // const CancleLike = async () => {
+  //   const reviewId = 1;
+  //   try {
+  //     const response = await axios.
+  //   }
+  // }
+
   const handleHeartClick = () => {
     setPushHeart(!pushHeart);
     if (pushHeart) {
       console.log('좋아요 누름');
+      LikeReview();
     } else {
       console.log('좋아요 취소함');
+      //CancleLike();
+      //좋아요 취소
     }
   };
 

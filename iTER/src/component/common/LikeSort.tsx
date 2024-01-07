@@ -90,7 +90,6 @@ const SortBox = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   marginBottom: '60px',
-  height: '720px',
 });
 
 const SortItem = styled('div', {
