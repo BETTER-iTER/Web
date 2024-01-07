@@ -60,6 +60,7 @@ export interface ReviewDetailProps {
     like: boolean;
     scrap: boolean;
     price: number;
+    comparedProductName: string;
   };
   writerInfo: UserViewProps;
   relatedReviews: ReviewPreviewProps[];

@@ -77,7 +77,7 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
         <Point>👎 아쉬운 점</Point>
         <Content>{data.badPoint}</Content>
         <Point>⚖️ 비교 제품</Point>
-        <Content>수정필요</Content>
+        <Content>{data.comparedProductName}</Content>
         {/* 구매정보 */}
         <Buy>
           <div>
