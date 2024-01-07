@@ -50,3 +50,37 @@ export const getMyPageReviewMine = async (page: number) => {
     throw error;
   }
 };
+
+// 팔로워 조회
+export const getMypageFollowers = async (page: number) => {
+  const accessToken = localStorage.getItem('accessToken');
+  console.log('팔로워 조회');
+  try {
+    const response = await api.get(`/mypage/followers?page=${page}`, {
+      headers: {
+        Authorization: accessToken ? `${accessToken}` : '',
+      },
+    });
+    return response.data.result;
+  } catch (error) {
+    console.log('팔로워 조회 오류', error);
+    throw error;
+  }
+};
+
+// 팔로잉 조회
+export const getMypageFollowings = async (page: number) => {
+  const accessToken = localStorage.getItem('accessToken');
+  console.log('팔로잉 조회');
+  try {
+    const response = await api.get(`/mypage/followings?page=${page}`, {
+      headers: {
+        Authorization: accessToken ? `${accessToken}` : '',
+      },
+    });
+    return response.data.result;
+  } catch (error) {
+    console.log('팔로잉 조회 오류', error);
+    throw error;
+  }
+};
