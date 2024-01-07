@@ -17,6 +17,24 @@ export const getReviewDetail = async (id: string) => {
   }
 };
 
+// 리뷰 삭제
+export const deleteReview = async (id: string) => {
+  const accessToken = localStorage.getItem('accessToken');
+  console.log(accessToken);
+  console.log('리뷰 삭제', id);
+  try {
+    const response = await api.delete(`/review/${id}`, {
+      headers: {
+        Authorization: accessToken ? `${accessToken}` : '',
+      },
+    });
+    return response.data.result;
+  } catch (error) {
+    console.log('리뷰 삭제 오류', error);
+    throw error;
+  }
+};
+
 // 리뷰 검색 조회
 export const getReviewList = async ({
   keywordLast,

@@ -10,12 +10,12 @@ import { ModalSelect } from '../../component/common/Modal';
 import Relation from '../../component/review/Relation';
 import Toast from '../../component/common/Toast';
 import DetailReview from '../../component/review/DetailReview';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import LoadingPage from '../../component/common/Loading';
 import ErrorPage from '../../component/common/Error';
-import { getReviewDetail } from '../../apis/Review';
+import { deleteReview, getReviewDetail } from '../../apis/Review';
 import { ReviewDetailProps } from '../../types/Review';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const ReviewDetail = () => {
   const [setting, setSetting] = useState<boolean>(false);
@@ -23,8 +23,26 @@ const ReviewDetail = () => {
   const [toast, setToast] = useState<boolean>(false);
 
   const location = useLocation();
+  const navigate = useNavigate();
   const id = location.pathname.split('/')[3];
 
+  const mutation = useMutation(deleteReview, {
+    onSuccess: (data) => {
+      console.log('data', data);
+      setToast(true);
+      navigate(-1);
+    },
+    onError: (error) => {
+      console.log('error', error);
+      return <ErrorPage type={2} />;
+    },
+  });
+
+  const handleDelete = () => {
+    mutation.mutate(id);
+  };
+
+  // 리뷰 상세 데이터 가져오기
   const {
     data: reviewDetailData,
     error: reviewDetailError,
@@ -33,9 +51,6 @@ const ReviewDetail = () => {
 
   if (reviewDetailIsLoading) return <LoadingPage />;
   if (reviewDetailError) return <ErrorPage type={2} />;
-  if (reviewDetailData) {
-    console.log(reviewDetailData);
-  }
 
   const reviewDetail = reviewDetailData?.reviewDetail;
   const writerInfo = reviewDetailData?.writerInfo;
@@ -106,7 +121,7 @@ const ReviewDetail = () => {
           text={'리뷰를 삭제하시겠습니까?'}
           btn={'삭제하기'}
           onClick={() => {
-            setToast(true);
+            handleDelete();
           }}
           onClosed={() => {
             setSelect(0);
