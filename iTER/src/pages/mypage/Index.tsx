@@ -14,7 +14,7 @@ import { MypageReviewProps } from '../../types/Review';
 
 const Mypage = () => {
   const [status, setStatus] = useState<number>(0);
-  const [id, setId] = useState<number>(1);
+  const [id, setId] = useState<number>(0);
 
   const {
     data: scrapData,
