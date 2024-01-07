@@ -2,10 +2,35 @@ import { useState } from 'react';
 import { styled } from '../../../stitches.config';
 import Nav from '../../component/layout/Nav';
 import Top from '../../component/layout/Top';
+import PreviewSimple from '../../component/review/PreviewSimple';
 import ProfileFlat from '../../component/user/ProfileFlat';
+
+import { getMyPageReviewMine } from '../../apis/Mypage';
+import { getMyPageReviewScrap } from '../../apis/Mypage';
+import { useQuery } from '@tanstack/react-query';
+import LoadingPage from '../../component/common/Loading';
+import ErrorPage from '../../component/common/Error';
+import { MypageReviewProps } from '../../types/Review';
 
 const Mypage = () => {
   const [status, setStatus] = useState<number>(0);
+  // const [id, setId] = useState<number>(1);
+  const id = 1;
+
+  const {
+    data: scrapData,
+    isLoading: scrapLoading,
+    isError: scrapError,
+  } = useQuery<MypageReviewProps, Error>(['scrap', id], () => getMyPageReviewScrap(id));
+
+  const {
+    data: mineData,
+    isLoading: mineLoading,
+    isError: mineError,
+  } = useQuery<MypageReviewProps, Error>(['mine', id], () => getMyPageReviewMine(id));
+
+  scrapLoading && mineLoading && <LoadingPage />;
+  scrapError && mineError && <ErrorPage type={2} />;
 
   return (
     <Container>
@@ -30,23 +55,21 @@ const Mypage = () => {
         </Status>
       </StatusBox>
       <Content>
-        {/* 데이터가 없을 경우 -> 나중에 조건 변경 */}
-        {true && (
-          <Empty>
-            {status == 0 && <>리뷰를 작성해 보세요</>}
-            {status == 1 && <>마음에 드는 리뷰를 스크랩해 보세요</>}
-          </Empty>
-        )}
+        {/* 내가 쓴 리뷰 */}
+        {status === 0 &&
+          (mineData !== undefined && mineData.reviewCount > 0 ? (
+            <PreviewSimple list={mineData.reviewList} />
+          ) : (
+            <Empty>리뷰를 작성해 보세요</Empty>
+          ))}
 
-        {/* 데이터 존재할 때 */}
-        {/* {status == 0 && <PreviewSimple />}
-        {status == 1 && <PreviewSimple user />} */}
-
-        {/* 리뷰 상세 스크롤 */}
-        {/* <DetailReviews>
-          <DetailReview />
-          <DetailReview />
-        </DetailReviews> */}
+        {/* 스크랩 리뷰 */}
+        {status == 1 &&
+          (scrapData !== undefined && scrapData.reviewCount > 0 ? (
+            <PreviewSimple list={scrapData.reviewList} />
+          ) : (
+            <Empty>스크랩한 리뷰가 없습니다</Empty>
+          ))}
       </Content>
       <Bottom>
         <Nav />
