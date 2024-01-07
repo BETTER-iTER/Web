@@ -16,6 +16,7 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
   reviewSpecData,
   scrapedCount,
   likedCount,
+  reviewImage,
 }) => {
   const navigate = useNavigate();
   const [active, setActive] = useState<boolean>(false);
@@ -32,7 +33,7 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
         }}
       >
         <Image>
-          <img src={userInfo.profileImage} alt="" width={120} height={120} />
+          <img src={reviewImage} alt="" width={120} height={120} />
         </Image>
 
         <div>
@@ -98,7 +99,6 @@ const Box = styled('div', {
 const Image = styled('div', {
   width: '120px',
   height: '120px',
-  backgroundColor: '$Gray20',
   borderRadius: '10px',
   overflow: 'hidden',
 });

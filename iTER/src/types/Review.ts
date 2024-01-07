@@ -12,6 +12,7 @@ export interface ReviewPreviewProps {
 
 export interface ReviewProps {
   id: number;
+  reviewImage: string;
   productName: string;
   reviewSpecData: string[];
   starPoint: number;
