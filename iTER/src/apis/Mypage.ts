@@ -84,3 +84,20 @@ export const getMypageFollowings = async (page: number) => {
     throw error;
   }
 };
+
+// 좋아요한 리뷰 조회
+export const getMypageReviewLike = async (page: number) => {
+  const accessToken = localStorage.getItem('accessToken');
+  console.log('좋아요한 리뷰 조회');
+  try {
+    const response = await api.get(`/mypage/review/like?page=${page}`, {
+      headers: {
+        Authorization: accessToken ? `${accessToken}` : '',
+      },
+    });
+    return response.data.result;
+  } catch (error) {
+    console.log('좋아요한 리뷰 조회 오류', error);
+    throw error;
+  }
+};
