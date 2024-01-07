@@ -3,14 +3,24 @@ import HeartIcon from '../../assets/icon/Heart.svg?react';
 import CommentIcon from '../../assets/icon/Comment.svg?react';
 import ScrapIcon from '../../assets/icon/Scrap.svg?react';
 import ShareIcon from '../../assets/icon/Share.svg?react';
-import Star from '../../assets/icon/star/Star.svg?react';
 import { Caption1 } from '../Font';
 import ReviewImage from './ReviewImage';
+import { ReviewDetailProps } from '../../types/Review';
+import StarRatingShow from '../../component/review/StarRatingShow';
 
-const DetailReview = (props: { data }) => {
+const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
   const { data } = props;
 
   const short = data.shortReview.replace(/['"]/g, '').split(', ');
+
+  function formatDateString(inputDate: string): string {
+    const date = new Date(inputDate);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}.${month}.${day}`;
+  }
 
   return (
     <>
@@ -43,8 +53,7 @@ const DetailReview = (props: { data }) => {
         <Caption1 style={{ color: '#57606A' }}>{data.reviewSpecData.join(' / ')}</Caption1>
         {/* 별점 */}
         <Stars>
-          수정필요
-          <Star width={24} height={24} />
+          <StarRatingShow rating={1.5} />
         </Stars>
         {/* 간단리뷰 */}
         <SimpleReviews>
@@ -70,11 +79,10 @@ const DetailReview = (props: { data }) => {
         <Content>수정필요</Content>
         {/* 구매정보 */}
         <Buy>
-          수정필요
-          <div>마샬 | 공식 홈페이지 구매</div>
-          <div>60만원 | {data.boughtAt} 구매</div>
+          <div>{data.manufacturer} | 공식 홈페이지 구매</div>
+          <div>60만원 | {formatDateString(data.boughtAt)} 구매</div>
         </Buy>
-        {data.createdAt}
+        {formatDateString(data.createdAt)}
       </Box>
     </>
   );

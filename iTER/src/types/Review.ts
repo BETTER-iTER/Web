@@ -43,7 +43,7 @@ export interface ReviewDetailProps {
     goodPoint: string;
     badPoint: string;
     shortReview: string;
-    manudactuere: string;
+    manufacturer: string;
     storeName: number;
     boughtAt: string;
     createdAt: string;

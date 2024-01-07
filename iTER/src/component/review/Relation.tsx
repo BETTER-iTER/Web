@@ -21,8 +21,8 @@ const Relation = (props: { list?: ReviewPreviewProps[] }) => {
       <LabelText>연관 제품 리뷰</LabelText>
       <Items>
         <Items>
-          {list.map((item) => (
-            <Item {...item} key={item.id} />
+          {list.map((item, index) => (
+            <Item {...item} key={index} />
           ))}
         </Items>
       </Items>

@@ -1,7 +1,7 @@
 import api from './index';
 
 // 리뷰 상세 조회
-export const getReviewDetail = async (id: number) => {
+export const getReviewDetail = async (id: string) => {
   const accessToken = localStorage.getItem('accessToken');
   console.log('리뷰 상세 조회', id);
   try {
