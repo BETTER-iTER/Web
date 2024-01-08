@@ -73,21 +73,22 @@ const Result = ({ keyword }: { keyword: string }) => {
               <Sort />
             </div>
           </Control>
-
-          {listData?.reviews.map((item, index) => (
-            <ListItem
-              key={index}
-              id={item.id}
-              productName={item.productName}
-              reviewSpecData={item.reviewSpecData}
-              starPoint={item.starPoint}
-              shortReview={item.shortReview}
-              userInfo={item.userInfo}
-              scrapedCount={item.scrapedCount}
-              likedCount={item.likedCount}
-              reviewImage={item.reviewImage}
-            />
-          ))}
+          <Items>
+            {listData?.reviews.map((item, index) => (
+              <ListItem
+                key={index}
+                id={item.id}
+                productName={item.productName}
+                reviewSpecData={item.reviewSpecData}
+                starPoint={item.starPoint}
+                shortReview={item.shortReview}
+                userInfo={item.userInfo}
+                scrapedCount={item.scrapedCount}
+                likedCount={item.likedCount}
+                reviewImage={item.reviewImage}
+              />
+            ))}
+          </Items>
         </>
       )}
 
@@ -156,4 +157,14 @@ const Recommend = styled('div', {
   textAlign: 'left',
   color: '$TitleBlack',
   margin: '40px 0 10px 0',
+});
+
+const Items = styled('div', {
+  width: '100%',
+  height: 'calc(100vh - 165px)',
+  overflowY: 'scroll',
+  marginBottom: '42px',
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
 });
