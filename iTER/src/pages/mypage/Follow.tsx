@@ -38,7 +38,7 @@ const Follow = () => {
             setStatus(0);
           }}
         >
-          팔로워({followerData.totalCount})
+          팔로워({followerData?.totalCount})
         </Status>
         <Status
           active={status == 1}
@@ -46,7 +46,7 @@ const Follow = () => {
             setStatus(1);
           }}
         >
-          팔로잉({followingData.totalCount})
+          팔로잉({followingData?.totalCount})
         </Status>
       </StatusBox>
 
