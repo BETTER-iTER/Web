@@ -57,16 +57,15 @@ const SignUp = () => {
   // 인증번호 전송
   const mutation = useMutation(postJoinEmail, {
     onSuccess: (data) => {
-      console.log('data', data);
-      setSuccessModal(true);
-      setTimer(true);
-      setCodeDisabled(false);
-    },
-
-    onError: (error) => {
-      console.log('error', error);
-      setEmailDisabled(false);
-      setDuplicateModal(true);
+      if (data.status === 200) {
+        setTimer(true);
+        setEmailDisabled(false);
+      } else if (data.message === 'Request failed with status code 400') {
+        setAuthWarning('이미 가입된 이메일입니다');
+        setDuplicateModal(true);
+      } else {
+        return <ErrorPage type={2} />;
+      }
     },
   });
 
