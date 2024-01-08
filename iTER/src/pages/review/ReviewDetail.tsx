@@ -76,16 +76,7 @@ const ReviewDetail = () => {
               <Caption2>{writerInfo.job}</Caption2>
             </Job>
           </Right>
-          {reviewDetail.mine ? (
-            <div
-              style={{ cursor: 'pointer' }}
-              onClick={() => {
-                setSetting(!setting);
-              }}
-            >
-              <Dots3 />
-            </div>
-          ) : (
+          {!reviewDetail.mine && (
             <FollowButton
               onClick={() => {
                 console.log('팔로우');

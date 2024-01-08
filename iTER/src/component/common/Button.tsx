@@ -66,10 +66,10 @@ export const ButtonEmpty: FC<ButtonProps> = ({ onClick, children, type, active }
 };
 
 // 컨트롤 버튼
-export const ButtonControl: FC<ButtonProps> = ({ onClick, children, type }) => {
+export const ButtonControl: FC<ButtonProps> = ({ onClick, children, type, active }) => {
   return (
     <Caption2>
-      <ButtonControlBody onClick={onClick}>
+      <ButtonControlBody onClick={onClick} active={active}>
         {children} {type == 'toggle' && <ArrowDown />}
       </ButtonControlBody>
     </Caption2>
@@ -227,6 +227,18 @@ const ButtonControlBody = styled('button', {
   alignItems: 'center',
   gap: '4px',
   cursor: 'pointer',
+  variants: {
+    active: {
+      true: {
+        border: '1px solid $Brand',
+        color: '$Brand',
+      },
+      false: {
+        border: '1px solid $Gray10',
+        color: '$Gray30',
+      },
+    },
+  },
 });
 
 const ButtonBlackBody = styled('button', {

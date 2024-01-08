@@ -21,6 +21,7 @@ export interface ReviewProps {
     nickName: string;
     job: string;
     profileImage?: string;
+    expert?: boolean;
   };
   scrapedCount: number;
   likedCount: number;
@@ -65,4 +66,22 @@ export interface ReviewDetailProps {
   };
   writerInfo: UserViewProps;
   relatedReviews: ReviewPreviewProps[];
+}
+
+export interface MypageReviewProps {
+  reviewCount: number;
+  reviewList: {
+    reviewId: number;
+    title: string;
+    thumbnailImage: string | null;
+    writerId: number;
+    writerJob: string;
+    writerNickname: string;
+    profileImage: string | null;
+    likeCount: number;
+    scrapCount: number;
+    isLike: boolean;
+    isScrap: boolean;
+    expert?: boolean;
+  }[];
 }

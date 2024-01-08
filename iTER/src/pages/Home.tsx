@@ -3,7 +3,6 @@ import Category from '../component/common/Category';
 import { ButtonWrite } from '../component/common/Button';
 import Review from '../component/home/Review';
 import Top from '../component/home/Top';
-import Quiz from '../component/home/Quiz';
 import News from '../component/home/News';
 import Footer from '../component/layout/Footer';
 import Nav from '../component/layout/Nav';
@@ -52,7 +51,20 @@ const Home = () => {
           <React.Fragment key={categoryName}>
             {homeData.categoryReviews[categoryName].length > 0 && (
               <>
-                <Label>{categoryName}</Label>
+                <Label>
+                  {categoryName === '휴대폰' && '📱'} {categoryName}
+                  {categoryName === '노트북' && '💻'} {categoryName}
+                  {categoryName === 'PC' && '🖥'} {categoryName}
+                  {categoryName === '스마트워치' && '⌚️'} {categoryName}
+                  {categoryName === '태블릿' && '📟'} {categoryName}
+                  {categoryName === '마우스' && '🖱️'} {categoryName}
+                  {categoryName === '키보드' && '⌨️'} {categoryName}
+                  {categoryName === '헤드폰' && '🎧'} {categoryName}
+                  {categoryName === '스피커' && '📻'} {categoryName}
+                  {categoryName === '보조배터리' && '🔋'} {categoryName}
+                  {categoryName === '악세서리' && '🖨️'} {categoryName}
+                  {categoryName === '기타' && '🎮'} {categoryName}
+                </Label>
                 <Review list={homeData?.categoryReviews[categoryName]} />
               </>
             )}
