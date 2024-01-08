@@ -26,6 +26,8 @@ const Home = () => {
   if (homeLoading) return <LoadingPage />;
   if (homeError) return <ErrorPage type={2} />;
 
+  console.log('homeData', homeData.interestedCategoryReviews);
+
   return (
     <Container>
       <Top />
@@ -45,33 +47,31 @@ const Home = () => {
       <CategoryScroll list={homeData?.categories} />
 
       {/* 관심카테고리 리뷰 리스트 */}
-      {homeData.categoryReviews &&
-        Object.keys(homeData.categoryReviews).map((category: string) => {
-          const categoryName = category as string;
-          return (
-            <React.Fragment key={categoryName}>
-              {homeData.categoryReviews[categoryName].length > 0 && (
-                <>
-                  <Label>
-                    {categoryName === '휴대폰' && '📱'} {categoryName}
-                    {categoryName === '노트북' && '💻'} {categoryName}
-                    {categoryName === 'PC' && '🖥'} {categoryName}
-                    {categoryName === '스마트워치' && '⌚️'} {categoryName}
-                    {categoryName === '태블릿' && '📟'} {categoryName}
-                    {categoryName === '마우스' && '🖱️'} {categoryName}
-                    {categoryName === '키보드' && '⌨️'} {categoryName}
-                    {categoryName === '헤드폰' && '🎧'} {categoryName}
-                    {categoryName === '스피커' && '📻'} {categoryName}
-                    {categoryName === '보조배터리' && '🔋'} {categoryName}
-                    {categoryName === '악세서리' && '🖨️'} {categoryName}
-                    {categoryName === '기타' && '🎮'} {categoryName}
-                  </Label>
-                  <Review list={homeData?.categoryReviews[categoryName]} />
-                </>
-              )}
-            </React.Fragment>
-          );
-        })}
+      {homeData.interestedCategoryReviews &&
+        Object.entries(homeData.interestedCategoryReviews).map(([categoryName, reviews]) => (
+          <React.Fragment key={categoryName}>
+            {reviews.length > 0 && (
+              <>
+                <Label>
+                  {categoryName === '휴대폰' && '📱'}
+                  {categoryName === '노트북' && '💻'}
+                  {categoryName === 'PC' && '🖥'}
+                  {categoryName === '스마트워치' && '⌚️'}
+                  {categoryName === '태블릿' && '📟'}
+                  {categoryName === '마우스' && '🖱️'}
+                  {categoryName === '키보드' && '⌨️'}
+                  {categoryName === '헤드폰' && '🎧'}
+                  {categoryName === '스피커' && '📻'}
+                  {categoryName === '보조배터리' && '🔋'}
+                  {categoryName === '악세서리' && '🖨️'}
+                  {categoryName === '기타' && '🎮'}
+                  {categoryName}
+                </Label>
+                <Review list={reviews} />
+              </>
+            )}
+          </React.Fragment>
+        ))}
 
       {homeData.followingReviews.length > 0 && (
         <>
