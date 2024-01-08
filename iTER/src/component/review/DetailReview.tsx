@@ -1,18 +1,30 @@
 import { styled } from '../../../stitches.config';
 import HeartIcon from '../../assets/icon/Heart.svg?react';
+import HeartFill from '../../assets/icon/HeartFill.svg?react';
 import CommentIcon from '../../assets/icon/Comment.svg?react';
 import ScrapIcon from '../../assets/icon/Scrap.svg?react';
 import ShareIcon from '../../assets/icon/Share.svg?react';
 import { Caption1 } from '../Font';
 import ReviewImage from './ReviewImage';
+
+
+import { CommentSort } from '../common/CommentSort';
+
+import { LikeSort } from '../common/LikeSort';
+import { useState } from 'react';
+import axios from 'axios';
+
 import { ReviewDetailProps } from '../../types/Review';
 import StarRatingShow from '../../component/review/StarRatingShow';
 import { Store } from '../../constants/Store';
 
+
 const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
   const { data } = props;
 
-  const short = data.shortReview.replace(/['"]/g, '').split(',');
+
+  const short = data.shortReview.replace(/['"]/g, '').split(', ');
+  const [setting, setSetting] = useState<boolean>(false);
 
   function formatDateString(inputDate: string): string {
     const date = new Date(inputDate);
@@ -32,6 +44,46 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
     return `${man}만 ${rest}원`;
   }
 
+
+  //좋아요 부분
+  const [settingLike, setSettingLike] = useState<boolean>(false);
+  const [pushHeart, setPushHeart] = useState<boolean>(true);
+
+  const LikeReview = async () => {
+    const currentPathname = window.location.pathname;
+    const reviewId = currentPathname.split('/').pop();
+    try {
+      const response = await axios.post(`https://dev.betteritem.store/review/${reviewId}/like`);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // 좋아요 취소 api
+  const CancleLike = async () => {
+    const currentPathname = window.location.pathname;
+    const reviewId = currentPathname.split('/').pop();
+    try {
+      const response = await axios.delete(`https://dev.betteritem.store/review/${reviewId}/like`);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleHeartClick = () => {
+    setPushHeart(!pushHeart);
+    if (pushHeart) {
+      console.log('좋아요 누름');
+      LikeReview();
+    } else {
+      console.log('좋아요 취소함');
+      CancleLike();
+    }
+  };
+
+
   return (
     <>
       <ReviewImage list={data.reviewImages} />
@@ -40,11 +92,31 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
         <Actives>
           <div style={{ display: 'flex' }}>
             <Active>
-              <HeartIcon fill={'#4C4E55'} width={24} height={24} />
-              {data.likedCount}
+              <Hicon onClick={handleHeartClick}>
+                {pushHeart ? (
+                  <>
+                    <HeartIcon fill={'#4C4E55'} width={24} height={24} />
+                  </>
+                ) : (
+                  <>
+                    <HeartFill width={24} height={24} />
+                  </>
+                )}
+              </Hicon>
+              <HeartNum
+                onClick={() => {
+                  setSettingLike(!settingLike);
+                }}
+              >
+                {data.likedCount}
+              </HeartNum>
             </Active>
             <Active>
-              <CommentIcon />
+              <CommentIcon
+                onClick={() => {
+                  setSetting(!setting);
+                }}
+              />
               {data.commentCount}
             </Active>
           </div>
@@ -98,6 +170,24 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
         </Buy>
         {formatDateString(data.createdAt)} 작성
       </Box>
+
+
+      {setting && (
+  <CommentSort
+    onClose={() => {
+      setSetting(false);
+    }}
+  />
+)}
+
+{settingLike && (
+  <LikeSort
+    onClose={() => {
+      setSettingLike(false);
+    }}
+  />
+)}
+
     </>
   );
 };
@@ -180,3 +270,8 @@ const Buy = styled('div', {
   justifyContent: 'space-between',
   margin: '21px 0 16px 0',
 });
+const Hicon = styled('div', {
+  display: 'flex',
+});
+
+const HeartNum = styled('div', {});

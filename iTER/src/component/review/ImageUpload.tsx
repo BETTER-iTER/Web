@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useRef } from 'react';
+import React, { useState, ChangeEvent, useRef, useEffect } from 'react';
 import { styled } from '../../../stitches.config';
 import Xbtn from '../../assets/icon/Xbtn.svg?react';
 import Plus from '../../assets/icon/Plus.svg?react';
@@ -12,11 +12,21 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    console.log('선택된 이미지파일들:', selectedImages);
+  }, [selectedImages]);
+
+  const handleImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
-      setSelectedImages([...selectedImages, file]);
+      setSelectedImages((prevImages) => [...prevImages, file]);
       onImageSelected(file);
+      try {
+        const imageUrl = await uploadImageToS3(file);
+        console.log(imageUrl);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -31,6 +41,31 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
     newImages.splice(index, 1);
     setSelectedImages(newImages);
   };
+
+  // const s3 = new AWS.S3({
+  //   accessKeyId: 'AKIAQXCQ75TVZX3FMN37', // Replace with your AWS access key
+  //   secretAccessKey: 'vyl0rL10qijQuWDEM63v4ORlodSwYQqtWBRJ13Pi', // Replace with your AWS secret key
+  //   region: '아시아 태평양(서울) ap-northeast-2', // Replace with your AWS region
+  // });
+
+  // const uploadImageToS3 = async (file: File) => {
+  //   const params = {
+  //     Bucket: 'better-iter-application',
+  //     Key: `images/${encodeURIComponent(file.name)}`,
+  //     Body: file,
+  //     ContentType: 'image/jpeg',
+  //     ACL: 'public-read',
+  //   };
+
+  //   try {
+  //     const data = await s3.upload(params).promise();
+  //     console.log('이미지 업로드 성공 이미지 url:', data.Location);
+  //     return data.Location;
+  //   } catch (error) {
+  //     console.error('이미지 업로드 중 에러 발생:', error);
+  //     throw error;
+  //   }
+  // };
 
   return (
     <Container>

@@ -13,7 +13,7 @@ interface InputProps {
   error?: string;
   disabled?: boolean;
   notice?: string;
-  text?: string; // text prop 추가
+  text?: string | number;
 }
 
 const InputComponent: React.FC<InputProps> = ({
@@ -98,8 +98,8 @@ export const InputComponentReiview: React.FC<InputProps> = ({
   disabled,
   notice,
 }) => {
-  const handleInputValueChange = (value: string) => {
-    onChange && onChange(value);
+  const handleInputValueChange = (text: string) => {
+    onChange && onChange(text);
   };
 
   return (
@@ -156,11 +156,11 @@ export const InputComponentReiview: React.FC<InputProps> = ({
   );
 };
 
-const Input: React.FC<{
+export const Input: React.FC<{
   placeholder: string | undefined;
   type: 'text' | 'password';
   onChange: (value: string) => void;
-  text?: string;
+  text?: string | number;
 }> = ({ placeholder, onChange, type, text }) => {
   const [inputValue, setInputValue] = useState<string>('');
 
