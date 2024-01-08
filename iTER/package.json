@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@stitches/react": "^1.2.8",
-    "@tanstack/react-query": "^5.17.9",
+    "@tanstack/react-query": "4.35.3",
     "@tanstack/react-query-devtools": "^4.35.3",
     "@types/react-router-dom": "^5.3.3",
     "@types/swiper": "^6.0.0",
