@@ -4,7 +4,7 @@ import HeartFill from '../../assets/icon/HeartFill.svg?react';
 import CommentIcon from '../../assets/icon/Comment.svg?react';
 import ScrapIcon from '../../assets/icon/Scrap.svg?react';
 import ShareIcon from '../../assets/icon/Share.svg?react';
-import { Caption1 } from '../Font';
+import { Caption1, Caption2 } from '../Font';
 import ReviewImage from './ReviewImage';
 
 import { CommentSort } from '../common/CommentSort';
@@ -141,6 +141,9 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
         {/* 리뷰 내용 */}
         <Title>{data.productName}</Title>
         <Caption1 style={{ color: '#57606A' }}>{data.reviewSpecData.join(' / ')}</Caption1>
+        <Caption2 style={{ color: '#57606A', marginTop: '8px' }}>
+          조회수 {data.shownCount}회
+        </Caption2>
         {/* 별점 */}
         <Stars>
           <StarRatingShow rating={data.starPoint} />
@@ -231,7 +234,7 @@ const Title = styled('div', {
 const Stars = styled('div', {
   display: 'flex',
   gap: '4px',
-  marginTop: '27px',
+  marginTop: '24px',
 });
 
 const SimpleReviews = styled('div', {

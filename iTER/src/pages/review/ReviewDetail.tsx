@@ -55,7 +55,6 @@ const ReviewDetail = () => {
   const writerInfo = reviewDetailData?.writerInfo;
   const relatedReviews = reviewDetailData?.relatedReviews;
 
-  console.log('reviewDetail', reviewDetail);
   return (
     <>
       <Top title={reviewDetail.productName} />

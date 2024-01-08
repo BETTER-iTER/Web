@@ -64,6 +64,7 @@ export interface ReviewDetailProps {
     scrap: boolean;
     price: number;
     comparedProductName: string;
+    shownCount: number;
   };
   writerInfo: UserViewProps;
   relatedReviews: ReviewPreviewProps[];
