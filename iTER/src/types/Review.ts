@@ -25,6 +25,7 @@ export interface ReviewProps {
   };
   scrapedCount: number;
   likedCount: number;
+  keyword?: string; // 검색결과로 들어간 경우
 }
 
 export interface CategoryProps {

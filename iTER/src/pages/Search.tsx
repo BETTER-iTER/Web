@@ -7,7 +7,8 @@ import Result from '../component/search/Result';
 import { useLocation } from 'react-router-dom';
 
 const Search = () => {
-  const [keyword, setKeyword] = useState<string>(''); // 검색어
+  const { state } = useLocation();
+  const [keyword, setKeyword] = useState<string>(state.keyword || ''); // 검색어
   const [recentKeywords, setRecentKeywords] = useState<{ id: number; text: string }[]>( // 최근 검색어
     JSON.parse(localStorage.getItem('keywords') || '[]')
   );

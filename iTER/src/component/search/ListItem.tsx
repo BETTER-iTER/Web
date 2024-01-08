@@ -17,6 +17,7 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
   scrapedCount,
   likedCount,
   reviewImage,
+  keyword, // 검색 결과로 들어온 경우에만 존재
 }) => {
   const navigate = useNavigate();
   const [active, setActive] = useState<boolean>(false);
@@ -29,7 +30,7 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
     <Container>
       <Box
         onClick={() => {
-          navigate(`/search/review/${id}`);
+          navigate(`/search/review/${id}`, { state: { keyword } });
         }}
       >
         <Image>

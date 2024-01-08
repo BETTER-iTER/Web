@@ -66,6 +66,7 @@ const Result = ({ keyword }: { keyword: string }) => {
                 scrapedCount={item.scrapedCount}
                 likedCount={item.likedCount}
                 reviewImage={item.reviewImage}
+                keyword={keywordLast}
               />
             ))}
           </Scroll>
@@ -107,6 +108,7 @@ const Result = ({ keyword }: { keyword: string }) => {
                 scrapedCount={item.scrapedCount}
                 likedCount={item.likedCount}
                 reviewImage={item.reviewImage}
+                keyword={keywordLast}
               />
             ))}
           </Items>
