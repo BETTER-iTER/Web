@@ -1,4 +1,3 @@
-// DataContext.tsx
 
 import { createContext, useContext, useState, ReactNode } from 'react';
 
@@ -32,7 +31,9 @@ export const DataProvider: React.FC<DataContextProps> = ({ children }) => {
 export const useData = (): DataContextValue => {
   const context = useContext(DataContext);
   if (!context) {
+
     throw new Error('에러남');
+
   }
   return context;
 };
