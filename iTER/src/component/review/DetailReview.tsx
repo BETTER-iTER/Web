@@ -23,7 +23,7 @@ const DetailReview = (props: { data }) => {
   const LikeReview = async () => {
     const reviewId = 1;
     try {
-      const response = await axios.post(`https://dev.betteritem.store/review/like/${reviewId}`);
+      const response = await axios.post(`https://dev.betteritem.store/review/${reviewId}/like`);
       console.log(response.data);
     } catch (error) {
       console.log(error);
@@ -34,7 +34,7 @@ const DetailReview = (props: { data }) => {
   const CancleLike = async () => {
     const reviewId = 1;
     try {
-      const response = await axios.delete(`https://dev.betteritem.store/review/like/${reviewId}`);
+      const response = await axios.delete(`https://dev.betteritem.store/review/${reviewId}/like`);
       console.log(response.data);
     } catch (error) {
       console.log(error);
