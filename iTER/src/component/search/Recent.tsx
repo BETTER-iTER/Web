@@ -4,15 +4,16 @@ import Xbtn from '../../assets/icon/Xbtn.svg?react';
 interface RecentProps {
   keywords: { id: number; text: string }[];
   onDelete: (id: number) => void;
+  onClick: (text: string) => void;
 }
 
-const Recent: React.FC<RecentProps> = ({ keywords, onDelete }) => {
+const Recent: React.FC<RecentProps> = ({ keywords, onDelete, onClick }) => {
   return (
     <Box>
       <div>최근 검색어</div>
       <Items>
         {keywords.map((item) => (
-          <Item item={item} onDelete={onDelete} key={item.id} />
+          <Item onClick={() => onClick(item.text)} item={item} onDelete={onDelete} key={item.id} />
         ))}
       </Items>
     </Box>
@@ -40,12 +41,13 @@ const Items = styled('div', {
 interface ItemProps {
   item: { id: number; text: string };
   onDelete: (id: number) => void;
+  onClick: () => void;
 }
 
-const Item: React.FC<ItemProps> = ({ item, onDelete }) => {
+const Item: React.FC<ItemProps> = ({ item, onDelete, onClick }) => {
   return (
     <ItemBox>
-      <div>{item.text}</div>
+      <div onClick={onClick}>{item.text}</div>
       <Xbox onClick={() => onDelete(item.id)}>
         <Xbtn />
       </Xbox>
@@ -66,6 +68,7 @@ const ItemBox = styled('div', {
   bodyText: 2,
   color: '#8C959F',
   whiteSpace: 'nowrap',
+  pointerEvents: 'auto',
 });
 
 const Xbox = styled('div', {

@@ -5,19 +5,26 @@ import Star from '../../assets/icon/star/Star.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import ProfileSimple from '../user/ProfileSimple';
+import { CategoryReviewProps } from '../../types/Review';
 
-interface ListItemProps {
-  id: number;
-  title: string;
-  spec: string;
-  star: number;
-  review: string;
-  user: string;
-}
-
-const ListItem: React.FC<ListItemProps> = ({ title, spec, star, review, user, id }) => {
+const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
+  id,
+  productName,
+  starPoint,
+  shortReview,
+  userInfo,
+  reviewSpecData,
+  scrapedCount,
+  likedCount,
+  reviewImage,
+}) => {
   const navigate = useNavigate();
   const [active, setActive] = useState<boolean>(false);
+  const shortReviewList = shortReview.split(',');
+
+  const spec = reviewSpecData.map((item: string, index: number) => {
+    return index == reviewSpecData.length - 1 ? item : item + ' / ';
+  });
   return (
     <Container>
       <Box
@@ -25,20 +32,33 @@ const ListItem: React.FC<ListItemProps> = ({ title, spec, star, review, user, id
           navigate(`/search/review/${id}`);
         }}
       >
-        <Image></Image>
-        <div>
-          <Title>{title}</Title>
-          <Caption2>
-            {spec}
-            <Reviews>
-              <Stars>
-                <Star fill={'#8787F4'} width={15} height={15} /> {star}
-              </Stars>
-              {review}
-            </Reviews>
-          </Caption2>
-          <ProfileSimple />
-        </div>
+        <Image>
+          <img src={reviewImage} alt="" width={120} height={120} />
+        </Image>
+
+        <Content>
+          <div>
+            <Title>{productName}</Title>
+            <Caption2>
+              {spec}
+              {spec.length > 0 && <div style={{ height: 8 }} />}
+              <Reviews>
+                <Stars>
+                  <Star fill={'#8787F4'} width={15} height={15} /> {starPoint}
+                </Stars>
+                {shortReviewList.map((item: string, index: number) => {
+                  return index == shortReviewList.length - 1 ? `"${item}"` : `"${item}"` + ', ';
+                })}
+              </Reviews>
+            </Caption2>
+          </div>
+
+          <ProfileSimple
+            nickName={userInfo.nickName}
+            profileImage={userInfo.profileImage}
+            job={userInfo.job}
+          />
+        </Content>
       </Box>
       <Buttons>
         <ButtonEmpty
@@ -48,7 +68,7 @@ const ListItem: React.FC<ListItemProps> = ({ title, spec, star, review, user, id
           active={active}
           type="like"
         >
-          리뷰 좋아요
+          리뷰 좋아요 ({likedCount})
         </ButtonEmpty>
         <ButtonEmpty
           onClick={() => {
@@ -57,7 +77,7 @@ const ListItem: React.FC<ListItemProps> = ({ title, spec, star, review, user, id
           active={active}
           type="scrap"
         >
-          리뷰 스크랩
+          리뷰 스크랩 ({scrapedCount})
         </ButtonEmpty>
       </Buttons>
     </Container>
@@ -80,27 +100,36 @@ const Box = styled('div', {
   marginBottom: '8px',
 });
 
+const Content = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  height: '110px',
+});
+
 const Image = styled('div', {
   width: '120px',
   height: '120px',
-  backgroundColor: '$Gray20',
   borderRadius: '10px',
+  overflow: 'hidden',
 });
 
 const Title = styled('div', {
   bodyText: 1,
   color: '$TitleBlack',
+  marginBottom: '1px',
 });
 
 const Reviews = styled('div', {
   display: 'flex',
+  width: '190px',
   justifyContent: 'space-between',
-  margin: '10px 0 21px 0',
+  margin: '0 0 21px 0',
 });
 
 const Stars = styled('div', {
   display: 'flex',
-  gap: '5.5px',
+  gap: '4px',
 });
 
 const Buttons = styled('div', {

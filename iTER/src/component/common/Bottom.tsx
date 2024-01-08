@@ -6,6 +6,10 @@ import Category from './Category';
 import ErrorPage from './Error';
 import LoadingPage from './Loading';
 
+import { useRef } from 'react';
+import { BottomSheet, BottomSheetRef } from 'react-spring-bottom-sheet';
+import 'react-spring-bottom-sheet/dist/style.css';
+
 interface BottomProps {
   title: string;
   component: React.ReactNode;
@@ -13,22 +17,39 @@ interface BottomProps {
 }
 
 const Bottom = ({ title, component, onClose }: BottomProps) => {
+  const sheetRef = useRef<BottomSheetRef>(null);
+  let defaultSnap = 500;
+  if (title === '카테고리') {
+    defaultSnap = 600;
+  }
+  if (title === '정렬') {
+    defaultSnap = 300;
+  }
+  if (title === '제조사') {
+    defaultSnap = 800;
+  }
+
   return (
-    <Background onClick={onClose}>
-      <BackContainer>
-        <Container>
-          <Title>
-            <Bar />
-            <div>{title}</div>
-          </Title>
-          {component}
-        </Container>
-      </BackContainer>
-    </Background>
+    <BottomSheet
+      open
+      ref={sheetRef}
+      onDismiss={onClose}
+      defaultSnap={defaultSnap}
+      snapPoints={({ maxHeight }) => [maxHeight - 100, maxHeight * 0.5, maxHeight * 0.1]}
+    >
+      <Title>{title}</Title>
+      {component}
+    </BottomSheet>
   );
 };
 
-export const BottomCategory = ({ onClose }: { onClose: () => void }) => {
+export const BottomCategory = ({
+  onClose,
+  onChange,
+}: {
+  onClose: () => void;
+  onChange: (value: string) => void;
+}) => {
   const { data, isLoading, isError } = useQuery<CategoryProps[], Error>(['category'], getCategory);
   if (isLoading) return <LoadingPage />;
   if (isError) return <ErrorPage type={2} />;
@@ -43,7 +64,9 @@ export const BottomCategory = ({ onClose }: { onClose: () => void }) => {
             <Category
               key={index}
               name={category.name}
-              onClick={() => console.log('click')}
+              imageUrl={category.imageUrl}
+              onChange={() => onChange(category.name)}
+              onClose={onClose}
               isSelected={false}
               gap={4}
             />
@@ -54,17 +77,27 @@ export const BottomCategory = ({ onClose }: { onClose: () => void }) => {
   );
 };
 
-export const BottomSort = ({ onClose }: { onClose: () => void }) => {
+export const BottomSort = ({
+  onClose,
+  onChange,
+}: {
+  onClose: () => void;
+  onChange: (value: string) => void;
+}) => {
+  const handleChange = (value: string) => {
+    onChange(value);
+    onClose();
+  };
   return (
     <Bottom
       title="정렬"
       onClose={onClose}
       component={
         <SortBox>
-          <SortItem>최근 작성순(기본)</SortItem>
-          <SortItem>좋아요 많은 순</SortItem>
-          <SortItem>스크랩 많은 순</SortItem>
-          <SortItem>팔로워 많은 순</SortItem>
+          <SortItem onClick={() => handleChange('latest')}>최근 작성순(기본)</SortItem>
+          <SortItem onClick={() => handleChange('mostLiked')}>좋아요 많은 순</SortItem>
+          <SortItem onClick={() => handleChange('mostScraped')}>스크랩 많은 순</SortItem>
+          <SortItem onClick={() => handleChange('mostFollowers')}>팔로워 많은 순</SortItem>
         </SortBox>
       }
     />
@@ -94,47 +127,15 @@ export const BottomReviewSetting = ({
 
 export default Bottom;
 
-const Background = styled('div', {
-  width: '100%',
-  height: '100vh',
-  zIndex: 10,
-  backgroundColor: 'rgba(36, 36, 36, 0.80)',
-  position: 'fixed',
-  top: 0,
-  left: 0,
-});
-
-const BackContainer = styled('div', {
-  width: '100%',
-  display: 'flex',
-  justifyContent: 'center',
-});
-
-const Container = styled('div', {
-  width: '390px',
-  backgroundColor: '$White',
-  borderRadius: '20px 20px 0 0',
-  position: 'absolute',
-  bottom: 0,
-});
-
-const Bar = styled('div', {
-  width: '64px',
-  height: '4px',
-  backgroundColor: '$Gray10',
-  borderRadius: '2px',
-  margin: '8px 0 20px 0',
-});
-
 const Title = styled('div', {
   width: '100%',
-  borderBottom: '1px solid $Gray10',
   bodyText: 1,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
   paddingBottom: '8px',
+  borderBottom: '1px solid $Gray10',
 });
 
 const CategoryBox = styled('div', {

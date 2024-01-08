@@ -1,35 +1,55 @@
 import { styled } from '../../../stitches.config';
 import UserIcon from '../../assets/icon/User.svg?react';
 import SettingIcon from '../../assets/icon/Setting.svg?react';
+import ExpertIcon from '../../assets/icon/Expert.svg?react';
 import { ButtonBlack } from '../common/Button';
 import { Caption2, LabelText } from '../Font';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { getMyPageProfile } from '../../apis/Mypage';
+import { FlatUserProps } from '../../types/User';
+import LoadingPage from '../common/Loading';
+import ErrorPage from '../common/Error';
 
 interface ProfileFlatProps {
-  userId?: number;
   type: 'follow' | 'setting';
 }
-const ProfileFlat = ({ userId, type }: ProfileFlatProps) => {
-  const username = '블루투스 하트';
+const ProfileFlat = ({ type }: ProfileFlatProps) => {
   const navigate = useNavigate();
+  const {
+    data: profileData,
+    isLoading: profileLoading,
+    isError: profileError,
+  } = useQuery<FlatUserProps, Error>(['profile'], getMyPageProfile);
+
+  if (profileLoading) return <LoadingPage />;
+  if (profileError) return <ErrorPage type={2} />;
+
   return (
     <>
       <UserBox>
-        {/* <UserImage /> */}
-        <UserIcon width={75} height={75} />
+        <ImageBox>
+          <ExpertBox>{profileData.expert && <ExpertIcon />}</ExpertBox>
+          {profileData.profileImage != null ? (
+            <UserImage style={{ backgroundImage: `url(${profileData.profileImage})` }} />
+          ) : (
+            <UserIcon width={70} height={70} />
+          )}
+        </ImageBox>
+
         <User>
           <Username>
-            <LabelText>{username}</LabelText>
+            <LabelText>{profileData.nickname}</LabelText>
             <Bar />
-            <Caption2 style={{ color: '#57606A' }}>개발자</Caption2>
+            <Caption2 style={{ color: '#57606A' }}>{profileData.job}</Caption2>
           </Username>
-          <Follow>
+          <Follow onClick={() => navigate('/mypage/follow')}>
             <Caption2>
-              팔로워 <Count>1342</Count>
+              팔로워 <Count>{profileData.followerCount}</Count>
             </Caption2>
             <Bar />
             <Caption2>
-              팔로잉 <Count>0</Count>
+              팔로잉 <Count>{profileData.followingCount}</Count>
             </Caption2>
           </Follow>
         </User>
@@ -38,7 +58,7 @@ const ProfileFlat = ({ userId, type }: ProfileFlatProps) => {
         ) : (
           <IconBox
             onClick={() => {
-              navigate('/setting');
+              navigate('/user/setting');
             }}
           >
             <SettingIcon />
@@ -57,6 +77,21 @@ const UserBox = styled('div', {
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: '46px 20px 19px',
+});
+
+const ImageBox = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  width: '75px',
+  height: '75px',
+  position: 'relative',
+});
+
+const ExpertBox = styled('div', {
+  width: 'fit-content',
+  height: 'fit-content',
+  position: 'absolute',
+  top: '-5px',
 });
 
 const UnderBar = styled('div', {

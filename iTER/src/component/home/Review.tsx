@@ -2,6 +2,7 @@ import { styled } from '../../../stitches.config';
 import { ReviewPreviewProps } from '../../types/Review';
 import { Caption2 } from '../Font';
 import ExpertIcon from '../../assets/icon/Expert.svg?react';
+import { useNavigate } from 'react-router-dom';
 
 const Review = ({ list }: { list: ReviewPreviewProps[] }) => {
   return (
@@ -14,10 +15,11 @@ const Review = ({ list }: { list: ReviewPreviewProps[] }) => {
 };
 
 const Item = ({ list }: { list: ReviewPreviewProps }) => {
+  const navigate = useNavigate();
   return (
-    <div>
+    <div onClick={() => navigate(`/search/review/${list.id}`)}>
       <Image>
-        <img src={list.imageUrl} alt={list.productName} />
+        <img src={list.imageUrl} alt={list.productName} width={140} height={140} />
       </Image>
       <Title>{list.productName}</Title>
       <User>

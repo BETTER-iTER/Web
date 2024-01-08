@@ -7,25 +7,35 @@ const News: React.FC<{ newsData: NewsProps[] }> = (props) => {
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
 
   useEffect(() => {
+    setCurrentBannerIndex(0);
+  }, [newsData]);
+
+  useEffect(() => {
+    if (!newsData || newsData.length <= 1) return;
+
     const interval = setInterval(() => {
       setCurrentBannerIndex((prevIndex) => (prevIndex + 1) % newsData.length);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [newsData]);
 
   return (
     <Container>
       <Slider style={{ transform: `translateX(-${currentBannerIndex * 100}%)` }}>
         {newsData.map((banner, index) => (
           <React.Fragment key={index}>
-            <Banner>
+            <Banner
+              onClick={() => {
+                window.open(banner.newsUrl);
+              }}
+            >
+              <TextBox>
+                <div>{banner.title}</div>
+                <div>{banner.content}</div>
+              </TextBox>
               <img src={banner.imageUrl} alt={banner.title} width={340} height={180} />
             </Banner>
-            <TextBox>
-              <div>{banner.title}</div>
-              <div>{banner.content}</div>
-            </TextBox>
           </React.Fragment>
         ))}
       </Slider>
@@ -58,6 +68,9 @@ const Slider = styled('div', {
 const Banner = styled('div', {
   width: '340px',
   height: '180px',
+  '> img': {
+    opacity: '0.5',
+  },
 });
 
 const Indicators = styled('div', {
@@ -88,8 +101,9 @@ const Indicator = styled('div', {
 const TextBox = styled('div', {
   position: 'absolute',
   bottom: '22px',
-  left: '21px',
   zIndex: '1',
   bodyText: 1,
   color: '$White',
+  width: '320px',
+  padding: '0 10px',
 });

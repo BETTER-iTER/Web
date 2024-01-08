@@ -16,11 +16,16 @@
     "@types/swiper": "^6.0.0",
     "aws-sdk": "^2.1528.0",
     "axios": "^1.6.2",
+
     "fs": "^0.0.1-security",
+
+    "framer-motion": "^10.16.12",
+
     "react": "^18.2.0",
     "react-datepicker": "^4.23.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.18.0",
+    "react-spring-bottom-sheet": "^3.4.1",
     "react-svg": "^16.1.27",
     "swiper": "^11.0.5"
   },
