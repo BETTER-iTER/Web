@@ -1,6 +1,7 @@
 import { styled } from '../../../stitches.config';
 import UserIcon from '../../assets/icon/User.svg?react';
 import SettingIcon from '../../assets/icon/Setting.svg?react';
+import ExpertIcon from '../../assets/icon/Expert.svg?react';
 import { ButtonBlack } from '../common/Button';
 import { Caption2, LabelText } from '../Font';
 import { useNavigate } from 'react-router-dom';
@@ -27,11 +28,14 @@ const ProfileFlat = ({ type }: ProfileFlatProps) => {
   return (
     <>
       <UserBox>
-        {profileData.profileImage != null ? (
-          <UserImage style={{ backgroundImage: `url(${profileData.profileImage})` }} />
-        ) : (
-          <UserIcon width={70} height={70} />
-        )}
+        <ImageBox>
+          <ExpertBox>{profileData.expert && <ExpertIcon />}</ExpertBox>
+          {profileData.profileImage != null ? (
+            <UserImage style={{ backgroundImage: `url(${profileData.profileImage})` }} />
+          ) : (
+            <UserIcon width={70} height={70} />
+          )}
+        </ImageBox>
 
         <User>
           <Username>
@@ -73,6 +77,21 @@ const UserBox = styled('div', {
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: '46px 20px 19px',
+});
+
+const ImageBox = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  width: '75px',
+  height: '75px',
+  position: 'relative',
+});
+
+const ExpertBox = styled('div', {
+  width: 'fit-content',
+  height: 'fit-content',
+  position: 'absolute',
+  top: '-5px',
 });
 
 const UnderBar = styled('div', {

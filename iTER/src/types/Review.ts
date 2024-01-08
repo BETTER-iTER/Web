@@ -21,6 +21,7 @@ export interface ReviewProps {
     nickName: string;
     job: string;
     profileImage?: string;
+    expert?: boolean;
   };
   scrapedCount: number;
   likedCount: number;
@@ -81,5 +82,6 @@ export interface MypageReviewProps {
     scrapCount: number;
     isLike: boolean;
     isScrap: boolean;
+    expert?: boolean;
   }[];
 }
