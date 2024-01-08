@@ -16,12 +16,14 @@ import axios from 'axios';
 import { ReviewDetailProps } from '../../types/Review';
 import StarRatingShow from '../../component/review/StarRatingShow';
 import { Store } from '../../constants/Store';
+import Toast from '../common/Toast';
 
 const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
   const { data } = props;
 
   const short = data.shortReview.replace(/['"]/g, '').split(', ');
   const [setting, setSetting] = useState<boolean>(false);
+  const [toast, setToast] = useState<boolean>(false);
 
   function formatDateString(inputDate: string): string {
     const date = new Date(inputDate);
@@ -68,14 +70,12 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
     }
   };
 
-  // 스크랩
-
+  // 클립보드 복사(공유)
   const location = window.location;
   const handleCopyClipBoard = async () => {
-    console.log('클립보드 복사');
     try {
       await navigator.clipboard.writeText(location.href);
-      console.log('복사 완료');
+      setToast(true);
     } catch (err) {
       console.log(err);
     }
@@ -188,6 +188,8 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
           }}
         />
       )}
+
+      {toast && <Toast message={'클립보드에 복사되었습니다'} onClose={() => setToast(false)} />}
     </>
   );
 };
