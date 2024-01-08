@@ -3,7 +3,6 @@ import Category from '../component/common/Category';
 import { ButtonWrite } from '../component/common/Button';
 import Review from '../component/home/Review';
 import Top from '../component/home/Top';
-import Quiz from '../component/home/Quiz';
 import News from '../component/home/News';
 import Footer from '../component/layout/Footer';
 import Nav from '../component/layout/Nav';
@@ -50,20 +49,42 @@ const Home = () => {
         const categoryName = category as string;
         return (
           <React.Fragment key={categoryName}>
-            <Label>{categoryName}</Label>
-            <Review list={homeData?.categoryReviews[categoryName]} />
+            {homeData.categoryReviews[categoryName].length > 0 && (
+              <>
+                <Label>
+                  {categoryName === '휴대폰' && '📱'} {categoryName}
+                  {categoryName === '노트북' && '💻'} {categoryName}
+                  {categoryName === 'PC' && '🖥'} {categoryName}
+                  {categoryName === '스마트워치' && '⌚️'} {categoryName}
+                  {categoryName === '태블릿' && '📟'} {categoryName}
+                  {categoryName === '마우스' && '🖱️'} {categoryName}
+                  {categoryName === '키보드' && '⌨️'} {categoryName}
+                  {categoryName === '헤드폰' && '🎧'} {categoryName}
+                  {categoryName === '스피커' && '📻'} {categoryName}
+                  {categoryName === '보조배터리' && '🔋'} {categoryName}
+                  {categoryName === '악세서리' && '🖨️'} {categoryName}
+                  {categoryName === '기타' && '🎮'} {categoryName}
+                </Label>
+                <Review list={homeData?.categoryReviews[categoryName]} />
+              </>
+            )}
           </React.Fragment>
         );
       })}
 
-      <Label>팔로우들의 리뷰</Label>
-      <Review list={homeData?.followingReviews} />
+      {homeData.followingReviews.length > 0 && (
+        <>
+          <Label>팔로우들의 리뷰</Label>
+          <Review list={homeData?.followingReviews} />
+        </>
+      )}
 
       <Label>리뷰보고 구매했어요</Label>
       <Review list={homeData?.mostScrapedAndLikedReviews} />
 
-      <Label>🪙 IT 퀴즈풀고 포인트 받기</Label>
-      <Quiz id={1} question={'CPU는 중앙처리장치이다'} />
+      {/* <Label>🪙 IT 퀴즈풀고 포인트 받기</Label>
+      <Quiz id={1} question={'CPU는 중앙처리장치이다'} /> */}
+      <div style={{ height: 100 }} />
 
       <Footer />
       <Nav />
@@ -75,19 +96,22 @@ export default Home;
 
 const CategoryScroll = ({ list }: { list: HomeProps['categories'] }) => {
   const navigation = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState<{ name: string | null }>({
-    name: null,
-  });
-  const handleCategoryClick = (name: string) => {
-    setSelectedCategory({ name });
-    console.log(selectedCategory);
-  };
 
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+
+  console.log(selectedCategory, 'selectedCategory');
+
+  const handleCategoryClick = (name: string) => {
+    console.log('click', name);
+    setSelectedCategory(name);
+    console.log('set', name, selectedCategory);
+  };
   useEffect(() => {
-    if (selectedCategory.name) {
-      navigation('/search', { state: { category: selectedCategory.name } });
+    if (selectedCategory.length > 0) {
+      console.log(selectedCategory, 'selectedCategory');
+      navigation('/search', { state: { category: selectedCategory } });
     }
-  }, [selectedCategory]);
+  }, [navigation, selectedCategory]);
   return (
     <CategoryBox>
       {list.map((item, index) => {
@@ -95,6 +119,7 @@ const CategoryScroll = ({ list }: { list: HomeProps['categories'] }) => {
           <Category
             key={index}
             name={item.name}
+            imageUrl={item.imageUrl}
             isSelected={false}
             gap={8.98}
             onClick={() => {
@@ -135,10 +160,3 @@ const CategoryBox = styled('div', {
     display: 'none',
   },
 });
-
-// const dummy: ReviewPreviewProps[] = [
-//   { id: 1, productName: '로지텍 MK470 Slim', nickname: '로지', expert: true },
-//   { id: 2, productName: '한성컴퓨터 GK896B', nickname: '김한성', expert: true },
-//   { id: 3, productName: '앱코 HACKER', nickname: '찡긋', expert: false },
-//   { id: 4, productName: '아이폰 SE3', nickname: '클로버', expert: false },
-// ];

@@ -1,22 +1,17 @@
+import { useNavigate } from 'react-router-dom';
 import { styled } from '../../../stitches.config';
 import Heart from '../../assets/icon/Heart.svg?react';
 import Scrap from '../../assets/icon/Scrap.svg?react';
+import { MypageReviewProps } from '../../types/Review';
 import { Caption2 } from '../Font';
-import ProfileSimple from '../user/ProfileSimple';
 
-interface ItemProps {
-  user?: boolean;
-}
-
-const PreviewSimple = ({ user }: ItemProps) => {
+const PreviewSimple = ({ list }: { list: MypageReviewProps['reviewList'] }) => {
   return (
     <Container>
       <Items>
-        <Item user={user} />
-        <Item user={user} />
-        <Item user={user} />
-        <Item user={user} />
-        <Item user={user} />
+        {list.map((item, index) => (
+          <Item key={index} data={item} />
+        ))}
       </Items>
     </Container>
   );
@@ -24,27 +19,25 @@ const PreviewSimple = ({ user }: ItemProps) => {
 
 export default PreviewSimple;
 
-const Item = ({ user }: ItemProps) => {
+const Item = ({ data }: { data: MypageReviewProps['reviewList'][0] }) => {
+  const navigate = useNavigate();
   return (
-    <ItemContainer>
+    <ItemContainer onClick={() => navigate(`/search/review/${data.reviewId}`)}>
       <ImageBox>
-        <Image />
-        {user && (
-          <ProfileBox>
-            <ProfileSimple color="white" />
-          </ProfileBox>
-        )}
+        <Image>
+          {data.thumbnailImage && <img src={data.thumbnailImage} alt="" width={168} height={200} />}
+        </Image>
       </ImageBox>
-      <Title>한성컴퓨터 GK896B</Title>
+      <Title>{data.title}</Title>
       <Caption2>
         <Action>
           <div>
             <Heart width={20} height={20} fill={'#AFB8C1'} />
-            999+
+            {data.likeCount}
           </div>
           <div>
             <Scrap width={20} height={20} fill={'#AFB8C1'} />
-            12
+            {data.scrapCount}
           </div>
         </Action>
       </Caption2>
@@ -86,13 +79,7 @@ const Image = styled('div', {
   height: '200px',
   backgroundColor: '$Gray20',
   borderRadius: '10px',
-});
-
-const ProfileBox = styled('div', {
-  position: 'absolute',
-  bottom: '7px',
-  left: '8px',
-  width: 'fit-content',
+  overflow: 'hidden',
 });
 
 const Title = styled('div', {

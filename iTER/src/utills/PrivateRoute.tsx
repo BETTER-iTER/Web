@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+import { useNavigate } from 'react-router-dom';
 import Modal from '../component/common/Modal';
-import { getHome } from '../apis/home';
+import { getMyPageProfile } from '../apis/Mypage';
 import { useQuery } from '@tanstack/react-query';
 import LoadingPage from '../component/common/Loading';
 
@@ -11,28 +10,24 @@ interface PrivateRouteProps {
   element: React.ReactNode;
 }
 
-const PrivateRoute = ({ path, element }: PrivateRouteProps) => {
+const PrivateRoute = ({ element }: PrivateRouteProps) => {
   const navigate = useNavigate();
-  // const { isAuthentificated } = useAuth();
   const [isAuthentificated, setIsAuthentificated] = useState(false);
 
-  const {
-    data: homeData,
-    isLoading: homeLoading,
-    isError: homeError,
-  } = useQuery<JSON, Error>(['home'], getHome);
+  const { data, isLoading, isError } = useQuery<JSON, Error>(['user'], getMyPageProfile);
 
   useEffect(() => {
-    // 홈 데이터를 기반으로 인증 상태를 결정
-    if (homeError) {
+    // 유저 데이터를 기반으로 인증 상태를 결정
+    if (isError) {
       setIsAuthentificated(false);
-    } else if (homeLoading) {
-      <LoadingPage />;
-    } else if (homeData) {
+    } else if (data) {
       setIsAuthentificated(true);
     }
-  }, [homeData, homeError, homeLoading]);
+  }, [data, isError]);
 
+  if (isLoading) {
+    return <LoadingPage />;
+  }
   if (!isAuthentificated) {
     return (
       <Modal

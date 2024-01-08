@@ -2,11 +2,33 @@ import { useState } from 'react';
 import { styled } from '../../../stitches.config';
 import Top from '../../component/layout/Top';
 import UserIcon from '../../assets/icon/User.svg?react';
-import Bottom from '../../component/common/Bottom';
+import ExpertIcon from '../../assets/icon/Expert.svg?react';
 import Nav from '../../component/layout/Nav';
+import { getMypageFollowings } from '../../apis/Mypage';
+import { getMypageFollowers } from '../../apis/Mypage';
+import { useQuery } from '@tanstack/react-query';
+import LoadingPage from '../../component/common/Loading';
+import ErrorPage from '../../component/common/Error';
 
 const Follow = () => {
   const [status, setStatus] = useState<number>(0);
+  const [page, setPage] = useState<number>(0);
+
+  const {
+    data: followerData,
+    isLoading: followerLoading,
+    isError: followerError,
+  } = useQuery(['follower', page], () => getMypageFollowers(page));
+
+  const {
+    data: followingData,
+    isLoading: followingLoading,
+    isError: followingError,
+  } = useQuery(['following', page], () => getMypageFollowings(page));
+
+  followerLoading && followingLoading && <LoadingPage />;
+  followerError && followingError && <ErrorPage type={2} />;
+
   return (
     <Container>
       <Top title="마이페이지" />
@@ -17,7 +39,7 @@ const Follow = () => {
             setStatus(0);
           }}
         >
-          팔로워(10)
+          팔로워({followerData?.totalCount})
         </Status>
         <Status
           active={status == 1}
@@ -25,23 +47,24 @@ const Follow = () => {
             setStatus(1);
           }}
         >
-          팔로잉(10)
+          팔로잉({followingData?.totalCount})
         </Status>
       </StatusBox>
 
       <Content>
-        {/* 데이터가 없을 경우 -> 나중에 조건 변경 */}
-        {/* {true && (
-          <Empty>
-            {status == 0 && <>리뷰를 작성해 팔로워를 늘려 보세요</>}
-            {status == 1 && <>도움된 리뷰의 유저를 팔로우해 보세요</>}
-          </Empty>
-        )} */}
+        {status === 0 &&
+          (followerData !== undefined && followerData.totalCount > 0 ? (
+            <Item key={followerData.id} name={followerData.username} />
+          ) : (
+            <Empty>리뷰를 작성해 팔로워를 늘려 보세요</Empty>
+          ))}
 
-        {/* 데이터 존재할 때 */}
-        {dummyUser.map((user) => (
-          <Item key={user.id} name={user.username} />
-        ))}
+        {status === 1 &&
+          (followingData !== undefined && followingData.totalCount > 0 ? (
+            <Item key={followingData.id} name={followingData.username} />
+          ) : (
+            <Empty>도움된 리뷰의 유저를 팔로우해 보세요</Empty>
+          ))}
       </Content>
       <Nav />
     </Container>
@@ -50,11 +73,17 @@ const Follow = () => {
 
 export default Follow;
 
-const Item = ({ name }: { name: string }) => {
+const Item = ({ name, expert, image }: { name: string; expert?: boolean; image?: string }) => {
   return (
     <ItemBox>
-      {/* <Image /> */}
-      <UserIcon width="45px" height="45px" />
+      <ImageBox>
+        <ExpertBox>{expert && <ExpertIcon width="10px" height="10px" />}</ExpertBox>
+        {image ? (
+          <Image style={{ backgroundImage: `url(${image})` }} />
+        ) : (
+          <UserIcon width="45px" height="45px" />
+        )}
+      </ImageBox>
       {name}
     </ItemBox>
   );
@@ -72,6 +101,16 @@ const StatusBox = styled('div', {
   justifyContent: 'space-between',
   width: '100%',
   borderBottom: '1px solid $Bar',
+});
+
+const ImageBox = styled('div', {
+  position: 'relative',
+});
+
+const ExpertBox = styled('div', {
+  position: 'absolute',
+  top: '-6px',
+  left: '-6px',
 });
 
 const Status = styled('div', {
@@ -129,19 +168,3 @@ const ItemBox = styled('div', {
 const Empty = styled('div', {
   marginTop: '180px',
 });
-
-const dummyUser = [
-  { id: 0, username: 'asdmkf' },
-  { id: 1, username: 'asdmkf' },
-  { id: 2, username: 'asdmkf' },
-  { id: 3, username: 'asdmkf' },
-  { id: 4, username: 'asdmkf' },
-  { id: 5, username: 'asdmkf' },
-  { id: 6, username: 'asdmkf' },
-  { id: 7, username: 'asdmkf' },
-  { id: 8, username: 'asdmkf' },
-  { id: 9, username: 'asdmkf' },
-  { id: 10, username: 'asdmkf' },
-  { id: 11, username: 'asdmkf' },
-  { id: 12, username: 'asdmkf' },
-];

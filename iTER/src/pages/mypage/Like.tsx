@@ -1,33 +1,40 @@
 import { styled } from '../../../stitches.config';
 import Top from '../../component/layout/Top';
 import ListItem from '../../component/search/ListItem';
+import { useQuery } from '@tanstack/react-query';
+import { getMypageReviewLike } from '../../apis/Mypage';
+import { useState } from 'react';
+import LoadingPage from '../../component/common/Loading';
+import ErrorPage from '../../component/common/Error';
+import { MypageReviewProps } from '../../types/Review';
 
 const Like = () => {
-  const data = [];
+  const [page, setPage] = useState<number>(0);
+  const {
+    data: likeData,
+    isLoading: likeLoading,
+    isError: likeError,
+  } = useQuery<MypageReviewProps>(['like', page], () => getMypageReviewLike(page));
+
+  likeLoading && <LoadingPage />;
+  likeError && <ErrorPage type={2} />;
+
+  console.log(likeData, 'likeData');
   return (
     <Container>
       <Top title="좋아요한 리뷰" />
-      {data.length === 0 ? (
-        <Empty>마음에 드는 리뷰에 좋아요를 눌러보세요</Empty>
-      ) : (
+
+      {likeData !== undefined && likeData.reviewCount > 0 ? (
         <List>
-          <ListItem
-            id={0}
-            title={'마샬 STANMORE III'}
-            spec={'코어 i 5-13세대 / 14인치 / 32GB / 256-129GB'}
-            star={4.5}
-            review={'"가벼워요", "적당해요", "예뻐요"'}
-            user={'제리'}
-          />
-          <ListItem
-            id={0}
-            title={'마샬 STANMORE III'}
-            spec={'코어 i 5-13세대 / 14인치 / 32GB / 256-129GB'}
-            star={4.5}
-            review={'"가벼워요", "적당해요", "예뻐요"'}
-            user={'제리'}
-          />
+          {likeData.reviewList.map((item, index) => (
+            // <ListItem
+            //   key={index}
+            // />
+            <div>좋아요한 리뷰</div>
+          ))}
         </List>
+      ) : (
+        <Empty>마음에 드는 리뷰에 좋아요를 눌러보세요</Empty>
       )}
     </Container>
   );

@@ -2,8 +2,11 @@ import { useState } from 'react';
 import { Swiper as Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import { styled } from '../../../stitches.config';
-
-const ReviewImage = () => {
+interface imageProps {
+  orderNum: number;
+  imgUrl: string;
+}
+const ReviewImage = ({ list }: { list: imageProps[] }) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const handleSlideChange = (swiper) => {
@@ -18,15 +21,21 @@ const ReviewImage = () => {
           onSlideChange={(swiper) => handleSlideChange(swiper)}
           className="my-swiper-class"
         >
-          {dummy.map((image) => (
+          {list.map((image, index) => (
             <SwiperSlide className="my-swiper-slide-class">
-              <Image key={image.alt} src={image.src} alt={image.alt} width={390} height={390} />
+              <Image
+                key={index}
+                src={image.imgUrl}
+                alt={image.orderNum.toString()}
+                width={390}
+                height={390}
+              />
             </SwiperSlide>
           ))}
         </Swiper>
       </ImageBox>
       <Indicators>
-        {dummy.map((_, index) => (
+        {list.map((_, index) => (
           <Indicator key={index} active={index === currentIndex} />
         ))}
       </Indicators>
@@ -47,7 +56,7 @@ const Container = styled('div', {
 
 const ImageBox = styled('div', {
   display: 'flex',
-  width: '100%',
+  width: '390px',
   height: '390px',
 });
 

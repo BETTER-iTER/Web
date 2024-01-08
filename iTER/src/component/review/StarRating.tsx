@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from 'react';
 import Star from '../../assets/icon/Star.svg';
 import Starfill from '../../assets/icon/Starfill.svg';
-import Starhalf from "../../assets/icon/Starhalf.svg";
+import Starhalf from '../../assets/icon/Starhalf.svg';
 
 interface StarRatingProps {
   totalStars: number;
@@ -23,13 +23,15 @@ const StarRating: React.FC<StarRatingProps> = ({ totalStars, selectedStars, onSt
       stars.push(
         <img
           key={i}
-          src={starImage} 
+          src={starImage}
           alt={`Star ${i}`}
-          onClick={() => onStarClick(i === selectedStars ? (selectedStars % 1 === 0.5 ? i - 0.5 : i + 0.5) : i)}
+          onClick={() =>
+            onStarClick(i === selectedStars ? (selectedStars % 1 === 0.5 ? i - 0.5 : i + 0.5) : i)
+          }
           style={{
-            width: "50px", 
-            height: "30px", 
-            cursor: "pointer", 
+            width: '50px',
+            height: '30px',
+            cursor: 'pointer',
           }}
         />
       );
@@ -37,11 +39,7 @@ const StarRating: React.FC<StarRatingProps> = ({ totalStars, selectedStars, onSt
     return stars;
   };
 
-  return (
-    <>
-      {createStars()}
-    </>
-  );
+  return <>{createStars()}</>;
 };
 
 export default StarRating;
