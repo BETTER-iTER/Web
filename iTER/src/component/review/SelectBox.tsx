@@ -3,7 +3,7 @@ import { Caption1, Headline4 } from '../Font';
 import ButtonGrid from './ButtonGrid';
 import { styled } from '../../../stitches.config';
 import { useEffect } from 'react';
-import { getSpecData } from '../../apis/review';
+import { getSpecData } from '../../apis/Review';
 import { useData } from '../../context/DataContext';
 
 interface SelectBoxCPUProps {

@@ -8,7 +8,7 @@ import TextInput from '../../component/review/TextInput';
 import WriteUser from '../../component/review/WriteUser';
 import User from '../../assets/icon/User.svg';
 import CheckCircle from '../../assets/icon/CheckCircle.svg?react';
-import { getUserInfo } from '../../apis/review';
+import { getUserInfo } from '../../apis/Review';
 import { useData } from '../../context/DataContext';
 
 const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
