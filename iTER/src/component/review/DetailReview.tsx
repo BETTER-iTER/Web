@@ -68,6 +68,19 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
     }
   };
 
+  // 스크랩
+
+  const location = window.location;
+  const handleCopyClipBoard = async () => {
+    console.log('클립보드 복사');
+    try {
+      await navigator.clipboard.writeText(location.href);
+      console.log('복사 완료');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleHeartClick = () => {
     setPushHeart(!pushHeart);
     if (pushHeart) {
@@ -120,7 +133,7 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
               <ScrapIcon fill={'#4C4E55'} width={24} height={24} />
               {data.scrapedCount}
             </Active>
-            <div>
+            <div onClick={() => handleCopyClipBoard()} style={{ cursor: 'pointer' }}>
               <ShareIcon />
             </div>
           </div>
