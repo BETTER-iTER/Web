@@ -67,6 +67,7 @@ export const BottomCategory = ({
             <Category
               key={index}
               name={category.name}
+              imageUrl={category.imageUrl}
               onChange={() => onChange(category.name)}
               onClose={onClose}
               isSelected={false}
@@ -86,16 +87,20 @@ export const BottomSort = ({
   onClose: () => void;
   onChange: (value: string) => void;
 }) => {
+  const handleChange = (value: string) => {
+    onChange(value);
+    onClose();
+  };
   return (
     <Bottom
       title="정렬"
       onClose={onClose}
       component={
         <SortBox>
-          <SortItem onClick={() => onChange('latest')}>최근 작성순(기본)</SortItem>
-          <SortItem onClick={() => onChange('mostLiked')}>좋아요 많은 순</SortItem>
-          <SortItem onClick={() => onChange('mostScraped')}>스크랩 많은 순</SortItem>
-          <SortItem onClick={() => onChange('mostFollowers')}>팔로워 많은 순</SortItem>
+          <SortItem onClick={() => handleChange('latest')}>최근 작성순(기본)</SortItem>
+          <SortItem onClick={() => handleChange('mostLiked')}>좋아요 많은 순</SortItem>
+          <SortItem onClick={() => handleChange('mostScraped')}>스크랩 많은 순</SortItem>
+          <SortItem onClick={() => handleChange('mostFollowers')}>팔로워 많은 순</SortItem>
         </SortBox>
       }
     />

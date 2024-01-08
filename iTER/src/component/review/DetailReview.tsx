@@ -3,21 +3,46 @@ import HeartIcon from '../../assets/icon/Heart.svg?react';
 import CommentIcon from '../../assets/icon/Comment.svg?react';
 import ScrapIcon from '../../assets/icon/Scrap.svg?react';
 import ShareIcon from '../../assets/icon/Share.svg?react';
-import Star from '../../assets/icon/star/Star.svg?react';
 import { Caption1 } from '../Font';
 import ReviewImage from './ReviewImage';
+
 import { useState } from 'react';
 import { CommentSort } from '../common/CommentSort';
 
-const DetailReview = (props: { data }) => {
+import { ReviewDetailProps } from '../../types/Review';
+import StarRatingShow from '../../component/review/StarRatingShow';
+import { Store } from '../../constants/Store';
+
+
+const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
   const { data } = props;
+
 
   const short = data.shortReview.replace(/['"]/g, '').split(', ');
   const [setting, setSetting] = useState<boolean>(false);
 
+  function formatDateString(inputDate: string): string {
+    const date = new Date(inputDate);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}.${month}.${day}`;
+  }
+
+  function formatPriceString(inputPrice: number) {
+    const man = Math.floor(inputPrice / 10000);
+    const rest = inputPrice % 10000;
+
+    if (man === 0) return `${rest}원`;
+    if (rest === 0) return `${man}만원`;
+    return `${man}만 ${rest}원`;
+  }
+
+
   return (
     <>
-      <ReviewImage />
+      <ReviewImage list={data.reviewImages} />
       <Box>
         {/* 좋아요 등의 액션 아이콘 */}
         <Actives>
@@ -50,8 +75,7 @@ const DetailReview = (props: { data }) => {
         <Caption1 style={{ color: '#57606A' }}>{data.reviewSpecData.join(' / ')}</Caption1>
         {/* 별점 */}
         <Stars>
-          수정필요
-          <Star width={24} height={24} />
+          <StarRatingShow rating={data.starPoint} />
         </Stars>
         {/* 간단리뷰 */}
         <SimpleReviews>
@@ -74,14 +98,17 @@ const DetailReview = (props: { data }) => {
         <Point>👎 아쉬운 점</Point>
         <Content>{data.badPoint}</Content>
         <Point>⚖️ 비교 제품</Point>
-        <Content>수정필요</Content>
+        <Content>{data.comparedProductName}</Content>
         {/* 구매정보 */}
         <Buy>
-          수정필요
-          <div>마샬 | 공식 홈페이지 구매</div>
-          <div>60만원 | {data.boughtAt} 구매</div>
+          <div>
+            {data.manufacturer} | {Store[data.storeName]}
+          </div>
+          <div>
+            {formatPriceString(data.price)} | {formatDateString(data.boughtAt)} 구매
+          </div>
         </Buy>
-        {data.createdAt}
+        {formatDateString(data.createdAt)} 작성
       </Box>
 
       {setting && (

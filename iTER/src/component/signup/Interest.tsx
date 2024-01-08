@@ -39,6 +39,7 @@ const Interest = ({ onDisabled, onChange }: InterestProps) => {
             name={item.name}
             onClick={() => handleSelect(item.name)}
             isSelected={selected.includes(item.name)}
+            imageUrl={item.imageUrl}
             gap={4}
           />
         );

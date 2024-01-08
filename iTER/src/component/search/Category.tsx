@@ -29,6 +29,7 @@ const SearchCategory: React.FC<RecentProps> = ({ keywords, onDelete, onClick, on
             key={index}
             name={category.name}
             onClick={() => onClick(category.name)}
+            imageUrl={category.imageUrl}
             isSelected={false}
             gap={4}
           />
