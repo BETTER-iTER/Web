@@ -255,6 +255,7 @@ const SortBox = styled('div', {
   flexDirection: 'column',
   marginBottom: '60px',
   paddingBottom: '10px',
+  paddingTop: '10px',
   width: '360px',
 });
 
