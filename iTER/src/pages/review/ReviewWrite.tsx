@@ -20,6 +20,11 @@ const ReviewWrite = () => {
     setSelectedCategoryName(name);
   };
 
+  const Next = () => {
+    const RId = localStorage.getItem('addReviewId');
+    window.location.href = `/search/review/${RId}`;
+  };
+
   const handleNext = () => {
     if (count == 1) {
       setCount(count + 1);
@@ -28,7 +33,7 @@ const ReviewWrite = () => {
     } else if (count == 3) {
       setCount(count + 1);
     } else {
-      console.log('회원가입 완료');
+      Next();
     }
   };
   const onDisabled = (value: boolean) => {

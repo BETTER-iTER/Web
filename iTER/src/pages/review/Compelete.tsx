@@ -6,7 +6,6 @@ import axios from 'axios';
 
 const Compelete = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
   const { formData } = useData();
-  const { updateFormData } = useData();
 
   //   const imageUrls = [
   //     'https://www.backmarket.co.kr/_next/image?url=%2Fnode_upload%2Fresized_images%2Fsave_image%2F466x466_1116061309_637400e58ef9f.jpeg&w=1080&q=75',
@@ -30,6 +29,7 @@ const Compelete = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => 
           },
         });
         console.log(response);
+        localStorage.setItem('addReviewId', response.data.result);
       } catch (error) {
         console.log(error);
       }

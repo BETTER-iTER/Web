@@ -64,16 +64,18 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
   };
 
   const handleChangePrice = (event: string) => {
-    setPrice(event);
+    const priceAsInt: number = parseInt(event, 10); // 10진수로 변환
+    setPrice(priceAsInt);
     // localStorage.setItem('price', event);
-    const newData = { amount: event };
+    const newData = { amount: priceAsInt };
     updateFormData(newData);
   };
 
   const handleCompareProductValue = (event: string) => {
     setCompareProduct(event);
     // localStorage.setItem('compareProduct', event);
-    const newData = { compareProduct: event };
+    //비교제품 입력받기
+    const newData = { comparedProductName: event };
     updateFormData(newData);
   };
 

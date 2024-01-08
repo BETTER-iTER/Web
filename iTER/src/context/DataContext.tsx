@@ -1,5 +1,3 @@
-// DataContext.tsx
-
 import { createContext, useContext, useState, ReactNode } from 'react';
 
 interface DataContextProps {

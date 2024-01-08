@@ -64,9 +64,10 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
   };
 
   const handleStarClick = (star: number) => {
+    const starPointAsDouble: number = parseFloat((star - 0.5).toFixed(1));
     setRating(star);
-    // localStorage.setItem('starRating', String(star - 0.5));
-    const newData = { starPoint: String(star - 0.5) };
+
+    const newData = { starPoint: starPointAsDouble };
     updateFormData(newData);
 
     const imageUrls = [
