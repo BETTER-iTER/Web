@@ -21,7 +21,8 @@ const DetailReview = (props: { data }) => {
   const [pushHeart, setPushHeart] = useState<boolean>(true);
 
   const LikeReview = async () => {
-    const reviewId = 1;
+    const currentPathname = window.location.pathname;
+    const reviewId = currentPathname.split('/').pop();
     try {
       const response = await axios.post(`https://dev.betteritem.store/review/${reviewId}/like`);
       console.log(response.data);
@@ -32,7 +33,8 @@ const DetailReview = (props: { data }) => {
 
   // 좋아요 취소 api
   const CancleLike = async () => {
-    const reviewId = 1;
+    const currentPathname = window.location.pathname;
+    const reviewId = currentPathname.split('/').pop();
     try {
       const response = await axios.delete(`https://dev.betteritem.store/review/${reviewId}/like`);
       console.log(response.data);

@@ -17,7 +17,8 @@ export const LikeSort = ({ onClose }: { onClose: () => void }) => {
   }, []);
 
   const fetchCommentDataFromServer = async () => {
-    const reviewId = 1;
+    const currentPathname = window.location.pathname;
+    const reviewId = currentPathname.split('/').pop();
     try {
       const accessToken = localStorage.getItem('accessToken');
       const response = await axios.get(
