@@ -119,6 +119,10 @@ const Title = styled('div', {
   bodyText: 1,
   color: '$TitleBlack',
   marginBottom: '1px',
+  width: '190px',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
 });
 
 const Reviews = styled('div', {

@@ -11,7 +11,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getHome } from '../apis/Home';
 import LoadingPage from '../component/common/Loading';
 import ErrorPage from '../component/common/Error';
-import { HomeProps } from '../types/Home';
+import HomeProps from '../types/Home';
 import React, { useEffect, useState } from 'react';
 
 const Home = () => {
