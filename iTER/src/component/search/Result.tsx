@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import LoadingPage from '../common/Loading';
 import ErrorPage from '../common/Error';
 import { CategoryReviewProps } from '../../types/Review';
+import CategoryData from '../../constants/Category';
 
 const Result = ({ keyword }: { keyword: string }) => {
   const [categoryBottom, setCategoryBottom] = useState<boolean>(false);
@@ -46,8 +47,6 @@ const Result = ({ keyword }: { keyword: string }) => {
   if (listIsLoading) return <LoadingPage />;
   if (listError) return <ErrorPage type={2} />;
 
-  // console.log('listData', listData);
-
   return (
     <Container>
       {!Data.existed ? (
@@ -75,7 +74,11 @@ const Result = ({ keyword }: { keyword: string }) => {
         <>
           <Control>
             <Filter>
-              <ButtonControl type="toggle" onClick={() => setCategoryBottom(!categoryBottom)}>
+              <ButtonControl
+                type="toggle"
+                onClick={() => setCategoryBottom(!categoryBottom)}
+                active={CategoryData.map((item) => item).includes(keywordLast)}
+              >
                 카테고리
               </ButtonControl>
               <ButtonControl
@@ -118,6 +121,7 @@ const Result = ({ keyword }: { keyword: string }) => {
           onChange={(value: string) => {
             setKeywordLast(value);
           }}
+          keyword={keywordLast}
         />
       )}
       {sortBottom && (
