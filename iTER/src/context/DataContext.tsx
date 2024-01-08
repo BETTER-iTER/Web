@@ -1,4 +1,3 @@
-
 import { createContext, useContext, useState, ReactNode } from 'react';
 
 interface DataContextProps {
@@ -6,7 +5,20 @@ interface DataContextProps {
 }
 
 interface FormData {
-  // Define your formData structure here
+  category?: string;
+  specData?: number[];
+  starPoint?: number;
+  images?: {
+    imgUrl: string;
+  }[];
+  shortReview?: string;
+  goodPoint?: string;
+  badPoint?: string;
+  manufacturer?: string;
+  boughtAt?: string | undefined;
+  productName?: string;
+  amount?: number;
+  comparedProductName?: string;
 }
 
 interface DataContextValue {
@@ -31,9 +43,7 @@ export const DataProvider: React.FC<DataContextProps> = ({ children }) => {
 export const useData = (): DataContextValue => {
   const context = useContext(DataContext);
   if (!context) {
-
     throw new Error('에러남');
-
   }
   return context;
 };

@@ -7,7 +7,6 @@ import ShareIcon from '../../assets/icon/Share.svg?react';
 import { Caption1 } from '../Font';
 import ReviewImage from './ReviewImage';
 
-
 import { CommentSort } from '../common/CommentSort';
 
 import { LikeSort } from '../common/LikeSort';
@@ -18,10 +17,8 @@ import { ReviewDetailProps } from '../../types/Review';
 import StarRatingShow from '../../component/review/StarRatingShow';
 import { Store } from '../../constants/Store';
 
-
 const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
   const { data } = props;
-
 
   const short = data.shortReview.replace(/['"]/g, '').split(', ');
   const [setting, setSetting] = useState<boolean>(false);
@@ -43,7 +40,6 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
     if (rest === 0) return `${man}만원`;
     return `${man}만 ${rest}원`;
   }
-
 
   //좋아요 부분
   const [settingLike, setSettingLike] = useState<boolean>(false);
@@ -82,7 +78,6 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
       CancleLike();
     }
   };
-
 
   return (
     <>
@@ -171,23 +166,15 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
         {formatDateString(data.createdAt)} 작성
       </Box>
 
+      {setting && <CommentSort />}
 
-      {setting && (
-  <CommentSort
-    onClose={() => {
-      setSetting(false);
-    }}
-  />
-)}
-
-{settingLike && (
-  <LikeSort
-    onClose={() => {
-      setSettingLike(false);
-    }}
-  />
-)}
-
+      {settingLike && (
+        <LikeSort
+          onClose={() => {
+            setSettingLike(false);
+          }}
+        />
+      )}
     </>
   );
 };

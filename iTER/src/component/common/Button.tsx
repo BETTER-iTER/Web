@@ -98,6 +98,7 @@ export const ButtonPoint: FC<ButtonProps> = ({ onClick, children }) => {
 
 //선택 버튼
 export const ButtonSelect: FC<ButtonProps> = ({ onClick, children, disabled }) => {
+  console.log(children, '?');
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (!disabled && onClick) {
       onClick(event);
@@ -155,9 +156,10 @@ const CommentText = styled('div', {
   alignItems: 'center',
   paddingTop: '6px',
 });
-const CommentBody = styled('div', {
+const CommentBody = styled('button', {
   width: '58px',
   height: '37px',
+  border: 'none',
   borderRadius: '8px',
   backgroundColor: '#8E9198',
   variants: {

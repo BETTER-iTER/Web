@@ -1,12 +1,12 @@
 import { InputComponentReiview } from '../../component/common/Input';
 import { styled } from '../../../stitches.config';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import RadioInput from '../../component/common/RadioInput';
 import { ButtonSelect } from '../../component/common/Button';
 import ReviewSort from '../../component/review/ReviewSort';
 import { B1 } from '../../component/Font';
 import DateSort from '../../component/review/DateSort';
-// import SpecPopup from '../../component/review/SpecPopup';
+import SpecPopup from '../../component/review/SpecPopup';
 import DateComponent from '../../component/review/Date';
 import { useData } from '../../context/DataContext';
 
@@ -20,9 +20,10 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
   const [selectedRAM, setSelectedRAM] = useState<string | null>(null);
   const [selectedSIZE, setSelectedSIZE] = useState<string | null>(null);
   const [productName, setProductName] = useState<string>('');
-  const [price, setPrice] = useState<string>('');
+  const [price, setPrice] = useState<number>(0);
   const [compareProduct, setCompareProduct] = useState<string>('');
 
+  console.log(selectedCPU, selectedWINDOW, selectedRAM, selectedSIZE, '???');
   const { updateFormData } = useData();
 
   console.log(isPopupOpen);
@@ -40,13 +41,18 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
 
   const handleSortDateSelected = (date: Date | null) => {
     setSelectedDate(date);
-    const formattedDate = date.toLocaleDateString('en-CA');
+    const formattedDate = date?.toISOString().split('T')[0];
     // localStorage.setItem('boughtAt', formattedDate);
     const newData = { boughtAt: formattedDate };
     updateFormData(newData);
   };
 
-  const handleSelectionComplete = (cpu: string, window: string, ram: string, size: string) => {
+  const handleSelectionComplete = (
+    cpu: string | null,
+    window: string | null,
+    ram: string | null,
+    size: string | null
+  ) => {
     setSelectedCPU(cpu);
     setSelectedWINDOW(window);
     setSelectedRAM(ram);
@@ -92,7 +98,7 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
           type="text"
           labelName="제품명 *"
           btnName=""
-          value={productName}
+          text={productName}
           onChange={handleProductNameChange}
         />
         <div style={{ marginTop: 20 }} />
@@ -117,7 +123,7 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
           type="text"
           labelName="금액"
           btnName=""
-          value={price}
+          text={price}
           onChange={handleChangePrice}
         />
         <div style={{ marginTop: 20 }} />
@@ -132,13 +138,13 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
           }
           onClick={openPopup}
         />
-        {/* {isPopupOpen && (
+        {isPopupOpen && (
           <SpecPopup
             isOpen={isPopupOpen}
             onClose={() => setIsPopupOpen(false)}
             onSelectionComplete={handleSelectionComplete}
           />
-        )} */}
+        )}
 
         <div style={{ marginTop: 20 }} />
 
@@ -151,7 +157,7 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
           type="text"
           labelName="비교 제품"
           btnName=""
-          value={compareProduct}
+          text={compareProduct}
           onChange={handleCompareProductValue}
         />
       </MainLay>

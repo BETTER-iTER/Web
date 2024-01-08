@@ -6,8 +6,7 @@ import CheckCategory from './CheckCategory';
 import WriteDetail from './WriteDetail';
 import ReviewStar from './ReviewStar';
 import Compelete from './Compelete';
-import Category from '../../component/common/Category';
-import { DataProvider } from '../../context/DataContext.tsx';
+import { DataProvider } from '../../context/DataContext';
 
 const ReviewWrite = () => {
   const [count, setCount] = useState<number>(1);

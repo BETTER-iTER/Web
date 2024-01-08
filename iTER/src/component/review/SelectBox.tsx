@@ -7,10 +7,19 @@ import { getSpecData } from '../../apis/Review';
 import { useData } from '../../context/DataContext';
 
 interface SelectBoxCPUProps {
-  onCPUClick: (item: string, id: string) => void;
-  onWINDOWClick: (item: string, id: string) => void;
-  onRAMClick: (item: string, id: string) => void;
-  onSIZEClick: (item: string, id: string) => void;
+  onCPUClick: (item: string, id: number) => void;
+  onWINDOWClick: (item: string, id: number) => void;
+  onRAMClick: (item: string, id: number) => void;
+  onSIZEClick: (item: string, id: number) => void;
+}
+
+interface SpecDataProps {
+  id: number;
+  specData: {
+    id: number;
+    data: string;
+  }[];
+  title: string;
 }
 
 export const SelectBoxCPU: React.FC<SelectBoxCPUProps> = ({
@@ -19,8 +28,10 @@ export const SelectBoxCPU: React.FC<SelectBoxCPUProps> = ({
   onRAMClick,
   onSIZEClick,
 }) => {
-  const [specDataList, setSpecDataList] = useState<string[]>([]);
-  const [specNum, setSpecNum] = useState<string[]>([]);
+  const [specDataList, setSpecDataList] = useState<SpecDataProps[]>([]);
+  console.log(specDataList, '?');
+  // const [specNum, setSpecNum] = useState<string[]>([]);
+  const specNum: number[] = [];
   const { updateFormData } = useData();
   const { formData } = useData();
   useEffect(() => {
@@ -40,7 +51,7 @@ export const SelectBoxCPU: React.FC<SelectBoxCPUProps> = ({
     handleCategory();
   }, []);
 
-  const handleSpecClick = (item: string, id: string, index: number) => {
+  const handleSpecClick = (item: string, id: number, index: number) => {
     console.log(`클릭한 버튼: ${item}`);
     console.log(`클릭한 버튼의 id: ${id}`);
     switch (index) {

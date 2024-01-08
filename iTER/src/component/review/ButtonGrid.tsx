@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { styled } from '../../../stitches.config';
 import { Caption1 } from '../Font';
 
-
 interface ButtonGridProps {
-  items: { data: string; id: string }[];
-  onButtonClick: (item: { data: string; id: string }) => void;
+  items: { data: string; id: number }[];
+  onButtonClick: (item: { data: string; id: number }) => void;
 }
 
 const GridContainer = styled('div', {
@@ -26,10 +25,10 @@ const Item = styled('div', {
 });
 
 const ButtonGrid: React.FC<ButtonGridProps> = ({ items, onButtonClick }) => {
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+  const [selectedItem, setSelectedItem] = useState<number | null>(null);
 
-  const handleButtonClick = (item: { data: string; id: string }) => {
-    setSelectedItem(item.id); 
+  const handleButtonClick = (item: { data: string; id: number }) => {
+    setSelectedItem(item.id);
     onButtonClick(item);
   };
 
@@ -40,7 +39,7 @@ const ButtonGrid: React.FC<ButtonGridProps> = ({ items, onButtonClick }) => {
           key={index}
           onClick={() => handleButtonClick(item)}
           style={{
-            border: selectedItem === item.id ? '1px solid #8787F4' : '1px solid #EAEEF2', 
+            border: selectedItem === item.id ? '1px solid #8787F4' : '1px solid #EAEEF2',
             color: selectedItem === item.id ? '#8787F4' : '#8C959F',
           }}
         >

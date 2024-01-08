@@ -1,20 +1,21 @@
 import Bottom from './Bottom';
 import { styled } from '../../../stitches.config';
-import User from '../../assets/icon/User.svg?react';
-import { Caption2, Caption3, DayText } from '../Font';
+import { Caption2, DayText } from '../Font';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Input } from './Input';
 import { ButtonComment } from './Button';
 import { ModalSelect } from './Modal';
 import Toast from './Toast';
+import { CommentProps } from '../../types/Comment';
+import UserIcon from '../../assets/icon/User.svg?react';
 
-export const CommentSort = ({ onClose }: { onClose: () => void }) => {
-  const [commentArray, setCommentArray] = useState([]);
+export const CommentSort = () => {
+  const [commentArray, setCommentArray] = useState<CommentProps[]>([]);
   const [addComment, setAddComment] = useState('');
   const [isInputEmpty, setIsInputEmpty] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCommentId, setSelectedCommentId] = useState(null);
+  const [selectedCommentId, setSelectedCommentId] = useState<number>(0);
   const [bottom, setBottom] = useState(true);
   const [toast, setToast] = useState(false);
 
@@ -23,7 +24,7 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
     setIsInputEmpty(value.trim() === '');
   };
 
-  const handleOpenModal = (commentId) => {
+  const handleOpenModal = (commentId: number) => {
     setSelectedCommentId(commentId);
     setIsModalOpen(true);
     console.log('삭제모달');
@@ -137,11 +138,15 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
                   {commentArray.map((comment) => (
                     <SortItem key={comment.id}>
                       <UserImage>
-                        <img
-                          src={comment.reviewCommentUserInfo.profileImage}
-                          width={35}
-                          height={35}
-                        />
+                        {comment.reviewCommentUserInfo.profileImage ? (
+                          <img
+                            src={comment.reviewCommentUserInfo.profileImage}
+                            width={35}
+                            height={35}
+                          />
+                        ) : (
+                          <UserIcon width={35} height={35} />
+                        )}
                       </UserImage>
                       <TextLay>
                         <Info>
@@ -293,9 +298,9 @@ const CommentText = styled('div', {
   marginTop: '2px',
 });
 
-const ReComment = styled('div', {
-  color: '$Gray20',
-});
+// const ReComment = styled('div', {
+//   color: '$Gray20',
+// });
 
 const Datelay = styled('div', {
   color: '#C1C4CC',

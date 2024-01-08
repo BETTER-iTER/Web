@@ -8,10 +8,10 @@ interface PopupProps {
   isOpen: boolean;
   onClose: () => void;
   onSelectionComplete: (
-    selectedCPU: string | null,
-    selectedWINDOW: string | null,
-    selectedRAM: string | null,
-    selectedSIZE: string | null
+    cpu: string | null,
+    window: string | null,
+    ram: string | null,
+    size: string | null
   ) => void;
 }
 

@@ -2,7 +2,6 @@ import { styled } from '../../../stitches.config';
 import Nav from '../../component/layout/Nav';
 import Top from '../../component/layout/Top';
 import UserIcon from '../../assets/icon/User.svg?react';
-import Dots3 from '../../assets/icon/Dots3.svg?react';
 import { Caption2 } from '../../component/Font';
 import { useState } from 'react';
 import { BottomReviewSetting } from '../../component/common/Bottom';
