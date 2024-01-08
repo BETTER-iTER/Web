@@ -35,6 +35,7 @@ export interface CategoryProps {
 export interface CategoryReviewProps {
   hasNext: boolean;
   reviews: ReviewProps[];
+  existed: boolean;
 }
 
 export interface ReviewDetailProps {

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from '../../../stitches.config';
 import { BottomCategory, BottomSort } from '../common/Bottom';
 import { ButtonControl } from '../common/Button';
@@ -10,21 +10,6 @@ import LoadingPage from '../common/Loading';
 import ErrorPage from '../common/Error';
 import { CategoryReviewProps } from '../../types/Review';
 
-const dummy: CategoryReviewProps['reviews'][0] = {
-  id: 0,
-  productName: '마샬 STANMORE III',
-  reviewSpecData: ['코어 i 5-13세대', '14인치', '32GB', '256-129GB'],
-  starPoint: 4.5,
-  shortReview: '"가벼워요", "적당해요", "예뻐요"',
-  userInfo: {
-    nickName: '김지수',
-    profileImage: 'https://avatars.githubusercontent.com/u/77308744?v=4',
-    job: '디자이너',
-  },
-  scrapedCount: 0,
-  likedCount: 0,
-  reviewImage: '',
-};
 const Result = ({ keyword }: { keyword: string }) => {
   const [categoryBottom, setCategoryBottom] = useState<boolean>(false);
   const [sortBottom, setSortBottom] = useState<boolean>(false);
@@ -34,26 +19,56 @@ const Result = ({ keyword }: { keyword: string }) => {
   const [keywordLast, setKeywordLast] = useState<string>(keyword);
   const [expert, setExpert] = useState<boolean>(false);
 
+  const [listData, setListData] = useState<CategoryReviewProps>();
+  const [etcData, setEtcData] = useState<CategoryReviewProps>();
+
   const {
-    data: listData,
+    data: Data,
     error: listError,
     isLoading: listIsLoading,
   } = useQuery<CategoryReviewProps, Error>(['reviewList', keywordLast, sort, expert], () =>
     getReviewList({ keywordLast, sort, page, expert })
   );
 
+  console.log('Data', Data?.existed === true);
+  console.log('Last', keywordLast);
+
+  useEffect(() => {
+    if (Data?.existed) {
+      setListData(Data);
+      console.log('listData', listData);
+    } else {
+      setEtcData(Data);
+    }
+  }, [Data, listData]);
+
   if (listIsLoading) return <LoadingPage />;
   if (listError) return <ErrorPage type={2} />;
 
-  console.log('listData', listData);
+  // console.log('listData', listData);
 
   return (
     <Container>
-      {listData.reviews?.length === 0 ? (
+      {!Data.existed ? (
         <>
           <NoData>찾으시는 제품 리뷰가 없어요</NoData>
           <Recommend>다른 유저들은 이런 제품을 찾아봤어요</Recommend>
-          <ListItem {...dummy} />
+          <Scroll>
+            {etcData?.reviews.map((item, index) => (
+              <ListItem
+                key={index}
+                id={item.id}
+                productName={item.productName}
+                reviewSpecData={item.reviewSpecData}
+                starPoint={item.starPoint}
+                shortReview={item.shortReview}
+                userInfo={item.userInfo}
+                scrapedCount={item.scrapedCount}
+                likedCount={item.likedCount}
+                reviewImage={item.reviewImage}
+              />
+            ))}
+          </Scroll>
         </>
       ) : (
         <>
@@ -125,6 +140,7 @@ const Container = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  overflowY: 'auto',
 });
 
 // 상단 컨트롤
@@ -145,6 +161,7 @@ const Filter = styled('div', {
 const NoData = styled('div', {
   width: '390px',
   height: '182px',
+  minHeight: '182px',
   bodyText: 2,
   color: '$Gray50',
   display: 'flex',
@@ -164,6 +181,16 @@ const Recommend = styled('div', {
 const Items = styled('div', {
   width: '100%',
   height: 'calc(100vh - 165px)',
+  overflowY: 'scroll',
+  marginBottom: '42px',
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
+});
+
+const Scroll = styled('div', {
+  width: '100%',
+  height: 'calc(100vh - 200px)',
   overflowY: 'scroll',
   marginBottom: '42px',
   '&::-webkit-scrollbar': {
