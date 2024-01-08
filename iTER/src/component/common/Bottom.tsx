@@ -28,6 +28,9 @@ const Bottom = ({ title, component, onClose }: BottomProps) => {
   if (title === '제조사') {
     defaultSnap = 800;
   }
+  if (title === '댓글') {
+    defaultSnap = 800;
+  }
 
   return (
     <BottomSheet
