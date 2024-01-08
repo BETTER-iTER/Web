@@ -32,6 +32,7 @@ const Result = ({ keyword }: { keyword: string }) => {
   // const [page, setPage] = useState<number>(0);
   const page = 0;
   const [keywordLast, setKeywordLast] = useState<string>(keyword);
+  const [experts, setExperts] = useState<boolean>(false);
 
   const {
     data: listData,
@@ -59,7 +60,14 @@ const Result = ({ keyword }: { keyword: string }) => {
               <ButtonControl type="toggle" onClick={() => setCategoryBottom(!categoryBottom)}>
                 카테고리
               </ButtonControl>
-              <ButtonControl>전문가</ButtonControl>
+              <ButtonControl
+                onClick={() => {
+                  setExperts(!experts);
+                }}
+                active={experts}
+              >
+                전문가
+              </ButtonControl>
             </Filter>
             <div onClick={() => setSortBottom(!sortBottom)}>
               <Sort />

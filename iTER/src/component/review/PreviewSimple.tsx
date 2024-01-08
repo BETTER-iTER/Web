@@ -22,10 +22,10 @@ export default PreviewSimple;
 const Item = ({ data }: { data: MypageReviewProps['reviewList'][0] }) => {
   const navigate = useNavigate();
   return (
-    <ItemContainer onClick={() => navigate(`/serch/review/${data.reviewId}`)}>
+    <ItemContainer onClick={() => navigate(`/search/review/${data.reviewId}`)}>
       <ImageBox>
         <Image>
-          {data.thumbnailImage && <img src={data.thumbnailImage} alt="" width={160} height={160} />}
+          {data.thumbnailImage && <img src={data.thumbnailImage} alt="" width={168} height={200} />}
         </Image>
       </ImageBox>
       <Title>{data.title}</Title>
@@ -79,13 +79,7 @@ const Image = styled('div', {
   height: '200px',
   backgroundColor: '$Gray20',
   borderRadius: '10px',
-});
-
-const ProfileBox = styled('div', {
-  position: 'absolute',
-  bottom: '7px',
-  left: '8px',
-  width: 'fit-content',
+  overflow: 'hidden',
 });
 
 const Title = styled('div', {

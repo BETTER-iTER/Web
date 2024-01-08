@@ -14,4 +14,5 @@ export interface FlatUserProps {
   profileImage: string | undefined;
   reviewCount: number;
   scrapCount: number;
+  expert?: boolean;
 }

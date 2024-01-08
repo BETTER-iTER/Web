@@ -51,4 +51,5 @@ const Term = styled('div', {
   gap: '5px',
   color: '$WH03',
   cursor: 'pointer',
+  paddingBottom: '50px',
 });
