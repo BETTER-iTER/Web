@@ -17,12 +17,12 @@ const TextInput: React.FC<TextInput> = ({ limit, placeholder, type }) => {
     if (inputValue.length <= limit && type == 'good') {
       setText(inputValue);
       // localStorage.setItem('goodValue', inputValue);
-      const newData = { good: inputValue };
+      const newData = { goodPoint: inputValue };
       updateFormData(newData);
     } else if (inputValue.length <= limit && type == 'bad') {
       setText(inputValue);
       // localStorage.setItem('badValue', inputValue);
-      const newData = { bad: inputValue };
+      const newData = { badPoint: inputValue };
       updateFormData(newData);
     }
   };

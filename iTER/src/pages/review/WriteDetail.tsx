@@ -32,7 +32,7 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
   const handleSortItemSelected = (selectedItem: string) => {
     setSelectedSortItem(selectedItem);
     // localStorage.setItem('madeCompany', selectedItem);
-    const newData = { madeCompany: selectedItem };
+    const newData = { manufacturer: selectedItem };
     updateFormData(newData);
   };
 
@@ -66,7 +66,7 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
   const handleChangePrice = (event: string) => {
     setPrice(event);
     // localStorage.setItem('price', event);
-    const newData = { price: event };
+    const newData = { amount: event };
     updateFormData(newData);
   };
 

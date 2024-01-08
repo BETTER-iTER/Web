@@ -66,28 +66,45 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
   const handleStarClick = (star: number) => {
     setRating(star);
     // localStorage.setItem('starRating', String(star - 0.5));
-    const newData = { starRate: String(star - 0.5) };
+    const newData = { starPoint: String(star - 0.5) };
     updateFormData(newData);
+
+    const imageUrls = [
+      {
+        imgUrl:
+          'https://www.backmarket.co.kr/_next/image?url=%2Fnode_upload%2Fresized_images%2Fsave_image%2F466x466_1116061309_637400e58ef9f.jpeg&w=1080&q=75',
+      },
+      {
+        imgUrl:
+          'https://www.backmarket.co.kr/_next/image?url=https%3A%2F%2Fwww.backmarket.co.kr%2Fhtml%2Fupload%2Fsave_image%2F36827_1.jpg&w=1080&q=75',
+      },
+      {
+        imgUrl:
+          'https://www.backmarket.co.kr/_next/image?url=%2Fnode_upload%2Fresized_images%2Fsave_image%2F466x466_36827_2.jpg&w=1080&q=75',
+      },
+    ];
+    const newData1 = { images: imageUrls };
+    updateFormData(newData1);
   };
 
   const handle1Click = (item: { data: string; id: string }) => {
     shortReview[0] = item.data;
     // localStorage.setItem('reviewShort', String(shortReview));
-    const newData = { shortreview: String(shortReview) };
+    const newData = { shortReview: String(shortReview) };
     updateFormData(newData);
   };
 
   const handle2Click = (item: { data: string; id: string }) => {
     shortReview[1] = item.data;
     // localStorage.setItem('reviewShort', String(shortReview));
-    const newData = { shortreview: String(shortReview) };
+    const newData = { shortReview: String(shortReview) };
     updateFormData(newData);
   };
 
   const handle3Click = (item: { data: string; id: string }) => {
     shortReview[2] = item.data;
     // localStorage.setItem('reviewShort', String(shortReview));
-    const newData = { shortreview: String(shortReview) };
+    const newData = { shortReview: String(shortReview) };
     updateFormData(newData);
   };
 
