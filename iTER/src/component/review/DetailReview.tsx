@@ -7,9 +7,13 @@ import ShareIcon from '../../assets/icon/Share.svg?react';
 import { Caption1 } from '../Font';
 import ReviewImage from './ReviewImage';
 
+
+import { CommentSort } from '../common/CommentSort';
+
 import { LikeSort } from '../common/LikeSort';
 import { useState } from 'react';
 import axios from 'axios';
+
 import { ReviewDetailProps } from '../../types/Review';
 import StarRatingShow from '../../component/review/StarRatingShow';
 import { Store } from '../../constants/Store';
@@ -18,7 +22,9 @@ import { Store } from '../../constants/Store';
 const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
   const { data } = props;
 
-  const short = data.shortReview.replace(/['"]/g, '').split(',');
+
+  const short = data.shortReview.replace(/['"]/g, '').split(', ');
+  const [setting, setSetting] = useState<boolean>(false);
 
   function formatDateString(inputDate: string): string {
     const date = new Date(inputDate);
@@ -37,6 +43,7 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
     if (rest === 0) return `${man}만원`;
     return `${man}만 ${rest}원`;
   }
+
 
   //좋아요 부분
   const [settingLike, setSettingLike] = useState<boolean>(false);
@@ -76,6 +83,7 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
     }
   };
 
+
   return (
     <>
       <ReviewImage list={data.reviewImages} />
@@ -104,7 +112,11 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
               </HeartNum>
             </Active>
             <Active>
-              <CommentIcon />
+              <CommentIcon
+                onClick={() => {
+                  setSetting(!setting);
+                }}
+              />
               {data.commentCount}
             </Active>
           </div>
@@ -158,13 +170,24 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
         </Buy>
         {formatDateString(data.createdAt)} 작성
       </Box>
-      {settingLike && (
-        <LikeSort
-          onClose={() => {
-            setSettingLike(!settingLike);
-          }}
-        />
-      )}
+
+
+      {setting && (
+  <CommentSort
+    onClose={() => {
+      setSetting(false);
+    }}
+  />
+)}
+
+{settingLike && (
+  <LikeSort
+    onClose={() => {
+      setSettingLike(false);
+    }}
+  />
+)}
+
     </>
   );
 };
