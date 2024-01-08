@@ -6,6 +6,8 @@ import CheckCategory from './CheckCategory';
 import WriteDetail from './WriteDetail';
 import ReviewStar from './ReviewStar';
 import Compelete from './Compelete';
+import Category from '../../component/common/Category';
+import { DataProvider } from '../../context/DataContext.tsx';
 
 const ReviewWrite = () => {
   const [count, setCount] = useState<number>(1);
@@ -18,11 +20,20 @@ const ReviewWrite = () => {
     setSelectedCategoryName(name);
   };
 
+  const Next = () => {
+    const RId = localStorage.getItem('addReviewId');
+    window.location.href = `/search/review/${RId}`;
+  };
+
   const handleNext = () => {
-    if (count < 4) {
+    if (count == 1) {
+      setCount(count + 1);
+    } else if (count == 2) {
+      setCount(count + 1);
+    } else if (count == 3) {
       setCount(count + 1);
     } else {
-      console.log('회원가입 완료');
+      Next();
     }
   };
   const onDisabled = (value: boolean) => {
@@ -47,16 +58,17 @@ const ReviewWrite = () => {
           }
         />
       )}
-
-      {count === 1 ? (
-        <CheckCategory onDisabled={onDisabled} onCategorySelect={handleCategorySelect} />
-      ) : count === 2 ? (
-        <WriteDetail onDisabled={onDisabled} />
-      ) : count === 3 ? (
-        <ReviewStar onDisabled={onDisabled} />
-      ) : count === 4 ? (
-        <Compelete onDisabled={onDisabled} />
-      ) : null}
+      <DataProvider>
+        {count === 1 ? (
+          <CheckCategory onDisabled={onDisabled} onCategorySelect={handleCategorySelect} />
+        ) : count === 2 ? (
+          <WriteDetail onDisabled={onDisabled} />
+        ) : count === 3 ? (
+          <ReviewStar onDisabled={onDisabled} />
+        ) : count === 4 ? (
+          <Compelete onDisabled={onDisabled} />
+        ) : null}
+      </DataProvider>
 
       <BtnLay>
         <Button

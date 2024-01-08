@@ -106,4 +106,6 @@ const SelectCover = styled('div', {
 
 const ButtonLay = styled('div', {
   marginLeft: '-20px',
+  position: 'absolute',
+  bottom: 0,
 });
