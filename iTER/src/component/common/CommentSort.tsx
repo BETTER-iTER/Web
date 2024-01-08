@@ -35,7 +35,8 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
   };
 
   const sendComment = async () => {
-    const reviewId = 1;
+    const currentPathname = window.location.pathname;
+    const reviewId = currentPathname.split('/').pop();
     try {
       const response = await axios.post('https://dev.betteritem.store/comment/create', {
         review_id: reviewId,
@@ -61,7 +62,9 @@ export const CommentSort = ({ onClose }: { onClose: () => void }) => {
   }, []);
 
   const fetchCommentDataFromServer = async () => {
-    const reviewId = 1;
+    const currentPathname = window.location.pathname;
+    const reviewId = currentPathname.split('/').pop();
+
     try {
       const accessToken = localStorage.getItem('accessToken');
       const response = await axios.get(
