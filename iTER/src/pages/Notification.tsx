@@ -49,12 +49,15 @@ const Item = ({ list }: { list: NotificationProps }) => {
 };
 
 const Container = styled('div', {
-  height: '100vh',
-  display: 'flex',
   color: '$TitleBlack',
 });
+
 const List = styled('div', {
-  marginTop: '60px',
+  overflowY: 'scroll',
+  height: 'calc(100vh - 64px)',
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
 });
 
 const Image = styled('div', {
@@ -149,6 +152,86 @@ const dummy: NotificationProps[] = [
       profileImage: 'https://avatars.githubusercontent.com/u/76855211?v=4',
     },
     content: '좋은 리뷰글 잘 보고 갑니다~',
+    path: '/test',
+    createdAt: '2021-09-01T00:00:00.000Z',
+    readAt: null,
+  },
+  {
+    id: 4,
+    type: 'notice',
+    content: '새롭게 출시된 기능! 다른 리뷰어들을 팔로우하고 새로운 게시물 알림을 받아보세요🙌',
+    path: '/test',
+    createdAt: '2021-09-01T00:00:00.000Z',
+    readAt: null,
+  },
+  {
+    id: 4,
+    type: 'notice',
+    content: '새롭게 출시된 기능! 다른 리뷰어들을 팔로우하고 새로운 게시물 알림을 받아보세요🙌',
+    path: '/test',
+    createdAt: '2021-09-01T00:00:00.000Z',
+    readAt: null,
+  },
+  {
+    id: 4,
+    type: 'notice',
+    content: '새롭게 출시된 기능! 다른 리뷰어들을 팔로우하고 새로운 게시물 알림을 받아보세요🙌',
+    path: '/test',
+    createdAt: '2021-09-01T00:00:00.000Z',
+    readAt: null,
+  },
+  {
+    id: 4,
+    type: 'notice',
+    content: '새롭게 출시된 기능! 다른 리뷰어들을 팔로우하고 새로운 게시물 알림을 받아보세요🙌',
+    path: '/test',
+    createdAt: '2021-09-01T00:00:00.000Z',
+    readAt: null,
+  },
+  {
+    id: 4,
+    type: 'notice',
+    content: '새롭게 출시된 기능! 다른 리뷰어들을 팔로우하고 새로운 게시물 알림을 받아보세요🙌',
+    path: '/test',
+    createdAt: '2021-09-01T00:00:00.000Z',
+    readAt: null,
+  },
+  {
+    id: 4,
+    type: 'notice',
+    content: '새롭게 출시된 기능! 다른 리뷰어들을 팔로우하고 새로운 게시물 알림을 받아보세요🙌',
+    path: '/test',
+    createdAt: '2021-09-01T00:00:00.000Z',
+    readAt: null,
+  },
+  {
+    id: 4,
+    type: 'notice',
+    content: '새롭게 출시된 기능! 다른 리뷰어들을 팔로우하고 새로운 게시물 알림을 받아보세요🙌',
+    path: '/test',
+    createdAt: '2021-09-01T00:00:00.000Z',
+    readAt: null,
+  },
+  {
+    id: 4,
+    type: 'notice',
+    content: '새롭게 출시된 기능! 다른 리뷰어들을 팔로우하고 새로운 게시물 알림을 받아보세요🙌',
+    path: '/test',
+    createdAt: '2021-09-01T00:00:00.000Z',
+    readAt: null,
+  },
+  {
+    id: 4,
+    type: 'notice',
+    content: '새롭게 출시된 기능! 다른 리뷰어들을 팔로우하고 새로운 게시물 알림을 받아보세요🙌',
+    path: '/test',
+    createdAt: '2021-09-01T00:00:00.000Z',
+    readAt: null,
+  },
+  {
+    id: 4,
+    type: 'notice',
+    content: '새롭게 출시된 기능! 다른 리뷰어들을 팔로우하고 새로운 게시물 알림을 받아보세요🙌',
     path: '/test',
     createdAt: '2021-09-01T00:00:00.000Z',
     readAt: null,
