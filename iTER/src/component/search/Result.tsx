@@ -30,8 +30,9 @@ const Result = ({ keyword }: { keyword: string }) => {
     getReviewList({ keywordLast, sort, page, expert })
   );
 
-  console.log('Data', Data?.existed === true);
-  console.log('Last', keywordLast);
+  useEffect(() => {
+    setKeywordLast(keyword);
+  }, [keyword]);
 
   useEffect(() => {
     if (Data?.existed) {

@@ -61,6 +61,7 @@ const Search = () => {
   const handleRecent = (text: string) => {
     setKeyword(text);
   };
+
   return (
     <Container>
       <TopSearch
