@@ -38,7 +38,12 @@ const Category = ({
       onClick={() => handleClicked()}
     >
       <Image isSelected={isSelected} isSelectedBorder={isSelectedBorer}>
-        <img src={imageUrl} alt={imageUrl} width={50} height={50} />
+        <img
+          src={imageUrl}
+          alt={imageUrl}
+          width={name === '기타' ? 27 : 50}
+          height={name === '기타' ? 5 : 50}
+        />
       </Image>
       <Name>{name}</Name>
     </ItemBox>
