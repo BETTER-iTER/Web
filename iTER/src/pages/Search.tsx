@@ -8,10 +8,16 @@ import { useLocation } from 'react-router-dom';
 
 const Search = () => {
   const { state } = useLocation();
-  const [keyword, setKeyword] = useState<string>(state.keyword || ''); // 검색어
+  const [keyword, setKeyword] = useState<string>(''); // 검색어
   const [recentKeywords, setRecentKeywords] = useState<{ id: number; text: string }[]>( // 최근 검색어
     JSON.parse(localStorage.getItem('keywords') || '[]')
   );
+
+  useEffect(() => {
+    if (state) {
+      setKeyword(state.keyword);
+    }
+  }, [state]);
 
   // 카테고리 선택
   const handleCategory = (text: string) => {
