@@ -97,10 +97,12 @@ export const getReviewList = async ({
   keywordLast,
   sort,
   page,
+  expert,
 }: {
   keywordLast: string;
   sort: string;
   page: number;
+  expert: boolean;
 }) => {
   const category = [
     '휴대폰',
@@ -122,7 +124,7 @@ export const getReviewList = async ({
   const accessToken = localStorage.getItem('accessToken');
   console.log('리뷰 리스트 조회', keywordLast, type);
   try {
-    const response = await api.get(`/review/${type}&sort=${sort}&page=${page}`, {
+    const response = await api.get(`/review/${type}&sort=${sort}&page=${page}&expert=${expert}`, {
       headers: {
         Authorization: accessToken ? `${accessToken}` : '',
       },

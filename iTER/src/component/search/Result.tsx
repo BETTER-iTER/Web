@@ -32,18 +32,20 @@ const Result = ({ keyword }: { keyword: string }) => {
   // const [page, setPage] = useState<number>(0);
   const page = 0;
   const [keywordLast, setKeywordLast] = useState<string>(keyword);
-  const [experts, setExperts] = useState<boolean>(false);
+  const [expert, setExpert] = useState<boolean>(false);
 
   const {
     data: listData,
     error: listError,
     isLoading: listIsLoading,
-  } = useQuery<CategoryReviewProps, Error>(['reviewList', keywordLast, sort], () =>
-    getReviewList({ keywordLast, sort, page })
+  } = useQuery<CategoryReviewProps, Error>(['reviewList', keywordLast, sort, expert], () =>
+    getReviewList({ keywordLast, sort, page, expert })
   );
 
   if (listIsLoading) return <LoadingPage />;
   if (listError) return <ErrorPage type={2} />;
+
+  console.log('listData', listData);
 
   return (
     <Container>
@@ -62,9 +64,9 @@ const Result = ({ keyword }: { keyword: string }) => {
               </ButtonControl>
               <ButtonControl
                 onClick={() => {
-                  setExperts(!experts);
+                  setExpert(!expert);
                 }}
-                active={experts}
+                active={expert}
               >
                 전문가
               </ButtonControl>
