@@ -57,12 +57,15 @@ const SignUp = () => {
   // 인증번호 전송
   const mutation = useMutation(postJoinEmail, {
     onSuccess: (data) => {
-      if (data.status === 200) {
+      if (data?.code === 'SUCCESS_200') {
         setTimer(true);
         setEmailDisabled(false);
-      } else if (data.message === 'Request failed with status code 400') {
-        setAuthWarning('이미 가입된 이메일입니다');
+      } else if (data?.response?.data?.code === 'AUTH_EMAIL_DUPLICATION_401') {
+        // 가입된 이메일
         setDuplicateModal(true);
+      } else if (data?.response?.data?.code === 'AUTH_CODE_ALREADY_EXIST_401') {
+        // 인증번호 만료 전
+        setAuthWarning('인증번호가 이미 발송되었습니다');
       } else {
         return <ErrorPage type={2} />;
       }
@@ -71,20 +74,30 @@ const SignUp = () => {
 
   const handleEmailButton = () => {
     setEmailDisabled(true);
-    console.log('Email click?');
     mutation.mutate(email);
   };
 
   // 인증번호 확인
   const coedMutation = useMutation(postEmailVerify, {
     onSuccess: (data) => {
-      console.log('codedata', data);
-      setCodeCheck(true);
+      if (data?.code === 'SUCCESS_200') {
+        console.log('인증성공');
+        setCodeCheck(true);
+        setAuthWarning('');
+      } else if (data?.response?.data?.code === 'AUTH_CODE_NOT_MATCH_401') {
+        // 잘못된 인증번호
+        setAuthWarning('인증번호를 확인해주세요');
+        setCodeCheck(true);
+      } else if (data?.response?.data?.code === 'AUTH_CODE_NOT_EXIST_401') {
+        // 인증번호 존재하지 않음
+        setAuthWarning('인증 코드가 존재하지 않습니다');
+        setCodeCheck(false);
+      } else {
+        return <ErrorPage type={2} />;
+      }
     },
-    onError: (error) => {
-      console.log('codeerror', error);
-      setAuthWarning('인증번호를 확인해주세요');
-      setCodeDisabled(false);
+    onError: () => {
+      return <ErrorPage type={2} />;
     },
   });
 
@@ -100,8 +113,6 @@ const SignUp = () => {
 
   // 다음버튼
   const loginInfo: LoginProps = {
-    // email: 'already.nyeong@gmail.com',
-    // password: 'qwer1234!',
     email: email,
     password: password,
   };
@@ -135,7 +146,11 @@ const SignUp = () => {
         <div style={{ marginTop: 20 }} />
         {timer && (
           <TimerBox>
-            <Timer min={3} onChange={() => setTimer(true)} />
+            <Timer
+              min={3}
+              onChange={() => setTimer(true)}
+              onFailed={() => setEmailDisabled(false)}
+            />
           </TimerBox>
         )}
         <InputComponent

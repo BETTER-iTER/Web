@@ -4,10 +4,11 @@ import Modal from '../common/Modal';
 
 interface TimerProps {
   min: number;
-  onChange: (value: boolean) => void;
+  onChange: (value: boolean) => void; // 타이머 종료시 실행할 함수
+  onFailed: () => void; // 타임아웃시 실행할 함수
 }
 
-const Timer = ({ min, onChange }: TimerProps) => {
+const Timer = ({ min, onChange, onFailed }: TimerProps) => {
   const MINUTES_IN_MS = min * 60 * 1000;
   const INTERVAL = 1000;
   const [timeLeft, setTimeLeft] = useState<number>(MINUTES_IN_MS);
@@ -23,6 +24,7 @@ const Timer = ({ min, onChange }: TimerProps) => {
     if (timeLeft <= 0) {
       clearInterval(timer);
       onChange(false);
+      onFailed && onFailed();
       setModal(true);
     }
     return () => clearInterval(timer);
