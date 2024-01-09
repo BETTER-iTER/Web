@@ -3,6 +3,7 @@ import HeartIcon from '../../assets/icon/Heart.svg?react';
 import HeartFill from '../../assets/icon/HeartFill.svg?react';
 import CommentIcon from '../../assets/icon/Comment.svg?react';
 import ScrapIcon from '../../assets/icon/Scrap.svg?react';
+import ScrapFillIcon from '../../assets/icon/ScrapFill.svg?react';
 import ShareIcon from '../../assets/icon/Share.svg?react';
 import { Caption1, Caption2 } from '../Font';
 import ReviewImage from './ReviewImage';
@@ -46,6 +47,7 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
   //좋아요 부분
   const [settingLike, setSettingLike] = useState<boolean>(false);
   const [pushHeart, setPushHeart] = useState<boolean>(true);
+  const [pushScrap, setPushScrap] = useState<boolean>(true);
 
   const LikeReview = async () => {
     const currentPathname = window.location.pathname;
@@ -64,6 +66,30 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
     const reviewId = currentPathname.split('/').pop();
     try {
       const response = await axios.delete(`https://dev.betteritem.store/review/${reviewId}/like`);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //스크랩 등록 api
+  const addScrap = async () => {
+    const currentPathname = window.location.pathname;
+    const reviewId = currentPathname.split('/').pop();
+    try {
+      const response = await axios.post(`https://dev.betteritem.store/review/${reviewId}/scrap`);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //스크랩 취소 api
+  const cancleScrap = async () => {
+    const currentPathname = window.location.pathname;
+    const reviewId = currentPathname.split('/').pop();
+    try {
+      const response = await axios.delete(`https://dev.betteritem.store/review/${reviewId}/scrap`);
       console.log(response.data);
     } catch (error) {
       console.log(error);
@@ -89,6 +115,17 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
     } else {
       console.log('좋아요 취소함');
       CancleLike();
+    }
+  };
+
+  const handleScrapClick = () => {
+    setPushScrap(!pushScrap);
+    if (pushScrap) {
+      console.log('스크랩 누름');
+      addScrap();
+    } else {
+      console.log('스크랩 취소');
+      cancleScrap();
     }
   };
 
@@ -130,7 +167,18 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
           </div>
           <div style={{ display: 'flex' }}>
             <Active>
-              <ScrapIcon fill={'#4C4E55'} width={24} height={24} />
+              <Hicon onClick={handleScrapClick}>
+                {pushScrap ? (
+                  <>
+                    <ScrapIcon fill={'#4C4E55'} width={24} height={24} />
+                  </>
+                ) : (
+                  <>
+                    <ScrapFillIcon width={24} height={24} />
+                  </>
+                )}
+              </Hicon>
+              {/* <ScrapIcon fill={'#4C4E55'} width={24} height={24} /> */}
               {data.scrapedCount}
             </Active>
             <div onClick={() => handleCopyClipBoard()} style={{ cursor: 'pointer' }}>
