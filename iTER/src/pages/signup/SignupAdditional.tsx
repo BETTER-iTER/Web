@@ -46,7 +46,7 @@ const SignupAdditional = () => {
   const userInfo: UserProps = {
     nickName: nickname,
     job: job,
-    i: interest,
+    categories: interest.split(', '),
     email: email,
     password: password,
   };
@@ -68,7 +68,7 @@ const SignupAdditional = () => {
       password: password || '',
       nickName: nickname,
       job: job,
-      i: interest,
+      categories: interest.split(', '),
     };
     mutation.mutate(body);
   };

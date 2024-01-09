@@ -10,35 +10,53 @@ import { ModalSelect } from '../../component/common/Modal';
 import Relation from '../../component/review/Relation';
 import Toast from '../../component/common/Toast';
 import DetailReview from '../../component/review/DetailReview';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import LoadingPage from '../../component/common/Loading';
 import ErrorPage from '../../component/common/Error';
-import { getReviewDetail } from '../../apis/Review';
+import { deleteReview, getReviewDetail } from '../../apis/Review';
 import { ReviewDetailProps } from '../../types/Review';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 const ReviewDetail = () => {
   const [setting, setSetting] = useState<boolean>(false);
   const [select, setSelect] = useState<number>(0);
   const [toast, setToast] = useState<boolean>(false);
 
   const location = useLocation();
+  const navigate = useNavigate();
   const id = location.pathname.split('/')[3];
 
-  // const {
-  //   data: reviewDetailData,
-  //   error: reviewDetailError,
-  //   isLoading: reviewDetailIsLoading,
-  // } = useQuery<JSON, Error>(['reviewDetail', id], () => getReviewDetail(id));
+  const mutation = useMutation(deleteReview, {
+    onSuccess: (data) => {
+      console.log('data', data);
+      setToast(true);
+      navigate(-1);
+    },
+    onError: (error) => {
+      console.log('error', error);
+      return <ErrorPage type={2} />;
+    },
+  });
 
-  // if (reviewDetailIsLoading) return <LoadingPage />;
-  // if (reviewDetailError) return <ErrorPage type={2} />;
-  // if (reviewDetailData) {
-  //   console.log(reviewDetailData);
-  // }
+  const handleDelete = () => {
+    mutation.mutate(id);
+  };
 
-  const reviewDetail = reviewDetailData.reviewDetail;
-  const writerInfo = reviewDetailData.writerInfo;
-  const relatedReviews = reviewDetailData.relatedReviews;
+  // 리뷰 상세 데이터 가져오기
+  const {
+    data: reviewDetailData,
+    error: reviewDetailError,
+    isLoading: reviewDetailIsLoading,
+  } = useQuery<ReviewDetailProps, Error>(['reviewDetail', id], () => getReviewDetail(id));
+
+  if (reviewDetailIsLoading) return <LoadingPage />;
+  if (reviewDetailError) return <ErrorPage type={2} />;
+
+  const reviewDetail = reviewDetailData?.reviewDetail;
+  const writerInfo = reviewDetailData?.writerInfo;
+  const relatedReviews = reviewDetailData?.relatedReviews;
+
+  console.log('reviewDetail', reviewDetail);
   return (
     <>
       <Top title={reviewDetail.productName} />
@@ -58,14 +76,15 @@ const ReviewDetail = () => {
               <Caption2>{writerInfo.job}</Caption2>
             </Job>
           </Right>
-          <div
-            style={{ cursor: 'pointer' }}
-            onClick={() => {
-              setSetting(!setting);
-            }}
-          >
-            <Dots3 />
-          </div>
+          {!reviewDetail.mine && (
+            <FollowButton
+              onClick={() => {
+                console.log('팔로우');
+              }}
+            >
+              팔로우
+            </FollowButton>
+          )}
         </User>
         <DetailReview data={reviewDetail} />
         <Report
@@ -73,7 +92,7 @@ const ReviewDetail = () => {
             setSetting(!setting);
           }}
         >
-          {reviewDetail.mine ? '수정/삭제하기' : '신고하기'}
+          {reviewDetail.mine && '수정/삭제하기'}
         </Report>
         <Relation list={relatedReviews} />
       </Container>
@@ -85,6 +104,7 @@ const ReviewDetail = () => {
             setSetting(false);
           }}
           onChange={(index: number) => {
+            setSetting(false);
             setSelect(index);
           }}
         />
@@ -94,7 +114,7 @@ const ReviewDetail = () => {
           text={'리뷰를 삭제하시겠습니까?'}
           btn={'삭제하기'}
           onClick={() => {
-            setToast(true);
+            handleDelete();
           }}
           onClosed={() => {
             setSelect(0);
@@ -158,54 +178,16 @@ const Report = styled('div', {
   bodyText: 2,
 });
 
-const reviewDetailData: ReviewDetailProps = {
-  reviewDetail: {
-    reviewId: 0,
-    productName: '스피커',
-    reviewSpecData: ['코어 i5', '16GB', '512GB'],
-    starPoint: 4,
-    goodPoint: '스피커가 좋아요',
-    badPoint: '소리가 작아요',
-    shortReview: '"가벼워요", "적당해요", "예뻐요"',
-    manudactuere: '삼성',
-    storeName: 1,
-    boughtAt: '2021-08-01',
-    createdAt: '2021-08-02',
-    reviewImages: [
-      {
-        imageUrl:
-          'https://images.unsplash.com/photo-1627970186567-4b7b2b0b5b0f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3BlY2tlcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80',
-
-        orderNum: 1,
-      },
-    ],
-    scrapedCount: 0,
-    likedCount: 0,
-    commentCount: 0,
-    follow: true,
-    mine: true,
-    like: true,
-    scrap: true,
-  },
-  writerInfo: {
-    id: 0,
-    nickName: '블루투스 하트',
-    profileImage:
-      'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1769&q=80',
-    job: 'sw 개발자',
-    expert: true,
-  },
-
-  relatedReviews: [
-    {
-      id: 1,
-      imageUrl:
-        'https://images.unsplash.com/photo-1627970186567-4b7b2b0b5b0f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3BlY2tlcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80',
-      productName: '스피커',
-      nickname: '블루투스 하트',
-      profileImageUrl:
-        'https://images.unsplash.com/photo-1627970186567-4b7b2b0b5b0f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3BlY2tlcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80',
-      expert: true,
-    },
-  ],
-};
+const FollowButton = styled('div', {
+  width: '96px',
+  height: '35px',
+  borderRadius: '10px',
+  backgroundColor: '#242424',
+  color: '$White',
+  border: 'none',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  bodyText: 2,
+  cursor: 'pointer',
+});

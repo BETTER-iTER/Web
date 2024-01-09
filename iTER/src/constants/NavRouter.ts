@@ -17,7 +17,7 @@ export const NavRouterList: NavRouterProps[] = [
   {
     id: 2,
     name: 'write',
-    path: '/write',
+    path: '/review/write',
   },
   {
     id: 3,

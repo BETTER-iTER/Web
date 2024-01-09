@@ -1,30 +1,115 @@
 import { styled } from '../../../stitches.config';
 import HeartIcon from '../../assets/icon/Heart.svg?react';
+import HeartFill from '../../assets/icon/HeartFill.svg?react';
 import CommentIcon from '../../assets/icon/Comment.svg?react';
 import ScrapIcon from '../../assets/icon/Scrap.svg?react';
 import ShareIcon from '../../assets/icon/Share.svg?react';
-import Star from '../../assets/icon/star/Star.svg?react';
 import { Caption1 } from '../Font';
 import ReviewImage from './ReviewImage';
-import { useState } from 'react';
+
+
 import { CommentSort } from '../common/CommentSort';
 
-const DetailReview = (props: { data }) => {
+import { LikeSort } from '../common/LikeSort';
+import { useState } from 'react';
+import axios from 'axios';
+
+import { ReviewDetailProps } from '../../types/Review';
+import StarRatingShow from '../../component/review/StarRatingShow';
+import { Store } from '../../constants/Store';
+
+
+const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
   const { data } = props;
+
 
   const short = data.shortReview.replace(/['"]/g, '').split(', ');
   const [setting, setSetting] = useState<boolean>(false);
 
+  function formatDateString(inputDate: string): string {
+    const date = new Date(inputDate);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}.${month}.${day}`;
+  }
+
+  function formatPriceString(inputPrice: number) {
+    const man = Math.floor(inputPrice / 10000);
+    const rest = inputPrice % 10000;
+
+    if (man === 0) return `${rest}원`;
+    if (rest === 0) return `${man}만원`;
+    return `${man}만 ${rest}원`;
+  }
+
+
+  //좋아요 부분
+  const [settingLike, setSettingLike] = useState<boolean>(false);
+  const [pushHeart, setPushHeart] = useState<boolean>(true);
+
+  const LikeReview = async () => {
+    const currentPathname = window.location.pathname;
+    const reviewId = currentPathname.split('/').pop();
+    try {
+      const response = await axios.post(`https://dev.betteritem.store/review/${reviewId}/like`);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // 좋아요 취소 api
+  const CancleLike = async () => {
+    const currentPathname = window.location.pathname;
+    const reviewId = currentPathname.split('/').pop();
+    try {
+      const response = await axios.delete(`https://dev.betteritem.store/review/${reviewId}/like`);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleHeartClick = () => {
+    setPushHeart(!pushHeart);
+    if (pushHeart) {
+      console.log('좋아요 누름');
+      LikeReview();
+    } else {
+      console.log('좋아요 취소함');
+      CancleLike();
+    }
+  };
+
+
   return (
     <>
-      <ReviewImage />
+      <ReviewImage list={data.reviewImages} />
       <Box>
         {/* 좋아요 등의 액션 아이콘 */}
         <Actives>
           <div style={{ display: 'flex' }}>
             <Active>
-              <HeartIcon fill={'#4C4E55'} width={24} height={24} />
-              {data.likedCount}
+              <Hicon onClick={handleHeartClick}>
+                {pushHeart ? (
+                  <>
+                    <HeartIcon fill={'#4C4E55'} width={24} height={24} />
+                  </>
+                ) : (
+                  <>
+                    <HeartFill width={24} height={24} />
+                  </>
+                )}
+              </Hicon>
+              <HeartNum
+                onClick={() => {
+                  setSettingLike(!settingLike);
+                }}
+              >
+                {data.likedCount}
+              </HeartNum>
             </Active>
             <Active>
               <CommentIcon
@@ -50,8 +135,7 @@ const DetailReview = (props: { data }) => {
         <Caption1 style={{ color: '#57606A' }}>{data.reviewSpecData.join(' / ')}</Caption1>
         {/* 별점 */}
         <Stars>
-          수정필요
-          <Star width={24} height={24} />
+          <StarRatingShow rating={data.starPoint} />
         </Stars>
         {/* 간단리뷰 */}
         <SimpleReviews>
@@ -74,23 +158,36 @@ const DetailReview = (props: { data }) => {
         <Point>👎 아쉬운 점</Point>
         <Content>{data.badPoint}</Content>
         <Point>⚖️ 비교 제품</Point>
-        <Content>수정필요</Content>
+        <Content>{data.comparedProductName}</Content>
         {/* 구매정보 */}
         <Buy>
-          수정필요
-          <div>마샬 | 공식 홈페이지 구매</div>
-          <div>60만원 | {data.boughtAt} 구매</div>
+          <div>
+            {data.manufacturer} | {Store[data.storeName]}
+          </div>
+          <div>
+            {formatPriceString(data.price)} | {formatDateString(data.boughtAt)} 구매
+          </div>
         </Buy>
-        {data.createdAt}
+        {formatDateString(data.createdAt)} 작성
       </Box>
 
+
       {setting && (
-        <CommentSort
-          onClose={() => {
-            setSetting(false);
-          }}
-        />
-      )}
+  <CommentSort
+    onClose={() => {
+      setSetting(false);
+    }}
+  />
+)}
+
+{settingLike && (
+  <LikeSort
+    onClose={() => {
+      setSettingLike(false);
+    }}
+  />
+)}
+
     </>
   );
 };
@@ -173,3 +270,8 @@ const Buy = styled('div', {
   justifyContent: 'space-between',
   margin: '21px 0 16px 0',
 });
+const Hicon = styled('div', {
+  display: 'flex',
+});
+
+const HeartNum = styled('div', {});
