@@ -3,7 +3,8 @@ import { styled } from '../../stitches.config';
 import { Caption1 } from '../component/Font';
 import Button from '../component/common/Button';
 const Cover = styled('div', {
-  marginTop: '213px',
+  marginTop: '180px',
+  position: 'relative',
 });
 
 const Title = styled('div', {
@@ -19,6 +20,7 @@ const Box = styled('div', {
   bottom: 0,
   backgroundColor: '$White',
   textAlign: 'center',
+  overflowY: 'auto',
 });
 
 const Top = styled('div', {
