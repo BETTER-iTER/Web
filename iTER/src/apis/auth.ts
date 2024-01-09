@@ -9,7 +9,7 @@ export const postJoinEmail = async (email: string) => {
     return response.data;
   } catch (error) {
     console.log('가입인증메일 오류', error);
-    throw error;
+    return error;
   }
 };
 

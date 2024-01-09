@@ -70,7 +70,7 @@ export const ButtonControl: FC<ButtonProps> = ({ onClick, children, type, active
   return (
     <Caption2>
       <ButtonControlBody onClick={onClick} active={active}>
-        {children} {type == 'toggle' && <ArrowDown />}
+        {children} {type == 'toggle' && <ArrowDown stroke={active ? '#8787F4' : '#D8DBE2'} />}
       </ButtonControlBody>
     </Caption2>
   );

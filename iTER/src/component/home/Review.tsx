@@ -62,6 +62,10 @@ const Title = styled('div', {
   bodyText: 2,
   lineHeight: '20px',
   margin: '10px 0 4px 0',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  width: '130px',
 });
 
 const User = styled('div', {

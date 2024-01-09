@@ -1,10 +1,12 @@
 import { NewsProps } from './News';
 import { ReviewPreviewProps, CategoryProps } from './Review';
 
-export interface HomeProps {
+interface HomeProps {
   news: NewsProps[];
   categories: CategoryProps[];
-  categoryReviews: { [category: string]: ReviewPreviewProps[] };
+  interestedCategoryReviews: Record<string, ReviewPreviewProps[]>;
   followingReviews: ReviewPreviewProps[];
   mostScrapedAndLikedReviews: ReviewPreviewProps[];
 }
+
+export default HomeProps;

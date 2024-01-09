@@ -49,6 +49,7 @@ const CheckCategory: React.FC<CheckCategoryProps> = ({ onDisabled, onCategorySel
             onClick={() => handleCategoryClick(category.name, index)}
             isSelected={selectedCategory.name === category.name}
             gap={4}
+            imageUrl={category.imageUrl}
           />
         ))}
       </CategoryBox>

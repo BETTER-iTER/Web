@@ -4,7 +4,7 @@ import HeartFill from '../../assets/icon/HeartFill.svg?react';
 import CommentIcon from '../../assets/icon/Comment.svg?react';
 import ScrapIcon from '../../assets/icon/Scrap.svg?react';
 import ShareIcon from '../../assets/icon/Share.svg?react';
-import { Caption1 } from '../Font';
+import { Caption1, Caption2 } from '../Font';
 import ReviewImage from './ReviewImage';
 
 import { CommentSort } from '../common/CommentSort';
@@ -16,12 +16,14 @@ import axios from 'axios';
 import { ReviewDetailProps } from '../../types/Review';
 import StarRatingShow from '../../component/review/StarRatingShow';
 import { Store } from '../../constants/Store';
+import Toast from '../common/Toast';
 
 const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
   const { data } = props;
 
   const short = data.shortReview.replace(/['"]/g, '').split(', ');
   const [setting, setSetting] = useState<boolean>(false);
+  const [toast, setToast] = useState<boolean>(false);
 
   function formatDateString(inputDate: string): string {
     const date = new Date(inputDate);
@@ -65,6 +67,17 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
       console.log(response.data);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  // 클립보드 복사(공유)
+  const location = window.location;
+  const handleCopyClipBoard = async () => {
+    try {
+      await navigator.clipboard.writeText(location.href);
+      setToast(true);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -120,7 +133,7 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
               <ScrapIcon fill={'#4C4E55'} width={24} height={24} />
               {data.scrapedCount}
             </Active>
-            <div>
+            <div onClick={() => handleCopyClipBoard()} style={{ cursor: 'pointer' }}>
               <ShareIcon />
             </div>
           </div>
@@ -128,6 +141,9 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
         {/* 리뷰 내용 */}
         <Title>{data.productName}</Title>
         <Caption1 style={{ color: '#57606A' }}>{data.reviewSpecData.join(' / ')}</Caption1>
+        <Caption2 style={{ color: '#57606A', marginTop: '8px' }}>
+          조회수 {data.shownCount}회
+        </Caption2>
         {/* 별점 */}
         <Stars>
           <StarRatingShow rating={data.starPoint} />
@@ -175,6 +191,8 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
           }}
         />
       )}
+
+      {toast && <Toast message={'클립보드에 복사되었습니다'} onClose={() => setToast(false)} />}
     </>
   );
 };
@@ -216,7 +234,7 @@ const Title = styled('div', {
 const Stars = styled('div', {
   display: 'flex',
   gap: '4px',
-  marginTop: '27px',
+  marginTop: '24px',
 });
 
 const SimpleReviews = styled('div', {

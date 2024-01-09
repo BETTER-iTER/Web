@@ -25,6 +25,14 @@ const ReviewDetail = () => {
   const navigate = useNavigate();
   const id = location.pathname.split('/')[3];
 
+  // 검색 리스트로 돌아가기
+  const { state } = useLocation();
+  console.log('state', state);
+  const handleGoBack = () => {
+    navigate('/search', { state: state });
+  };
+
+  // 리뷰 삭제
   const mutation = useMutation(deleteReview, {
     onSuccess: (data) => {
       console.log('data', data);
@@ -55,10 +63,9 @@ const ReviewDetail = () => {
   const writerInfo = reviewDetailData?.writerInfo;
   const relatedReviews = reviewDetailData?.relatedReviews;
 
-  console.log('reviewDetail', reviewDetail);
   return (
     <>
-      <Top title={reviewDetail.productName} />
+      <Top title={reviewDetail.productName} back={state && handleGoBack} />
       <Container>
         {/* 상단 유저 정보 및 설정 버튼 */}
         <User>

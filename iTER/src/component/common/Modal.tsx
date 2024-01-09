@@ -112,6 +112,7 @@ const Back = styled('div', {
   justifyContent: 'center',
   alignItems: 'center',
   pointerEvents: 'auto',
+  zIndex: 100,
 });
 
 const Container = styled('div', {
