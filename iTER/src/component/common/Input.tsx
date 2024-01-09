@@ -166,8 +166,8 @@ export const Input: React.FC<{
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
-    setInputValue(newValue);
     onChange(newValue);
+    setInputValue('');
   };
 
   return (

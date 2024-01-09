@@ -154,7 +154,7 @@ const CommentText = styled('div', {
   textAlign: 'center',
   justifyContent: 'center',
   alignItems: 'center',
-  paddingTop: '6px',
+  paddingTop: '3px',
 });
 const CommentBody = styled('button', {
   width: '58px',
