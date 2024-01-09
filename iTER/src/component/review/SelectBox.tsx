@@ -1,92 +1,124 @@
-import React from "react";
-import { Caption1, Headline4 } from "../Font";
-import ButtonGrid from "./ButtonGrid"
-import { styled } from "../../../stitches.config";
+import React, { useState } from 'react';
+import { Caption1, Headline4 } from '../Font';
+import ButtonGrid from './ButtonGrid';
+import { styled } from '../../../stitches.config';
+import { useEffect } from 'react';
+import { getSpecData } from '../../apis/Review';
+import { useData } from '../../context/DataContext';
 
 interface SelectBoxCPUProps {
-    onCPUClick: (item: string) => void;
-    onWINDOWClick: (item: string) => void;
-    onRAMClick: (item: string) => void;
-    onSIZEClick: (item: string) => void;
-  }
+  onCPUClick: (item: string, id: number) => void;
+  onWINDOWClick: (item: string, id: number) => void;
+  onRAMClick: (item: string, id: number) => void;
+  onSIZEClick: (item: string, id: number) => void;
+}
 
-  
-export const SelectBoxCPU: React.FC <SelectBoxCPUProps> = ({ onCPUClick, onWINDOWClick, onRAMClick, onSIZEClick }) => {
-    const itemsCPU = ['코어 i 5-13세대', '코어 i 7-12세대', '코어 i 5-12세대', '라이젠 7-5세대', '라이젠 5-4세대', '기타'];
-    const itemsWINDOW = ['17인치', '16인치', '15인치', '14인치', '13인치', '기타'];
-    const itemsRAM = ['64GB', '32GB', '16GB', '8GB', '4GB', '기타'];
-    const itemsSIZE = ['1TB 초과', '1TB-513GB', '512-257GB', '256-129GB', '128-120GB', '기타'];
+interface SpecDataProps {
+  id: number;
+  specData: {
+    id: number;
+    data: string;
+  }[];
+  title: string;
+}
 
-    const handleCPUClick = (item: string) => {
-        console.log(`클릭한 버튼: ${item}`);
-        onCPUClick(item);
-      };
-    const handleWINDOWClick = (item: string) => {
-        console.log(`클릭한 버튼: ${item}`);
-        onWINDOWClick(item);
-      };
-    const handleRAMClick = (item: string) => {
-        console.log(`클릭한 버튼: ${item}`);
-        onRAMClick(item);
-      };
-    const handleSIZEClick = (item: string) => {
-        console.log(`클릭한 버튼: ${item}`);
-        onSIZEClick(item);
-      };
+export const SelectBoxCPU: React.FC<SelectBoxCPUProps> = ({
+  onCPUClick,
+  onWINDOWClick,
+  onRAMClick,
+  onSIZEClick,
+}) => {
+  const [specDataList, setSpecDataList] = useState<SpecDataProps[]>([]);
+  console.log(specDataList, '?');
+  // const [specNum, setSpecNum] = useState<string[]>([]);
+  const specNum: number[] = [];
+  const { updateFormData } = useData();
+  const { formData } = useData();
+  useEffect(() => {
+    const handleCategory = async () => {
+      try {
+        const selectedCategory = formData.category;
+        const responseData = await getSpecData(String(selectedCategory));
+        const specDataList = responseData.data.result.specs;
+        console.log(specDataList);
+        setSpecDataList(specDataList);
+        // const newData = { specData: specDataList };
+        // updateFormData(newData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    handleCategory();
+  }, []);
 
-    return (
-        <>
-        <Cover>
-            <Head>
-                <Headline4>제품 스펙</Headline4>
-            </Head>
+  const handleSpecClick = (item: string, id: number, index: number) => {
+    console.log(`클릭한 버튼: ${item}`);
+    console.log(`클릭한 버튼의 id: ${id}`);
+    switch (index) {
+      case 0:
+        onCPUClick(item, id);
+        specNum[0] = id;
+        console.log(specNum);
+        // localStorage.setItem('speclist', String(specNum));
+        break;
+      case 1:
+        onWINDOWClick(item, id);
+        specNum[1] = id;
+        console.log(specNum);
+        // localStorage.setItem('speclist', String(specNum));
+        break;
+      case 2:
+        onRAMClick(item, id);
+        specNum[2] = id;
+        console.log(specNum);
+        // localStorage.setItem('speclist', String(specNum));
+        break;
+      case 3:
+        onSIZEClick(item, id);
+        specNum[3] = id;
+        console.log(specNum);
+        // localStorage.setItem('speclist', String(specNum));
+        break;
 
-            <CPUcover>
-                <Caption1>* CPU 종류</Caption1>
-                <div style={{ marginTop: 11 }} />
-                <ButtonGrid items={itemsCPU} onButtonClick={handleCPUClick} />
-            </CPUcover>
+      default:
+        break;
+    }
+    // console.log(specNum);
+    const newData = { specData: specNum };
+    updateFormData(newData);
+  };
 
-            <WINDOWcover>
-                <Caption1>* 화면 크기</Caption1>
-                <div style={{ marginTop: 11 }} />
-                <ButtonGrid items={itemsWINDOW} onButtonClick={handleWINDOWClick} />
-            </WINDOWcover>
-            <RAMcover>
-                <Caption1>* 램</Caption1>
-                <div style={{ marginTop: 11 }} />
-                <ButtonGrid items={itemsRAM} onButtonClick={handleRAMClick} />
-            </RAMcover>
-            <SIZEcover>
-                <Caption1>* 저장 용량</Caption1>
-                <div style={{ marginTop: 11 }} />
-                <ButtonGrid items={itemsSIZE} onButtonClick={handleSIZEClick} />
-            </SIZEcover>
-        </Cover>
-        </>
-    );
+  return (
+    <>
+      <Cover>
+        <Head>
+          <Headline4>제품 스펙</Headline4>
+        </Head>
+        {specDataList.map((specdata, index) => (
+          <SpecCover key={index}>
+            <Caption1>* {specdata.title}</Caption1>
+            <div style={{ marginTop: 11 }} />
+            <ButtonGrid
+              items={
+                specdata && Array.isArray(specdata.specData)
+                  ? specdata.specData.map((item) => ({ data: item.data, id: item.id }) || '없음')
+                  : []
+              }
+              onButtonClick={(item) => handleSpecClick(item.data, item.id, index)}
+            />
+          </SpecCover>
+        ))}
+      </Cover>
+    </>
+  );
 };
 
-const Cover = styled("div", {
-    marginTop: "23px",
-})
-
-const Head = styled("div", {
-    marginTop: "-13px"
-})
-
-const CPUcover = styled("div", {
-    marginTop: "20px",
-})
-
-const WINDOWcover = styled("div", {
-    marginTop: "22px",
-})
-
-const RAMcover = styled("div", {
-    marginTop: "22px",
-})
-
-const SIZEcover = styled("div", {
-    marginTop: "22px",
-})
+const Cover = styled('div', {
+  marginTop: '23px',
+});
+const SpecCover = styled('div', {
+  marginTop: '22px',
+});
+const Head = styled('div', {
+  marginTop: '-13px',
+});

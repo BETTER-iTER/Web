@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import { Swiper as Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import { styled } from '../../../stitches.config';
@@ -9,7 +9,7 @@ interface imageProps {
 const ReviewImage = ({ list }: { list: imageProps[] }) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
-  const handleSlideChange = (swiper) => {
+  const handleSlideChange = (swiper: { activeIndex: SetStateAction<number> }) => {
     setCurrentIndex(swiper.activeIndex);
   };
   return (
@@ -18,7 +18,9 @@ const ReviewImage = ({ list }: { list: imageProps[] }) => {
         <Swiper
           spaceBetween={0}
           slidesPerView={1}
-          onSlideChange={(swiper) => handleSlideChange(swiper)}
+          onSlideChange={(swiper: { activeIndex: SetStateAction<number> }) =>
+            handleSlideChange(swiper)
+          }
           className="my-swiper-class"
         >
           {list.map((image, index) => (
@@ -91,26 +93,3 @@ const Indicator = styled('div', {
     },
   },
 });
-
-const dummy = [
-  {
-    src: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1769&q=80',
-    alt: 'Banner 1',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1772&q=80',
-    alt: 'Banner 2',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto.format&fit=crop&w=1770&q=80',
-    alt: 'Banner 3',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1503252947848-7338d3f92f31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1931&q=80',
-    alt: 'Banner 4',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80',
-    alt: 'Banner 5',
-  },
-];

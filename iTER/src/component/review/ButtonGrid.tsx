@@ -3,8 +3,8 @@ import { styled } from '../../../stitches.config';
 import { Caption1 } from '../Font';
 
 interface ButtonGridProps {
-  items: string[];
-  onButtonClick: (item: string) => void;
+  items: { data: string; id: number }[];
+  onButtonClick: (item: { data: string; id: number }) => void;
 }
 
 const GridContainer = styled('div', {
@@ -25,10 +25,10 @@ const Item = styled('div', {
 });
 
 const ButtonGrid: React.FC<ButtonGridProps> = ({ items, onButtonClick }) => {
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+  const [selectedItem, setSelectedItem] = useState<number | null>(null);
 
-  const handleButtonClick = (item: string) => {
-    setSelectedItem(item); // 클릭된 항목을 상태에 저장
+  const handleButtonClick = (item: { data: string; id: number }) => {
+    setSelectedItem(item.id);
     onButtonClick(item);
   };
 
@@ -39,12 +39,12 @@ const ButtonGrid: React.FC<ButtonGridProps> = ({ items, onButtonClick }) => {
           key={index}
           onClick={() => handleButtonClick(item)}
           style={{
-            border: selectedItem === item ? '1px solid #8787F4' : '1px solid #EAEEF2', // 클릭된 버튼의 테두리를 변경
-            color: selectedItem === item ? '#8787F4' : '#8C959F', // 클릭된 버튼의 글자색을 변경
+            border: selectedItem === item.id ? '1px solid #8787F4' : '1px solid #EAEEF2',
+            color: selectedItem === item.id ? '#8787F4' : '#8C959F',
           }}
         >
           <Item>
-            <Caption1>{item}</Caption1>
+            <Caption1>{item.data}</Caption1>
           </Item>
         </GridItem>
       ))}

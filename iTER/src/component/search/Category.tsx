@@ -45,7 +45,7 @@ const Container = styled('div', {
   width: '370px',
   bodyText: 1,
 
-  padding: '25px 0 0 25px',
+  padding: '20px 0 0 20px',
   overflow: 'hidden',
 });
 

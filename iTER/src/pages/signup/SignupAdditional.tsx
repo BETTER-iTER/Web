@@ -22,7 +22,7 @@ const SignupAdditional = () => {
   const [count, setCount] = useState<number>(1);
   const [disabled, setDisabled] = useState<boolean>(true);
   const [nickname, setNickname] = useState<string>('');
-  const [job, setJob] = useState<number>(-1);
+  const [job, setJob] = useState<string>('');
   const [interest, setInterest] = useState<string>('');
   const location = useLocation();
   const navigation = useNavigate();
@@ -32,7 +32,7 @@ const SignupAdditional = () => {
   const handleNickname = (value: string) => {
     setNickname(value);
   };
-  const handleJob = (value: number) => {
+  const handleJob = (value: string) => {
     setJob(value);
   };
   const handleInterest = (value: string) => {

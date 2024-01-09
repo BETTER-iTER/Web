@@ -85,6 +85,7 @@ export default TopSearch;
 const Container = styled('div', {
   width: '350px',
   height: '60px',
+  minHeight: '60px',
   backgroundColor: '$White',
   display: 'flex',
   justifyContent: 'center',

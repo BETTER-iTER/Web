@@ -1,5 +1,6 @@
 import { styled } from '../../../stitches.config';
 import UserIcon from '../../assets/icon/User.svg?react';
+import ExpertIcon from '../../assets/icon/Expert.svg?react';
 import { Caption2 } from '../Font';
 
 interface ProfileSimpleProps {
@@ -7,8 +8,9 @@ interface ProfileSimpleProps {
   nickName?: string;
   job?: string;
   profileImage?: string;
+  expert?: boolean;
 }
-const ProfileSimple = ({ color, nickName, job, profileImage }: ProfileSimpleProps) => {
+const ProfileSimple = ({ color, nickName, job, profileImage, expert }: ProfileSimpleProps) => {
   return (
     <User color={'white'}>
       {profileImage ? (
@@ -18,6 +20,7 @@ const ProfileSimple = ({ color, nickName, job, profileImage }: ProfileSimpleProp
       ) : (
         <UserIcon width={16} height={16} />
       )}
+
       {color == 'white' ? (
         <Caption2 style={{ color: '#fff' }}>
           {nickName} | {job}
@@ -27,6 +30,7 @@ const ProfileSimple = ({ color, nickName, job, profileImage }: ProfileSimpleProp
           {nickName} | {job}
         </>
       )}
+      {expert && <ExpertIcon />}
     </User>
   );
 };

@@ -17,6 +17,7 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
   scrapedCount,
   likedCount,
   reviewImage,
+  keyword, // 검색 결과로 들어온 경우에만 존재
 }) => {
   const navigate = useNavigate();
   const [active, setActive] = useState<boolean>(false);
@@ -29,32 +30,36 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
     <Container>
       <Box
         onClick={() => {
-          navigate(`/search/review/${id}`);
+          navigate(`/search/review/${id}`, { state: { keyword } });
         }}
       >
         <Image>
           <img src={reviewImage} alt="" width={120} height={120} />
         </Image>
 
-        <div>
-          <Title>{productName}</Title>
-          <Caption2>
-            {spec}
-            <Reviews>
-              <Stars>
-                <Star fill={'#8787F4'} width={15} height={15} /> {starPoint}
-              </Stars>
-              {shortReviewList.map((item: string, index: number) => {
-                return index == shortReviewList.length - 1 ? `"${item}"` : `"${item}"` + ', ';
-              })}
-            </Reviews>
-          </Caption2>
+        <Content>
+          <div>
+            <Title>{productName}</Title>
+            <Caption2>
+              {spec}
+              {spec.length > 0 && <div style={{ height: 8 }} />}
+              <Reviews>
+                <Stars>
+                  <Star fill={'#8787F4'} width={15} height={15} /> {starPoint}
+                </Stars>
+                {shortReviewList.map((item: string, index: number) => {
+                  return index == shortReviewList.length - 1 ? `"${item}"` : `"${item}"` + ', ';
+                })}
+              </Reviews>
+            </Caption2>
+          </div>
+
           <ProfileSimple
             nickName={userInfo.nickName}
             profileImage={userInfo.profileImage}
             job={userInfo.job}
           />
-        </div>
+        </Content>
       </Box>
       <Buttons>
         <ButtonEmpty
@@ -96,6 +101,13 @@ const Box = styled('div', {
   marginBottom: '8px',
 });
 
+const Content = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  height: '110px',
+});
+
 const Image = styled('div', {
   width: '120px',
   height: '120px',
@@ -106,13 +118,18 @@ const Image = styled('div', {
 const Title = styled('div', {
   bodyText: 1,
   color: '$TitleBlack',
+  marginBottom: '1px',
+  width: '190px',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
 });
 
 const Reviews = styled('div', {
   display: 'flex',
   width: '190px',
   justifyContent: 'space-between',
-  margin: '10px 0 21px 0',
+  margin: '0 0 21px 0',
 });
 
 const Stars = styled('div', {

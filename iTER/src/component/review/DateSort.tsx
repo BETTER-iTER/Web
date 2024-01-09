@@ -1,8 +1,8 @@
-import React, { useRef, useEffect } from "react";
-import { styled } from "../../../stitches.config";
-import { useState } from "react";
-import CustomDatePicker from "./DatePicker";
-import Bottom from "../common/Bottom";
+import { useRef, useEffect } from 'react';
+import { styled } from '../../../stitches.config';
+import { useState } from 'react';
+import CustomDatePicker from './DatePicker';
+import Bottom from '../common/Bottom';
 
 const DateSort = ({
   onClose,
@@ -14,6 +14,7 @@ const DateSort = ({
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
 
+  console.log(selectedDate);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -21,10 +22,10 @@ const DateSort = ({
       }
     };
 
-    window.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      window.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
@@ -50,8 +51,8 @@ const DateSort = ({
 
 export default DateSort;
 
-const SortBox = styled("div", {
-  display: "flex",
-  flexDirection: "column",
-  marginBottom: "60px",
+const SortBox = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  marginBottom: '60px',
 });

@@ -21,9 +21,11 @@ export interface ReviewProps {
     nickName: string;
     job: string;
     profileImage?: string;
+    expert?: boolean;
   };
   scrapedCount: number;
   likedCount: number;
+  keyword?: string; // 검색결과로 들어간 경우
 }
 
 export interface CategoryProps {
@@ -34,6 +36,7 @@ export interface CategoryProps {
 export interface CategoryReviewProps {
   hasNext: boolean;
   reviews: ReviewProps[];
+  existed: boolean;
 }
 
 export interface ReviewDetailProps {
@@ -62,6 +65,7 @@ export interface ReviewDetailProps {
     scrap: boolean;
     price: number;
     comparedProductName: string;
+    shownCount: number;
   };
   writerInfo: UserViewProps;
   relatedReviews: ReviewPreviewProps[];
@@ -81,5 +85,6 @@ export interface MypageReviewProps {
     scrapCount: number;
     isLike: boolean;
     isScrap: boolean;
+    expert?: boolean;
   }[];
 }

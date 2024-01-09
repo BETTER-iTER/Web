@@ -14,7 +14,8 @@ import { MypageReviewProps } from '../../types/Review';
 
 const Mypage = () => {
   const [status, setStatus] = useState<number>(0);
-  const [id, setId] = useState<number>(0);
+  // const [id, setId] = useState<number>(1);
+  const id = 1;
 
   const {
     data: scrapData,
@@ -140,9 +141,9 @@ const Bottom = styled('div', {
   justifyContent: 'center',
 });
 
-const DetailReviews = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
-  alignItems: 'center',
-});
+// const DetailReviews = styled('div', {
+//   display: 'flex',
+//   flexDirection: 'column',
+//   width: '100%',
+//   alignItems: 'center',
+// });

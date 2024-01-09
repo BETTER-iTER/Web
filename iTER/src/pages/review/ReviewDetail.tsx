@@ -2,7 +2,6 @@ import { styled } from '../../../stitches.config';
 import Nav from '../../component/layout/Nav';
 import Top from '../../component/layout/Top';
 import UserIcon from '../../assets/icon/User.svg?react';
-import Dots3 from '../../assets/icon/Dots3.svg?react';
 import { Caption2 } from '../../component/Font';
 import { useState } from 'react';
 import { BottomReviewSetting } from '../../component/common/Bottom';
@@ -26,6 +25,14 @@ const ReviewDetail = () => {
   const navigate = useNavigate();
   const id = location.pathname.split('/')[3];
 
+  // 검색 리스트로 돌아가기
+  const { state } = useLocation();
+  console.log('state', state);
+  const handleGoBack = () => {
+    navigate('/search', { state: state });
+  };
+
+  // 리뷰 삭제
   const mutation = useMutation(deleteReview, {
     onSuccess: (data) => {
       console.log('data', data);
@@ -56,10 +63,9 @@ const ReviewDetail = () => {
   const writerInfo = reviewDetailData?.writerInfo;
   const relatedReviews = reviewDetailData?.relatedReviews;
 
-  console.log('reviewDetail', reviewDetail);
   return (
     <>
-      <Top title={reviewDetail.productName} />
+      <Top title={reviewDetail.productName} back={state && handleGoBack} />
       <Container>
         {/* 상단 유저 정보 및 설정 버튼 */}
         <User>
@@ -76,16 +82,7 @@ const ReviewDetail = () => {
               <Caption2>{writerInfo.job}</Caption2>
             </Job>
           </Right>
-          {reviewDetail.mine ? (
-            <div
-              style={{ cursor: 'pointer' }}
-              onClick={() => {
-                setSetting(!setting);
-              }}
-            >
-              <Dots3 />
-            </div>
-          ) : (
+          {!reviewDetail.mine && (
             <FollowButton
               onClick={() => {
                 console.log('팔로우');

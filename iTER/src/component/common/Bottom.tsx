@@ -28,6 +28,9 @@ const Bottom = ({ title, component, onClose }: BottomProps) => {
   if (title === '제조사') {
     defaultSnap = 800;
   }
+  if (title === '댓글') {
+    defaultSnap = 800;
+  }
 
   return (
     <BottomSheet
@@ -46,9 +49,11 @@ const Bottom = ({ title, component, onClose }: BottomProps) => {
 export const BottomCategory = ({
   onClose,
   onChange,
+  keyword,
 }: {
   onClose: () => void;
   onChange: (value: string) => void;
+  keyword: string;
 }) => {
   const { data, isLoading, isError } = useQuery<CategoryProps[], Error>(['category'], getCategory);
   if (isLoading) return <LoadingPage />;
@@ -67,7 +72,7 @@ export const BottomCategory = ({
               imageUrl={category.imageUrl}
               onChange={() => onChange(category.name)}
               onClose={onClose}
-              isSelected={false}
+              isSelectedBorer={keyword === category.name}
               gap={4}
             />
           ))}

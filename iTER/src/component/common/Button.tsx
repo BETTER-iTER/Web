@@ -66,11 +66,11 @@ export const ButtonEmpty: FC<ButtonProps> = ({ onClick, children, type, active }
 };
 
 // 컨트롤 버튼
-export const ButtonControl: FC<ButtonProps> = ({ onClick, children, type }) => {
+export const ButtonControl: FC<ButtonProps> = ({ onClick, children, type, active }) => {
   return (
     <Caption2>
-      <ButtonControlBody onClick={onClick}>
-        {children} {type == 'toggle' && <ArrowDown />}
+      <ButtonControlBody onClick={onClick} active={active}>
+        {children} {type == 'toggle' && <ArrowDown stroke={active ? '#8787F4' : '#D8DBE2'} />}
       </ButtonControlBody>
     </Caption2>
   );
@@ -98,6 +98,7 @@ export const ButtonPoint: FC<ButtonProps> = ({ onClick, children }) => {
 
 //선택 버튼
 export const ButtonSelect: FC<ButtonProps> = ({ onClick, children, disabled }) => {
+  console.log(children, '?');
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (!disabled && onClick) {
       onClick(event);
@@ -129,6 +130,51 @@ export const ButtonPopup: FC<ButtonProps> = ({ onClick, children, disabled }) =>
     </>
   );
 };
+
+//댓글 작성 버튼
+export const ButtonComment: FC<ButtonProps> = ({ onClick, children, disabled }) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    if (!disabled && onClick) {
+      onClick(event);
+    }
+  };
+
+  return (
+    <>
+      <CommentBody onClick={handleClick} disabled={disabled}>
+        <CommentText>{children}</CommentText>
+      </CommentBody>
+    </>
+  );
+};
+
+const CommentText = styled('div', {
+  fontSize: '15px',
+  color: 'White',
+  textAlign: 'center',
+  justifyContent: 'center',
+  alignItems: 'center',
+  paddingTop: '6px',
+});
+const CommentBody = styled('button', {
+  width: '58px',
+  height: '37px',
+  border: 'none',
+  borderRadius: '8px',
+  backgroundColor: '#8E9198',
+  variants: {
+    disabled: {
+      true: {
+        backgroundColor: '#8E9198',
+        cursor: 'not-allowed',
+      },
+      false: {
+        backgroundColor: '#4C4E55',
+        cursor: 'pointer',
+      },
+    },
+  },
+});
 
 const ButtonBody2 = styled('button', {
   width: '380px',
@@ -227,6 +273,18 @@ const ButtonControlBody = styled('button', {
   alignItems: 'center',
   gap: '4px',
   cursor: 'pointer',
+  variants: {
+    active: {
+      true: {
+        border: '1px solid $Brand',
+        color: '$Brand',
+      },
+      false: {
+        border: '1px solid $Gray10',
+        color: '$Gray30',
+      },
+    },
+  },
 });
 
 const ButtonBlackBody = styled('button', {

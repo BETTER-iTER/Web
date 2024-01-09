@@ -57,7 +57,7 @@ export const ModalSelect: FC<ModalProps> = ({ text, btn, onClick, onClosed }) =>
   );
 };
 
-export const ModalMyPoint: FC<ModalProps> = ({ onClick, onClosed }) => {
+export const ModalMyPoint: FC<ModalProps> = ({ onClosed }) => {
   const score = [
     { title: '리뷰를 작성하면', score: '+ 20점' },
     { title: 'IT 퀴즈를 풀면', score: '+3점' },
@@ -112,7 +112,7 @@ const Back = styled('div', {
   justifyContent: 'center',
   alignItems: 'center',
   pointerEvents: 'auto',
-  zIndex: 1000,
+  zIndex: 100,
 });
 
 const Container = styled('div', {

@@ -8,10 +8,10 @@ import Footer from '../component/layout/Footer';
 import Nav from '../component/layout/Nav';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { getHome } from '../apis/home';
+import { getHome } from '../apis/Home';
 import LoadingPage from '../component/common/Loading';
 import ErrorPage from '../component/common/Error';
-import { HomeProps } from '../types/Home';
+import HomeProps from '../types/Home';
 import React, { useEffect, useState } from 'react';
 
 const Home = () => {
@@ -25,6 +25,8 @@ const Home = () => {
 
   if (homeLoading) return <LoadingPage />;
   if (homeError) return <ErrorPage type={2} />;
+
+  console.log('homeData', homeData.interestedCategoryReviews);
 
   return (
     <Container>
@@ -45,19 +47,31 @@ const Home = () => {
       <CategoryScroll list={homeData?.categories} />
 
       {/* 관심카테고리 리뷰 리스트 */}
-      {Object.keys(homeData.categoryReviews).map((category: string) => {
-        const categoryName = category as string;
-        return (
+      {homeData.interestedCategoryReviews &&
+        Object.entries(homeData.interestedCategoryReviews).map(([categoryName, reviews]) => (
           <React.Fragment key={categoryName}>
-            {homeData.categoryReviews[categoryName].length > 0 && (
+            {reviews.length > 0 && (
               <>
-                <Label>{categoryName}</Label>
-                <Review list={homeData?.categoryReviews[categoryName]} />
+                <Label>
+                  {categoryName === '휴대폰' && '📱'}
+                  {categoryName === '노트북' && '💻'}
+                  {categoryName === 'PC' && '🖥'}
+                  {categoryName === '스마트워치' && '⌚️'}
+                  {categoryName === '태블릿' && '📟'}
+                  {categoryName === '마우스' && '🖱️'}
+                  {categoryName === '키보드' && '⌨️'}
+                  {categoryName === '헤드폰' && '🎧'}
+                  {categoryName === '스피커' && '📻'}
+                  {categoryName === '보조배터리' && '🔋'}
+                  {categoryName === '악세서리' && '🖨️'}
+                  {categoryName === '기타' && '🎮'}
+                  {categoryName}
+                </Label>
+                <Review list={reviews} />
               </>
             )}
           </React.Fragment>
-        );
-      })}
+        ))}
 
       {homeData.followingReviews.length > 0 && (
         <>

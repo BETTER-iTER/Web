@@ -42,12 +42,12 @@ const Item = (data: ReviewPreviewProps) => {
       <Image>
         <img src={data.imageUrl} alt="product" width={170} height={170} />
       </Image>
-      <Title>
-        {data.productName}
+      <TitleBox>
+        <Title>{data.productName}</Title>
         <div>
           <Heart width={17} height={15} fill={'#AFB8C1'} />
         </div>
-      </Title>
+      </TitleBox>
       <User>
         {data.imageUrl ? (
           <UserImage>
@@ -96,7 +96,7 @@ const Image = styled('div', {
   overflow: 'hidden',
 });
 
-const Title = styled('div', {
+const TitleBox = styled('div', {
   height: '20px',
   width: '150px',
   bodyText: 2,
@@ -105,6 +105,13 @@ const Title = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
+});
+
+const Title = styled('div', {
+  width: '120px',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
 });
 
 const User = styled('div', {

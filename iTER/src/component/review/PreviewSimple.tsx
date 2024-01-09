@@ -87,6 +87,9 @@ const Title = styled('div', {
   width: '168px',
   color: '$TitleBlack',
   margin: '8px 0 5px 0',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
 });
 
 const Action = styled('div', {

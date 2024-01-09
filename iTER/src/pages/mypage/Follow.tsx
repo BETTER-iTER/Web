@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { styled } from '../../../stitches.config';
 import Top from '../../component/layout/Top';
 import UserIcon from '../../assets/icon/User.svg?react';
+import ExpertIcon from '../../assets/icon/Expert.svg?react';
 import Nav from '../../component/layout/Nav';
 import { getMypageFollowings } from '../../apis/Mypage';
 import { getMypageFollowers } from '../../apis/Mypage';
@@ -11,7 +12,8 @@ import ErrorPage from '../../component/common/Error';
 
 const Follow = () => {
   const [status, setStatus] = useState<number>(0);
-  const [page, setPage] = useState<number>(0);
+  // const [page, setPage] = useState<number>(0);
+  const page = 0;
 
   const {
     data: followerData,
@@ -72,11 +74,17 @@ const Follow = () => {
 
 export default Follow;
 
-const Item = ({ name }: { name: string }) => {
+const Item = ({ name, expert, image }: { name: string; expert?: boolean; image?: string }) => {
   return (
     <ItemBox>
-      {/* <Image /> */}
-      <UserIcon width="45px" height="45px" />
+      <ImageBox>
+        <ExpertBox>{expert && <ExpertIcon width="10px" height="10px" />}</ExpertBox>
+        {image ? (
+          <Image style={{ backgroundImage: `url(${image})` }} />
+        ) : (
+          <UserIcon width="45px" height="45px" />
+        )}
+      </ImageBox>
       {name}
     </ItemBox>
   );
@@ -94,6 +102,16 @@ const StatusBox = styled('div', {
   justifyContent: 'space-between',
   width: '100%',
   borderBottom: '1px solid $Bar',
+});
+
+const ImageBox = styled('div', {
+  position: 'relative',
+});
+
+const ExpertBox = styled('div', {
+  position: 'absolute',
+  top: '-6px',
+  left: '-6px',
 });
 
 const Status = styled('div', {

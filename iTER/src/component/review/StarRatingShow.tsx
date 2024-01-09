@@ -1,4 +1,3 @@
-import React from 'react';
 import Star from '../../assets/icon/Star.svg';
 import Starfill from '../../assets/icon/Starfill.svg';
 import Starhalf from '../../assets/icon/Starhalf.svg';

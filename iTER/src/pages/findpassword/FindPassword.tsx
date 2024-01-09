@@ -47,7 +47,8 @@ const FindPassword = () => {
           setModalMessage('인증번호가 발송되었습니다');
           setIsModalOpen(true);
         }
-      } catch (error) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
         const emailError = error.response.data.code;
         if (emailError == 'USER_NOT_FOUND_400') {
           console.log('일치하는 회원정보 없음');
@@ -71,11 +72,12 @@ const FindPassword = () => {
   //인증번호 검증 api 연동
   const handleAuthButton = async (email: string, code: string) => {
     try {
-      const AuthData = await postEmailVerify(email, code);
+      const AuthData = await postEmailVerify({ email, code });
       console.log(AuthData);
       setCheckAuth(true);
       localStorage.setItem('email', email);
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       const AuthError = error.response.data.code;
       console.log(AuthError);
       setAuthWarning('인증번호가 일치하지 않습니다');

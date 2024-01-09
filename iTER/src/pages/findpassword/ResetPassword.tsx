@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { styled } from '../../../stitches.config';
 import InputComponent from '../../component/common/Input';
 import Button from '../../component/common/Button';
@@ -37,7 +38,7 @@ const ResetPassword = () => {
       const changeData = patchChangePassword(email, password);
       console.log(changeData);
       setIsModalOpen(true);
-    } catch (error) {
+    } catch (error: any) {
       const changeError = error.response.data.code;
       console.log(changeError);
     }
@@ -81,7 +82,7 @@ const ResetPassword = () => {
           <Button
             //비밀번호와 재입력한 비밀번호가 같으면 버튼 활성화
             disabled={!(checkPassword === password && validatePassword(checkPassword) && password)}
-            onClick={() => handleNext(emailData, password)}
+            onClick={() => emailData !== null && handleNext(emailData, password)}
             children="비밀번호 재설정"
           />
         </ButtonBody>

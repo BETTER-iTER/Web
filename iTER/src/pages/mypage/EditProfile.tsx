@@ -8,11 +8,13 @@ import Button from '../../component/common/Button';
 import { jobs } from '../../constants/Jobs';
 
 const EditProfile = () => {
-  const [email, setEmail] = useState<string>('example@naver.com');
+  // const [email, setEmail] = useState<string>('example@naver.com');
+  const email = 'example@naver.com';
   const [nickName, setNickName] = useState<string>('블루투스 하트');
   const [job, setJob] = useState<string>('개발자');
 
-  const [emailWarning, setEmailWarning] = useState<string>('');
+  // const [emailWarning, setEmailWarning] = useState<string>('');
+  const emailWarning = '';
   return (
     <Container>
       <Top title="프로필" />
