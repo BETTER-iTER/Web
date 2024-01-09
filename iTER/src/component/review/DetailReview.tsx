@@ -21,7 +21,7 @@ import Toast from '../common/Toast';
 const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
   const { data } = props;
 
-  const short = data.shortReview.replace(/['"]/g, '').split(', ');
+  const short = data.shortReview.replace(/['"]/g, '').split(',');
   const [setting, setSetting] = useState<boolean>(false);
   const [toast, setToast] = useState<boolean>(false);
 

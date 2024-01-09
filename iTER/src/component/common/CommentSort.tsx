@@ -38,13 +38,16 @@ export const CommentSort = () => {
   const sendComment = async () => {
     const currentPathname = window.location.pathname;
     const reviewId = currentPathname.split('/').pop();
+    if (addComment.trim() == '') {
+      return;
+    }
+
     try {
       const response = await axios.post('https://dev.betteritem.store/comment/create', {
         review_id: reviewId,
         comment: addComment,
       });
-      setAddComment('');
-      // 댓글을 전송한 후 댓글 목록을 다시 불러와서 화면을 갱신
+
       fetchCommentDataFromServer().then((data) => {
         setCommentArray(data.result);
       });
@@ -52,6 +55,9 @@ export const CommentSort = () => {
       console.log(response);
     } catch (error) {
       console.log('에러', error);
+    } finally {
+      setAddComment('');
+      setIsInputEmpty(true);
     }
   };
 
@@ -236,6 +242,7 @@ const InputBtnLay = styled('div', {
   display: 'flex',
   gap: '20px',
   marginTop: '10px',
+  marginLeft: '30px',
 });
 const BottomInputLay = styled('div', {
   position: 'fixed',
@@ -265,6 +272,7 @@ const SortBox = styled('div', {
   paddingBottom: '10px',
   paddingTop: '10px',
   width: '360px',
+  paddingLeft: '45px',
 });
 
 const SortItem = styled('div', {
