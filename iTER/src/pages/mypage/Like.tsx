@@ -4,7 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getMypageReviewLike } from '../../apis/Mypage';
 import LoadingPage from '../../component/common/Loading';
 import ErrorPage from '../../component/common/Error';
-import { MypageReviewProps } from '../../types/Review';
+import { CategoryReviewProps } from '../../types/Review';
+import ListItem from '../../component/search/ListItem';
 
 const Like = () => {
   // const [page, setPage] = useState<number>(0);
@@ -14,7 +15,7 @@ const Like = () => {
     data: likeData,
     isLoading: likeLoading,
     isError: likeError,
-  } = useQuery<MypageReviewProps>(['like', page], () => getMypageReviewLike(page));
+  } = useQuery<CategoryReviewProps>(['like', page], () => getMypageReviewLike(page));
 
   likeLoading && <LoadingPage />;
   likeError && <ErrorPage type={2} />;
@@ -24,14 +25,22 @@ const Like = () => {
     <Container>
       <Top title="좋아요한 리뷰" />
 
-      {likeData !== undefined && likeData.reviewCount > 0 ? (
+      {likeData !== undefined && likeData.reviews.length > 0 ? (
         <List>
-          {/* {likeData.reviewList.map((item, index) => (
+          {likeData.reviews.map((item, index) => (
             <ListItem
               key={index}
+              id={item.id}
+              productName={item.productName}
+              reviewSpecData={item.reviewSpecData}
+              starPoint={item.starPoint}
+              shortReview={item.shortReview}
+              userInfo={item.userInfo}
+              scrapedCount={item.scrapedCount}
+              likedCount={item.likedCount}
+              reviewImage={item.reviewImage}
             />
-            <div>좋아요한 리뷰</div>
-          ))} */}
+          ))}
         </List>
       ) : (
         <Empty>마음에 드는 리뷰에 좋아요를 눌러보세요</Empty>
@@ -57,4 +66,9 @@ const Empty = styled('div', {
 
 const List = styled('div', {
   width: '350px',
+  height: '100vh',
+  overflowY: 'scroll',
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
 });
