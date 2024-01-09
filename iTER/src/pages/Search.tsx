@@ -12,6 +12,7 @@ const Search = () => {
   const [recentKeywords, setRecentKeywords] = useState<{ id: number; text: string }[]>( // 최근 검색어
     JSON.parse(localStorage.getItem('keywords') || '[]')
   );
+  const [keywordCategory, setKeywordCategory] = useState<string>(''); // 카테고리 선택
 
   useEffect(() => {
     if (state) {
@@ -21,7 +22,7 @@ const Search = () => {
 
   // 카테고리 선택
   const handleCategory = (text: string) => {
-    setKeyword(text);
+    setKeywordCategory(text);
   };
 
   // 홈에서 선택한 카테고리
@@ -29,7 +30,7 @@ const Search = () => {
   const keywordHome = location.state?.category;
   useEffect(() => {
     if (keywordHome) {
-      setKeyword(keywordHome);
+      setKeywordCategory(keywordHome);
     }
   }, [keywordHome]);
 
@@ -73,10 +74,10 @@ const Search = () => {
     <Container>
       <TopSearch
         onHandle={handleAdd}
-        back={keyword.length > 0 ? () => setKeyword('') : undefined}
+        back={keyword?.length > 0 ? () => setKeyword('') : undefined}
       />
 
-      {keyword.length <= 0 ? (
+      {keyword?.length <= 0 && keywordCategory?.length <= 0 ? (
         <SearchCategory
           keywords={recentKeywords}
           onDelete={handleDelete}
@@ -84,7 +85,7 @@ const Search = () => {
           onClick={handleCategory}
         />
       ) : (
-        <Result keyword={keyword} />
+        <Result keyword={keyword} keywordCategory={keywordCategory} />
       )}
       <Nav />
     </Container>

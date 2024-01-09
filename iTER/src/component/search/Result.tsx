@@ -4,31 +4,43 @@ import { BottomCategory, BottomSort } from '../common/Bottom';
 import { ButtonControl } from '../common/Button';
 import ListItem from './ListItem';
 import Sort from '../../assets/icon/Sort.svg?react';
-import { getReviewList } from '../../apis/Review';
+import { getCategoryReviewList, getReviewList } from '../../apis/Review';
 import { useQuery } from '@tanstack/react-query';
 import LoadingPage from '../common/Loading';
 import ErrorPage from '../common/Error';
 import { CategoryReviewProps } from '../../types/Review';
 import CategoryData from '../../constants/Category';
 
-const Result = ({ keyword }: { keyword: string }) => {
+const Result = ({ keyword, keywordCategory }: { keyword: string; keywordCategory: string }) => {
   const [categoryBottom, setCategoryBottom] = useState<boolean>(false);
   const [sortBottom, setSortBottom] = useState<boolean>(false);
   const [sort, setSort] = useState<string>('latest');
   // const [page, setPage] = useState<number>(0);
   const page = 0;
-  const [keywordLast, setKeywordLast] = useState<string>(keyword);
   const [expert, setExpert] = useState<boolean>(false);
 
-  const [listData, setListData] = useState<CategoryReviewProps>();
-  const [etcData, setEtcData] = useState<CategoryReviewProps>();
+  const [keywordLast, setKeywordLast] = useState<string>(keyword);
 
+  const [listData, setListData] = useState<CategoryReviewProps>(); // 검색 결과
+  const [etcData, setEtcData] = useState<CategoryReviewProps>(); // 검색 결과가 없을 때
+
+  // 일반 검색
   const {
     data: Data,
     error: listError,
     isLoading: listIsLoading,
-  } = useQuery<CategoryReviewProps, Error>(['reviewList', keywordLast, sort, expert], () =>
+  } = useQuery<CategoryReviewProps, Error>(['reviewListKeyword', keywordLast, sort, expert], () =>
     getReviewList({ keywordLast, sort, page, expert })
+  );
+
+  // 카테고리 검색
+  const {
+    data: CategoryReviewData,
+    error: categoryError,
+    isLoading: categoryIsLoading,
+  } = useQuery<CategoryReviewProps, Error>(
+    ['reviewListCategory', keywordCategory, sort, expert],
+    () => getCategoryReviewList({ keywordCategory, sort, page, expert })
   );
 
   useEffect(() => {
@@ -38,18 +50,25 @@ const Result = ({ keyword }: { keyword: string }) => {
   useEffect(() => {
     if (Data?.existed) {
       setListData(Data);
-      console.log('listData', listData);
     } else {
       setEtcData(Data);
     }
-  }, [Data, listData]);
+  }, [Data]);
 
-  if (listIsLoading) return <LoadingPage />;
-  if (listError) return <ErrorPage type={2} />;
+  useEffect(() => {
+    if (CategoryReviewData?.existed) {
+      setListData(CategoryReviewData);
+    } else {
+      setEtcData(CategoryReviewData);
+    }
+  }, [CategoryReviewData]);
+
+  if (listIsLoading || categoryIsLoading) return <LoadingPage />;
+  if (listError || categoryError) return <ErrorPage type={2} />;
 
   return (
     <Container>
-      {!Data.existed ? (
+      {!listData?.existed ? (
         <>
           <NoData>찾으시는 제품 리뷰가 없어요</NoData>
           <Recommend>다른 유저들은 이런 제품을 찾아봤어요</Recommend>
