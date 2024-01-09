@@ -18,14 +18,16 @@ const Nickname = ({ onDisabled, onChange }: NicknameProps) => {
 
   const mutation = useMutation(getNicknameVerify, {
     onSuccess: (data) => {
-      console.log('data', data);
-      setError(false);
-      onChange(value);
-      onDisabled(false);
+      if (data.result === false) {
+        setError(true);
+      } else {
+        setError(false);
+        onChange(value);
+        onDisabled(false);
+      }
     },
-    onError: (error) => {
-      console.log('error', error);
-      setError(true);
+    onError: () => {
+      return <ErrorPage type={2} />;
     },
   });
   const DuplicationCheck = () => {
@@ -35,24 +37,26 @@ const Nickname = ({ onDisabled, onChange }: NicknameProps) => {
   return (
     <>
       <NicknameBox>
-        <InputComponent
-          labelName="닉네임"
-          placeholder="닉네임을 입력해주세요"
-          type="text"
-          btnName="중복"
-          onClick={() => {
-            DuplicationCheck();
-          }}
-          onChange={setValue}
-          error={error ? '이미 사용중인 닉네임입니다' : undefined}
-          disabled={value.length == 0}
-          notice="영문/숫자 조합 1~20자"
-        />
-        {!error && mutation.data && (
-          <Notice>
-            <Caption1>사용 가능한 닉네임입니다</Caption1>
-          </Notice>
-        )}
+        <>
+          <InputComponent
+            labelName="닉네임"
+            placeholder="닉네임을 입력해주세요"
+            type="text"
+            btnName="중복"
+            onClick={() => {
+              DuplicationCheck();
+            }}
+            onChange={setValue}
+            error={error ? '이미 사용중인 닉네임입니다' : undefined}
+            disabled={value.length == 0}
+            notice="영문/숫자 조합 1~20자"
+          />
+          {!error && mutation.data && (
+            <Notice>
+              <Caption1>사용 가능한 닉네임입니다</Caption1>
+            </Notice>
+          )}
+        </>
       </NicknameBox>
       {mutation.isLoading && <LoadingPage />}
       {mutation.isError && <ErrorPage type={2} />}
