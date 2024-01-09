@@ -3,7 +3,7 @@ import { styled } from '../../../stitches.config';
 import { Caption2, DayText } from '../Font';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Input } from './Input';
+import { InputComment } from './Input';
 import { ButtonComment } from './Button';
 import { ModalSelect } from './Modal';
 import Toast from './Toast';
@@ -185,7 +185,7 @@ export const CommentSort = () => {
                 </SortBox>
                 <BottomInputLay>
                   <InputBtnLay>
-                    <Input
+                    <InputComment
                       type="text"
                       placeholder="댓글을 남겨보세요"
                       onChange={handleCommentChange}

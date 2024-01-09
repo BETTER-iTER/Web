@@ -166,6 +166,32 @@ export const Input: React.FC<{
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
+    setInputValue(newValue);
+    onChange(newValue);
+  };
+
+  return (
+    <>
+      <InnerInput
+        type={type}
+        placeholder={placeholder}
+        value={text || inputValue}
+        onChange={handleInputChange}
+      />
+    </>
+  );
+};
+
+export const InputComment: React.FC<{
+  placeholder: string | undefined;
+  type: 'text' | 'password';
+  onChange: (value: string) => void;
+  text?: string | number;
+}> = ({ placeholder, onChange, type, text }) => {
+  const [inputValue, setInputValue] = useState<string>('');
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
     onChange(newValue);
     setInputValue('');
   };
