@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import ProfileSimple from '../user/ProfileSimple';
 import { CategoryReviewProps } from '../../types/Review';
+import axios from 'axios';
 
 const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
   id,
@@ -21,11 +22,70 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
 }) => {
   const navigate = useNavigate();
   const [active, setActive] = useState<boolean>(false);
+  const [activeScrap, setActiveScrap] = useState<boolean>(false);
+
   const shortReviewList = shortReview.split(',');
 
   const spec = reviewSpecData.map((item: string, index: number) => {
     return index == reviewSpecData.length - 1 ? item : item + ' / ';
   });
+
+  const likeReview = async () => {
+    try {
+      const token = localStorage.getItem('accessToken');
+      const response = await axios.post(`https://dev.betteritem.store/review/${id}/like`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const dislikeReview = async () => {
+    try {
+      const token = localStorage.getItem('accessToken');
+      const response = await axios.delete(`https://dev.betteritem.store/review/${id}/like`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const scrapReview = async () => {
+    try {
+      const token = localStorage.getItem('accessToken');
+      const response = await axios.post(`https://dev.betteritem.store/review/${id}/scrap`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteScrap = async () => {
+    try {
+      const token = localStorage.getItem('accessToken');
+      const response = await axios.delete(`https://dev.betteritem.store/review/${id}/scrap`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Container>
       <Box
@@ -65,6 +125,11 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
         <ButtonEmpty
           onClick={() => {
             setActive(!active);
+            if (active) {
+              dislikeReview();
+            } else {
+              likeReview();
+            }
           }}
           active={active}
           type="like"
@@ -73,9 +138,14 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
         </ButtonEmpty>
         <ButtonEmpty
           onClick={() => {
-            setActive(!active);
+            setActiveScrap(!activeScrap);
+            if (activeScrap) {
+              deleteScrap();
+            } else {
+              scrapReview();
+            }
           }}
-          active={active}
+          active={activeScrap}
           type="scrap"
         >
           리뷰 스크랩 ({scrapedCount})

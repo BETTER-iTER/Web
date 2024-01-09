@@ -42,8 +42,9 @@ export const SelectBoxCPU: React.FC<SelectBoxCPUProps> = ({
         const specDataList = responseData.data.result.specs;
         console.log(specDataList);
         setSpecDataList(specDataList);
-        // const newData = { specData: specDataList };
-        // updateFormData(newData);
+        //이부분 주석처리 why..?
+        const newData = { specData: specDataList };
+        updateFormData(newData);
       } catch (error) {
         console.log(error);
       }

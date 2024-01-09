@@ -29,10 +29,11 @@ import axios from 'axios';
 export const getSpecData = async (category: string) => {
   try {
     const accessToken = localStorage.getItem('accessToken');
-    console.log(accessToken);
+    // console.log(accessToken);
     // axios 헤더에 토큰 추가
     axios.defaults.headers.common['Authorization'] = `${accessToken}`;
     const response = await api.get(`/review/spec/data?category=${category}`);
+    //console.log(category);
     return response;
   } catch (error) {
     console.log('에러', error);
