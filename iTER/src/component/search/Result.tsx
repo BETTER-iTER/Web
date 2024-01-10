@@ -54,7 +54,7 @@ const Result = () => {
   useEffect(() => {
     setCategory(categoryFromQuery);
     setExpert(expertFromQuery);
-  }, [keywordFromQuery, categoryFromQuery, expertFromQuery]);
+  }, [categoryFromQuery, expertFromQuery]);
 
   // 검색 조회 결과 존재 여부
   useEffect(() => {
@@ -63,7 +63,7 @@ const Result = () => {
     } else {
       setEtcData(Data);
     }
-  }, [Data, listData]);
+  }, [Data]);
 
   useEffect(() => {
     if (categoryData?.existed) {
@@ -71,7 +71,7 @@ const Result = () => {
     } else {
       setEtcData(categoryData);
     }
-  }, [categoryData, listData]);
+  }, [categoryData]);
 
   if (categoryIsLoading || listIsLoading) return <LoadingPage />;
   if (categoryError || listError) return <ErrorPage type={2} />;
@@ -95,23 +95,25 @@ const Result = () => {
 
   return (
     <Container>
-      <Control>
-        <Filter>
-          <ButtonControl
-            type="toggle"
-            onClick={() => setCategoryBottom(!categoryBottom)}
-            active={CategoryData.map((item) => item).includes(category)}
-          >
-            카테고리
-          </ButtonControl>
-          <ButtonControl onClick={handleExpertChange} active={expert}>
-            전문가
-          </ButtonControl>
-        </Filter>
-        <div onClick={() => setSortBottom(!sortBottom)}>
-          <Sort />
-        </div>
-      </Control>
+      {!categoryKeywordFromQuery && (
+        <Control>
+          <Filter>
+            <ButtonControl
+              type="toggle"
+              onClick={() => setCategoryBottom(!categoryBottom)}
+              active={CategoryData.map((item) => item).includes(category)}
+            >
+              카테고리
+            </ButtonControl>
+            <ButtonControl onClick={handleExpertChange} active={expert}>
+              전문가
+            </ButtonControl>
+          </Filter>
+          <div onClick={() => setSortBottom(!sortBottom)}>
+            <Sort />
+          </div>
+        </Control>
+      )}
       {!Data.existed ? (
         <>
           <NoData>찾으시는 제품 리뷰가 없어요</NoData>
