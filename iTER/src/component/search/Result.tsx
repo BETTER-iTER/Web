@@ -4,7 +4,7 @@ import { BottomCategory, BottomSort } from '../common/Bottom';
 import { ButtonControl } from '../common/Button';
 import ListItem from './ListItem';
 import Sort from '../../assets/icon/Sort.svg?react';
-import { getReviewList } from '../../apis/Review';
+import { getCategoryReviewList, getReviewList } from '../../apis/Review';
 import { useQuery } from '@tanstack/react-query';
 import LoadingPage from '../common/Loading';
 import ErrorPage from '../common/Error';
@@ -17,8 +17,8 @@ const Result = () => {
   const keywordFromQuery = searchParams.get('keyword') || ''; // 쿼리스트링 keyword
   const categoryFromQuery = searchParams.get('category') || ''; // 쿼리스트링 category
   const expertFromQuery = searchParams.get('expert') === 'true'; // 쿼리스트링 expert
+  const categoryKeywordFromQuery = searchParams.get('categoryList') || ''; // 필터가 아닌 카테고리 선택 키워드
 
-  const [keyword, setKeywordLast] = useState<string>(keywordFromQuery);
   const [category, setCategory] = useState<string>(categoryFromQuery);
   const [expert, setExpert] = useState<boolean>(expertFromQuery);
 
@@ -31,16 +31,27 @@ const Result = () => {
   const [listData, setListData] = useState<CategoryReviewProps>();
   const [etcData, setEtcData] = useState<CategoryReviewProps>();
 
+  // 카테고리 검색 결과
+  const {
+    data: categoryData,
+    error: categoryError,
+    isLoading: categoryIsLoading,
+  } = useQuery<CategoryReviewProps, Error>(['reviewListCategory', categoryKeywordFromQuery], () =>
+    getCategoryReviewList({ category: categoryKeywordFromQuery, page })
+  );
+
+  console.log(keywordFromQuery, 'keywordFromQuery');
+
+  // 키워드 검색 결과
   const {
     data: Data,
     error: listError,
     isLoading: listIsLoading,
-  } = useQuery<CategoryReviewProps, Error>(['reviewList', keyword, sort, expert], () =>
-    getReviewList({ keyword, category, sort, page, expert })
+  } = useQuery<CategoryReviewProps, Error>(['reviewList', keywordFromQuery, sort, expert], () =>
+    getReviewList({ keyword: keywordFromQuery, category, sort, page, expert })
   );
 
   useEffect(() => {
-    setKeywordLast(keywordFromQuery);
     setCategory(categoryFromQuery);
     setExpert(expertFromQuery);
   }, [keywordFromQuery, categoryFromQuery, expertFromQuery]);
@@ -54,12 +65,22 @@ const Result = () => {
     }
   }, [Data, listData]);
 
-  if (listIsLoading) return <LoadingPage />;
-  if (listError) return <ErrorPage type={2} />;
+  useEffect(() => {
+    if (categoryData?.existed) {
+      setListData(categoryData);
+    } else {
+      setEtcData(categoryData);
+    }
+  }, [categoryData, listData]);
+
+  // if (listIsLoading) return <LoadingPage />;
+  // if (listError) return <ErrorPage type={2} />;
+
+  if (categoryIsLoading || listIsLoading) return <LoadingPage />;
+  if (categoryError || listError) return <ErrorPage type={2} />;
 
   // 카테고리 필터링
   const handleCategoryChange = (value: string) => {
-    setKeywordLast(value);
     const currentParams = Object.fromEntries(searchParams.entries());
     const updatedParams = { ...currentParams, category: value };
     setSearchParams(updatedParams, { replace: true });
@@ -69,7 +90,10 @@ const Result = () => {
   const handleExpertChange = () => {
     const updatedExpert = !expert;
     setExpert(updatedExpert);
-    setSearchParams({ keyword, category, expert: updatedExpert.toString() }, { replace: true });
+    setSearchParams(
+      { keyword: keywordFromQuery, category, expert: updatedExpert.toString() },
+      { replace: true }
+    );
   };
 
   return (
@@ -113,7 +137,7 @@ const Result = () => {
             setCategoryBottom(false);
           }}
           onChange={handleCategoryChange}
-          keyword={keyword}
+          keyword={keywordFromQuery}
         />
       )}
       {sortBottom && (

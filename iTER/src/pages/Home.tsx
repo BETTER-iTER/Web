@@ -12,7 +12,7 @@ import { getHome } from '../apis/Home';
 import LoadingPage from '../component/common/Loading';
 import ErrorPage from '../component/common/Error';
 import HomeProps from '../types/Home';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -96,23 +96,17 @@ const Home = () => {
 export default Home;
 
 const CategoryScroll = ({ list }: { list: HomeProps['categories'] }) => {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   const [selectedCategory, setSelectedCategory] = useState<string>('');
 
   console.log(selectedCategory, 'selectedCategory');
 
   const handleCategoryClick = (name: string) => {
-    console.log('click', name);
     setSelectedCategory(name);
-    console.log('set', name, selectedCategory);
+    navigate(`/search?categoryList=${name}`);
   };
-  useEffect(() => {
-    if (selectedCategory.length > 0) {
-      console.log(selectedCategory, 'selectedCategory');
-      navigation('/search', { state: { category: selectedCategory } });
-    }
-  }, [navigation, selectedCategory]);
+
   return (
     <CategoryBox>
       {list.map((item, index) => {

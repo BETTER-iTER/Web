@@ -13,40 +13,8 @@ const Search = () => {
   const [recentKeywords, setRecentKeywords] = useState<{ id: number; text: string }[]>(
     JSON.parse(localStorage.getItem('keywords') || '[]')
   );
-
-  useEffect(() => {
-    const stateKeyword = searchParams.get('keyword');
-    if (stateKeyword) {
-      setKeyword(stateKeyword);
-    }
-  }, [searchParams]);
-
-  // 카테고리 선택
-  const handleCategory = (text: string) => {
-    setCategory(text);
-    setSearchParams({ keyword, category: text }, { replace: true });
-  };
-
-  // 홈에서 선택한 카테고리
-  // const keywordHome = location.state?.category;
-  // useEffect(() => {
-  //   if (keywordHome) {
-  //     setKeyword(keywordHome);
-  //   }
-  // }, [keywordHome]);
-
-  // 엔터를 눌러 키워드를 입력했을 때
-  const handleAdd = (text: string) => {
-    const newKeyword = {
-      id: Date.now(),
-      text: text,
-    };
-    setKeyword(text);
-    setRecentKeywords([newKeyword, ...recentKeywords]);
-
-    setSearchParams({ keyword: text, category }, { replace: true });
-  };
-
+  const categoryKeywordFromQuery = searchParams.get('categoryList') || ''; // 필터가 아닌 카테고리 선택 키워드
+  console.log('categoryKeywordFromQuery', categoryKeywordFromQuery);
   // 최근 검색어
   useEffect(() => {
     const currentDate = Date.now();
@@ -62,6 +30,32 @@ const Search = () => {
 
     localStorage.setItem('keywords', JSON.stringify(filteredKeywords));
   }, [recentKeywords]);
+
+  useEffect(() => {
+    const stateKeyword = searchParams.get('keyword');
+    if (stateKeyword) {
+      setKeyword(stateKeyword);
+    }
+  }, [searchParams]);
+
+  const handleCategory = (text: string) => {
+    console.log('handleCategory', text);
+    setCategory(text);
+    setSearchParams({ categoryList: text }, { replace: true });
+  };
+
+  // 엔터를 눌러 키워드를 입력했을 때
+  const handleAdd = (text: string) => {
+    const newKeyword = {
+      id: Date.now(),
+      text: text,
+    };
+    setKeyword(text);
+    setRecentKeywords([newKeyword, ...recentKeywords]);
+
+    setSearchParams({ keyword: text, category }, { replace: true });
+  };
+
   // 최근검색어 삭제
   const handleDelete = (id: number) => {
     const nextKeywords = recentKeywords.filter((keyword) => keyword.id !== id);
@@ -77,7 +71,7 @@ const Search = () => {
     <Container>
       <TopSearch onHandle={handleAdd} />
 
-      {keyword.length <= 0 ? (
+      {keyword.length <= 0 && categoryKeywordFromQuery.length <= 0 ? (
         <SearchCategory
           keywords={recentKeywords}
           onDelete={handleDelete}

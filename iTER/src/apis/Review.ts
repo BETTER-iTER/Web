@@ -93,7 +93,7 @@ export const deleteReview = async (id: string) => {
   }
 };
 
-// 리뷰 검색 조회
+// 리뷰 키워드 검색 조회
 export const getReviewList = async ({
   keyword,
   category,
@@ -108,7 +108,7 @@ export const getReviewList = async ({
   expert: boolean;
 }) => {
   const accessToken = localStorage.getItem('accessToken');
-  console.log('리뷰 리스트 조회');
+  console.log('키워드 검색 리뷰 리스트 조회');
   try {
     const response = await api.get(
       `/review/search?name=${keyword}&sort=${sort}&page=${page}&category=${category}&expert=${expert}`,
@@ -120,7 +120,30 @@ export const getReviewList = async ({
     );
     return response.data.result;
   } catch (error) {
-    console.log('카테고리 별 리뷰 조회 오류', error);
+    console.log('키워드 검색 리뷰 조회 오류', error);
+    throw error;
+  }
+};
+
+// 카테고리 리뷰 리스트 조회
+export const getCategoryReviewList = async ({
+  category = '',
+  page,
+}: {
+  category: string;
+  page: number;
+}) => {
+  const accessToken = localStorage.getItem('accessToken');
+  console.log('카테고리 리뷰 리스트 조회');
+  try {
+    const response = await api.get(`/review/category?category=${category}&page=${page}`, {
+      headers: {
+        Authorization: accessToken ? `${accessToken}` : '',
+      },
+    });
+    return response.data.result;
+  } catch (error) {
+    console.log('카테고리 리뷰 조회 오류', error);
     throw error;
   }
 };
