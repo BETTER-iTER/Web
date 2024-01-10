@@ -48,8 +48,9 @@ const Result = () => {
     data: Data,
     error: listError,
     isLoading: listIsLoading,
-  } = useQuery<CategoryReviewProps, Error>(['reviewList', keywordFromQuery, sort, expert], () =>
-    getReviewList({ keyword: keywordFromQuery, category, sort, page, expert })
+  } = useQuery<CategoryReviewProps, Error>(
+    ['reviewList', keywordFromQuery, sort, expert, category],
+    () => getReviewList({ keyword: keywordFromQuery, category, sort, page, expert })
   );
 
   useEffect(() => {
