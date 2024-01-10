@@ -4,34 +4,36 @@ import { useEffect, useState } from 'react';
 import SearchCategory from '../component/search/Category';
 import TopSearch from '../component/layout/TopSearch';
 import Result from '../component/search/Result';
-import { useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 const Search = () => {
-  const { state } = useLocation();
-  const [keyword, setKeyword] = useState<string>(''); // 검색어
-  const [recentKeywords, setRecentKeywords] = useState<{ id: number; text: string }[]>( // 최근 검색어
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [keyword, setKeyword] = useState<string>(searchParams.get('keyword') || ''); // 검색어
+  const [category, setCategory] = useState<string>(searchParams.get('category') || ''); // 카테고리
+  const [recentKeywords, setRecentKeywords] = useState<{ id: number; text: string }[]>(
     JSON.parse(localStorage.getItem('keywords') || '[]')
   );
 
   useEffect(() => {
-    if (state) {
-      setKeyword(state.keyword);
+    const stateKeyword = searchParams.get('keyword');
+    if (stateKeyword) {
+      setKeyword(stateKeyword);
     }
-  }, [state]);
+  }, [searchParams]);
 
   // 카테고리 선택
   const handleCategory = (text: string) => {
-    setKeyword(text);
+    setCategory(text);
+    setSearchParams({ keyword, category: text }, { replace: true });
   };
 
   // 홈에서 선택한 카테고리
-  const location = useLocation();
-  const keywordHome = location.state?.category;
-  useEffect(() => {
-    if (keywordHome) {
-      setKeyword(keywordHome);
-    }
-  }, [keywordHome]);
+  // const keywordHome = location.state?.category;
+  // useEffect(() => {
+  //   if (keywordHome) {
+  //     setKeyword(keywordHome);
+  //   }
+  // }, [keywordHome]);
 
   // 엔터를 눌러 키워드를 입력했을 때
   const handleAdd = (text: string) => {
@@ -41,6 +43,8 @@ const Search = () => {
     };
     setKeyword(text);
     setRecentKeywords([newKeyword, ...recentKeywords]);
+
+    setSearchParams({ keyword: text, category }, { replace: true });
   };
 
   // 최근 검색어
@@ -48,7 +52,6 @@ const Search = () => {
     const currentDate = Date.now();
 
     const validKeywords = recentKeywords.filter((keyword) => keyword !== undefined);
-
     const uniqueKeywords = Array.from(new Set(validKeywords.map((keyword) => keyword.text))).map(
       (text) => validKeywords.find((keyword) => keyword?.text === text)
     );
@@ -67,14 +70,12 @@ const Search = () => {
   // 최근검색어 선택
   const handleRecent = (text: string) => {
     setKeyword(text);
+    setSearchParams({ keyword: text, category }, { replace: true });
   };
 
   return (
     <Container>
-      <TopSearch
-        onHandle={handleAdd}
-        back={keyword.length > 0 ? () => setKeyword('') : undefined}
-      />
+      <TopSearch onHandle={handleAdd} />
 
       {keyword.length <= 0 ? (
         <SearchCategory
@@ -84,7 +85,7 @@ const Search = () => {
           onClick={handleCategory}
         />
       ) : (
-        <Result keyword={keyword} />
+        <Result />
       )}
       <Nav />
     </Container>

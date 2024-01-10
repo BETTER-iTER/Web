@@ -95,41 +95,29 @@ export const deleteReview = async (id: string) => {
 
 // 리뷰 검색 조회
 export const getReviewList = async ({
-  keywordLast,
+  keyword,
+  category,
   sort,
   page,
   expert,
 }: {
-  keywordLast: string;
+  keyword: string;
+  category: string;
   sort: string;
   page: number;
   expert: boolean;
 }) => {
-  const category = [
-    '휴대폰',
-    '노트북',
-    'PC',
-    '스마트워치',
-    '태블릿',
-    '마우스',
-    '키보드',
-    '헤드폰',
-    '스피커',
-    '보조배터리',
-    '악세서리',
-    '기타',
-  ];
-  const type = category.includes(keywordLast)
-    ? `category?category=${keywordLast}` //검색어가 카테고리일 경우 포함
-    : `search?name=${keywordLast}`; //카테고리 외 검색어
   const accessToken = localStorage.getItem('accessToken');
-  console.log('리뷰 리스트 조회', keywordLast, type);
+  console.log('리뷰 리스트 조회');
   try {
-    const response = await api.get(`/review/${type}&sort=${sort}&page=${page}&expert=${expert}`, {
-      headers: {
-        Authorization: accessToken ? `${accessToken}` : '',
-      },
-    });
+    const response = await api.get(
+      `/review/search?name=${keyword}&sort=${sort}&page=${page}&category=${category}&expert=${expert}`,
+      {
+        headers: {
+          Authorization: accessToken ? `${accessToken}` : '',
+        },
+      }
+    );
     return response.data.result;
   } catch (error) {
     console.log('카테고리 별 리뷰 조회 오류', error);
