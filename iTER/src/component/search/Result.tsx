@@ -14,13 +14,10 @@ import { useSearchParams } from 'react-router-dom';
 
 const Result = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const keywordFromQuery = searchParams.get('keyword') || ''; // 쿼리스트링 keyword
-  const categoryFromQuery = searchParams.get('category') || ''; // 쿼리스트링 category
-  const expertFromQuery = searchParams.get('expert') === 'true'; // 쿼리스트링 expert
-  const categoryKeywordFromQuery = searchParams.get('categoryList') || ''; // 필터가 아닌 카테고리 선택 키워드
-
-  const [category, setCategory] = useState<string>(categoryFromQuery);
-  const [expert, setExpert] = useState<boolean>(expertFromQuery);
+  const keyword = searchParams.get('keyword') || ''; // 쿼리스트링 keyword
+  const category = searchParams.get('category') || ''; // 쿼리스트링 category
+  const expert = searchParams.get('expert') === 'true'; // 쿼리스트링 expert
+  const categoryKeyword = searchParams.get('categoryList') || ''; // 필터가 아닌 카테고리 선택 키워드
 
   const [categoryBottom, setCategoryBottom] = useState<boolean>(false);
   const [sortBottom, setSortBottom] = useState<boolean>(false);
@@ -36,9 +33,8 @@ const Result = () => {
     data: categoryData,
     error: categoryError,
     isLoading: categoryIsLoading,
-  } = useQuery<CategoryReviewProps, Error>(
-    ['reviewListCategory', { categoryKeyword: categoryKeywordFromQuery, page }],
-    () => getCategoryReviewList({ category: categoryKeywordFromQuery, page })
+  } = useQuery<CategoryReviewProps, Error>(['reviewListCategory', { categoryKeyword, page }], () =>
+    getCategoryReviewList({ category: categoryKeyword, page })
   );
 
   // 키워드 검색 결과
@@ -46,15 +42,9 @@ const Result = () => {
     data: Data,
     error: listError,
     isLoading: listIsLoading,
-  } = useQuery<CategoryReviewProps, Error>(
-    ['reviewList', keywordFromQuery, sort, expert, category],
-    () => getReviewList({ keyword: keywordFromQuery, category, sort, page, expert })
+  } = useQuery<CategoryReviewProps, Error>(['reviewList', keyword, sort, expert, category], () =>
+    getReviewList({ keyword, category, sort, page, expert })
   );
-
-  useEffect(() => {
-    setCategory(categoryFromQuery);
-    setExpert(expertFromQuery);
-  }, [categoryFromQuery, expertFromQuery]);
 
   // 검색 조회 결과 존재 여부
   useEffect(() => {
@@ -86,16 +76,12 @@ const Result = () => {
   // 전문가 리뷰 필터링
   const handleExpertChange = () => {
     const updatedExpert = !expert;
-    setExpert(updatedExpert);
-    setSearchParams(
-      { keyword: keywordFromQuery, category, expert: updatedExpert.toString() },
-      { replace: true }
-    );
+    setSearchParams({ keyword, category, expert: updatedExpert.toString() }, { replace: true });
   };
 
   return (
     <Container>
-      {!categoryKeywordFromQuery && (
+      {!categoryKeyword && (
         <Control>
           <Filter>
             <ButtonControl
@@ -136,7 +122,7 @@ const Result = () => {
             setCategoryBottom(false);
           }}
           onChange={handleCategoryChange}
-          keyword={keywordFromQuery}
+          keyword={keyword}
         />
       )}
       {sortBottom && (

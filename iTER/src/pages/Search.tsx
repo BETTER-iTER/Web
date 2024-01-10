@@ -14,7 +14,7 @@ const Search = () => {
   const [recentKeywords, setRecentKeywords] = useState<{ id: number; text: string }[]>(
     JSON.parse(localStorage.getItem('keywords') || '[]')
   );
-  const categoryKeywordFromQuery = searchParams.get('categoryList') || ''; // 필터가 아닌 카테고리 선택 키워드
+  const categoryKeyword = searchParams.get('categoryList') || ''; // 필터가 아닌 카테고리 선택 키워드
 
   // 최근 검색어
   useEffect(() => {
@@ -71,10 +71,11 @@ const Search = () => {
     <Container>
       <TopSearch
         onHandle={handleAdd}
-        back={categoryKeywordFromQuery.length > 0 ? () => navigate('/search') : undefined}
+        back={categoryKeyword.length > 0 ? () => navigate('/search') : undefined}
+        searchText={keyword}
       />
 
-      {keyword.length <= 0 && categoryKeywordFromQuery.length <= 0 ? (
+      {keyword.length <= 0 && categoryKeyword.length <= 0 ? (
         <SearchCategory
           keywords={recentKeywords}
           onDelete={handleDelete}
