@@ -41,8 +41,6 @@ const Result = () => {
     () => getCategoryReviewList({ category: categoryKeywordFromQuery, page })
   );
 
-  console.log(keywordFromQuery, 'keywordFromQuery');
-
   // 키워드 검색 결과
   const {
     data: Data,
@@ -74,9 +72,6 @@ const Result = () => {
       setEtcData(categoryData);
     }
   }, [categoryData, listData]);
-
-  // if (listIsLoading) return <LoadingPage />;
-  // if (listError) return <ErrorPage type={2} />;
 
   if (categoryIsLoading || listIsLoading) return <LoadingPage />;
   if (categoryError || listError) return <ErrorPage type={2} />;

@@ -14,7 +14,7 @@ const Search = () => {
     JSON.parse(localStorage.getItem('keywords') || '[]')
   );
   const categoryKeywordFromQuery = searchParams.get('categoryList') || ''; // 필터가 아닌 카테고리 선택 키워드
-  console.log('categoryKeywordFromQuery', categoryKeywordFromQuery);
+
   // 최근 검색어
   useEffect(() => {
     const currentDate = Date.now();
@@ -39,7 +39,6 @@ const Search = () => {
   }, [searchParams]);
 
   const handleCategory = (text: string) => {
-    console.log('handleCategory', text);
     setCategory(text);
     setSearchParams({ categoryList: text }, { replace: true });
   };
