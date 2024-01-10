@@ -36,8 +36,9 @@ const Result = () => {
     data: categoryData,
     error: categoryError,
     isLoading: categoryIsLoading,
-  } = useQuery<CategoryReviewProps, Error>(['reviewListCategory', categoryKeywordFromQuery], () =>
-    getCategoryReviewList({ category: categoryKeywordFromQuery, page })
+  } = useQuery<CategoryReviewProps, Error>(
+    ['reviewListCategory', { categoryKeyword: categoryKeywordFromQuery, page }],
+    () => getCategoryReviewList({ category: categoryKeywordFromQuery, page })
   );
 
   console.log(keywordFromQuery, 'keywordFromQuery');
