@@ -41,7 +41,7 @@ const Search = () => {
 
   const handleCategory = (text: string) => {
     setCategory(text);
-    setSearchParams({ categoryList: text }, { replace: true });
+    setSearchParams({ categoryList: text });
   };
 
   // 엔터를 눌러 키워드를 입력했을 때
@@ -53,7 +53,7 @@ const Search = () => {
     setKeyword(text);
     setRecentKeywords([newKeyword, ...recentKeywords]);
 
-    setSearchParams({ keyword: text, category }, { replace: true });
+    setSearchParams({ keyword: text, category });
   };
 
   // 최근검색어 삭제
@@ -64,7 +64,7 @@ const Search = () => {
   // 최근검색어 선택
   const handleRecent = (text: string) => {
     setKeyword(text);
-    setSearchParams({ keyword: text, category }, { replace: true });
+    setSearchParams({ keyword: text, category });
   };
 
   return (

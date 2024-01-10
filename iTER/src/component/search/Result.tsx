@@ -70,13 +70,13 @@ const Result = () => {
   const handleCategoryChange = (value: string) => {
     const currentParams = Object.fromEntries(searchParams.entries());
     const updatedParams = { ...currentParams, category: value };
-    setSearchParams(updatedParams, { replace: true });
+    setSearchParams(updatedParams);
   };
 
   // 전문가 리뷰 필터링
   const handleExpertChange = () => {
     const updatedExpert = !expert;
-    setSearchParams({ keyword, category, expert: updatedExpert.toString() }, { replace: true });
+    setSearchParams({ keyword, category, expert: updatedExpert.toString() });
   };
 
   return (
@@ -122,7 +122,7 @@ const Result = () => {
             setCategoryBottom(false);
           }}
           onChange={handleCategoryChange}
-          keyword={keyword}
+          keyword={category}
         />
       )}
       {sortBottom && (
