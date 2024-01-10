@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react';
 import SearchCategory from '../component/search/Category';
 import TopSearch from '../component/layout/TopSearch';
 import Result from '../component/search/Result';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const Search = () => {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [keyword, setKeyword] = useState<string>(searchParams.get('keyword') || ''); // 검색어
   const [category, setCategory] = useState<string>(searchParams.get('category') || ''); // 카테고리
@@ -68,7 +69,10 @@ const Search = () => {
 
   return (
     <Container>
-      <TopSearch onHandle={handleAdd} />
+      <TopSearch
+        onHandle={handleAdd}
+        back={categoryKeywordFromQuery.length > 0 ? () => navigate('/search') : undefined}
+      />
 
       {keyword.length <= 0 && categoryKeywordFromQuery.length <= 0 ? (
         <SearchCategory
