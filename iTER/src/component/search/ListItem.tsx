@@ -8,32 +8,21 @@ import ProfileSimple from '../user/ProfileSimple';
 import { CategoryReviewProps } from '../../types/Review';
 import axios from 'axios';
 
-const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
-  id,
-  productName,
-  starPoint,
-  shortReview,
-  userInfo,
-  reviewSpecData,
-  scrapedCount,
-  likedCount,
-  reviewImage,
-  keyword, // 검색 결과로 들어온 경우에만 존재
-}) => {
+const ListItem = ({ item }: { item: CategoryReviewProps['reviews'][0] }) => {
   const navigate = useNavigate();
   const [active, setActive] = useState<boolean>(false);
   const [activeScrap, setActiveScrap] = useState<boolean>(false);
 
-  const shortReviewList = shortReview.split(',');
+  const shortReviewList = item.shortReview.split(',');
 
-  const spec = reviewSpecData.map((item: string, index: number) => {
-    return index == reviewSpecData.length - 1 ? item : item + ' / ';
+  const spec = item.reviewSpecData.map((review: string, index: number) => {
+    return index == item.reviewSpecData.length - 1 ? review : review + ' / ';
   });
 
   const likeReview = async () => {
     try {
       const token = localStorage.getItem('accessToken');
-      const response = await axios.post(`https://dev.betteritem.store/review/${id}/like`, {
+      const response = await axios.post(`https://dev.betteritem.store/review/${item.id}/like`, {
         headers: {
           Authorization: `${token}`,
         },
@@ -47,7 +36,7 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
   const dislikeReview = async () => {
     try {
       const token = localStorage.getItem('accessToken');
-      const response = await axios.delete(`https://dev.betteritem.store/review/${id}/like`, {
+      const response = await axios.delete(`https://dev.betteritem.store/review/${item.id}/like`, {
         headers: {
           Authorization: `${token}`,
         },
@@ -61,7 +50,7 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
   const scrapReview = async () => {
     try {
       const token = localStorage.getItem('accessToken');
-      const response = await axios.post(`https://dev.betteritem.store/review/${id}/scrap`, {
+      const response = await axios.post(`https://dev.betteritem.store/review/${item.id}/scrap`, {
         headers: {
           Authorization: `${token}`,
         },
@@ -75,7 +64,7 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
   const deleteScrap = async () => {
     try {
       const token = localStorage.getItem('accessToken');
-      const response = await axios.delete(`https://dev.betteritem.store/review/${id}/scrap`, {
+      const response = await axios.delete(`https://dev.betteritem.store/review/${item.id}/scrap`, {
         headers: {
           Authorization: `${token}`,
         },
@@ -90,22 +79,22 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
     <Container>
       <Box
         onClick={() => {
-          navigate(`/search/review/${id}`, { state: { keyword } });
+          navigate(`/search/review/${item.id}`);
         }}
       >
         <Image>
-          <img src={reviewImage} alt="" width={120} height={120} />
+          <img src={item.reviewImage} alt="" width={120} height={120} />
         </Image>
 
         <Content>
           <div>
-            <Title>{productName}</Title>
+            <Title>{item.productName}</Title>
             <Caption2>
               {spec}
               {spec.length > 0 && <div style={{ height: 8 }} />}
               <Reviews>
                 <Stars>
-                  <Star fill={'#8787F4'} width={15} height={15} /> {starPoint}
+                  <Star fill={'#8787F4'} width={15} height={15} /> {item.starPoint}
                 </Stars>
                 {shortReviewList.map((item: string, index: number) => {
                   return index == shortReviewList.length - 1 ? `"${item}"` : `"${item}"` + ', ';
@@ -115,9 +104,9 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
           </div>
 
           <ProfileSimple
-            nickName={userInfo.nickName}
-            profileImage={userInfo.profileImage}
-            job={userInfo.job}
+            nickName={item.userInfo.nickName}
+            profileImage={item.userInfo.profileImage}
+            job={item.userInfo.job}
           />
         </Content>
       </Box>
@@ -134,7 +123,7 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
           active={active}
           type="like"
         >
-          리뷰 좋아요 ({likedCount})
+          리뷰 좋아요 ({item.likedCount})
         </ButtonEmpty>
         <ButtonEmpty
           onClick={() => {
@@ -148,7 +137,7 @@ const ListItem: React.FC<CategoryReviewProps['reviews'][0]> = ({
           active={activeScrap}
           type="scrap"
         >
-          리뷰 스크랩 ({scrapedCount})
+          리뷰 스크랩 ({item.scrapedCount})
         </ButtonEmpty>
       </Buttons>
     </Container>

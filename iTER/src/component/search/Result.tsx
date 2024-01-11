@@ -4,113 +4,114 @@ import { BottomCategory, BottomSort } from '../common/Bottom';
 import { ButtonControl } from '../common/Button';
 import ListItem from './ListItem';
 import Sort from '../../assets/icon/Sort.svg?react';
-import { getReviewList } from '../../apis/Review';
+import { getCategoryReviewList, getReviewList } from '../../apis/Review';
 import { useQuery } from '@tanstack/react-query';
 import LoadingPage from '../common/Loading';
 import ErrorPage from '../common/Error';
 import { CategoryReviewProps } from '../../types/Review';
 import CategoryData from '../../constants/Category';
+import { useSearchParams } from 'react-router-dom';
 
-const Result = ({ keyword }: { keyword: string }) => {
+const Result = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const keyword = searchParams.get('keyword') || ''; // 쿼리스트링 keyword
+  const category = searchParams.get('category') || ''; // 쿼리스트링 category
+  const expert = searchParams.get('expert') === 'true'; // 쿼리스트링 expert
+  const categoryKeyword = searchParams.get('categoryList') || ''; // 필터가 아닌 카테고리 선택 키워드
+
   const [categoryBottom, setCategoryBottom] = useState<boolean>(false);
   const [sortBottom, setSortBottom] = useState<boolean>(false);
+
   const [sort, setSort] = useState<string>('latest');
-  // const [page, setPage] = useState<number>(0);
   const page = 0;
-  const [keywordLast, setKeywordLast] = useState<string>(keyword);
-  const [expert, setExpert] = useState<boolean>(false);
 
   const [listData, setListData] = useState<CategoryReviewProps>();
   const [etcData, setEtcData] = useState<CategoryReviewProps>();
 
+  // 카테고리 검색 결과
+  const {
+    data: categoryData,
+    error: categoryError,
+    isLoading: categoryIsLoading,
+  } = useQuery<CategoryReviewProps, Error>(['reviewListCategory', { categoryKeyword, page }], () =>
+    getCategoryReviewList({ category: categoryKeyword, page })
+  );
+
+  // 키워드 검색 결과
   const {
     data: Data,
     error: listError,
     isLoading: listIsLoading,
-  } = useQuery<CategoryReviewProps, Error>(['reviewList', keywordLast, sort, expert], () =>
-    getReviewList({ keywordLast, sort, page, expert })
+  } = useQuery<CategoryReviewProps, Error>(['reviewList', keyword, sort, expert, category], () =>
+    getReviewList({ keyword, category, sort, page, expert })
   );
 
-  useEffect(() => {
-    setKeywordLast(keyword);
-  }, [keyword]);
-
+  // 검색 조회 결과 존재 여부
   useEffect(() => {
     if (Data?.existed) {
       setListData(Data);
-      console.log('listData', listData);
     } else {
       setEtcData(Data);
     }
-  }, [Data, listData]);
+  }, [Data]);
 
-  if (listIsLoading) return <LoadingPage />;
-  if (listError) return <ErrorPage type={2} />;
+  useEffect(() => {
+    if (categoryData?.existed) {
+      setListData(categoryData);
+    } else {
+      setEtcData(categoryData);
+    }
+  }, [categoryData]);
+
+  if (categoryIsLoading || listIsLoading) return <LoadingPage />;
+  if (categoryError || listError) return <ErrorPage type={2} />;
+
+  // 카테고리 필터링
+  const handleCategoryChange = (value: string) => {
+    const currentParams = Object.fromEntries(searchParams.entries());
+    const updatedParams = { ...currentParams, category: value };
+    setSearchParams(updatedParams);
+  };
+
+  // 전문가 리뷰 필터링
+  const handleExpertChange = () => {
+    const updatedExpert = !expert;
+    setSearchParams({ keyword, category, expert: updatedExpert.toString() });
+  };
 
   return (
     <Container>
+      {!categoryKeyword && (
+        <Control>
+          <Filter>
+            <ButtonControl
+              type="toggle"
+              onClick={() => setCategoryBottom(!categoryBottom)}
+              active={CategoryData.map((item) => item).includes(category)}
+            >
+              카테고리
+            </ButtonControl>
+            <ButtonControl onClick={handleExpertChange} active={expert}>
+              전문가
+            </ButtonControl>
+          </Filter>
+          <div onClick={() => setSortBottom(!sortBottom)}>
+            <Sort />
+          </div>
+        </Control>
+      )}
       {!Data.existed ? (
         <>
           <NoData>찾으시는 제품 리뷰가 없어요</NoData>
           <Recommend>다른 유저들은 이런 제품을 찾아봤어요</Recommend>
           <Scroll>
-            {etcData?.reviews.map((item, index) => (
-              <ListItem
-                key={index}
-                id={item.id}
-                productName={item.productName}
-                reviewSpecData={item.reviewSpecData}
-                starPoint={item.starPoint}
-                shortReview={item.shortReview}
-                userInfo={item.userInfo}
-                scrapedCount={item.scrapedCount}
-                likedCount={item.likedCount}
-                reviewImage={item.reviewImage}
-                keyword={keywordLast}
-              />
-            ))}
+            {etcData?.reviews.map((item, index) => <ListItem key={index} item={item} />)}
           </Scroll>
         </>
       ) : (
         <>
-          <Control>
-            <Filter>
-              <ButtonControl
-                type="toggle"
-                onClick={() => setCategoryBottom(!categoryBottom)}
-                active={CategoryData.map((item) => item).includes(keywordLast)}
-              >
-                카테고리
-              </ButtonControl>
-              <ButtonControl
-                onClick={() => {
-                  setExpert(!expert);
-                }}
-                active={expert}
-              >
-                전문가
-              </ButtonControl>
-            </Filter>
-            <div onClick={() => setSortBottom(!sortBottom)}>
-              <Sort />
-            </div>
-          </Control>
           <Items>
-            {listData?.reviews.map((item, index) => (
-              <ListItem
-                key={index}
-                id={item.id}
-                productName={item.productName}
-                reviewSpecData={item.reviewSpecData}
-                starPoint={item.starPoint}
-                shortReview={item.shortReview}
-                userInfo={item.userInfo}
-                scrapedCount={item.scrapedCount}
-                likedCount={item.likedCount}
-                reviewImage={item.reviewImage}
-                keyword={keywordLast}
-              />
-            ))}
+            {listData?.reviews.map((item, index) => <ListItem key={index} item={item} />)}
           </Items>
         </>
       )}
@@ -120,10 +121,8 @@ const Result = ({ keyword }: { keyword: string }) => {
           onClose={() => {
             setCategoryBottom(false);
           }}
-          onChange={(value: string) => {
-            setKeywordLast(value);
-          }}
-          keyword={keywordLast}
+          onChange={handleCategoryChange}
+          keyword={category}
         />
       )}
       {sortBottom && (
@@ -154,6 +153,7 @@ const Container = styled('div', {
 const Control = styled('div', {
   width: '344px',
   height: '60px',
+  minHeight: '60px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
