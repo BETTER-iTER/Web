@@ -37,7 +37,7 @@ const ReviewDetail = () => {
     onSuccess: (data) => {
       console.log('data', data);
       setToast(true);
-      navigate(-1);
+      navigate('/mypage');
     },
     onError: (error) => {
       console.log('error', error);
