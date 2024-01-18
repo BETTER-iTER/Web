@@ -14,23 +14,29 @@ import { MypageReviewProps } from '../../types/Review';
 
 const Mypage = () => {
   const [status, setStatus] = useState<number>(0);
-  // const [id, setId] = useState<number>(1);
-  const id = 1;
+  const [scrapId, SetScrapId] = useState<number>(0);
+  const [mineId, SetMineId] = useState<number>(0);
 
   const {
     data: scrapData,
     isLoading: scrapLoading,
     isError: scrapError,
-  } = useQuery<MypageReviewProps, Error>(['scrap', id], () => getMyPageReviewScrap(id));
+  } = useQuery<MypageReviewProps, Error>(['scrap', scrapId], () => getMyPageReviewScrap(scrapId));
 
   const {
     data: mineData,
     isLoading: mineLoading,
     isError: mineError,
-  } = useQuery<MypageReviewProps, Error>(['mine', id], () => getMyPageReviewMine(id));
+  } = useQuery<MypageReviewProps, Error>(['mine', mineId], () => getMyPageReviewMine(mineId));
 
   scrapLoading && mineLoading && <LoadingPage />;
   scrapError && mineError && <ErrorPage type={2} />;
+
+  // const getReviewScrap = async (id: number, page: number) => {
+  // }
+
+  // const getReviewMine = async (id: number, page: number) => {
+  // }
 
   return (
     <Container>
