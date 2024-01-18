@@ -9,9 +9,13 @@ import { getMypageFollowers } from '../../apis/Mypage';
 import { useQuery } from '@tanstack/react-query';
 import LoadingPage from '../../component/common/Loading';
 import ErrorPage from '../../component/common/Error';
+import { useLocation } from 'react-router-dom';
 
 const Follow = () => {
-  const [status, setStatus] = useState<number>(0);
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const type = query.get('type');
+  const [status, setStatus] = useState<number>(type === 'following' ? 1 : 0);
   // const [page, setPage] = useState<number>(0);
   const page = 0;
 

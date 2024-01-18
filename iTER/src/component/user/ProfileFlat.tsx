@@ -43,12 +43,12 @@ const ProfileFlat = ({ type }: ProfileFlatProps) => {
             <Bar />
             <Caption2 style={{ color: '#57606A' }}>{profileData.job}</Caption2>
           </Username>
-          <Follow onClick={() => navigate('/mypage/follow')}>
-            <Caption2>
+          <Follow>
+            <Caption2 onClick={() => navigate('/mypage/follow?type=follower')}>
               팔로워 <Count>{profileData.followerCount}</Count>
             </Caption2>
             <Bar />
-            <Caption2>
+            <Caption2 onClick={() => navigate('/mypage/follow?type=following')}>
               팔로잉 <Count>{profileData.followingCount}</Count>
             </Caption2>
           </Follow>
