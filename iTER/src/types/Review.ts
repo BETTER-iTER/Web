@@ -4,6 +4,7 @@ export interface ReviewPreviewProps {
   id: number;
   imageUrl?: string;
   productName: string;
+  reviewImage?: string;
   nickname?: string;
   writerName?: string;
   profileImageUrl?: string;
