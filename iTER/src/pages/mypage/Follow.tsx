@@ -17,6 +17,7 @@ const Follow = () => {
   const query = new URLSearchParams(location.search);
   const type = query.get('type');
   const [status, setStatus] = useState<number>(type === 'following' ? 1 : 0);
+  const page = 0;
 
   const {
     data: followerData,
@@ -25,7 +26,7 @@ const Follow = () => {
     fetchNextPage: fetchNextFollowerPage,
     hasNextPage: hasFollowerNextPage,
   } = useInfiniteQuery(['follower'], ({ pageParam = 0 }) => getMypageFollowers(pageParam), {
-    getNextPageParam: (lastPage) => (lastPage.hasNext ? lastPage.nextPage : undefined),
+    getNextPageParam: (lastPage) => (lastPage.hasNext ? page + 1 : undefined),
   });
 
   const {
@@ -35,7 +36,7 @@ const Follow = () => {
     fetchNextPage: fetchNextFollowingPage,
     hasNextPage: hasFollowingNextPage,
   } = useInfiniteQuery(['following'], ({ pageParam = 0 }) => getMypageFollowings(pageParam), {
-    getNextPageParam: (lastPage) => (lastPage.hasNext ? lastPage.nextPage : undefined),
+    getNextPageParam: (lastPage) => (lastPage.hasNext ? page + 1 : undefined),
   });
 
   followerLoading && followingLoading && <LoadingPage />;

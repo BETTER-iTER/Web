@@ -73,6 +73,7 @@ export interface ReviewDetailProps {
 
 export interface MypageReviewProps {
   reviewCount: number;
+  hasNext?: boolean;
   reviewList: {
     reviewId: number;
     title: string;
