@@ -54,7 +54,8 @@ const Setting = () => {
           <Item onClick={() => setLogout(true)}>로그아웃</Item>
           <Item onClick={() => navigate(`/user/delete`)}>회원탈퇴</Item>
         </Items>
-        <Item onClick={() => navigate(`/user/inquiry`)}>1:1 문의하기</Item>
+        <Ask href="mailto:better.iter@gmail.com">1:1 문의하기</Ask>
+        {/* <Item onClick={() => navigate(`/user/inquiry`)}>1:1 문의하기</Item> */}
       </Content>
 
       {logout && (
@@ -104,4 +105,15 @@ const Item = styled('div', {
   letterSpacing: '-0.7px',
   marginBottom: '12px',
   cursor: 'pointer',
+});
+
+const Ask = styled('a', {
+  padding: '0 25px',
+  bodyText: 2,
+  color: '#000000',
+  lineHeight: '22px',
+  letterSpacing: '-0.7px',
+  marginBottom: '12px',
+  cursor: 'pointer',
+  textDecoration: 'none',
 });
