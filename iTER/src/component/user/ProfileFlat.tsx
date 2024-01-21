@@ -2,7 +2,7 @@ import { styled } from '../../../stitches.config';
 import UserIcon from '../../assets/icon/User.svg?react';
 import SettingIcon from '../../assets/icon/Setting.svg?react';
 import ExpertIcon from '../../assets/icon/Expert.svg?react';
-import { ButtonBlack } from '../common/Button';
+import { ButtonFollow } from '../common/Button';
 import { Caption2, LabelText } from '../Font';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -13,8 +13,10 @@ import ErrorPage from '../common/Error';
 
 interface ProfileFlatProps {
   type: 'follow' | 'setting';
+  isFollow?: boolean;
+  id?: number;
 }
-const ProfileFlat = ({ type }: ProfileFlatProps) => {
+const ProfileFlat = ({ type, isFollow, id }: ProfileFlatProps) => {
   const navigate = useNavigate();
   const {
     data: profileData,
@@ -54,7 +56,7 @@ const ProfileFlat = ({ type }: ProfileFlatProps) => {
           </Follow>
         </User>
         {type == 'follow' ? (
-          <ButtonBlack onClick={() => console.log('팔로우')}>팔로우</ButtonBlack>
+          <ButtonFollow isFollow={isFollow} id={id} />
         ) : (
           <IconBox
             onClick={() => {

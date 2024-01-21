@@ -3,6 +3,7 @@ export interface NotificationProps {
   type: 'follow' | 'like' | 'comment' | 'notice';
   path: string;
   content?: string;
+  follow?: boolean;
   user?: {
     id?: number;
     nickname: string;

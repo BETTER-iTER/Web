@@ -5,13 +5,18 @@ import Write from '../../assets/icon/nav/Write.svg?react';
 import Heart from '../../assets/icon/Heart.svg?react';
 import Scrap from '../../assets/icon/Scrap.svg?react';
 import ArrowDown from '../../assets/icon/ArrowDown.svg?react';
+import { useMutation } from '@tanstack/react-query';
+import { postFollow, postUnfollow } from '../../apis/User';
+import ErrorPage from './Error';
 
 interface ButtonProps {
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
-  children: ReactNode;
+  children?: ReactNode;
   disabled?: boolean;
   type?: string;
   active?: boolean;
+  isFollow?: boolean;
+  id?: number;
 }
 
 // 일반 버튼
@@ -144,6 +149,43 @@ export const ButtonComment: FC<ButtonProps> = ({ onClick, children, disabled }) 
       <CommentBody onClick={handleClick} disabled={disabled}>
         <CommentText>{children}</CommentText>
       </CommentBody>
+    </>
+  );
+};
+
+export const ButtonFollow: FC<ButtonProps> = ({ isFollow, id }) => {
+  const targetId = id ? id : 0;
+  // 팔로우
+  const mutationFollow = useMutation(postFollow, {
+    onSuccess: () => {
+      console.log('팔로우 성공');
+    },
+    onError: (error) => {
+      console.log('error', error);
+      return <ErrorPage type={2} />;
+    },
+  });
+
+  // 언팔로우
+  const mutationUnfollow = useMutation(postUnfollow, {
+    onSuccess: () => {
+      console.log('언팔로우 성공');
+    },
+    onError: (error) => {
+      console.log('error', error);
+      return <ErrorPage type={2} />;
+    },
+  });
+
+  return (
+    <>
+      <ButtonFollowBody
+        onClick={() => {
+          isFollow ? mutationUnfollow.mutate(targetId) : mutationFollow.mutate(targetId);
+        }}
+      >
+        <ButtonText>{isFollow ? '팔로잉' : '팔로우'}</ButtonText>
+      </ButtonFollowBody>
     </>
   );
 };
@@ -297,4 +339,18 @@ const ButtonBlackBody = styled('button', {
 const BittonBlackText = styled('div', {
   bodyText: 2,
   color: '$White',
+});
+
+const ButtonFollowBody = styled('button', {
+  width: '96px',
+  height: '35px',
+  borderRadius: '10px',
+  backgroundColor: '#242424',
+  color: '$White',
+  border: 'none',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  bodyText: 2,
+  cursor: 'pointer',
 });
