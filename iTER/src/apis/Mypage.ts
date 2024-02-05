@@ -90,7 +90,7 @@ export const getMypageReviewLike = async (page: number) => {
   const accessToken = localStorage.getItem('accessToken');
   console.log('좋아요한 리뷰 조회');
   try {
-    const response = await api.get(`/mypage/review/like/${page}`, {
+    const response = await api.get(`/mypage/review/mine/like/${page}`, {
       headers: {
         Authorization: accessToken ? `${accessToken}` : '',
       },
