@@ -9,7 +9,7 @@ const Profile = () => {
     <Container>
       <Top title={username} />
       <ProfileFlat type="follow" />
-      <PreviewSimple />
+      {/* <PreviewSimple /> */}
     </Container>
   );
 };
