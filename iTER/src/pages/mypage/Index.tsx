@@ -21,12 +21,11 @@ const Mypage = () => {
     isLoading: scrapLoading,
     isError: scrapError,
     fetchNextPage: fetchNextScrapPage,
-    hasNextPage: hasScrapNextPage,
   } = useInfiniteQuery<MypageReviewProps, Error>(
     ['scrap'],
     ({ pageParam = 0 }) => getMyPageReviewScrap(pageParam),
     {
-      getNextPageParam: (lastPage) => (lastPage.hasNext ? page + 1 : undefined),
+      getNextPageParam: (lastPage) => (lastPage.pageInfo.hasNext ? page + 1 : undefined),
     }
   );
 
@@ -35,15 +34,16 @@ const Mypage = () => {
     isLoading: mineLoading,
     isError: mineError,
     fetchNextPage: fetchNextMinePage,
-    hasNextPage: hasMineNextPage,
   } = useInfiniteQuery<MypageReviewProps, Error>(
     ['mine'],
     ({ pageParam = 0 }) => getMyPageReviewMine(pageParam),
     {
-      getNextPageParam: (lastPage) => (lastPage.hasNext ? page + 1 : undefined),
+      getNextPageParam: (lastPage) => (lastPage.pageInfo.hasNext ? page + 1 : undefined),
     }
   );
 
+  console.log('scrapData', scrapData);
+  console.log('mineData', mineData);
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const { currentTarget } = e;
     if (currentTarget instanceof HTMLDivElement) {
@@ -72,7 +72,7 @@ const Mypage = () => {
             setStatus(0);
           }}
         >
-          내가 쓴 리뷰({mineData !== undefined && mineData?.pages[0].reviewCount})
+          내가 쓴 리뷰({mineData !== undefined && mineData?.pages[0].pageInfo.totalCount})
         </Status>
         <Status
           active={status == 1}
@@ -80,13 +80,13 @@ const Mypage = () => {
             setStatus(1);
           }}
         >
-          스크랩한 리뷰({scrapData !== undefined && scrapData?.pages[0].reviewCount})
+          스크랩한 리뷰({scrapData !== undefined && scrapData?.pages[0].pageInfo.totalCount})
         </Status>
       </StatusBox>
       <Content>
         {/* 내가 쓴 리뷰 */}
         {status == 0 &&
-          (mineData !== undefined && mineData?.pages[0].reviewCount > 0 ? (
+          (mineData !== undefined && mineData?.pages[0].pageInfo.totalCount > 0 ? (
             <div onScroll={handleScroll} style={{ paddingBottom: 10 }}>
               {mineData.pages.map((page, pageIndex) => (
                 <PreviewSimple key={pageIndex} list={page.reviewList} />
@@ -98,7 +98,7 @@ const Mypage = () => {
 
         {/* 스크랩 리뷰 */}
         {status == 1 &&
-          (scrapData !== undefined && scrapData?.pages[0].reviewCount > 0 ? (
+          (scrapData !== undefined && scrapData?.pages[0].pageInfo.totalCount > 0 ? (
             <div onScroll={handleScroll}>
               {scrapData.pages.map((page, pageIndex) => (
                 <PreviewSimple key={pageIndex} list={page.reviewList} />
@@ -108,7 +108,6 @@ const Mypage = () => {
             <Empty>스크랩한 리뷰가 없습니다</Empty>
           ))}
       </Content>
-      {(hasMineNextPage || hasScrapNextPage) && <LoadingPage />}
       <Bottom>
         <Nav />
       </Bottom>

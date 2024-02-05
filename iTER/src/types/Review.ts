@@ -72,21 +72,59 @@ export interface ReviewDetailProps {
   relatedReviews: ReviewPreviewProps[];
 }
 
-export interface MypageReviewProps {
+export interface PreviewSimpleProps {
   reviewCount: number;
   hasNext?: boolean;
-  reviewList: {
-    reviewId: number;
-    title: string;
-    thumbnailImage: string | null;
-    writerId: number;
-    writerJob: string;
-    writerNickname: string;
-    profileImage: string | null;
-    likeCount: number;
-    scrapCount: number;
-    isLike: boolean;
-    isScrap: boolean;
-    expert?: boolean;
+  reviewList: PartReviewProps[];
+}
+
+export interface MypageLikeProps {
+  hasNext: boolean;
+  existed: boolean;
+  reviews: {
+    id: number;
+    reviewImage: string;
+    productName: string;
+    reviewSpecData: string[];
+    starPoint: number;
+    shortReview: string;
+    userInfo: {
+      id: number;
+      nickName: string;
+      job: string;
+      profileImage?: string;
+      expert?: boolean;
+    };
+    scrapedCount: number;
+    likedCount: number;
+    like: boolean;
+    scrap: boolean;
   }[];
+}
+
+export interface MypageReviewProps {
+  pageInfo: {
+    page: number;
+    size: number;
+    totalPage: number;
+    totalCount: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+  reviewList: PartReviewProps[];
+}
+
+export interface PartReviewProps {
+  reviewId: number;
+  title: string;
+  thumbnailImage: string | null;
+  writerId: number;
+  writerJob: string;
+  writerNickname: string;
+  profileImage: string | null;
+  likeCount: number;
+  scrapCount: number;
+  isLike: boolean;
+  isScrap: boolean;
+  expert?: boolean;
 }

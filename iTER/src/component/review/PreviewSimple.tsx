@@ -2,10 +2,10 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from '../../../stitches.config';
 import Heart from '../../assets/icon/Heart.svg?react';
 import Scrap from '../../assets/icon/Scrap.svg?react';
-import { MypageReviewProps } from '../../types/Review';
+import { PreviewSimpleProps } from '../../types/Review';
 import { Caption2 } from '../Font';
 
-const PreviewSimple = ({ list }: { list: MypageReviewProps['reviewList'] }) => {
+const PreviewSimple = ({ list }: { list: PreviewSimpleProps['reviewList'] }) => {
   return (
     <Container>
       <Items>
@@ -19,7 +19,7 @@ const PreviewSimple = ({ list }: { list: MypageReviewProps['reviewList'] }) => {
 
 export default PreviewSimple;
 
-const Item = ({ data }: { data: MypageReviewProps['reviewList'][0] }) => {
+const Item = ({ data }: { data: PreviewSimpleProps['reviewList'][0] }) => {
   const navigate = useNavigate();
   return (
     <ItemContainer onClick={() => navigate(`/search/review/${data.reviewId}`)}>

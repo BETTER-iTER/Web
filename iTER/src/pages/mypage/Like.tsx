@@ -27,6 +27,8 @@ const Like = () => {
   likeLoading && <LoadingPage />;
   likeError && <ErrorPage type={2} />;
 
+  console.log('likeData', likeData);
+
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const { currentTarget } = e;
     if (currentTarget instanceof HTMLDivElement) {
