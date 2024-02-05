@@ -184,7 +184,9 @@ export const ButtonFollow: FC<ButtonProps> = ({ isFollow, id }) => {
           isFollow ? mutationUnfollow.mutate(targetId) : mutationFollow.mutate(targetId);
         }}
       >
-        <ButtonText>{isFollow ? '팔로잉' : '팔로우'}</ButtonText>
+        <ButtonText style={isFollow ? { color: '#8e9198', backgroundColor: '#d8dbe2' } : undefined}>
+          {isFollow ? '팔로잉' : '팔로우'}
+        </ButtonText>
       </ButtonFollowBody>
     </>
   );
