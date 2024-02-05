@@ -107,9 +107,7 @@ const Follow = () => {
             </React.Fragment>
           ))}
           {hasFollowerNextPage && <LoadingPage />}
-          {!followerData?.pages[0]?.reviews?.length && (
-            <Empty>리뷰를 작성해 팔로워를 늘려 보세요</Empty>
-          )}
+          {!followerData?.pages[0]?.totalCount && <Empty>리뷰를 작성해 팔로워를 늘려 보세요</Empty>}
         </Content>
       )}
       {status === 1 && (
@@ -136,7 +134,7 @@ const Follow = () => {
             </React.Fragment>
           ))}
           {hasFollowingNextPage && <LoadingPage />}
-          {!followingData?.pages[0]?.reviews?.length && (
+          {!followingData?.pages[0].totalCount && (
             <Empty>도움된 리뷰의 유저를 팔로우해 보세요</Empty>
           )}
         </Content>
