@@ -62,8 +62,8 @@ function App() {
         element={<PrivateRoute path="/mypage/follow" element={<Follow />} />}
       />
       <Route
-        path="/mypage/profile"
-        element={<PrivateRoute path="/mypage/profile" element={<EditProfile />} />}
+        path="/user/profile/edit"
+        element={<PrivateRoute path="/user/profile/edit" element={<EditProfile />} />}
       />
       <Route
         path="/user/profile/:id"
