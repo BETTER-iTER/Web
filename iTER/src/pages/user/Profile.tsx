@@ -20,8 +20,6 @@ const Profile = () => {
 
   console.log('?', data, isLoading, isError);
   const userInfo = data?.pages[0].userProfile;
-  const reviewList = data?.pages[0].reviewList;
-  console.log('?', userInfo, reviewList);
   return (
     <Container>
       <Top title={userInfo?.nickname} />
@@ -35,7 +33,11 @@ const Profile = () => {
         isFollow={userInfo?.isFollow}
         id={userId}
       />
-      <PreviewSimple list={[]} />
+      {data !== undefined &&
+        data.pages.map((page, pageIndex) => (
+          <PreviewSimple key={pageIndex} list={page.reviewList.reviewList} />
+        ))}
+
       {isLoading && <LoadingPage />}
       {isError && <ErrorPage type={2} />}
     </Container>
