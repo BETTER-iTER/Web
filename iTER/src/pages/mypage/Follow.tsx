@@ -114,20 +114,20 @@ const Follow = () => {
         <Content onScroll={handleFollowingScroll}>
           {followingData?.pages?.map((page, pageIndex) => (
             <React.Fragment key={pageIndex}>
-              {page?.reviews?.map(
+              {page?.followerList?.map(
                 (
                   following: {
-                    username: string;
+                    nickname: string;
                     expert: boolean | undefined;
-                    image: string | undefined;
+                    profileImage: string | undefined;
                   },
                   index: unknown
                 ) => (
                   <Item
                     key={`${pageIndex}-${index}`}
-                    name={following.username}
+                    name={following.nickname}
                     expert={following.expert}
-                    image={following.image}
+                    image={following.profileImage}
                   />
                 )
               )}

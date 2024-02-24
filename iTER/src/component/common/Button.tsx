@@ -6,7 +6,7 @@ import Heart from '../../assets/icon/Heart.svg?react';
 import Scrap from '../../assets/icon/Scrap.svg?react';
 import ArrowDown from '../../assets/icon/ArrowDown.svg?react';
 import { useMutation } from '@tanstack/react-query';
-import { postFollow, postUnfollow } from '../../apis/User';
+import { postFollow, deleteUnfollow } from '../../apis/User';
 import ErrorPage from './Error';
 
 interface ButtonProps {
@@ -155,6 +155,7 @@ export const ButtonComment: FC<ButtonProps> = ({ onClick, children, disabled }) 
 
 export const ButtonFollow: FC<ButtonProps> = ({ isFollow, id }) => {
   const targetId = id ? id : 0;
+  console.log('isFollow', isFollow);
   // 팔로우
   const mutationFollow = useMutation(postFollow, {
     onSuccess: () => {
@@ -167,7 +168,7 @@ export const ButtonFollow: FC<ButtonProps> = ({ isFollow, id }) => {
   });
 
   // 언팔로우
-  const mutationUnfollow = useMutation(postUnfollow, {
+  const mutationUnfollow = useMutation(deleteUnfollow, {
     onSuccess: () => {
       console.log('언팔로우 성공');
     },
@@ -183,6 +184,7 @@ export const ButtonFollow: FC<ButtonProps> = ({ isFollow, id }) => {
         onClick={() => {
           isFollow ? mutationUnfollow.mutate(targetId) : mutationFollow.mutate(targetId);
         }}
+        style={isFollow ? { backgroundColor: '#d8dbe2' } : undefined}
       >
         <ButtonText style={isFollow ? { color: '#8e9198', backgroundColor: '#d8dbe2' } : undefined}>
           {isFollow ? '팔로잉' : '팔로우'}
