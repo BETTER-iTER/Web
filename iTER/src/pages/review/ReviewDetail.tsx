@@ -68,12 +68,12 @@ const ReviewDetail = () => {
       <Top title={reviewDetail.productName} back={state && handleGoBack} />
       <Container>
         {/* 상단 유저 정보 및 설정 버튼 */}
-        <User
-          onClick={() => {
-            window.location.href = `/user/profile/${writerInfo.id}`;
-          }}
-        >
-          <Right>
+        <User>
+          <Right
+            onClick={() => {
+              window.location.href = `/user/profile/${writerInfo.id}`;
+            }}
+          >
             {writerInfo.profileImage && writerInfo.profileImage.length > 0 ? (
               <UserImage>
                 <img src={writerInfo.profileImage} alt="user" width={35} height={35} />
@@ -154,6 +154,7 @@ const Right = styled('div', {
   display: 'flex',
   alignItems: 'center',
   gap: '10px',
+  cursor: 'pointer',
 });
 
 const UserImage = styled('div', {

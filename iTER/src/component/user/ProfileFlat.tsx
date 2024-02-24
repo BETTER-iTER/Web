@@ -98,12 +98,12 @@ export const ProfileFlatUser = ({
   const navigate = useNavigate();
   return (
     <>
-      <UserBox
-        onClick={() => {
-          window.location.href = `/user/profile/${id}`;
-        }}
-      >
-        <ImageBox>
+      <UserBox>
+        <ImageBox
+          onClick={() => {
+            window.location.href = `/user/profile/${id}`;
+          }}
+        >
           <ExpertBox>{isExpertise && <ExpertIcon />}</ExpertBox>
           {profileImage != null ? (
             <UserImage style={{ backgroundImage: `url(${profileImage})` }} />
@@ -112,7 +112,11 @@ export const ProfileFlatUser = ({
           )}
         </ImageBox>
 
-        <User>
+        <User
+          onClick={() => {
+            window.location.href = `/user/profile/${id}`;
+          }}
+        >
           <Username>
             <LabelText>{nickname}</LabelText>
             <Bar />
@@ -147,6 +151,7 @@ const ImageBox = styled('div', {
   width: '75px',
   height: '75px',
   position: 'relative',
+  cursor: 'pointer',
 });
 
 const ExpertBox = styled('div', {
@@ -174,6 +179,7 @@ const User = styled('div', {
   flexDirection: 'column',
   justifyContent: 'center',
   margin: '0 36px 0 12px',
+  cursor: 'pointer',
 });
 
 const Follow = styled('div', {
