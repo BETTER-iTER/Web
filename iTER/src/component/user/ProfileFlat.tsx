@@ -74,6 +74,62 @@ const ProfileFlat = ({ type, isFollow, id }: ProfileFlatProps) => {
 
 export default ProfileFlat;
 
+interface ProfileFlatUserProps {
+  job: string;
+  nickname: string;
+  profileImage: string | null;
+  followerCount: number;
+  followingCount: number;
+  isExpertise: boolean;
+  isFollow: boolean;
+  id: number;
+}
+
+export const ProfileFlatUser = ({
+  job,
+  nickname,
+  profileImage,
+  followerCount,
+  followingCount,
+  isExpertise,
+  isFollow,
+  id,
+}: ProfileFlatUserProps) => {
+  const navigate = useNavigate();
+  return (
+    <>
+      <UserBox>
+        <ImageBox>
+          <ExpertBox>{isExpertise && <ExpertIcon />}</ExpertBox>
+          {profileImage != null ? (
+            <UserImage style={{ backgroundImage: `url(${profileImage})` }} />
+          ) : (
+            <UserIcon width={70} height={70} />
+          )}
+        </ImageBox>
+
+        <User>
+          <Username>
+            <LabelText>{nickname}</LabelText>
+            <Bar />
+            <Caption2 style={{ color: '#57606A' }}>{job}</Caption2>
+          </Username>
+          <Follow>
+            <Caption2 onClick={() => navigate('/mypage/follow?type=follower')}>
+              팔로워 <Count>{followerCount}</Count>
+            </Caption2>
+            <Bar />
+            <Caption2 onClick={() => navigate('/mypage/follow?type=following')}>
+              팔로잉 <Count>{followingCount}</Count>
+            </Caption2>
+          </Follow>
+        </User>
+        <ButtonFollow isFollow={isFollow} id={id} />
+      </UserBox>
+    </>
+  );
+};
+
 const UserBox = styled('div', {
   display: 'flex',
   alignItems: 'center',

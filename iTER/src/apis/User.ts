@@ -39,3 +39,19 @@ export const deleteUnfollow = async (targetId: number) => {
     throw error;
   }
 };
+
+export const getUserProfile = async (userId: number, page: number) => {
+  const accessToken = localStorage.getItem('accessToken');
+  console.log('프로필 조회');
+  try {
+    const response = await api.get(`/mypage/profile/${userId}/${page}`, {
+      headers: {
+        Authorization: accessToken ? `${accessToken}` : '',
+      },
+    });
+    return response.data.result;
+  } catch (error) {
+    console.log('프로필 조회 오류', error);
+    throw error;
+  }
+};

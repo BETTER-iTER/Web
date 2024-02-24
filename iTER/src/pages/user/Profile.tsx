@@ -1,17 +1,43 @@
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { styled } from '../../../stitches.config';
 import Top from '../../component/layout/Top';
 import PreviewSimple from '../../component/review/PreviewSimple';
-import ProfileFlat from '../../component/user/ProfileFlat';
+import { ProfileFlatUser } from '../../component/user/ProfileFlat';
+import { getUserProfile } from '../../apis/User';
+import LoadingPage from '../../component/common/Loading';
+import ErrorPage from '../../component/common/Error';
 
 const Profile = () => {
-  const username = '블루투스 하트';
-  const isFollow = false;
-  const id = 1;
+  const page = 0;
+  const userId = 14;
+  const { data, isLoading, isError } = useInfiniteQuery(
+    ['profile'],
+    ({ pageParam = 0 }) => getUserProfile(userId, pageParam),
+    {
+      getNextPageParam: (lastPage) => (lastPage.hasNext ? page + 1 : undefined),
+    }
+  );
+
+  console.log('?', data, isLoading, isError);
+  const userInfo = data?.pages[0].userProfile;
+  const reviewList = data?.pages[0].reviewList;
+  console.log('?', userInfo, reviewList);
   return (
     <Container>
-      <Top title={username} />
-      <ProfileFlat type="follow" isFollow={isFollow} id={id} />
+      <Top title={userInfo?.nickname} />
+      <ProfileFlatUser
+        job={userInfo?.job}
+        nickname={userInfo?.nickname}
+        profileImage={userInfo?.profileImage}
+        followerCount={userInfo?.followerCount}
+        followingCount={userInfo?.followingCount}
+        isExpertise={userInfo?.isExpertise}
+        isFollow={userInfo?.isFollow}
+        id={userId}
+      />
       <PreviewSimple list={[]} />
+      {isLoading && <LoadingPage />}
+      {isError && <ErrorPage type={2} />}
     </Container>
   );
 };
