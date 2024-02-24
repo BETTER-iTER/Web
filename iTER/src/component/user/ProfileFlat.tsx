@@ -98,7 +98,11 @@ export const ProfileFlatUser = ({
   const navigate = useNavigate();
   return (
     <>
-      <UserBox>
+      <UserBox
+        onClick={() => {
+          window.location.href = `/user/profile/${id}`;
+        }}
+      >
         <ImageBox>
           <ExpertBox>{isExpertise && <ExpertIcon />}</ExpertBox>
           {profileImage != null ? (

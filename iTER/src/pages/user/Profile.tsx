@@ -8,8 +8,10 @@ import LoadingPage from '../../component/common/Loading';
 import ErrorPage from '../../component/common/Error';
 
 const Profile = () => {
+  const location = window.location.href;
+  const userId = parseInt(location.split('/')[5]);
+  console.log('userId', userId);
   const page = 0;
-  const userId = 14;
   const { data, isLoading, isError } = useInfiniteQuery(
     ['profile'],
     ({ pageParam = 0 }) => getUserProfile(userId, pageParam),

@@ -90,6 +90,7 @@ const Follow = () => {
               {page?.followerList?.map(
                 (
                   followerList: {
+                    id: number;
                     nickname: string;
                     expert: boolean | undefined;
                     profileImage: string | undefined;
@@ -98,6 +99,7 @@ const Follow = () => {
                 ) => (
                   <Item
                     key={`${pageIndex}-${index}`}
+                    id={followerList.id}
                     name={followerList.nickname}
                     expert={followerList.expert}
                     image={followerList.profileImage}
@@ -117,6 +119,7 @@ const Follow = () => {
               {page?.followerList?.map(
                 (
                   following: {
+                    id: number;
                     nickname: string;
                     expert: boolean | undefined;
                     profileImage: string | undefined;
@@ -125,6 +128,7 @@ const Follow = () => {
                 ) => (
                   <Item
                     key={`${pageIndex}-${index}`}
+                    id={following.id}
                     name={following.nickname}
                     expert={following.expert}
                     image={following.profileImage}
@@ -146,9 +150,23 @@ const Follow = () => {
 
 export default Follow;
 
-const Item = ({ name, expert, image }: { name: string; expert?: boolean; image?: string }) => {
+const Item = ({
+  id,
+  name,
+  expert,
+  image,
+}: {
+  id: number;
+  name: string;
+  expert?: boolean;
+  image?: string;
+}) => {
   return (
-    <ItemBox>
+    <ItemBox
+      onClick={() => {
+        window.location.href = `/user/profile/${id}`;
+      }}
+    >
       <ImageBox>
         <ExpertBox>{expert && <ExpertIcon width="10px" height="10px" />}</ExpertBox>
         {image ? (

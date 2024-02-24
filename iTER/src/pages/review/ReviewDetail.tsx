@@ -68,7 +68,11 @@ const ReviewDetail = () => {
       <Top title={reviewDetail.productName} back={state && handleGoBack} />
       <Container>
         {/* 상단 유저 정보 및 설정 버튼 */}
-        <User>
+        <User
+          onClick={() => {
+            window.location.href = `/user/profile/${writerInfo.id}`;
+          }}
+        >
           <Right>
             {writerInfo.profileImage && writerInfo.profileImage.length > 0 ? (
               <UserImage>
