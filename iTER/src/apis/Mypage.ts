@@ -5,7 +5,7 @@ export const getMyPageProfile = async () => {
   const accessToken = localStorage.getItem('accessToken');
   console.log('프로필 조회');
   try {
-    const response = await api.get('/mypage/profile', {
+    const response = await api.get('/mypage/profile/mine', {
       headers: {
         Authorization: accessToken ? `${accessToken}` : '',
       },
