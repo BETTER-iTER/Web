@@ -8,16 +8,20 @@ import Button from '../../component/common/Button';
 import { jobs } from '../../constants/Jobs';
 import { getUserInfo } from '../../apis/Review';
 import { putEditProfile } from '../../apis/User';
+import { getNicknameVerify } from '../../apis/auth';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import ErrorPage from '../../component/common/Error';
 import LoadingPage from '../../component/common/Loading';
+import Toast from '../../component/common/Toast';
 
 const EditProfile = () => {
   const [email, setEmail] = useState<string>('');
+  const [text, setText] = useState<string>('');
   const [nickName, setNickName] = useState<string>('');
   const [job, setJob] = useState<string>('');
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [error, setError] = useState<boolean>(false);
+  const [toast, setToast] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -31,40 +35,45 @@ const EditProfile = () => {
   const mutation = useMutation(putEditProfile, {
     onSuccess: () => {
       console.log('success');
+      setToast(true);
     },
     onError: () => {
       return <ErrorPage type={2} />;
     },
   });
-  const handleSave = () => {
-    const key = {
-      nickname: nickName,
-      job: job,
-    };
+  const handleSave = async () => {
+    const nicknameResult = await getNicknameVerify(text);
 
-    const data = new FormData();
-    data.append('files', uploadedImage as File);
-    const jsonString = JSON.stringify(key);
-    const jsonBlob = new Blob([jsonString], { type: 'application/json' });
-    data.append('key', jsonBlob);
+    if (nicknameResult?.result) {
+      const key = {
+        nickname: text,
+        job: job,
+      };
 
-    mutation.mutate(data);
+      const data = new FormData();
+      data.append('files', uploadedImage as File);
+      const jsonString = JSON.stringify(key);
+      const jsonBlob = new Blob([jsonString], { type: 'application/json' });
+      data.append('key', jsonBlob);
+
+      mutation.mutate(data);
+    } else {
+      setError(true);
+    }
   };
   const { data, isLoading, isError } = useQuery<any, Error>(['user'], getUserInfo);
 
   useEffect(() => {
     if (data) {
       setJob(data?.data?.result.job);
-      setNickName(data?.data?.result.nickName);
+      setText(data?.data?.result.nickName);
       setEmail(data?.data?.result.email);
+      setNickName(data?.data?.result.nickName);
     }
   }, [data]);
 
   if (isLoading) return <LoadingPage />;
   if (isError) return <ErrorPage type={2} />;
-
-  console.log('data', data);
-  console.log('uploadedImage', uploadedImage);
 
   return (
     <Container>
@@ -76,11 +85,13 @@ const EditProfile = () => {
             alt={nickName}
             onClick={() => fileInputRef.current?.click()}
           />
-        ) : data?.data?.result.profileImageUrl ? (
+        ) : data?.data?.result.profileImage ? (
           <ProfileImage
-            src={data?.data?.result.profileImageUrl}
+            src={data?.data?.result.profileImage}
             alt={nickName}
             onClick={() => fileInputRef.current?.click()}
+            width={100}
+            height={100}
           />
         ) : (
           <UserIcon width={100} height={100} onClick={() => fileInputRef.current?.click()} />
@@ -97,10 +108,10 @@ const EditProfile = () => {
       <InputComponent type="text" labelName="이메일" text={email} />
 
       <InputComponent
-        placeholder={nickName}
+        placeholder={text}
         type="text"
         labelName="닉네임 *"
-        onChange={setNickName}
+        onChange={setText}
         error={error ? '이미 사용중인 닉네임입니다' : undefined}
         notice="한글/영문/숫자 조합 1~20자"
       />
@@ -108,10 +119,9 @@ const EditProfile = () => {
       <InputSelect labelName="직업 *" placeholder={job} list={jobs} onChange={setJob} />
 
       <Bottom>
-        <Button disabled={nickName?.length <= 0 && error} onClick={() => handleSave()}>
-          저장하기
-        </Button>
+        <Button onClick={() => handleSave()}>저장하기</Button>
       </Bottom>
+      {toast && <Toast message={'프로필이 저장되었습니다'} onClose={() => setToast(false)} />}
     </Container>
   );
 };
