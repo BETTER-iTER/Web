@@ -55,3 +55,23 @@ export const getUserProfile = async (userId: number, page: number) => {
     throw error;
   }
 };
+
+export const putEditCategory = async (category: string[]) => {
+  const requestBody = {
+    category: category,
+  };
+  const accessToken = localStorage.getItem('accessToken');
+  console.log('카테고리 수정');
+  try {
+    const response = await api.put(`/mypage/category`, requestBody, {
+      headers: {
+        Authorization: accessToken ? `${accessToken}` : '',
+      },
+    });
+    console.log(response);
+    return response.data.result;
+  } catch (error) {
+    console.log('카테고리 수정 오류', error);
+    throw error;
+  }
+};

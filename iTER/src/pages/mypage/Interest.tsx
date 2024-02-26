@@ -5,13 +5,31 @@ import Category from '../../component/common/Category';
 import Button from '../../component/common/Button';
 import { useState } from 'react';
 import { CategoryProps } from '../../types/Review';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { getCategory } from '../../apis/Common';
+import { putEditCategory } from '../../apis/User';
 import LoadingPage from '../../component/common/Loading';
 import ErrorPage from '../../component/common/Error';
+import Toast from '../../component/common/Toast';
 
 const Interest = () => {
   const [selected, setSelected] = useState<string[]>([]);
+  const [toast, setToast] = useState<boolean>(false);
+
+  const mutation = useMutation(putEditCategory, {
+    onSuccess: () => {
+      console.log('success');
+      setToast(true);
+    },
+    onError: () => {
+      return <ErrorPage type={2} />;
+    },
+  });
+
+  const handleSave = () => {
+    mutation.mutate(selected);
+  };
+
   const handleSelect = (name: string) => {
     const selectedCount = selected.length;
 
@@ -26,26 +44,33 @@ const Interest = () => {
 
   if (isLoading) return <LoadingPage />;
   if (isError) return <ErrorPage type={2} />;
+
+  console.log('selected', selected);
   return (
     <div>
       <Top title="관심 카테고리 설정" />
       <Content>
         <Headline3>1~3개의 카테고리를 선택해 주세요</Headline3>
         <CategoryBox>
-          {data?.map((item, index) => (
-            <Category
-              key={index}
-              onClick={() => handleSelect(item.name)}
-              isSelectedBorer={selected.includes(item.name)}
-              name={item.name}
-              gap={8.98}
-            />
-          ))}
+          {data.length > 0 &&
+            data?.map((item, index) => (
+              <Category
+                key={index}
+                onClick={() => handleSelect(item.name)}
+                isSelectedBorer={selected.includes(item.name)}
+                name={item.name}
+                gap={8.98}
+                imageUrl={item.imageUrl}
+              />
+            ))}
         </CategoryBox>
         <Bottom>
-          <Button disabled={selected.length <= 0}>저장하기</Button>
+          <Button disabled={selected.length <= 0} onClick={() => handleSave()}>
+            저장하기
+          </Button>
         </Bottom>
       </Content>
+      {toast && <Toast message={'카테고리가 저장되었습니다'} onClose={() => setToast(false)} />}
     </div>
   );
 };
