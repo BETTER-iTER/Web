@@ -23,10 +23,8 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
   const [price, setPrice] = useState<number>(0);
   const [compareProduct, setCompareProduct] = useState<string>('');
 
-  console.log(selectedCPU, selectedWINDOW, selectedRAM, selectedSIZE, '???');
+  //console.log(selectedCPU, selectedWINDOW, selectedRAM, selectedSIZE, '???');
   const { updateFormData } = useData();
-
-  console.log(isPopupOpen);
 
   const openPopup = () => {
     setIsPopupOpen(true);

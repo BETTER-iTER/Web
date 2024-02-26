@@ -29,7 +29,7 @@ export const SelectBoxCPU: React.FC<SelectBoxCPUProps> = ({
   onSIZEClick,
 }) => {
   const [specDataList, setSpecDataList] = useState<SpecDataProps[]>([]);
-  console.log(specDataList, '?');
+  //console.log(specDataList, '?');
 
   const { updateFormData } = useData();
   const { formData } = useData();
@@ -40,7 +40,7 @@ export const SelectBoxCPU: React.FC<SelectBoxCPUProps> = ({
         const selectedCategory = formData.category;
         const responseData = await getSpecData(String(selectedCategory));
         const specDataList = responseData.data.result.specs;
-        console.log(specDataList);
+        //console.log(specDataList);
         setSpecDataList(specDataList);
       } catch (error) {
         console.log(error);
@@ -50,8 +50,8 @@ export const SelectBoxCPU: React.FC<SelectBoxCPUProps> = ({
   }, []);
 
   const handleSpecClick = (item: string, id: number, index: number) => {
-    console.log(`클릭한 버튼: ${item}`);
-    console.log(`클릭한 버튼의 id: ${id}`);
+    //console.log(`클릭한 버튼: ${item}`);
+    //console.log(`클릭한 버튼의 id: ${id}`);
     const updatedSpecNum = [...specNum];
     updatedSpecNum[index] = id;
     switch (index) {
@@ -73,8 +73,8 @@ export const SelectBoxCPU: React.FC<SelectBoxCPUProps> = ({
     }
     setSpecNum(updatedSpecNum);
     updateFormData({ specData: updatedSpecNum });
-    console.log(specNum);
-    console.log(formData);
+    // console.log(specNum);
+    // console.log(formData);
   };
 
   return (
