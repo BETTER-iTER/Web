@@ -160,6 +160,7 @@ export const ButtonFollow: FC<ButtonProps> = ({ isFollow, id }) => {
   const mutationFollow = useMutation(postFollow, {
     onSuccess: () => {
       console.log('팔로우 성공');
+      window.location.reload();
     },
     onError: (error) => {
       console.log('error', error);
@@ -171,6 +172,7 @@ export const ButtonFollow: FC<ButtonProps> = ({ isFollow, id }) => {
   const mutationUnfollow = useMutation(deleteUnfollow, {
     onSuccess: () => {
       console.log('언팔로우 성공');
+      window.location.reload();
     },
     onError: (error) => {
       console.log('error', error);
