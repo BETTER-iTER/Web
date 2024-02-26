@@ -16,9 +16,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
 
   useEffect(() => {
     console.log('선택된 이미지파일들:', selectedImages);
-
-    updateFormData({ images: selectedImages });
-  }, [selectedImages, updateFormData]);
+  }, [selectedImages]);
 
   const handleImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
@@ -26,7 +24,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
       setSelectedImages((prevImages) => [...prevImages, file]);
       onImageSelected(file);
       try {
-        updateFormData({ images: selectedImages });
+        const imageUrl = await uploadImageToS3(file);
+        console.log(imageUrl);
       } catch (error) {
         console.log(error);
       }
