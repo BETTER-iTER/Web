@@ -36,7 +36,6 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
   // const shortReview: string[] = [];
   const { updateFormData } = useData();
 
-  const { formData } = useData();
   const items1 = [
     { data: '가벼워요', id: 0 },
     { data: '적당해요', id: 1 },

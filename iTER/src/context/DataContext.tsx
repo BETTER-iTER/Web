@@ -21,21 +21,32 @@ interface FormData {
   comparedProductName?: string;
 }
 
+interface ImageData {
+  files: File[];
+}
+
 interface DataContextValue {
   formData: FormData;
+  imageData: ImageData;
   updateFormData: (newData: FormData) => void;
+  updateImageData: (newImageData: ImageData) => void;
 }
 
 const DataContext = createContext<DataContextValue | undefined>(undefined);
 
 export const DataProvider: React.FC<DataContextProps> = ({ children }) => {
   const [formData, setFormData] = useState<FormData>({});
+  const [imageData, setImageData] = useState<ImageData>({ files: [] });
 
   const updateFormData = (newData: FormData) => {
     setFormData((prevData) => ({ ...prevData, ...newData }));
   };
 
-  const value: DataContextValue = { formData, updateFormData };
+  const updateImageData = (newImageData: ImageData) => {
+    setImageData(newImageData);
+  };
+
+  const value: DataContextValue = { formData, imageData, updateFormData, updateImageData };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 };

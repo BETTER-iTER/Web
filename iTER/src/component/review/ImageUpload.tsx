@@ -3,6 +3,7 @@ import { styled } from '../../../stitches.config';
 import Xbtn from '../../assets/icon/Xbtn.svg?react';
 import Plus from '../../assets/icon/Plus.svg?react';
 import { Caption1 } from '../Font';
+import { useData } from '../../context/DataContext';
 
 interface ImageUploadProps {
   onImageSelected: (image: File) => void;
@@ -11,7 +12,8 @@ interface ImageUploadProps {
 const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  const { updateImageData } = useData();
+  const { imageData } = useData();
   useEffect(() => {
     console.log('선택된 이미지파일들:', selectedImages);
   }, [selectedImages]);
@@ -21,12 +23,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
     if (file) {
       setSelectedImages((prevImages) => [...prevImages, file]);
       onImageSelected(file);
-      try {
-        const imageUrl = await uploadImageToS3(file);
-        console.log(imageUrl);
-      } catch (error) {
-        console.log(error);
-      }
+      updateImageData({ files: selectedImages });
+      console.log(imageData);
     }
   };
 
