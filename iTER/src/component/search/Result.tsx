@@ -57,21 +57,22 @@ const Result = () => {
   );
 
   // 검색 조회 결과 존재 여부
+  const type = window.location.href.split('?')[1];
   useEffect(() => {
-    if (Data?.pages[0]?.existed) {
-      setListData(Data?.pages);
+    if (type.startsWith('categoryList')) {
+      if (categoryData?.pages[0]?.existed) {
+        setListData(categoryData?.pages);
+      } else {
+        setEtcData(categoryData?.pages[0]);
+      }
     } else {
-      setEtcData(Data?.pages[0]);
+      if (Data?.pages[0]?.existed) {
+        setListData(Data?.pages);
+      } else {
+        setEtcData(Data?.pages[0]);
+      }
     }
-  }, [Data]);
-
-  useEffect(() => {
-    if (categoryData?.pages[0]?.existed) {
-      setListData(categoryData?.pages);
-    } else {
-      setEtcData(categoryData?.pages[0]);
-    }
-  }, [categoryData]);
+  }, [Data, categoryData]);
 
   if (categoryIsLoading || listIsLoading) return <LoadingPage />;
   if (categoryError || listError) return <ErrorPage type={2} />;
@@ -91,6 +92,8 @@ const Result = () => {
     }
   };
   console.log(categoryData, 'categoryData');
+  console.log(Data, 'Data');
+  console.log(listData, 'listData');
 
   // 카테고리 필터링
   const handleCategoryChange = (value: string) => {
