@@ -77,7 +77,7 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
     const priceAsInt: number = parseInt(event, 10); // 10진수로 변환
     setPrice(priceAsInt);
     // localStorage.setItem('price', event);
-    const newData = { amount: priceAsInt };
+    const newData = { price: priceAsInt };
     updateFormData(newData);
   };
 
