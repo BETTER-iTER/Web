@@ -30,10 +30,10 @@ export const SelectBoxCPU: React.FC<SelectBoxCPUProps> = ({
 }) => {
   const [specDataList, setSpecDataList] = useState<SpecDataProps[]>([]);
   console.log(specDataList, '?');
-  // const [specNum, setSpecNum] = useState<string[]>([]);
-  const specNum: number[] = [];
+
   const { updateFormData } = useData();
   const { formData } = useData();
+  const [specNum, setSpecNum] = useState<number[]>([]);
   useEffect(() => {
     const handleCategory = async () => {
       try {
@@ -42,9 +42,6 @@ export const SelectBoxCPU: React.FC<SelectBoxCPUProps> = ({
         const specDataList = responseData.data.result.specs;
         console.log(specDataList);
         setSpecDataList(specDataList);
-        //이부분 주석처리 why..?
-        const newData = { specData: specDataList };
-        updateFormData(newData);
       } catch (error) {
         console.log(error);
       }
@@ -55,38 +52,29 @@ export const SelectBoxCPU: React.FC<SelectBoxCPUProps> = ({
   const handleSpecClick = (item: string, id: number, index: number) => {
     console.log(`클릭한 버튼: ${item}`);
     console.log(`클릭한 버튼의 id: ${id}`);
+    const updatedSpecNum = [...specNum];
+    updatedSpecNum[index] = id;
     switch (index) {
       case 0:
         onCPUClick(item, id);
-        specNum[0] = id;
-        console.log(specNum);
-        // localStorage.setItem('speclist', String(specNum));
         break;
       case 1:
         onWINDOWClick(item, id);
-        specNum[1] = id;
-        console.log(specNum);
-        // localStorage.setItem('speclist', String(specNum));
         break;
       case 2:
         onRAMClick(item, id);
-        specNum[2] = id;
-        console.log(specNum);
-        // localStorage.setItem('speclist', String(specNum));
         break;
       case 3:
         onSIZEClick(item, id);
-        specNum[3] = id;
-        console.log(specNum);
-        // localStorage.setItem('speclist', String(specNum));
         break;
 
       default:
         break;
     }
-    // console.log(specNum);
-    const newData = { specData: specNum };
-    updateFormData(newData);
+    setSpecNum(updatedSpecNum);
+    updateFormData({ specData: updatedSpecNum });
+    console.log(specNum);
+    console.log(formData);
   };
 
   return (
