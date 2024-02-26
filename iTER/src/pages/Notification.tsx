@@ -1,5 +1,5 @@
 import { styled } from '../../stitches.config';
-import { ButtonBlack } from '../component/common/Button';
+import { ButtonFollow } from '../component/common/Button';
 import { Caption2 } from '../component/Font';
 import Top from '../component/layout/Top';
 import { NotificationProps } from '../types/Notification';
@@ -29,7 +29,7 @@ const Item = ({ list }: { list: NotificationProps }) => {
             <FollowText>
               <Nickname>{list.user?.nickname}</Nickname>님이 회원님을 팔로우하기 시작했습니다
             </FollowText>
-            <ButtonBlack onClick={() => console.log('팔로우')}>팔로우</ButtonBlack>
+            <ButtonFollow isFollow={list.follow} id={list.user?.id} />
           </FollowBox>
         )}
         {list.type == 'like' && (
@@ -104,20 +104,6 @@ const FollowText = styled('div', {
   width: '179px',
   maxHeight: '34px',
 });
-
-// const FollowButton = styled('div', {
-//   width: '96px',
-//   height: '31px',
-//   borderRadius: '10px',
-//   backgroundColor: '#242424',
-//   color: '$White',
-//   border: 'none',
-//   display: 'flex',
-//   justifyContent: 'center',
-//   alignItems: 'center',
-//   bodyText: 2,
-//   cursor: 'pointer',
-// });
 
 const dummy: NotificationProps[] = [
   {

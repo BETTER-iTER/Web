@@ -2,7 +2,7 @@ import { styled } from '../../../stitches.config';
 import UserIcon from '../../assets/icon/User.svg?react';
 import SettingIcon from '../../assets/icon/Setting.svg?react';
 import ExpertIcon from '../../assets/icon/Expert.svg?react';
-import { ButtonBlack } from '../common/Button';
+import { ButtonFollow } from '../common/Button';
 import { Caption2, LabelText } from '../Font';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -13,8 +13,10 @@ import ErrorPage from '../common/Error';
 
 interface ProfileFlatProps {
   type: 'follow' | 'setting';
+  isFollow?: boolean;
+  id?: number;
 }
-const ProfileFlat = ({ type }: ProfileFlatProps) => {
+const ProfileFlat = ({ type, isFollow, id }: ProfileFlatProps) => {
   const navigate = useNavigate();
   const {
     data: profileData,
@@ -54,7 +56,7 @@ const ProfileFlat = ({ type }: ProfileFlatProps) => {
           </Follow>
         </User>
         {type == 'follow' ? (
-          <ButtonBlack onClick={() => console.log('팔로우')}>팔로우</ButtonBlack>
+          <ButtonFollow isFollow={isFollow} id={id} />
         ) : (
           <IconBox
             onClick={() => {
@@ -72,6 +74,70 @@ const ProfileFlat = ({ type }: ProfileFlatProps) => {
 
 export default ProfileFlat;
 
+interface ProfileFlatUserProps {
+  job: string;
+  nickname: string;
+  profileImage: string | null;
+  followerCount: number;
+  followingCount: number;
+  isExpertise: boolean;
+  isFollow: boolean;
+  id: number;
+}
+
+export const ProfileFlatUser = ({
+  job,
+  nickname,
+  profileImage,
+  followerCount,
+  followingCount,
+  isExpertise,
+  isFollow,
+  id,
+}: ProfileFlatUserProps) => {
+  const navigate = useNavigate();
+  return (
+    <>
+      <UserBox>
+        <ImageBox
+          onClick={() => {
+            window.location.href = `/user/profile/${id}`;
+          }}
+        >
+          <ExpertBox>{isExpertise && <ExpertIcon />}</ExpertBox>
+          {profileImage != null ? (
+            <UserImage style={{ backgroundImage: `url(${profileImage})` }} />
+          ) : (
+            <UserIcon width={70} height={70} />
+          )}
+        </ImageBox>
+
+        <User
+          onClick={() => {
+            window.location.href = `/user/profile/${id}`;
+          }}
+        >
+          <Username>
+            <LabelText>{nickname}</LabelText>
+            <Bar />
+            <Caption2 style={{ color: '#57606A' }}>{job}</Caption2>
+          </Username>
+          <Follow>
+            <Caption2 onClick={() => navigate('/mypage/follow?type=follower')}>
+              팔로워 <Count>{followerCount}</Count>
+            </Caption2>
+            <Bar />
+            <Caption2 onClick={() => navigate('/mypage/follow?type=following')}>
+              팔로잉 <Count>{followingCount}</Count>
+            </Caption2>
+          </Follow>
+        </User>
+        <ButtonFollow isFollow={isFollow} id={id} />
+      </UserBox>
+    </>
+  );
+};
+
 const UserBox = styled('div', {
   display: 'flex',
   alignItems: 'center',
@@ -85,6 +151,7 @@ const ImageBox = styled('div', {
   width: '75px',
   height: '75px',
   position: 'relative',
+  cursor: 'pointer',
 });
 
 const ExpertBox = styled('div', {
@@ -112,6 +179,7 @@ const User = styled('div', {
   flexDirection: 'column',
   justifyContent: 'center',
   margin: '0 36px 0 12px',
+  cursor: 'pointer',
 });
 
 const Follow = styled('div', {

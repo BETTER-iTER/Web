@@ -87,56 +87,58 @@ const Follow = () => {
         <Content onScroll={handleFollowerScroll}>
           {followerData?.pages?.map((page, pageIndex) => (
             <React.Fragment key={pageIndex}>
-              {page?.reviews?.map(
+              {page?.followerList?.map(
                 (
-                  follower: {
-                    username: string;
+                  followerList: {
+                    id: number;
+                    nickname: string;
                     expert: boolean | undefined;
-                    image: string | undefined;
+                    profileImage: string | undefined;
                   },
                   index: unknown
                 ) => (
                   <Item
                     key={`${pageIndex}-${index}`}
-                    name={follower.username}
-                    expert={follower.expert}
-                    image={follower.image}
+                    id={followerList.id}
+                    name={followerList.nickname}
+                    expert={followerList.expert}
+                    image={followerList.profileImage}
                   />
                 )
               )}
             </React.Fragment>
           ))}
           {hasFollowerNextPage && <LoadingPage />}
-          {!followerData?.pages[0]?.reviews?.length && (
-            <Empty>리뷰를 작성해 팔로워를 늘려 보세요</Empty>
-          )}
+          {!followerData?.pages[0]?.totalCount && <Empty>리뷰를 작성해 팔로워를 늘려 보세요</Empty>}
         </Content>
       )}
       {status === 1 && (
         <Content onScroll={handleFollowingScroll}>
           {followingData?.pages?.map((page, pageIndex) => (
             <React.Fragment key={pageIndex}>
-              {page?.reviews?.map(
+              {page?.followerList?.map(
                 (
                   following: {
-                    username: string;
+                    id: number;
+                    nickname: string;
                     expert: boolean | undefined;
-                    image: string | undefined;
+                    profileImage: string | undefined;
                   },
                   index: unknown
                 ) => (
                   <Item
                     key={`${pageIndex}-${index}`}
-                    name={following.username}
+                    id={following.id}
+                    name={following.nickname}
                     expert={following.expert}
-                    image={following.image}
+                    image={following.profileImage}
                   />
                 )
               )}
             </React.Fragment>
           ))}
           {hasFollowingNextPage && <LoadingPage />}
-          {!followingData?.pages[0]?.reviews?.length && (
+          {!followingData?.pages[0].totalCount && (
             <Empty>도움된 리뷰의 유저를 팔로우해 보세요</Empty>
           )}
         </Content>
@@ -148,9 +150,23 @@ const Follow = () => {
 
 export default Follow;
 
-const Item = ({ name, expert, image }: { name: string; expert?: boolean; image?: string }) => {
+const Item = ({
+  id,
+  name,
+  expert,
+  image,
+}: {
+  id: number;
+  name: string;
+  expert?: boolean;
+  image?: string;
+}) => {
   return (
-    <ItemBox>
+    <ItemBox
+      onClick={() => {
+        window.location.href = `/user/profile/${id}`;
+      }}
+    >
       <ImageBox>
         <ExpertBox>{expert && <ExpertIcon width="10px" height="10px" />}</ExpertBox>
         {image ? (

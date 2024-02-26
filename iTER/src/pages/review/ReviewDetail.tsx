@@ -15,6 +15,7 @@ import ErrorPage from '../../component/common/Error';
 import { deleteReview, getReviewDetail } from '../../apis/Review';
 import { ReviewDetailProps } from '../../types/Review';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { ButtonFollow } from '../../component/common/Button';
 
 const ReviewDetail = () => {
   const [setting, setSetting] = useState<boolean>(false);
@@ -27,7 +28,6 @@ const ReviewDetail = () => {
 
   // 검색 리스트로 돌아가기
   const { state } = useLocation();
-  console.log('state', state);
   const handleGoBack = () => {
     navigate('/search', { state: state });
   };
@@ -69,7 +69,11 @@ const ReviewDetail = () => {
       <Container>
         {/* 상단 유저 정보 및 설정 버튼 */}
         <User>
-          <Right>
+          <Right
+            onClick={() => {
+              window.location.href = `/user/profile/${writerInfo.id}`;
+            }}
+          >
             {writerInfo.profileImage && writerInfo.profileImage.length > 0 ? (
               <UserImage>
                 <img src={writerInfo.profileImage} alt="user" width={35} height={35} />
@@ -82,15 +86,7 @@ const ReviewDetail = () => {
               <Caption2>{writerInfo.job}</Caption2>
             </Job>
           </Right>
-          {!reviewDetail.mine && (
-            <FollowButton
-              onClick={() => {
-                console.log('팔로우');
-              }}
-            >
-              팔로우
-            </FollowButton>
-          )}
+          {!reviewDetail.mine && <ButtonFollow isFollow={reviewDetail.follow} id={writerInfo.id} />}
         </User>
         <DetailReview data={reviewDetail} />
         <Report
@@ -158,6 +154,7 @@ const Right = styled('div', {
   display: 'flex',
   alignItems: 'center',
   gap: '10px',
+  cursor: 'pointer',
 });
 
 const UserImage = styled('div', {
@@ -182,18 +179,4 @@ const Report = styled('div', {
   textAlign: 'right',
   color: '#AFB8C1',
   bodyText: 2,
-});
-
-const FollowButton = styled('div', {
-  width: '96px',
-  height: '35px',
-  borderRadius: '10px',
-  backgroundColor: '#242424',
-  color: '$White',
-  border: 'none',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  bodyText: 2,
-  cursor: 'pointer',
 });
