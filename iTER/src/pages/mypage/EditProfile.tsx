@@ -36,19 +36,20 @@ const EditProfile = () => {
       return <ErrorPage type={2} />;
     },
   });
-
   const handleSave = () => {
     const key = {
       nickname: nickName,
       job: job,
     };
+
     const data = new FormData();
-    data.append('files', uploadedImage as Blob);
-    data.append('key', JSON.stringify(key));
+    data.append('files', uploadedImage as File);
+    const jsonString = JSON.stringify(key);
+    const jsonBlob = new Blob([jsonString], { type: 'application/json' });
+    data.append('key', jsonBlob);
 
     mutation.mutate(data);
   };
-
   const { data, isLoading, isError } = useQuery<any, Error>(['user'], getUserInfo);
 
   useEffect(() => {

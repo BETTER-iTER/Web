@@ -86,6 +86,7 @@ export const putEditProfile = async (data: FormData) => {
         Authorization: accessToken ? `${accessToken}` : '',
       },
     });
+    console.log('성공', response);
     return response.data.result;
   } catch (error) {
     console.log('프로필 수정 오류', error);
