@@ -6,29 +6,61 @@ import ExpertIcon from '../../assets/icon/Expert.svg?react';
 import Nav from '../../component/layout/Nav';
 import { getMypageFollowings } from '../../apis/Mypage';
 import { getMypageFollowers } from '../../apis/Mypage';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import LoadingPage from '../../component/common/Loading';
 import ErrorPage from '../../component/common/Error';
+import { useLocation } from 'react-router-dom';
+import React from 'react';
 
 const Follow = () => {
-  const [status, setStatus] = useState<number>(0);
-  // const [page, setPage] = useState<number>(0);
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const type = query.get('type');
+  const [status, setStatus] = useState<number>(type === 'following' ? 1 : 0);
   const page = 0;
 
   const {
     data: followerData,
     isLoading: followerLoading,
     isError: followerError,
-  } = useQuery(['follower', page], () => getMypageFollowers(page));
+    fetchNextPage: fetchNextFollowerPage,
+    hasNextPage: hasFollowerNextPage,
+  } = useInfiniteQuery(['follower'], ({ pageParam = 0 }) => getMypageFollowers(pageParam), {
+    getNextPageParam: (lastPage) => (lastPage.hasNext ? page + 1 : undefined),
+  });
 
   const {
     data: followingData,
     isLoading: followingLoading,
     isError: followingError,
-  } = useQuery(['following', page], () => getMypageFollowings(page));
+    fetchNextPage: fetchNextFollowingPage,
+    hasNextPage: hasFollowingNextPage,
+  } = useInfiniteQuery(['following'], ({ pageParam = 0 }) => getMypageFollowings(pageParam), {
+    getNextPageParam: (lastPage) => (lastPage.hasNext ? page + 1 : undefined),
+  });
 
   followerLoading && followingLoading && <LoadingPage />;
   followerError && followingError && <ErrorPage type={2} />;
+
+  const handleFollowerScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const { currentTarget } = e;
+    if (currentTarget instanceof HTMLDivElement) {
+      const { scrollHeight, scrollTop, clientHeight } = currentTarget;
+      if (scrollHeight - scrollTop === clientHeight && hasFollowerNextPage) {
+        fetchNextFollowerPage();
+      }
+    }
+  };
+
+  const handleFollowingScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const { currentTarget } = e;
+    if (currentTarget instanceof HTMLDivElement) {
+      const { scrollHeight, scrollTop, clientHeight } = currentTarget;
+      if (scrollHeight - scrollTop === clientHeight && hasFollowingNextPage) {
+        fetchNextFollowingPage();
+      }
+    }
+  };
 
   return (
     <Container>
@@ -40,7 +72,7 @@ const Follow = () => {
             setStatus(0);
           }}
         >
-          팔로워({followerData?.totalCount})
+          팔로워({followerData?.pages[0].totalCount})
         </Status>
         <Status
           active={status == 1}
@@ -48,25 +80,67 @@ const Follow = () => {
             setStatus(1);
           }}
         >
-          팔로잉({followingData?.totalCount})
+          팔로잉({followingData?.pages[0].totalCount})
         </Status>
       </StatusBox>
-
-      <Content>
-        {status === 0 &&
-          (followerData !== undefined && followerData.totalCount > 0 ? (
-            <Item key={followerData.id} name={followerData.username} />
-          ) : (
+      {status === 0 && (
+        <Content onScroll={handleFollowerScroll}>
+          {followerData?.pages?.map((page, pageIndex) => (
+            <React.Fragment key={pageIndex}>
+              {page?.reviews?.map(
+                (
+                  follower: {
+                    username: string;
+                    expert: boolean | undefined;
+                    image: string | undefined;
+                  },
+                  index: unknown
+                ) => (
+                  <Item
+                    key={`${pageIndex}-${index}`}
+                    name={follower.username}
+                    expert={follower.expert}
+                    image={follower.image}
+                  />
+                )
+              )}
+            </React.Fragment>
+          ))}
+          {hasFollowerNextPage && <LoadingPage />}
+          {!followerData?.pages[0]?.reviews?.length && (
             <Empty>리뷰를 작성해 팔로워를 늘려 보세요</Empty>
+          )}
+        </Content>
+      )}
+      {status === 1 && (
+        <Content onScroll={handleFollowingScroll}>
+          {followingData?.pages?.map((page, pageIndex) => (
+            <React.Fragment key={pageIndex}>
+              {page?.reviews?.map(
+                (
+                  following: {
+                    username: string;
+                    expert: boolean | undefined;
+                    image: string | undefined;
+                  },
+                  index: unknown
+                ) => (
+                  <Item
+                    key={`${pageIndex}-${index}`}
+                    name={following.username}
+                    expert={following.expert}
+                    image={following.image}
+                  />
+                )
+              )}
+            </React.Fragment>
           ))}
-
-        {status === 1 &&
-          (followingData !== undefined && followingData.totalCount > 0 ? (
-            <Item key={followingData.id} name={followingData.username} />
-          ) : (
+          {hasFollowingNextPage && <LoadingPage />}
+          {!followingData?.pages[0]?.reviews?.length && (
             <Empty>도움된 리뷰의 유저를 팔로우해 보세요</Empty>
-          ))}
-      </Content>
+          )}
+        </Content>
+      )}
       <Nav />
     </Container>
   );

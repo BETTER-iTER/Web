@@ -5,7 +5,7 @@ import { ButtonControl } from '../common/Button';
 import ListItem from './ListItem';
 import Sort from '../../assets/icon/Sort.svg?react';
 import { getCategoryReviewList, getReviewList } from '../../apis/Review';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import LoadingPage from '../common/Loading';
 import ErrorPage from '../common/Error';
 import { CategoryReviewProps } from '../../types/Review';
@@ -25,7 +25,7 @@ const Result = () => {
   const [sort, setSort] = useState<string>('latest');
   const page = 0;
 
-  const [listData, setListData] = useState<CategoryReviewProps>();
+  const [listData, setListData] = useState<CategoryReviewProps[]>();
   const [etcData, setEtcData] = useState<CategoryReviewProps>();
 
   // 카테고리 검색 결과
@@ -33,8 +33,13 @@ const Result = () => {
     data: categoryData,
     error: categoryError,
     isLoading: categoryIsLoading,
-  } = useQuery<CategoryReviewProps, Error>(['reviewListCategory', { categoryKeyword, page }], () =>
-    getCategoryReviewList({ category: categoryKeyword, page })
+    fetchNextPage: categoryNextPage,
+  } = useInfiniteQuery<CategoryReviewProps, Error>(
+    ['reviewListCategory', { categoryKeyword, page }],
+    ({ pageParam = 0 }) => getCategoryReviewList({ category: categoryKeyword, page: pageParam }),
+    {
+      getNextPageParam: (lastPage) => (lastPage.hasNext ? page + 1 : undefined),
+    }
   );
 
   // 키워드 검색 결과
@@ -42,29 +47,50 @@ const Result = () => {
     data: Data,
     error: listError,
     isLoading: listIsLoading,
-  } = useQuery<CategoryReviewProps, Error>(['reviewList', keyword, sort, expert, category], () =>
-    getReviewList({ keyword, category, sort, page, expert })
+    fetchNextPage: listNextPage,
+  } = useInfiniteQuery<CategoryReviewProps, Error>(
+    ['reviewList', keyword, sort, expert, category],
+    ({ pageParam = 0 }) => getReviewList({ keyword, category, sort, page: pageParam, expert }),
+    {
+      getNextPageParam: (lastPage) => (lastPage.hasNext ? page + 1 : undefined),
+    }
   );
 
   // 검색 조회 결과 존재 여부
   useEffect(() => {
-    if (Data?.existed) {
-      setListData(Data);
+    if (Data?.pages[0]?.existed) {
+      setListData(Data?.pages);
     } else {
-      setEtcData(Data);
+      setEtcData(Data?.pages[0]);
     }
   }, [Data]);
 
   useEffect(() => {
-    if (categoryData?.existed) {
-      setListData(categoryData);
+    if (categoryData?.pages[0]?.existed) {
+      setListData(categoryData?.pages);
     } else {
-      setEtcData(categoryData);
+      setEtcData(categoryData?.pages[0]);
     }
   }, [categoryData]);
 
   if (categoryIsLoading || listIsLoading) return <LoadingPage />;
   if (categoryError || listError) return <ErrorPage type={2} />;
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const { currentTarget } = e;
+    if (currentTarget instanceof HTMLDivElement) {
+      const { scrollHeight, scrollTop, clientHeight } = currentTarget;
+      // 스크롤이 리스크의 끝에 도달했을 때
+      if (scrollHeight - scrollTop === clientHeight) {
+        if (categoryData?.pages[0]?.existed) {
+          categoryNextPage();
+        } else {
+          listNextPage();
+        }
+      }
+    }
+  };
+  console.log(categoryData, 'categoryData');
 
   // 카테고리 필터링
   const handleCategoryChange = (value: string) => {
@@ -100,7 +126,7 @@ const Result = () => {
           </div>
         </Control>
       )}
-      {!Data.existed ? (
+      {!Data?.pages[0]?.existed && !categoryData?.pages[0]?.existed ? (
         <>
           <NoData>찾으시는 제품 리뷰가 없어요</NoData>
           <Recommend>다른 유저들은 이런 제품을 찾아봤어요</Recommend>
@@ -110,8 +136,10 @@ const Result = () => {
         </>
       ) : (
         <>
-          <Items>
-            {listData?.reviews.map((item, index) => <ListItem key={index} item={item} />)}
+          <Items onScroll={handleScroll}>
+            {listData?.map((page) =>
+              page.reviews.map((item, index) => <ListItem key={index} item={item} />)
+            )}
           </Items>
         </>
       )}

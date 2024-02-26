@@ -40,7 +40,7 @@ const Item = (data: ReviewPreviewProps) => {
       }}
     >
       <Image>
-        <img src={data.imageUrl} alt="product" width={170} height={170} />
+        <img src={data.reviewImage} alt="product" width={170} height={170} />
       </Image>
       <TitleBox>
         <Title>{data.productName}</Title>
@@ -91,7 +91,7 @@ const ItemContainer = styled('div', {
 const Image = styled('div', {
   width: '170px',
   height: '170px',
-  backgroundColor: '$Gray40',
+  backgroundColor: '$Gray10',
   borderRadius: '10px',
   overflow: 'hidden',
 });

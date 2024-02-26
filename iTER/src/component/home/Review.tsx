@@ -3,6 +3,7 @@ import { ReviewPreviewProps } from '../../types/Review';
 import { Caption2 } from '../Font';
 import ExpertIcon from '../../assets/icon/Expert.svg?react';
 import { useNavigate } from 'react-router-dom';
+import UserIcon from '../../assets/icon/User.svg?react';
 
 const Review = ({ list }: { list: ReviewPreviewProps[] }) => {
   return (
@@ -23,9 +24,14 @@ const Item = ({ list }: { list: ReviewPreviewProps }) => {
       </Image>
       <Title>{list.productName}</Title>
       <User>
-        <Profile>
-          <img src={list.profileImageUrl} alt={list.nickname} />
-        </Profile>
+        {list.profileImageUrl == null ? (
+          <UserIcon width={20} height={20} style={{ marginRight: 4 }} />
+        ) : (
+          <Profile>
+            <img src={list.profileImageUrl} alt={list.nickname} />
+          </Profile>
+        )}
+
         <Caption2>{list.nickname}</Caption2>
         {list.expert && <ExpertIcon />}
       </User>

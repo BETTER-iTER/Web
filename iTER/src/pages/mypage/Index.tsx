@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { styled } from '../../../stitches.config';
 import Nav from '../../component/layout/Nav';
 import Top from '../../component/layout/Top';
@@ -7,31 +7,60 @@ import ProfileFlat from '../../component/user/ProfileFlat';
 
 import { getMyPageReviewMine } from '../../apis/Mypage';
 import { getMyPageReviewScrap } from '../../apis/Mypage';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import LoadingPage from '../../component/common/Loading';
 import ErrorPage from '../../component/common/Error';
 import { MypageReviewProps } from '../../types/Review';
 
 const Mypage = () => {
   const [status, setStatus] = useState<number>(0);
-  // const [id, setId] = useState<number>(1);
-  const id = 1;
+  const page = 0;
 
   const {
     data: scrapData,
     isLoading: scrapLoading,
     isError: scrapError,
-  } = useQuery<MypageReviewProps, Error>(['scrap', id], () => getMyPageReviewScrap(id));
+    fetchNextPage: fetchNextScrapPage,
+  } = useInfiniteQuery<MypageReviewProps, Error>(
+    ['scrap'],
+    ({ pageParam = 0 }) => getMyPageReviewScrap(pageParam),
+    {
+      getNextPageParam: (lastPage) => (lastPage.pageInfo.hasNext ? page + 1 : undefined),
+    }
+  );
 
   const {
     data: mineData,
     isLoading: mineLoading,
     isError: mineError,
-  } = useQuery<MypageReviewProps, Error>(['mine', id], () => getMyPageReviewMine(id));
+    fetchNextPage: fetchNextMinePage,
+  } = useInfiniteQuery<MypageReviewProps, Error>(
+    ['mine'],
+    ({ pageParam = 0 }) => getMyPageReviewMine(pageParam),
+    {
+      getNextPageParam: (lastPage) => (lastPage.pageInfo.hasNext ? page + 1 : undefined),
+    }
+  );
+
+  console.log('scrapData', scrapData);
+  console.log('mineData', mineData);
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const { currentTarget } = e;
+    if (currentTarget instanceof HTMLDivElement) {
+      const { scrollHeight, scrollTop, clientHeight } = currentTarget;
+      // 스크롤이 리스크의 끝에 도달했을 때
+      if (scrollHeight - scrollTop === clientHeight) {
+        fetchNextMinePage();
+        fetchNextScrapPage();
+      }
+    }
+  };
 
   scrapLoading && mineLoading && <LoadingPage />;
   scrapError && mineError && <ErrorPage type={2} />;
 
+  console.log('mineData', mineData);
+  console.log('scrapData', scrapData);
   return (
     <Container>
       <Top title="마이페이지" />
@@ -43,7 +72,7 @@ const Mypage = () => {
             setStatus(0);
           }}
         >
-          내가 쓴 리뷰
+          내가 쓴 리뷰({mineData !== undefined && mineData?.pages[0].pageInfo.totalCount})
         </Status>
         <Status
           active={status == 1}
@@ -51,22 +80,30 @@ const Mypage = () => {
             setStatus(1);
           }}
         >
-          스크랩한 리뷰
+          스크랩한 리뷰({scrapData !== undefined && scrapData?.pages[0].pageInfo.totalCount})
         </Status>
       </StatusBox>
       <Content>
         {/* 내가 쓴 리뷰 */}
-        {status === 0 &&
-          (mineData !== undefined && mineData.reviewCount > 0 ? (
-            <PreviewSimple list={mineData.reviewList} />
+        {status == 0 &&
+          (mineData !== undefined && mineData?.pages[0].pageInfo.totalCount > 0 ? (
+            <div onScroll={handleScroll} style={{ paddingBottom: 10 }}>
+              {mineData.pages.map((page, pageIndex) => (
+                <PreviewSimple key={pageIndex} list={page.reviewList} />
+              ))}
+            </div>
           ) : (
-            <Empty>리뷰를 작성해 보세요</Empty>
+            <Empty>내가 쓴 리뷰가 없습니다</Empty>
           ))}
 
         {/* 스크랩 리뷰 */}
         {status == 1 &&
-          (scrapData !== undefined && scrapData.reviewCount > 0 ? (
-            <PreviewSimple list={scrapData.reviewList} />
+          (scrapData !== undefined && scrapData?.pages[0].pageInfo.totalCount > 0 ? (
+            <div onScroll={handleScroll}>
+              {scrapData.pages.map((page, pageIndex) => (
+                <PreviewSimple key={pageIndex} list={page.reviewList} />
+              ))}
+            </div>
           ) : (
             <Empty>스크랩한 리뷰가 없습니다</Empty>
           ))}
