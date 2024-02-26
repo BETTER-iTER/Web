@@ -75,3 +75,20 @@ export const putEditCategory = async (category: string[]) => {
     throw error;
   }
 };
+
+export const putEditProfile = async (data: FormData) => {
+  const accessToken = localStorage.getItem('accessToken');
+  console.log('프로필 수정');
+  try {
+    const response = await api.put(`/mypage/profile`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: accessToken ? `${accessToken}` : '',
+      },
+    });
+    return response.data.result;
+  } catch (error) {
+    console.log('프로필 수정 오류', error);
+    throw error;
+  }
+};

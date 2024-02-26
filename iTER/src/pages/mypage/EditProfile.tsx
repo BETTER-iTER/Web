@@ -1,24 +1,98 @@
 import Top from '../../component/layout/Top';
 import UserIcon from '../../assets/icon/User.svg?react';
 import { styled } from '../../../stitches.config';
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import InputComponent from '../../component/common/Input';
 import InputSelect from '../../component/common/InputSelect';
 import Button from '../../component/common/Button';
 import { jobs } from '../../constants/Jobs';
+import { getUserInfo } from '../../apis/Review';
+import { putEditProfile } from '../../apis/User';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import ErrorPage from '../../component/common/Error';
+import LoadingPage from '../../component/common/Loading';
 
 const EditProfile = () => {
-  // const [email, setEmail] = useState<string>('example@naver.com');
-  const email = 'example@naver.com';
-  const [nickName, setNickName] = useState<string>('블루투스 하트');
-  const [job, setJob] = useState<string>('개발자');
+  const [email, setEmail] = useState<string>('');
+  const [nickName, setNickName] = useState<string>('');
+  const [job, setJob] = useState<string>('');
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+  const [error, setError] = useState<boolean>(false);
 
-  // const [emailWarning, setEmailWarning] = useState<string>('');
-  const emailWarning = '';
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const uploadedImage = e.target.files;
+    if (uploadedImage) {
+      setUploadedImage(uploadedImage[0]);
+    }
+  };
+
+  const mutation = useMutation(putEditProfile, {
+    onSuccess: () => {
+      console.log('success');
+    },
+    onError: () => {
+      return <ErrorPage type={2} />;
+    },
+  });
+
+  const handleSave = () => {
+    const key = {
+      nickname: nickName,
+      job: job,
+    };
+    const data = new FormData();
+    data.append('files', uploadedImage as Blob);
+    data.append('key', JSON.stringify(key));
+
+    mutation.mutate(data);
+  };
+
+  const { data, isLoading, isError } = useQuery<any, Error>(['user'], getUserInfo);
+
+  useEffect(() => {
+    if (data) {
+      setJob(data?.data?.result.job);
+      setNickName(data?.data?.result.nickName);
+      setEmail(data?.data?.result.email);
+    }
+  }, [data]);
+
+  if (isLoading) return <LoadingPage />;
+  if (isError) return <ErrorPage type={2} />;
+
+  console.log('data', data);
+  console.log('uploadedImage', uploadedImage);
+
   return (
     <Container>
       <Top title="프로필" />
-      <UserIcon width={100} height={100} />
+      <ImageBox>
+        {uploadedImage ? (
+          <ProfileImage
+            src={URL.createObjectURL(uploadedImage)}
+            alt={nickName}
+            onClick={() => fileInputRef.current?.click()}
+          />
+        ) : data?.data?.result.profileImageUrl ? (
+          <ProfileImage
+            src={data?.data?.result.profileImageUrl}
+            alt={nickName}
+            onClick={() => fileInputRef.current?.click()}
+          />
+        ) : (
+          <UserIcon width={100} height={100} onClick={() => fileInputRef.current?.click()} />
+        )}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={onChangeImage}
+          style={{ display: 'none' }}
+        />
+      </ImageBox>
+
       <InputComponent type="text" labelName="이메일" text={email} />
 
       <InputComponent
@@ -26,13 +100,16 @@ const EditProfile = () => {
         type="text"
         labelName="닉네임 *"
         onChange={setNickName}
-        error={emailWarning}
+        error={error ? '이미 사용중인 닉네임입니다' : undefined}
+        notice="한글/영문/숫자 조합 1~20자"
       />
 
       <InputSelect labelName="직업 *" placeholder={job} list={jobs} onChange={setJob} />
 
       <Bottom>
-        <Button disabled>저장하기</Button>
+        <Button disabled={nickName?.length <= 0 && error} onClick={() => handleSave()}>
+          저장하기
+        </Button>
       </Bottom>
     </Container>
   );
@@ -51,4 +128,16 @@ const Container = styled('div', {
 const Bottom = styled('div', {
   position: 'fixed',
   bottom: '20px',
+});
+
+const ProfileImage = styled('img', {
+  width: '100px',
+  height: '100px',
+  borderRadius: '50%',
+  objectFit: 'cover',
+  cursor: 'pointer',
+});
+
+const ImageBox = styled('div', {
+  display: 'flex',
 });
