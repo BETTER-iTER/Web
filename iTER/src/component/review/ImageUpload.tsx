@@ -58,7 +58,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
               <Plus width="24px" height="24px" />
             </Cover>
             <Caption1>
-              <Count>(1/5)</Count>
+              <Count>({selectedImages.length}/5)</Count>
             </Caption1>
           </Pluscover>
           {selectedImages.map((image, index) => (
