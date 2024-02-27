@@ -4,44 +4,58 @@ import { useEffect } from 'react';
 import { useData } from '../../context/DataContext';
 import axios from 'axios';
 
-const Compelete = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
-  const { formData } = useData();
-  const { imageData } = useData();
-
-  //   const imageUrls = [
-  //     'https://www.backmarket.co.kr/_next/image?url=%2Fnode_upload%2Fresized_images%2Fsave_image%2F466x466_1116061309_637400e58ef9f.jpeg&w=1080&q=75',
-  //     'https://www.backmarket.co.kr/_next/image?url=https%3A%2F%2Fwww.backmarket.co.kr%2Fhtml%2Fupload%2Fsave_image%2F36827_1.jpg&w=1080&q=75',
-  //     'https://www.backmarket.co.kr/_next/image?url=%2Fnode_upload%2Fresized_images%2Fsave_image%2F466x466_36827_2.jpg&w=1080&q=75',
-  //   ];
+const Complete = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
+  const { formData, imageData } = useData();
 
   useEffect(() => {
-    // const newData = { images: imageUrls };
-    // updateFormData(newData);
-
-    console.log('formdata:', formData);
+    console.log('formData:', formData);
+    console.log('imageData:', imageData);
 
     const postReview = async () => {
       try {
         const token = localStorage.getItem('accessToken');
 
+        // 1. FormData 객체 생성
+        const formDataForUpload = new FormData();
+
+        // 2. 'review' 키에 formData 추가 (JSON 문자열로 변환)
+        formDataForUpload.append(
+          'review',
+          new Blob([JSON.stringify(formData)], { type: 'application/json' })
+        );
+
+        // 3. 'files' 키에 이미지 파일들 추가
+        for (const file of imageData.files) {
+          const imageBlob = await fetch(URL.createObjectURL(file)).then((r) => r.blob());
+          formDataForUpload.append('files', imageBlob, file.name);
+          console.log('Dsd', formDataForUpload);
+        }
+
+        // 4. 서버로 FormData 전송
         const response = await axios.post(
           `https://dev.betteritem.store/review`,
-          { review: formData, imageData },
+          formDataForUpload,
           {
             headers: {
               Authorization: `${token}`,
+              'Content-Type': 'multipart/form-data',
             },
           }
         );
+
         console.log(response);
+        console.log('Dsd', formDataForUpload);
         localStorage.setItem('addReviewId', response.data.result);
       } catch (error) {
         console.log(error);
       }
     };
+
     postReview();
-  }, []);
+  }, [formData, imageData]);
+
   onDisabled;
+
   return (
     <>
       <Text>
@@ -51,7 +65,7 @@ const Compelete = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => 
   );
 };
 
-export default Compelete;
+export default Complete;
 
 const Text = styled('div', {
   color: '$Brand',

@@ -8,9 +8,6 @@ interface FormData {
   category?: string;
   specData?: number[];
   starPoint?: number;
-  images?: {
-    imgUrl: string;
-  }[];
   shortReview?: string;
   goodPoint?: string;
   badPoint?: string;
@@ -43,7 +40,7 @@ export const DataProvider: React.FC<DataContextProps> = ({ children }) => {
   };
 
   const updateImageData = (newImageData: ImageData) => {
-    setImageData(newImageData);
+    setImageData((prevData) => ({ ...prevData, ...newImageData }));
   };
 
   const value: DataContextValue = { formData, imageData, updateFormData, updateImageData };
