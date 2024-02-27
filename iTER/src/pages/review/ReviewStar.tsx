@@ -32,8 +32,8 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
   const [userJob, setUserJob] = useState<string>('');
   const [userImageUrl, setUserImageUrl] = useState<string>('');
   const [expert, setExpert] = useState<boolean>(false);
-  // const [shortReview, setShortReview] = useState<string[]>([]);
-  const shortReview: string[] = [];
+  const [shortReview, setShortReview] = useState<string[]>([]);
+  // const shortReview: string[] = [];
   const { updateFormData } = useData();
 
   const items1 = [
@@ -92,23 +92,23 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
 
   const handle1Click = (item: { data: string; id: number }) => {
     shortReview[0] = item.data;
-    // localStorage.setItem('reviewShort', String(shortReview));
-    const newData = { shortReview: String(shortReview) };
-    updateFormData(newData);
+    const newData2 = { shortReview: String(shortReview) };
+    updateFormData(newData2);
+    console.log(newData2);
   };
 
   const handle2Click = (item: { data: string; id: number }) => {
     shortReview[1] = item.data;
-    // localStorage.setItem('reviewShort', String(shortReview));
-    const newData = { shortReview: String(shortReview) };
-    updateFormData(newData);
+    const newData3 = { shortReview: String(shortReview) };
+    updateFormData(newData3);
+    console.log(newData3);
   };
 
   const handle3Click = (item: { data: string; id: number }) => {
     shortReview[2] = item.data;
-    // localStorage.setItem('reviewShort', String(shortReview));
-    const newData = { shortReview: String(shortReview) };
-    updateFormData(newData);
+    const newData4 = { shortReview: String(shortReview) };
+    updateFormData(newData4);
+    console.log(newData4);
   };
 
   return (
