@@ -4,7 +4,8 @@ import { Headline3 } from '../../component/Font';
 import PointLay from '../../component/user/Point';
 import { ButtonPoint } from '../../component/common/Button';
 import { ModalMyPoint } from '../../component/common/Modal';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const PointPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,6 +22,26 @@ const PointPage = () => {
   const closeModalNo = () => {
     setIsModalOpen(false);
   };
+
+  //마이포인트 조회
+  const point = async () => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      const response = await axios.get(`https://dev.betteritem.store/mypage/point`, {
+        headers: {
+          Authorization: `${accessToken}`,
+        },
+      });
+
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    point();
+  }, []);
 
   return (
     <>
