@@ -253,7 +253,7 @@ const ButtonBody1 = styled('button', {
 const ButtonBody = styled('button', {
   width: '340px',
   height: '45px',
-  borderRadius: '10px',
+  borderRadius: '8px',
   backgroundColor: '$Brand',
   border: 'none',
   color: '$White',
