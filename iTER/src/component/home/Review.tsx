@@ -8,7 +8,7 @@ import UserIcon from '../../assets/icon/User.svg?react';
 const Review = ({ list }: { list: ReviewPreviewProps[] }) => {
   return (
     <Container>
-      {list.map((item) => {
+      {list?.map((item) => {
         return <Item key={item.id} list={item} />;
       })}
     </Container>

@@ -15,7 +15,7 @@ const Setting = () => {
   const id = '1';
   const Link = [
     { title: '내 포인트', link: '/user/point' },
-    { title: '프로필', link: `/user/profile/${id}` },
+    { title: '프로필', link: `/user/profile/edit` },
     { title: '관심 카테고리 설정', link: '/user/interest' },
     { title: '좋아요한 리뷰', link: '/user/like' },
   ];

@@ -23,7 +23,7 @@ const News: React.FC<{ newsData: NewsProps[] }> = (props) => {
   return (
     <Container>
       <Slider style={{ transform: `translateX(-${currentBannerIndex * 100}%)` }}>
-        {newsData.map((banner, index) => (
+        {newsData?.map((banner, index) => (
           <React.Fragment key={index}>
             <Banner
               onClick={() => {
@@ -40,7 +40,7 @@ const News: React.FC<{ newsData: NewsProps[] }> = (props) => {
         ))}
       </Slider>
       <Indicators>
-        {newsData.map((_, index) => (
+        {newsData?.map((_, index) => (
           <Indicator key={index} active={index === currentBannerIndex} />
         ))}
       </Indicators>

@@ -47,8 +47,8 @@ const Home = () => {
       <CategoryScroll list={homeData?.categories} />
 
       {/* 관심카테고리 리뷰 리스트 */}
-      {homeData.interestedCategoryReviews &&
-        Object.entries(homeData.interestedCategoryReviews).map(([categoryName, reviews]) => (
+      {homeData?.interestedCategoryReviews &&
+        Object.entries(homeData?.interestedCategoryReviews).map(([categoryName, reviews]) => (
           <React.Fragment key={categoryName}>
             {reviews.length > 0 && (
               <>
@@ -73,7 +73,7 @@ const Home = () => {
           </React.Fragment>
         ))}
 
-      {homeData.followingReviews.length > 0 && (
+      {homeData?.followingReviews?.length > 0 && (
         <>
           <Label>팔로우들의 리뷰</Label>
           <Review list={homeData?.followingReviews} />
@@ -109,7 +109,7 @@ const CategoryScroll = ({ list }: { list: HomeProps['categories'] }) => {
 
   return (
     <CategoryBox>
-      {list.map((item, index) => {
+      {list?.map((item, index) => {
         return (
           <Category
             key={index}

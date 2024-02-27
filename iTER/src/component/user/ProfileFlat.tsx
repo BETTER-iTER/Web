@@ -33,7 +33,7 @@ const ProfileFlat = ({ type, isFollow, id }: ProfileFlatProps) => {
         <ImageBox>
           <ExpertBox>{profileData.expert && <ExpertIcon />}</ExpertBox>
           {profileData.profileImage != null ? (
-            <UserImage style={{ backgroundImage: `url(${profileData.profileImage})` }} />
+            <UserImage src={profileData.profileImage} width={70} height={70} />
           ) : (
             <UserIcon width={70} height={70} />
           )}
@@ -167,7 +167,7 @@ const UnderBar = styled('div', {
   backgroundColor: '$Bar',
 });
 
-const UserImage = styled('div', {
+const UserImage = styled('img', {
   width: '75px',
   height: '75px',
   borderRadius: '50%',
