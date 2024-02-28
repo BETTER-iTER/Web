@@ -46,8 +46,8 @@ function App() {
         element={<PrivateRoute path="/review/write" element={<ReviewWrite />} />}
       />
       <Route
-        path="/review/rewrite"
-        element={<PrivateRoute path="/review/rewrite" element={<ReviewRewrite />} />}
+        path="/review/rewrite/:id"
+        element={<PrivateRoute path="/review/rewrite/:id" element={<ReviewRewrite />} />}
       />
       <Route
         path="/user/delete"
