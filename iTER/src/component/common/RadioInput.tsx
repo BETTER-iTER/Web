@@ -6,6 +6,7 @@ import { useData } from '../../context/DataContext';
 interface RadioInputProps {
   options: string[];
   label: string;
+  onOptionChange: (selectedValue: number | null) => void;
 }
 
 export const RadioInput: React.FC<RadioInputProps> = ({ options, label }) => {
@@ -45,15 +46,16 @@ export const RadioInput: React.FC<RadioInputProps> = ({ options, label }) => {
   );
 };
 
-export const RadioInputRe: React.FC<RadioInputProps> = ({ options, label }) => {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+export const RadioInputRe: React.FC<RadioInputProps> = ({ options, label, onOptionChange }) => {
+  const [selectedOption, setSelectedOption] = useState<string | null>();
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(event.target.value);
     const selectedOptionIndex = options.indexOf(event.target.value);
     // const newData = { storeName: selectedOptionIndex };
     // updateFormData(newData);
-    localStorage.setItem('radio', selectedOptionIndex);
+    onOptionChange(selectedOptionIndex);
+
     //localStorage.setItem("radioValue", event.target.value);
   };
 

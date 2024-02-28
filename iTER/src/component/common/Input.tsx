@@ -182,6 +182,44 @@ export const Input: React.FC<{
   );
 };
 
+export const InputRe: React.FC<{
+  placeholder: string | undefined;
+  type: 'text' | 'password';
+  onChange: (value: string) => void;
+  text?: string | number;
+  labelName: string;
+}> = ({ placeholder, onChange, type, text, labelName }) => {
+  const [inputValue, setInputValue] = useState<string | number>('');
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+    setInputValue(newValue);
+    onChange(newValue);
+  };
+
+  return (
+    <>
+      <Label>
+        <LabelName>{labelName}</LabelName>
+      </Label>
+      <BodyReview
+        style={{
+          border: '1px solid #D8DBE2',
+        }}
+      >
+        <InBody>
+          <InnerInput
+            type={type}
+            placeholder={placeholder}
+            value={text || inputValue}
+            onChange={handleInputChange}
+          />
+        </InBody>
+      </BodyReview>
+    </>
+  );
+};
+
 export const InputComment: React.FC<{
   placeholder: string | undefined;
   type: 'text' | 'password';

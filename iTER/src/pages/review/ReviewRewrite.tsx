@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect } from 'react';
 import { styled } from '../../../stitches.config';
-import { InputComponentReiview } from '../../component/common/Input';
+import { Input, InputComponentReiview, InputRe } from '../../component/common/Input';
 import { useState } from 'react';
 import { B1 } from '../../component/Font';
 import { ButtonSelect } from '../../component/common/Button';
@@ -38,13 +38,13 @@ const ReviewRewrite = () => {
     { data: '무난해요', id: 7 },
     { data: '예뻐요', id: 8 },
   ];
-  const [productName, setProductName] = useState<string>('');
+  const [productName_re, setProductName] = useState<string>('');
   const [reviewDetails, setReviewDetails] = useState<string>('');
   const [imageSrcs, setImageSrcs] = useState<string[]>([]);
   const [selectedSortItem, setSelectedSortItem] = useState<string | null>(null);
   const [sortBottom, setSortBottom] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [price, setPrice] = useState<number>(0);
+  const [price_re, setPrice] = useState<number | string>('');
   const [selectedCPU, setSelectedCPU] = useState<string | null>(null);
   const [selectedWINDOW, setSelectedWINDOW] = useState<string | null>(null);
   const [selectedRAM, setSelectedRAM] = useState<string | null>(null);
@@ -57,12 +57,24 @@ const ReviewRewrite = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [shortReview, setShortReview] = useState<string[]>([]);
   const [rating, setRating] = useState<number>(0); //이건 별점
-  const [data, setData] = useState<[]>([]);
+  const [selectedRadioOption, setSelectedRadioOption] = useState<number | null>(null);
+  const [Data, setData] = useState(null);
 
-  const formData = new FormData();
+  const {
+    badPoint,
+    goodPoint,
+    boughtAt,
+    comparedProductName,
+    manufacturer,
+    price,
+    productName,
+    starPoint,
+    storeName,
+  } = Data ?? {};
 
   const handleProductNameChange = (event: string) => {
     setProductName(event);
+    console.log(productName_re);
   };
 
   const handleSortItemSelected = (selectedItem: string) => {
@@ -164,6 +176,12 @@ const ReviewRewrite = () => {
     // updateFormData(newData);
   };
 
+  const handleRadioChange = (selectedValue: number | null) => {
+    setSelectedRadioOption(selectedValue);
+    // 여기에서 다른 작업 수행 가능
+    console.log(selectedRadioOption);
+  };
+
   const reviewData = async () => {
     try {
       const currentURL = window.location.href;
@@ -179,16 +197,17 @@ const ReviewRewrite = () => {
           },
         }
       );
-      console.log(response.data.result);
-      setData(response.data.result.reviewDetail);
-      console.log(data);
 
+      //   setData(response.data.result.reviewDetail);
+      //   console.log(data);
+      setData(response.data.result.reviewDetail);
+      console.log(response.data.result.reviewDetail);
+      console.log(Data);
       //localStorage.setItem('reviewReCate', response.data.result.reviewDetail.category);
     } catch (error) {
       console.log(error);
     }
   };
-
   const handleReviewWrite = async () => {
     try {
       const currentURL = window.location.href;
@@ -214,12 +233,11 @@ const ReviewRewrite = () => {
     <>
       <Top title={'리뷰수정'} />
       <MainLay>
-        <InputComponentReiview
+        <InputRe
           placeholder="제품명을 입력해 주세요"
           type="text"
           labelName="제품명 *"
-          btnName=""
-          text={productName}
+          text={productName_re == '' ? productName : productName_re}
           onChange={handleProductNameChange}
         />
 
@@ -228,22 +246,24 @@ const ReviewRewrite = () => {
         <B1>제조사 *</B1>
         <div style={{ marginTop: 10 }} />
         <ButtonSelect
-          children={selectedSortItem == null ? '제조사를 선택해주세요' : selectedSortItem}
+          children={selectedSortItem == null ? manufacturer : selectedSortItem}
           onClick={() => setSortBottom(!sortBottom)}
         />
         <div style={{ marginTop: 20 }} />
 
         <B1>구매일</B1>
         <div style={{ marginTop: 10 }} />
-        <DateComponent selectedDate={selectedDate} onDateChange={handleSortDateSelected} />
+        <DateComponent
+          selectedDate={selectedDate === null ? Number(boughtAt) : selectedDate}
+          onDateChange={handleSortDateSelected}
+        />
         <div style={{ marginTop: 20 }} />
 
-        <InputComponentReiview
+        <InputRe
           placeholder="₩ 금액을 입력해 주세요"
           type="text"
           labelName="금액"
-          btnName=""
-          text={price}
+          text={price_re == '' ? String(price) : price_re}
           onChange={handleChangePrice}
         />
 
@@ -269,16 +289,15 @@ const ReviewRewrite = () => {
 
         <div style={{ marginTop: 20 }} />
 
-        <RadioInputRe label="구매처 *" options={options} />
+        <RadioInputRe label="구매처 *" options={options} onOptionChange={handleRadioChange} />
 
         <div style={{ marginTop: 20 }} />
 
-        <InputComponentReiview
+        <InputRe
           placeholder="제품명을 입력해 주세요"
           type="text"
           labelName="비교 제품"
-          btnName=""
-          text={compareProduct}
+          text={compareProduct == '' ? comparedProductName : compareProduct}
           onChange={handleCompareProductValue}
         />
 
@@ -347,13 +366,23 @@ const ReviewRewrite = () => {
         <Like>
           <LabelText>좋은 점 *</LabelText>
           <div style={{ marginTop: '11px' }} />
-          <TextInputRe limit={500} placeholder="좋았던 점을 입력해주세요" type="good" />
+          <TextInputRe
+            limit={500}
+            placeholder="좋았던 점을 입력해주세요"
+            type="good"
+            textS={goodPoint}
+          />
         </Like>
 
         <NotGood>
           <LabelText>아쉬운 점 *</LabelText>
           <div style={{ marginTop: '11px' }} />
-          <TextInputRe limit={500} placeholder="아쉬웠던 점을 입력해주세요" type="bad" />
+          <TextInputRe
+            limit={500}
+            placeholder="아쉬웠던 점을 입력해주세요"
+            type="bad"
+            textS={badPoint}
+          />
         </NotGood>
         <div style={{ paddingBottom: '110px' }} />
         <BtnLay>

@@ -7,6 +7,7 @@ interface TextInput {
   limit: number;
   placeholder: string;
   type: string;
+  textS: string;
 }
 
 export const TextInput: React.FC<TextInput> = ({ limit, placeholder, type }) => {
@@ -59,9 +60,14 @@ export const TextInput: React.FC<TextInput> = ({ limit, placeholder, type }) => 
   );
 };
 
-export const TextInputRe: React.FC<TextInput> = ({ limit, placeholder, type }) => {
-  const [text, setText] = useState<string>('');
+export const TextInputRe: React.FC<TextInput> = ({ limit, placeholder, type, textS }) => {
+  const initialText = () => {
+    return textS || ''; // textS가 존재하면 그 값을, 아니면 빈 문자열을 반환
+  };
+
+  const [text, setText] = useState<string>(initialText);
   // const { updateFormData } = useData();
+
   const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = event.target.value;
     if (inputValue.length <= limit && type == 'good') {
