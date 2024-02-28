@@ -3,6 +3,7 @@ import Scrap from '../../assets/icon/ScrapMyPoint.svg';
 import { styled } from '../../../stitches.config';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Headline3 } from '../Font';
 
 const PointLay = () => {
   const [pointData, setPointData] = useState(null);
@@ -28,7 +29,8 @@ const PointLay = () => {
     point();
   }, []);
 
-  const { totalLikeCount, totalPoint, totalReviewCount, totalScrapCount } = pointData ?? {};
+  const { totalLikeCount, totalPoint, totalReviewCount, totalScrapCount, nickname, userLevel } =
+    pointData ?? {};
 
   const score = [
     { title: '현재 포인트', score: totalPoint },
@@ -48,6 +50,12 @@ const PointLay = () => {
   ];
   return (
     <>
+      <RankLay>
+        <Headline3>{nickname}</Headline3>
+        <MText>님은</MText>
+        <Headline3>{userLevel}</Headline3>
+        입니다.
+      </RankLay>
       {score.map((item, index) => (
         <Item key={index}>
           <Container>
@@ -100,4 +108,18 @@ const ScoreContainer = styled('div', {
       },
     },
   },
+});
+
+const RankLay = styled('div', {
+  marginTop: '64px',
+  display: 'flex',
+  color: '#24292F',
+  fontSize: '20px',
+  fontWeight: '400',
+  letterSpacing: '-0.4px',
+  paddingBottom: '35px',
+});
+
+const MText = styled('div', {
+  marginRight: '5px',
 });
