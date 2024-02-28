@@ -57,6 +57,9 @@ const ReviewRewrite = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [shortReview, setShortReview] = useState<string[]>([]);
   const [rating, setRating] = useState<number>(0); //이건 별점
+  const [data, setData] = useState<String[]>([]);
+
+  const formData = new FormData();
 
   const handleProductNameChange = (event: string) => {
     setProductName(event);
@@ -177,7 +180,9 @@ const ReviewRewrite = () => {
         }
       );
       console.log(response.data.result);
-      localStorage.setItem('reviewReCate', response.data.result.reviewDetail.category);
+      return response.data.result.reviewDetail;
+
+      //localStorage.setItem('reviewReCate', response.data.result.reviewDetail.category);
     } catch (error) {
       console.log(error);
     }
