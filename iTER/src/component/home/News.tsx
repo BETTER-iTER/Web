@@ -1,30 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { styled } from '../../../stitches.config';
 import { NewsProps } from '../../types/News';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper-bundle.css';
 
 const News: React.FC<{ newsData: NewsProps[] }> = (props) => {
   const { newsData } = props;
-  const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
-
-  useEffect(() => {
-    setCurrentBannerIndex(0);
-  }, [newsData]);
+  const [swiperInstance, setSwiperInstance] = useState(null);
+  const [currentBannerIndex, setCurrentBannerIndex] = useState<number>(0);
 
   useEffect(() => {
     if (!newsData || newsData.length <= 1) return;
 
     const interval = setInterval(() => {
-      setCurrentBannerIndex((prevIndex) => (prevIndex + 1) % newsData.length);
+      if (swiperInstance) {
+        const newIndex = (swiperInstance.activeIndex + 1) % newsData.length;
+        swiperInstance.slideTo(newIndex);
+        setCurrentBannerIndex(newIndex);
+      }
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [newsData]);
+  }, [newsData, swiperInstance]);
 
   return (
     <Container>
-      <Slider style={{ transform: `translateX(-${currentBannerIndex * 100}%)` }}>
+      <Swiper
+        spaceBetween={0}
+        slidesPerView={1}
+        onSwiper={(swiper: React.SetStateAction<null>) => {
+          setSwiperInstance(swiper);
+        }}
+        onSlideChange={(swiper: { activeIndex: React.SetStateAction<number> }) => {
+          setCurrentBannerIndex(swiper.activeIndex);
+        }}
+      >
         {newsData?.map((banner, index) => (
-          <React.Fragment key={index}>
+          <SwiperSlide key={index}>
             <Banner
               onClick={() => {
                 window.open(banner.newsUrl);
@@ -36,9 +48,9 @@ const News: React.FC<{ newsData: NewsProps[] }> = (props) => {
               </TextBox>
               <img src={banner.imageUrl} alt={banner.title} width={340} height={180} />
             </Banner>
-          </React.Fragment>
+          </SwiperSlide>
         ))}
-      </Slider>
+      </Swiper>
       <Indicators>
         {newsData?.map((_, index) => (
           <Indicator key={index} active={index === currentBannerIndex} />
@@ -58,11 +70,6 @@ const Container = styled('div', {
   overflow: 'hidden',
   position: 'relative',
   marginTop: '5px',
-});
-
-const Slider = styled('div', {
-  display: 'flex',
-  transition: 'transform 0.5s ease-in-out',
 });
 
 const Banner = styled('div', {
