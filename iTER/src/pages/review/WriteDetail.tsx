@@ -132,7 +132,9 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
           children={
             selectedCPU == null
               ? '제품 스펙을 선택하세요'
-              : selectedCPU + '/' + selectedWINDOW + '/' + selectedRAM + '/' + selectedSIZE
+              : `${selectedCPU || ''}/${selectedWINDOW || ''}/${selectedRAM || ''}/${
+                  selectedSIZE || ''
+                }`
           }
           onClick={openPopup}
         />
