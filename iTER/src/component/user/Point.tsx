@@ -29,12 +29,27 @@ const PointLay = () => {
     point();
   }, []);
 
-  const { totalLikeCount, totalPoint, totalReviewCount, totalScrapCount, nickname, userLevel } =
-    pointData ?? {};
+  interface PointData {
+    totalLikeCount?: number;
+    totalPoint?: number;
+    totalReviewCount?: number;
+    totalScrapCount?: number;
+    nickname?: string;
+    userLevel?: string;
+  }
+
+  const {
+    totalLikeCount,
+    totalPoint,
+    totalReviewCount,
+    totalScrapCount,
+    nickname,
+    userLevel,
+  }: PointData = pointData ?? {};
 
   const score = [
-    { title: '현재 포인트', score: totalPoint },
-    { title: '작성한 리뷰', score: totalReviewCount },
+    { title: '현재 포인트', score: totalPoint + '점' },
+    { title: '작성한 리뷰', score: totalReviewCount + '개' },
     { title: 'IT 퀴즈', score: '21개' },
     {
       title: '리뷰 반응',
@@ -62,7 +77,9 @@ const PointLay = () => {
             <TitleContainer isCurrentPoint={item.title === '현재 포인트'}>
               {item.title}
             </TitleContainer>
-            <ScoreContainer isCurrentScore={item.score === '234점'}>{item.score}</ScoreContainer>
+            <ScoreContainer isCurrentScore={item.title === '현재 포인트'}>
+              {item.score}
+            </ScoreContainer>
           </Container>
         </Item>
       ))}
