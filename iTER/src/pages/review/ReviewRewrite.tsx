@@ -60,6 +60,18 @@ const ReviewRewrite = () => {
   const [selectedRadioOption, setSelectedRadioOption] = useState<number | null>(null);
   const [Data, setData] = useState(null);
 
+  interface Data {
+    badPoint?: string;
+    goodPoint?: string;
+    boughtAt?: string;
+    comparedProductName?: string;
+    manufacturer?: string;
+    price?: number;
+    productName?: string;
+    starPoint?: number;
+    storeName?: string;
+  }
+
   const {
     badPoint,
     goodPoint,
@@ -70,7 +82,7 @@ const ReviewRewrite = () => {
     productName,
     starPoint,
     storeName,
-  } = Data ?? {};
+  }: Data = Data ?? {};
 
   const handleProductNameChange = (event: string) => {
     setProductName(event);
@@ -359,7 +371,11 @@ const ReviewRewrite = () => {
           <LabelText>별점 *</LabelText>
           <Star>
             <div style={{ marginTop: '11px' }} />
-            <StarRating totalStars={5} selectedStars={rating} onStarClick={handleStarClick} />
+            <StarRating
+              totalStars={5}
+              selectedStars={rating == 0 ? starPoint + 0.5 : rating}
+              onStarClick={handleStarClick}
+            />
           </Star>
         </Rating>
 
