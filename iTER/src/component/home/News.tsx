@@ -6,7 +6,7 @@ import 'swiper/swiper-bundle.css';
 
 const News: React.FC<{ newsData: NewsProps[] }> = (props) => {
   const { newsData } = props;
-  const [swiperInstance, setSwiperInstance] = useState(null);
+  const [swiperInstance, setSwiperInstance] = useState<any>(null);
   const [currentBannerIndex, setCurrentBannerIndex] = useState<number>(0);
 
   useEffect(() => {
