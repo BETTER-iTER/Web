@@ -7,7 +7,7 @@ import { B1 } from '../../component/Font';
 import { ButtonSelect } from '../../component/common/Button';
 import ReviewSort from '../../component/review/ReviewSort';
 import DateComponent from '../../component/review/Date';
-import SpecPopup from '../../component/review/SpecPopup';
+import SpecPopup, { SpecPopupRe } from '../../component/review/SpecPopup';
 import RadioInput, { RadioInputRe } from '../../component/common/RadioInput';
 import { Caption2, LabelText } from '../../component/Font';
 import Xbtn from '../../assets/icon/Xbtn.svg?react';
@@ -55,7 +55,7 @@ const ReviewRewrite = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null); //이건 선택한 이미지
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [shortReview, setShortReview] = useState<string[]>([]);
+  const [shortReviewre, setShortReview] = useState<string[]>([]);
   const [rating, setRating] = useState<number>(0); //이건 별점
   const [selectedRadioOption, setSelectedRadioOption] = useState<number | null>(null);
   const [Data, setData] = useState(null);
@@ -68,8 +68,11 @@ const ReviewRewrite = () => {
     manufacturer?: string;
     price?: number;
     productName?: string;
-    starPoint?: number;
+    starPoint?: number | undefined;
     storeName?: string;
+    category?: string;
+    reviewSpecData?: string[];
+    shortReview?: string;
   }
 
   const {
@@ -82,6 +85,9 @@ const ReviewRewrite = () => {
     productName,
     starPoint,
     storeName,
+    category,
+    reviewSpecData,
+    shortReview,
   }: Data = Data ?? {};
 
   const handleProductNameChange = (event: string) => {
@@ -162,19 +168,19 @@ const ReviewRewrite = () => {
   };
 
   const handle1Click = (item: { data: string; id: number }) => {
-    shortReview[0] = item.data;
+    shortReviewre[0] = item.data;
     // updateFormData(newData2);
     // console.log(newData2);
   };
 
   const handle2Click = (item: { data: string; id: number }) => {
-    shortReview[1] = item.data;
+    shortReviewre[1] = item.data;
     // updateFormData(newData3);
     // console.log(newData3);
   };
 
   const handle3Click = (item: { data: string; id: number }) => {
-    shortReview[2] = item.data;
+    shortReviewre[2] = item.data;
     // updateFormData(newData4);
     // console.log(newData4);
     console.log(shortReview);
@@ -215,7 +221,7 @@ const ReviewRewrite = () => {
       setData(response.data.result.reviewDetail);
       console.log(response.data.result.reviewDetail);
       console.log(Data);
-      //localStorage.setItem('reviewReCate', response.data.result.reviewDetail.category);
+      localStorage.setItem('reviewReCate', response.data.result.reviewDetail.category);
     } catch (error) {
       console.log(error);
     }
@@ -286,13 +292,13 @@ const ReviewRewrite = () => {
         <ButtonSelect
           children={
             selectedCPU == null
-              ? '제품 스펙을 선택하세요'
+              ? (reviewSpecData || []).join('/')
               : selectedCPU + '/' + selectedWINDOW + '/' + selectedRAM + '/' + selectedSIZE
           }
           onClick={openPopup}
         />
         {isPopupOpen && (
-          <SpecPopup
+          <SpecPopupRe
             isOpen={isPopupOpen}
             onClose={() => setIsPopupOpen(false)}
             onSelectionComplete={handleSelectionComplete}
@@ -356,13 +362,25 @@ const ReviewRewrite = () => {
 
           <ButtonCover>
             <div style={{ height: '30px' }}>
-              <ButtonGrid items={items1} onButtonClick={handle1Click} />
+              <ButtonGrid
+                items={items1}
+                onButtonClick={handle1Click}
+                initialSelectedItem={shortReview?.split(',')[0] || null}
+              />
             </div>
             <div style={{ height: '30px', marginTop: '10px' }}>
-              <ButtonGrid items={items2} onButtonClick={handle2Click} />
+              <ButtonGrid
+                items={items2}
+                onButtonClick={handle2Click}
+                initialSelectedItem={shortReview?.split(',')[1] || null}
+              />
             </div>
             <div style={{ height: '30px', marginTop: '10px' }}>
-              <ButtonGrid items={items3} onButtonClick={handle3Click} />
+              <ButtonGrid
+                items={items3}
+                onButtonClick={handle3Click}
+                initialSelectedItem={shortReview?.split(',')[2] || null}
+              />
             </div>
           </ButtonCover>
         </OneLine>
@@ -397,7 +415,7 @@ const ReviewRewrite = () => {
             limit={500}
             placeholder="아쉬웠던 점을 입력해주세요"
             type="bad"
-            textS={badPoint}
+            textS={badPoint || null}
           />
         </NotGood>
         <div style={{ paddingBottom: '110px' }} />

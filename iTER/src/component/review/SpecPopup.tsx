@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { styled } from '../../../stitches.config';
-import { SelectBoxCPU } from './SelectBox';
+import { SelectBoxCPU, SelectBoxCPURe } from './SelectBox';
 import Xbtn from '../../assets/icon/Xbtn.svg?react';
 import { ButtonPopup } from '../common/Button';
 
@@ -68,6 +68,58 @@ const SpecPopup: React.FC<PopupProps> = ({ isOpen, onClose, onSelectionComplete 
 };
 
 export default SpecPopup;
+
+export const SpecPopupRe: React.FC<PopupProps> = ({ isOpen, onClose, onSelectionComplete }) => {
+  const [selectedCPU, setSelectedCPU] = useState<string | null>(null);
+  const [selectedWINDOW, setSelectedWINDOW] = useState<string | null>(null);
+  const [selectedRAM, setSelectedRAM] = useState<string | null>(null);
+  const [selectedSIZE, setSelectedSIZE] = useState<string | null>(null);
+
+  const handleCPU = (selectedCPU: string | null) => {
+    setSelectedCPU(selectedCPU);
+  };
+  const handleWINDOW = (selectedWINDOW: string | null) => {
+    setSelectedWINDOW(selectedWINDOW);
+  };
+
+  const handleRAM = (selectedRAM: string | null) => {
+    setSelectedRAM(selectedRAM);
+  };
+
+  const handleSIZE = (selectedSIZE: string | null) => {
+    setSelectedSIZE(selectedSIZE);
+  };
+
+  const handleSelectionComplete = () => {
+    onSelectionComplete(selectedCPU, selectedWINDOW, selectedRAM, selectedSIZE);
+    onClose();
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <PopupOverlay>
+      <PopupContent>
+        <CloseButton>
+          <Xbtn width="24px" height="24px" onClick={onClose}>
+            &times;
+          </Xbtn>
+        </CloseButton>
+        <SelectCover>
+          <SelectBoxCPURe
+            onCPUClick={handleCPU}
+            onWINDOWClick={handleWINDOW}
+            onRAMClick={handleRAM}
+            onSIZEClick={handleSIZE}
+          />
+        </SelectCover>
+        <ButtonLay>
+          <ButtonPopup onClick={handleSelectionComplete} children="선택 완료" />
+        </ButtonLay>
+      </PopupContent>
+    </PopupOverlay>
+  );
+};
 
 const PopupOverlay = styled('div', {
   position: 'fixed',
