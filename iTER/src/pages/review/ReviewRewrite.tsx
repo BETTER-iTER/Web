@@ -69,7 +69,7 @@ const ReviewRewrite = () => {
     price?: number;
     productName?: string;
     starPoint?: number | undefined;
-    storeName?: string;
+    storeName?: string | undefined;
     category?: string;
     reviewSpecData?: string[];
     shortReview?: string;
@@ -85,7 +85,7 @@ const ReviewRewrite = () => {
     productName,
     starPoint,
     storeName,
-    category,
+    //category,
     reviewSpecData,
     shortReview,
   }: Data = Data ?? {};
@@ -307,7 +307,12 @@ const ReviewRewrite = () => {
 
         <div style={{ marginTop: 20 }} />
 
-        <RadioInputRe label="구매처 *" options={options} onOptionChange={handleRadioChange} />
+        <RadioInputRe
+          label="구매처 *"
+          options={options}
+          onOptionChange={handleRadioChange}
+          initial={storeName}
+        />
 
         <div style={{ marginTop: 20 }} />
 

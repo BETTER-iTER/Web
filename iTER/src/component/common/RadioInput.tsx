@@ -7,6 +7,7 @@ interface RadioInputProps {
   options: string[];
   label: string;
   onOptionChange: (selectedValue: number | null) => void;
+  initial: string | undefined;
 }
 
 export const RadioInput: React.FC<RadioInputProps> = ({ options, label }) => {
@@ -46,8 +47,24 @@ export const RadioInput: React.FC<RadioInputProps> = ({ options, label }) => {
   );
 };
 
-export const RadioInputRe: React.FC<RadioInputProps> = ({ options, label, onOptionChange }) => {
-  const [selectedOption, setSelectedOption] = useState<string | null>();
+export const RadioInputRe: React.FC<RadioInputProps> = ({
+  options,
+  label,
+  onOptionChange,
+  initial,
+}) => {
+  let ininum: string = '';
+
+  if (initial === '1') {
+    ininum = '공식홈페이지';
+  } else if (initial === '2') {
+    ininum = '쿠팡';
+  } else if (initial === '3') {
+    ininum = '학생복지스토어';
+  } else {
+    ininum = '기타';
+  }
+  const [selectedOption, setSelectedOption] = useState<string | null>(ininum);
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(event.target.value);
