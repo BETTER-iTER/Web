@@ -19,6 +19,7 @@ import StarRating from '../../component/review/StarRating';
 import TextInput, { TextInputRe } from '../../component/review/TextInput';
 import Top from '../../component/layout/Top';
 import Button from '../../component/common/Button';
+import imageCompression from 'browser-image-compression';
 
 const ReviewRewrite = () => {
   const items1 = [
@@ -54,6 +55,7 @@ const ReviewRewrite = () => {
   const [compareProduct, setCompareProduct] = useState<string>('');
   const [selectedImage, setSelectedImage] = useState<File | null>(null); //이건 선택한 이미지
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [image, setImage] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [shortReviewre, setShortReview] = useState<string[]>([]);
   const [rating, setRating] = useState<number>(0); //이건 별점
@@ -147,12 +149,12 @@ const ReviewRewrite = () => {
   const handleImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
-      setSelectedImages((prevImages) => [...prevImages, file]);
-
-      //   const newData = { files: [...selectedImages, file] };
-      //   updateImageData(newData);
+      try {
+        handleImage(file);
+      } catch (error) {
+        console.error('Error handling image:', error);
+      }
     }
-    // console.log(imageData);
   };
 
   const handleImagePreviewClick = () => {
@@ -162,9 +164,9 @@ const ReviewRewrite = () => {
   };
 
   const handleImageDelete = (index: number) => {
-    const newImages = [...selectedImages];
+    const newImages = [...image];
     newImages.splice(index, 1);
-    setSelectedImages(newImages);
+    setImage(newImages);
   };
 
   const handle1Click = (item: { data: string; id: number }) => {
@@ -244,6 +246,70 @@ const ReviewRewrite = () => {
     }
   };
 
+  //파일 압축 함수
+
+  const compressionImageChange = async (file: File) => {
+    try {
+      const compressedFile = await imageCompression(file, {
+        maxWidthOrHeight: 800,
+        maxSizeMB: 2,
+        fileType: 'image/jpeg',
+      });
+
+      return compressedFile;
+    } catch (error) {
+      console.error('이미지 압축 실패:', error);
+    }
+  };
+  //   const convertFileToBase64 = (file: File): Promise<string> => {
+  //     return new Promise((resolve, reject) => {
+  //       const reader = new FileReader();
+
+  //       reader.onloadend = () => {
+  //         resolve(reader.result as string);
+  //       };
+
+  //       reader.onerror = reject;
+
+  //       reader.readAsDataURL(file);
+  //     });
+  //   };
+
+  //이미지 url 변환함수
+  const handleImage = async (imageFile: File) => {
+    try {
+      const currentURL = window.location.href;
+      const match = currentURL.match(/\d+$/);
+      const extractedNumber = match ? parseInt(match[0]) : null;
+      const token = localStorage.getItem('accessToken');
+      const formData = new FormData();
+      const compressionImage = await compressionImageChange(imageFile);
+      if (compressionImage) {
+        formData.append('file', compressionImage);
+
+        const response = await axios.post(
+          `https://dev.betteritem.store/review/image/${extractedNumber}`,
+          formData,
+          {
+            headers: {
+              Authorization: `${token}`,
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+
+        console.log(response.data.result);
+        setImage((prev) => [...prev, response.data.result]);
+      } else {
+        console.error('이미지 압축 실패 또는 압축된 이미지가 없습니다.');
+        // 처리할 로직 추가 (예: 오류 처리)
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     reviewData();
   }, []);
@@ -272,7 +338,7 @@ const ReviewRewrite = () => {
         <B1>구매일</B1>
         <div style={{ marginTop: 10 }} />
         <DateComponent
-          selectedDate={selectedDate === null ? Number(boughtAt) : selectedDate}
+          selectedDate={selectedDate == null ? boughtAt : selectedDate}
           onDateChange={handleSortDateSelected}
         />
         <div style={{ marginTop: 20 }} />
@@ -345,15 +411,15 @@ const ReviewRewrite = () => {
                     <Plus width="24px" height="24px" />
                   </Cover>
                   <Caption1>
-                    <Count>({selectedImages.length}/5)</Count>
+                    <Count>({image.length}/5)</Count>
                   </Caption1>
                 </Pluscover>
-                {selectedImages.map((image, index) => (
+                {image.map((image, index) => (
                   <ImageContainer key={index}>
                     <XbtnContainer onClick={() => handleImageDelete(index)}>
                       <Xbtn />
                     </XbtnContainer>
-                    <img src={URL.createObjectURL(image)} alt="Selected" width={100} height={100} />
+                    <img src={image} alt="Selected" width={100} height={100} />
                   </ImageContainer>
                 ))}
               </ImageGallery>
@@ -396,7 +462,7 @@ const ReviewRewrite = () => {
             <div style={{ marginTop: '11px' }} />
             <StarRating
               totalStars={5}
-              selectedStars={rating == 0 ? starPoint + 0.5 : rating}
+              selectedStars={rating == 0 ? starPoint || 0 + 0.5 : rating}
               onStarClick={handleStarClick}
             />
           </Star>
@@ -409,7 +475,7 @@ const ReviewRewrite = () => {
             limit={500}
             placeholder="좋았던 점을 입력해주세요"
             type="good"
-            textS={goodPoint}
+            textS={goodPoint || null}
           />
         </Like>
 

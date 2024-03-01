@@ -17,6 +17,7 @@
     "@types/swiper": "^6.0.0",
     "aws-sdk": "^2.1528.0",
     "axios": "^1.6.2",
+    "browser-image-compression": "^2.0.2",
     "framer-motion": "^10.16.12",
     "fs": "^0.0.1-security",
     "react": "^18.2.0",
