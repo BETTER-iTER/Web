@@ -249,11 +249,12 @@ const ReviewRewrite = () => {
   //파일 압축 함수
 
   const compressionImageChange = async (file: File) => {
+    console.log('변환전', file);
     try {
       const compressedFile = await imageCompression(file, {
         maxWidthOrHeight: 800,
         maxSizeMB: 2,
-        fileType: 'image/jpeg',
+        fileType: 'image/png',
       });
 
       return compressedFile;
@@ -261,19 +262,6 @@ const ReviewRewrite = () => {
       console.error('이미지 압축 실패:', error);
     }
   };
-  //   const convertFileToBase64 = (file: File): Promise<string> => {
-  //     return new Promise((resolve, reject) => {
-  //       const reader = new FileReader();
-
-  //       reader.onloadend = () => {
-  //         resolve(reader.result as string);
-  //       };
-
-  //       reader.onerror = reject;
-
-  //       reader.readAsDataURL(file);
-  //     });
-  //   };
 
   //이미지 url 변환함수
   const handleImage = async (imageFile: File) => {
@@ -284,6 +272,7 @@ const ReviewRewrite = () => {
       const token = localStorage.getItem('accessToken');
       const formData = new FormData();
       const compressionImage = await compressionImageChange(imageFile);
+      console.log('변환후', compressionImage);
       if (compressionImage) {
         formData.append('file', compressionImage);
 
@@ -302,7 +291,6 @@ const ReviewRewrite = () => {
         setImage((prev) => [...prev, response.data.result]);
       } else {
         console.error('이미지 압축 실패 또는 압축된 이미지가 없습니다.');
-        // 처리할 로직 추가 (예: 오류 처리)
         return;
       }
     } catch (error) {
