@@ -75,6 +75,7 @@ const ReviewRewrite = () => {
     category?: string;
     reviewSpecData?: string[];
     shortReview?: string;
+    reviewImages?: string[];
   }
 
   const {
@@ -90,6 +91,7 @@ const ReviewRewrite = () => {
     //category,
     reviewSpecData,
     shortReview,
+    reviewImages,
   }: Data = Data ?? {};
 
   const handleProductNameChange = (event: string) => {
@@ -253,7 +255,7 @@ const ReviewRewrite = () => {
     try {
       const compressedFile = await imageCompression(file, {
         maxWidthOrHeight: 800,
-        maxSizeMB: 2,
+        maxSizeMB: 5,
         fileType: 'image/png',
       });
 
@@ -271,28 +273,28 @@ const ReviewRewrite = () => {
       const extractedNumber = match ? parseInt(match[0]) : null;
       const token = localStorage.getItem('accessToken');
       const formData = new FormData();
-      const compressionImage = await compressionImageChange(imageFile);
-      console.log('변환후', compressionImage);
-      if (compressionImage) {
-        formData.append('file', compressionImage);
+      //  const compressionImage = await compressionImageChange(imageFile);
+      //  console.log('변환후', compressionImage);
+      //  if (compressionImage) {
+      formData.append('file', imageFile);
 
-        const response = await axios.post(
-          `https://dev.betteritem.store/review/image/${extractedNumber}`,
-          formData,
-          {
-            headers: {
-              Authorization: `${token}`,
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-        );
+      const response = await axios.post(
+        `https://dev.betteritem.store/review/image/${extractedNumber}`,
+        formData,
+        {
+          headers: {
+            Authorization: `${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
 
-        console.log(response.data.result);
-        setImage((prev) => [...prev, response.data.result]);
-      } else {
-        console.error('이미지 압축 실패 또는 압축된 이미지가 없습니다.');
-        return;
-      }
+      console.log(response.data.result);
+      setImage((prev) => [...prev, response.data.result]);
+      //  } else {
+      //    console.error('이미지 압축 실패 또는 압축된 이미지가 없습니다.');
+      //     return;
+      //  }
     } catch (error) {
       console.log(error);
     }
@@ -301,6 +303,18 @@ const ReviewRewrite = () => {
   useEffect(() => {
     reviewData();
   }, []);
+
+  useEffect(() => {
+    if (reviewImages) {
+      // reviewImages 배열에서 imgUrl 부분만 추출하여 새로운 배열 생성하기
+      const imageUrls = reviewImages.map((item) => item.imgUrl);
+
+      // setImage에 새로운 배열을 전달
+      setImage(imageUrls);
+
+      console.log(imageUrls);
+    }
+  }, [reviewImages]);
   return (
     <>
       <Top title={'리뷰수정'} />
