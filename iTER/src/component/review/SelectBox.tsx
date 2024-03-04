@@ -151,6 +151,7 @@ export const SelectBoxCPURe: React.FC<SelectBoxCPUProps> = ({
         break;
     }
     setSpecNum(updatedSpecNum);
+    localStorage.setItem('specNum', JSON.stringify(updatedSpecNum));
     // console.log(specNum);
     // console.log(formData);
   };

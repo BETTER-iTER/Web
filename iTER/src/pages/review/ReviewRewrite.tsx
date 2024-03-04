@@ -88,7 +88,7 @@ const ReviewRewrite = () => {
     productName,
     starPoint,
     storeName,
-    //category,
+    category,
     reviewSpecData,
     shortReview,
     reviewImages,
@@ -141,11 +141,6 @@ const ReviewRewrite = () => {
     //비교제품 입력받기
     // const newData = { comparedProductName: event };
     // updateFormData(newData);
-  };
-
-  const handleImageSelected = (image: File) => {
-    console.log('Selected image:', image);
-    setSelectedImage(image);
   };
 
   const handleImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -230,23 +225,23 @@ const ReviewRewrite = () => {
       console.log(error);
     }
   };
-  const handleReviewWrite = async () => {
-    try {
-      const currentURL = window.location.href;
+  //   const handleReviewWrite = async () => {
+  //     try {
+  //       const currentURL = window.location.href;
 
-      const match = currentURL.match(/\d+$/);
-      const extractedNumber = match ? parseInt(match[0]) : null;
-      const token = localStorage.getItem('accessToken');
-      const response = await axios.put(`https://dev.betteritem.store/review/${extractedNumber}`, {
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
-      console.log(response.data.result);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //       const match = currentURL.match(/\d+$/);
+  //       const extractedNumber = match ? parseInt(match[0]) : null;
+  //       const token = localStorage.getItem('accessToken');
+  //       const response = await axios.put(`https://dev.betteritem.store/review/${extractedNumber}`, {
+  //         headers: {
+  //           Authorization: `${token}`,
+  //         },
+  //       });
+  //       console.log(response.data.result);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
 
   //파일 압축 함수
 
@@ -300,6 +295,46 @@ const ReviewRewrite = () => {
     }
   };
 
+  const handleReviewWritetoServer = async () => {
+    try {
+      const formData = new FormData();
+      const spec = localStorage.getItem('specNum');
+      formData.append('category', category || '');
+      formData.append('productName', productName_re || productName || '');
+      formData.append('boughtAt', selectedDate?.toISOString().split('T')[0] || boughtAt || '');
+      formData.append('manufacturer', selectedSortItem || manufacturer || '');
+      formData.append('price', price_re || price || '');
+      formData.append('storeName', selectedRadioOption || storeName);
+      formData.append('comparedProductName', compareProduct || comparedProductName || '');
+      formData.append('shortReview', shortReviewre.join(',') || shortReview || '');
+      formData.append('starPoint', String(rating || starPoint || ''));
+      formData.append('goodPoint', goodPoint || '');
+      formData.append('badPoint', badPoint || '');
+      formData.append('specData', spec || '');
+      formData.append('imageList', JSON.stringify(image));
+
+      const currentURL = window.location.href;
+      const match = currentURL.match(/\d+$/);
+      const extractedNumber = match ? parseInt(match[0]) : null;
+      const token = localStorage.getItem('accessToken');
+      const response = await axios.put(
+        `https://dev.betteritem.store/review/${extractedNumber}`,
+        formData,
+        {
+          headers: {
+            Authorization: `${token}`,
+            //'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      console.log(formData);
+
+      console.log(response.data.result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     reviewData();
   }, []);
@@ -339,10 +374,8 @@ const ReviewRewrite = () => {
 
         <B1>구매일</B1>
         <div style={{ marginTop: 10 }} />
-        <DateComponent
-          selectedDate={selectedDate == null ? boughtAt : selectedDate}
-          onDateChange={handleSortDateSelected}
-        />
+        <DateComponent selectedDate={selectedDate} onDateChange={handleSortDateSelected} />
+        {/* selectedDate == null ? boughtAt : selectedDate */}
         <div style={{ marginTop: 20 }} />
 
         <InputRe
@@ -496,7 +529,7 @@ const ReviewRewrite = () => {
           <Button
             disabled={false}
             onClick={() => {
-              handleReviewWrite();
+              handleReviewWritetoServer();
             }}
           >
             리뷰 수정
