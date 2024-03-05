@@ -244,7 +244,7 @@ const ReviewRewrite = () => {
   //   };
 
   //파일 압축 함수
-
+  //사용시 에러가 생겨서 사용 안함
   const compressionImageChange = async (file: File) => {
     console.log('변환전', file);
     try {
@@ -323,7 +323,7 @@ const ReviewRewrite = () => {
         {
           headers: {
             Authorization: `${token}`,
-            //'Content-Type': 'multipart/form-data',
+            'Content-Type': 'multipart/application/json',
           },
         }
       );
