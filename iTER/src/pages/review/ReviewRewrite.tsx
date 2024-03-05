@@ -1,22 +1,22 @@
 import axios from 'axios';
 import { useEffect } from 'react';
 import { styled } from '../../../stitches.config';
-import { Input, InputComponentReiview, InputRe } from '../../component/common/Input';
+import { InputRe } from '../../component/common/Input';
 import { useState } from 'react';
 import { B1 } from '../../component/Font';
 import { ButtonSelect } from '../../component/common/Button';
 import ReviewSort from '../../component/review/ReviewSort';
 import DateComponent from '../../component/review/Date';
-import SpecPopup, { SpecPopupRe } from '../../component/review/SpecPopup';
-import RadioInput, { RadioInputRe } from '../../component/common/RadioInput';
-import { Caption2, LabelText } from '../../component/Font';
+import { SpecPopupRe } from '../../component/review/SpecPopup';
+import { RadioInputRe } from '../../component/common/RadioInput';
+import { LabelText } from '../../component/Font';
 import Xbtn from '../../assets/icon/Xbtn.svg?react';
 import Plus from '../../assets/icon/Plus.svg?react';
 import { useRef, ChangeEvent } from 'react';
 import { Caption1 } from '../../component/Font';
 import ButtonGrid from '../../component/review/ButtonGrid';
 import StarRating from '../../component/review/StarRating';
-import TextInput, { TextInputRe } from '../../component/review/TextInput';
+import { TextInputRe } from '../../component/review/TextInput';
 import Top from '../../component/layout/Top';
 import Button from '../../component/common/Button';
 import imageCompression from 'browser-image-compression';
@@ -40,8 +40,6 @@ const ReviewRewrite = () => {
     { data: '예뻐요', id: 8 },
   ];
   const [productName_re, setProductName] = useState<string>('');
-  const [reviewDetails, setReviewDetails] = useState<string>('');
-  const [imageSrcs, setImageSrcs] = useState<string[]>([]);
   const [selectedSortItem, setSelectedSortItem] = useState<string | null>(null);
   const [sortBottom, setSortBottom] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -53,8 +51,6 @@ const ReviewRewrite = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const options = ['공식홈페이지', '쿠팡', '학생복지스토어', '기타'];
   const [compareProduct, setCompareProduct] = useState<string>('');
-  const [selectedImage, setSelectedImage] = useState<File | null>(null); //이건 선택한 이미지
-  const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [image, setImage] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [shortReviewre, setShortReview] = useState<string[]>([]);
@@ -303,8 +299,8 @@ const ReviewRewrite = () => {
       formData.append('productName', productName_re || productName || '');
       formData.append('boughtAt', selectedDate?.toISOString().split('T')[0] || boughtAt || '');
       formData.append('manufacturer', selectedSortItem || manufacturer || '');
-      formData.append('price', price_re || price || '');
-      formData.append('storeName', selectedRadioOption || storeName);
+      formData.append('price', String(price_re) || String(price));
+      formData.append('storeName', String(selectedRadioOption) || String(storeName));
       formData.append('comparedProductName', compareProduct || comparedProductName || '');
       formData.append('shortReview', shortReviewre.join(',') || shortReview || '');
       formData.append('starPoint', String(rating || starPoint || ''));
