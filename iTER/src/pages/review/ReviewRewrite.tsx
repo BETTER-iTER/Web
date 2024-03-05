@@ -20,8 +20,11 @@ import { TextInputRe } from '../../component/review/TextInput';
 import Top from '../../component/layout/Top';
 import Button from '../../component/common/Button';
 import imageCompression from 'browser-image-compression';
+import { useNavigate } from 'react-router-dom';
 
 const ReviewRewrite = () => {
+  const navigate = useNavigate();
+
   const items1 = [
     { data: '가벼워요', id: 0 },
     { data: '적당해요', id: 1 },
@@ -67,7 +70,7 @@ const ReviewRewrite = () => {
     price?: number;
     productName?: string;
     starPoint?: number | undefined;
-    storeName?: string | undefined;
+    storeName?: number | undefined;
     category?: string;
     reviewSpecData?: string[];
     shortReview?: string;
@@ -183,7 +186,7 @@ const ReviewRewrite = () => {
 
   const handleStarClick = (star: number) => {
     const starPointAsDouble: number = parseFloat((star - 0.5).toFixed(1));
-    setRating(star);
+    setRating(starPointAsDouble);
     console.log(starPointAsDouble);
     // const newData = { starPoint: starPointAsDouble };
     // updateFormData(newData);
@@ -292,40 +295,48 @@ const ReviewRewrite = () => {
   };
 
   const handleReviewWritetoServer = async () => {
-    try {
-      const formData = new FormData();
-      const spec = localStorage.getItem('specNum');
-      formData.append('category', category || '');
-      formData.append('productName', productName_re || productName || '');
-      formData.append('boughtAt', selectedDate?.toISOString().split('T')[0] || boughtAt || '');
-      formData.append('manufacturer', selectedSortItem || manufacturer || '');
-      formData.append('price', String(price_re) || String(price));
-      formData.append('storeName', String(selectedRadioOption) || String(storeName));
-      formData.append('comparedProductName', compareProduct || comparedProductName || '');
-      formData.append('shortReview', shortReviewre.join(',') || shortReview || '');
-      formData.append('starPoint', String(rating || starPoint || ''));
-      formData.append('goodPoint', goodPoint || '');
-      formData.append('badPoint', badPoint || '');
-      formData.append('specData', spec || '');
-      formData.append('imageList', JSON.stringify(image));
+    const currentURL = window.location.href;
+    const match = currentURL.match(/\d+$/);
+    const extractedNumber = match ? parseInt(match[0]) : null;
 
+    const specDataList = (reviewSpecData || []).map((item) => item.specDataId);
+    const spec = JSON.parse(localStorage.getItem('specNum') || 'null');
+
+    const requestData = {
+      category: category || '',
+      productName: productName_re || productName || '',
+      boughtAt: selectedDate?.toISOString().split('T')[0] || boughtAt || '',
+      manufacturer: selectedSortItem || manufacturer || '',
+      price: String(price_re) || String(price),
+      storeName: parseFloat(selectedRadioOption) || parseFloat(storeName),
+      comparedProductName: compareProduct || comparedProductName || '',
+      shortReview: shortReviewre.join(',') || shortReview || '',
+      goodPoint: goodPoint || '',
+      badPoint: badPoint || '',
+      specData: spec ?? specDataList,
+      imageList: image,
+      starPoint: starPoint ?? rating,
+    };
+
+    try {
       const currentURL = window.location.href;
       const match = currentURL.match(/\d+$/);
       const extractedNumber = match ? parseInt(match[0]) : null;
       const token = localStorage.getItem('accessToken');
+
       const response = await axios.put(
         `https://dev.betteritem.store/review/${extractedNumber}`,
-        formData,
+        requestData,
         {
           headers: {
             Authorization: `${token}`,
-            'Content-Type': 'multipart/application/json',
+            'Content-Type': 'application/json',
           },
         }
       );
-      console.log(formData);
 
       console.log(response.data.result);
+      navigate(`/review/${extractedNumber}`);
     } catch (error) {
       console.log(error);
     }
@@ -389,7 +400,7 @@ const ReviewRewrite = () => {
         <ButtonSelect
           children={
             selectedCPU == null
-              ? (reviewSpecData || []).join('/')
+              ? (reviewSpecData?.map((item) => item.data) || []).join('/')
               : selectedCPU + '/' + selectedWINDOW + '/' + selectedRAM + '/' + selectedSIZE
           }
           onClick={openPopup}
@@ -493,7 +504,7 @@ const ReviewRewrite = () => {
             <div style={{ marginTop: '11px' }} />
             <StarRating
               totalStars={5}
-              selectedStars={rating == 0 ? starPoint || 0 + 0.5 : rating}
+              selectedStars={rating == 0 ? starPoint || 0 : rating + 0.5}
               onStarClick={handleStarClick}
             />
           </Star>
