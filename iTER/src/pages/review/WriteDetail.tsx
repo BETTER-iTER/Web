@@ -1,7 +1,7 @@
 import { InputComponentReiview } from '../../component/common/Input';
 import { styled } from '../../../stitches.config';
 import { useState } from 'react';
-import RadioInput from '../../component/common/RadioInput';
+import { RadioInput } from '../../component/common/RadioInput';
 import { ButtonSelect } from '../../component/common/Button';
 import ReviewSort from '../../component/review/ReviewSort';
 import { B1 } from '../../component/Font';

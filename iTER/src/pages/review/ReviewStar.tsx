@@ -4,7 +4,7 @@ import { styled } from '../../../stitches.config';
 import ButtonGrid from '../../component/review/ButtonGrid';
 import ImageUpload from '../../component/review/ImageUpload';
 import StarRating from '../../component/review/StarRating';
-import TextInput from '../../component/review/TextInput';
+import { TextInput } from '../../component/review/TextInput';
 import WriteUser from '../../component/review/WriteUser';
 import CheckCircle from '../../assets/icon/CheckCircle.svg?react';
 import { getUserInfo } from '../../apis/Review';
@@ -36,6 +36,7 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
   // const shortReview: string[] = [];
   const { updateFormData } = useData();
 
+  const { formData } = useData();
   const items1 = [
     { data: '가벼워요', id: 0 },
     { data: '적당해요', id: 1 },
@@ -71,23 +72,6 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
 
     const newData = { starPoint: starPointAsDouble };
     updateFormData(newData);
-
-    const imageUrls = [
-      {
-        imgUrl:
-          'https://www.backmarket.co.kr/_next/image?url=%2Fnode_upload%2Fresized_images%2Fsave_image%2F466x466_1116061309_637400e58ef9f.jpeg&w=1080&q=75',
-      },
-      {
-        imgUrl:
-          'https://www.backmarket.co.kr/_next/image?url=https%3A%2F%2Fwww.backmarket.co.kr%2Fhtml%2Fupload%2Fsave_image%2F36827_1.jpg&w=1080&q=75',
-      },
-      {
-        imgUrl:
-          'https://www.backmarket.co.kr/_next/image?url=%2Fnode_upload%2Fresized_images%2Fsave_image%2F466x466_36827_2.jpg&w=1080&q=75',
-      },
-    ];
-    const newData1 = { images: imageUrls };
-    updateFormData(newData1);
   };
 
   const handle1Click = (item: { data: string; id: number }) => {

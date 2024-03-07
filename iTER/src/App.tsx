@@ -22,6 +22,7 @@ import EditProfile from './pages/mypage/EditProfile';
 import Setting from './pages/mypage/Setting';
 import PointPage from './pages/mypage/PointPage';
 import ReviewWrite from './pages/review/ReviewWrite';
+import ReviewRewrite from './pages/review/ReviewRewrite';
 
 function App() {
   return (
@@ -43,6 +44,10 @@ function App() {
       <Route
         path="/review/write"
         element={<PrivateRoute path="/review/write" element={<ReviewWrite />} />}
+      />
+      <Route
+        path="/review/rewrite/:id"
+        element={<PrivateRoute path="/review/rewrite/:id" element={<ReviewRewrite />} />}
       />
       <Route
         path="/user/delete"

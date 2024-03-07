@@ -4,7 +4,7 @@ import Xbtn from '../../assets/icon/Xbtn.svg?react';
 import Plus from '../../assets/icon/Plus.svg?react';
 import { Caption1 } from '../Font';
 import { useData } from '../../context/DataContext';
-
+import imageCompression from 'browser-image-compression';
 interface ImageUploadProps {
   onImageSelected: (image: File) => void;
 }
@@ -15,6 +15,21 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
   const { updateImageData } = useData();
   const { imageData } = useData();
 
+  const compressionImageChange = async (file: File) => {
+    console.log('변환전', file);
+    try {
+      const compressedFile = await imageCompression(file, {
+        maxWidthOrHeight: 800,
+        maxSizeMB: 2,
+        fileType: 'image/png',
+      });
+
+      return compressedFile;
+    } catch (error) {
+      console.error('이미지 압축 실패:', error);
+    }
+  };
+
   useEffect(() => {
     console.log('선택된 이미지파일들:', selectedImages);
   }, [selectedImages, updateImageData]);
@@ -22,7 +37,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
   const handleImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
-      setSelectedImages((prevImages) => [...prevImages, file]);
+      const compressionImg = await compressionImageChange(file);
+      setSelectedImages((prevImages) => [...prevImages, compressionImg] as File[]);
       onImageSelected(file);
       const newData = { files: [...selectedImages, file] };
       updateImageData(newData);

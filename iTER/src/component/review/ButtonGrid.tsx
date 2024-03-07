@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '../../../stitches.config';
 import { Caption1 } from '../Font';
 
 interface ButtonGridProps {
   items: { data: string; id: number }[];
   onButtonClick: (item: { data: string; id: number }) => void;
+  initialSelectedItem: string | null;
 }
 
 const GridContainer = styled('div', {
@@ -24,8 +25,17 @@ const Item = styled('div', {
   marginTop: '-3px',
 });
 
-const ButtonGrid: React.FC<ButtonGridProps> = ({ items, onButtonClick }) => {
+const ButtonGrid: React.FC<ButtonGridProps> = ({ items, onButtonClick, initialSelectedItem }) => {
   const [selectedItem, setSelectedItem] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (initialSelectedItem !== undefined) {
+      const initialIndex = items.findIndex((item) => item.data === initialSelectedItem);
+      if (initialIndex !== -1) {
+        setSelectedItem(items[initialIndex].id);
+      }
+    }
+  }, [initialSelectedItem, items]);
 
   const handleButtonClick = (item: { data: string; id: number }) => {
     setSelectedItem(item.id);

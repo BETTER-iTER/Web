@@ -49,6 +49,15 @@ const ReviewDetail = () => {
     mutation.mutate(id);
   };
 
+  const handleRewrite = () => {
+    const currentURL = window.location.href;
+
+    const match = currentURL.match(/\d+$/);
+    const extractedNumber = match ? parseInt(match[0]) : null;
+
+    navigate(`/review/rewrite/${extractedNumber}`);
+  };
+
   // 리뷰 상세 데이터 가져오기
   const {
     data: reviewDetailData,
@@ -86,6 +95,7 @@ const ReviewDetail = () => {
               <Caption2>{writerInfo.job}</Caption2>
             </Job>
           </Right>
+
           {!reviewDetail.mine && <ButtonFollow isFollow={reviewDetail.follow} id={writerInfo.id} />}
         </User>
         <DetailReview data={reviewDetail} />
@@ -117,6 +127,18 @@ const ReviewDetail = () => {
           btn={'삭제하기'}
           onClick={() => {
             handleDelete();
+          }}
+          onClosed={() => {
+            setSelect(0);
+          }}
+        />
+      )}
+      {select === 1 && !setting && (
+        <ModalSelect
+          text={'리뷰를 수정하시겠습니까?'}
+          btn={'수정하기'}
+          onClick={() => {
+            handleRewrite();
           }}
           onClosed={() => {
             setSelect(0);
