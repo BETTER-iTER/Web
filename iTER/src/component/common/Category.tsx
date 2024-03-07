@@ -42,7 +42,7 @@ const Category = ({
           src={imageUrl}
           alt={imageUrl}
           width={name === '기타' ? 27 : 50}
-          height={name === '기타' ? 5 : 50}
+          height={name === '기타' ? 5 : name === '키보드' ? 38 : 50}
         />
       </Image>
       <Name>{name}</Name>
