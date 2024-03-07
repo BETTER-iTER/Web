@@ -20,10 +20,10 @@ const Mypage = () => {
     data: scrapData,
     isLoading: scrapLoading,
     isError: scrapError,
-    fetchNextPage: fetchNextScrapPage,
+    fetchNextPage: scrapNextPage,
   } = useInfiniteQuery<MypageReviewProps, Error>(
-    ['scrap'],
-    ({ pageParam = 0 }) => getMyPageReviewScrap(pageParam),
+    ['scrap', { page }],
+    ({ pageParam = 0 }: { pageParam?: number }) => getMyPageReviewScrap(pageParam),
     {
       getNextPageParam: (lastPage) => (lastPage.pageInfo.hasNext ? page + 1 : undefined),
     }
@@ -33,10 +33,10 @@ const Mypage = () => {
     data: mineData,
     isLoading: mineLoading,
     isError: mineError,
-    fetchNextPage: fetchNextMinePage,
+    fetchNextPage: mineNextPage,
   } = useInfiniteQuery<MypageReviewProps, Error>(
-    ['mine'],
-    ({ pageParam = 0 }) => getMyPageReviewMine(pageParam),
+    ['mine', { page }],
+    ({ pageParam = 0 }: { pageParam?: number }) => getMyPageReviewMine(pageParam),
     {
       getNextPageParam: (lastPage) => (lastPage.pageInfo.hasNext ? page + 1 : undefined),
     }
@@ -50,8 +50,12 @@ const Mypage = () => {
       const { scrollHeight, scrollTop, clientHeight } = currentTarget;
       // 스크롤이 리스크의 끝에 도달했을 때
       if (scrollHeight - scrollTop === clientHeight) {
-        fetchNextMinePage();
-        fetchNextScrapPage();
+        console.log('scroll');
+        if (status === 0) {
+          mineNextPage(); // 내가 쓴 리뷰의 다음 페이지 가져오기
+        } else if (status === 1) {
+          scrapNextPage(); // 스크랩한 리뷰의 다음 페이지 가져오기
+        }
       }
     }
   };
@@ -83,7 +87,7 @@ const Mypage = () => {
           스크랩한 리뷰({scrapData !== undefined && scrapData?.pages[0].pageInfo.totalCount})
         </Status>
       </StatusBox>
-      <Content>
+      <Content onScroll={handleScroll}>
         {/* 내가 쓴 리뷰 */}
         {status == 0 &&
           (mineData !== undefined && mineData?.pages[0].pageInfo.totalCount > 0 ? (
