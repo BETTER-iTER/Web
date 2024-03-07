@@ -188,7 +188,9 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
         </Actives>
         {/* 리뷰 내용 */}
         <Title>{data.productName}</Title>
-        <Caption1 style={{ color: '#57606A' }}>{data.reviewSpecData.join(' / ')}</Caption1>
+        <Caption1 style={{ color: '#57606A' }}>
+          {data.reviewSpecData.map((item) => item.data).join(' / ')}
+        </Caption1>
         <Caption2 style={{ color: '#57606A', marginTop: '8px' }}>
           조회수 {data.shownCount}회
         </Caption2>
