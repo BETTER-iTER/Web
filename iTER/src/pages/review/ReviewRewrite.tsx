@@ -319,9 +319,6 @@ const ReviewRewrite = () => {
     };
 
     try {
-      const currentURL = window.location.href;
-      const match = currentURL.match(/\d+$/);
-      const extractedNumber = match ? parseInt(match[0]) : null;
       const token = localStorage.getItem('accessToken');
 
       const response = await axios.put(
@@ -336,7 +333,7 @@ const ReviewRewrite = () => {
       );
 
       console.log(response.data.result);
-      navigate(`/review/${extractedNumber}`);
+      navigate(`/search/review/${extractedNumber}`);
     } catch (error) {
       console.log(error);
     }
