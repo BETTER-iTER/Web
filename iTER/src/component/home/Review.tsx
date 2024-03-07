@@ -28,7 +28,7 @@ const Item = ({ list }: { list: ReviewPreviewProps }) => {
           <UserIcon width={20} height={20} style={{ marginRight: 4 }} />
         ) : (
           <Profile>
-            <img src={list.profileImageUrl} alt={list.nickname} />
+            <img src={list.profileImageUrl} alt={list.nickname} width={20} height={20} />
           </Profile>
         )}
 
