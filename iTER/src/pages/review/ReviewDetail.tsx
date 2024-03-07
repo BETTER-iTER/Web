@@ -95,7 +95,7 @@ const ReviewDetail = () => {
               <Caption2>{writerInfo.job}</Caption2>
             </Job>
           </Right>
-          {reviewDetail.mine ? <Rewrite onClick={handleRewrite}>리뷰 수정</Rewrite> : null}
+
           {!reviewDetail.mine && <ButtonFollow isFollow={reviewDetail.follow} id={writerInfo.id} />}
         </User>
         <DetailReview data={reviewDetail} />
@@ -127,6 +127,18 @@ const ReviewDetail = () => {
           btn={'삭제하기'}
           onClick={() => {
             handleDelete();
+          }}
+          onClosed={() => {
+            setSelect(0);
+          }}
+        />
+      )}
+      {select === 1 && !setting && (
+        <ModalSelect
+          text={'리뷰를 수정하시겠습니까?'}
+          btn={'수정하기'}
+          onClick={() => {
+            handleRewrite();
           }}
           onClosed={() => {
             setSelect(0);
@@ -190,5 +202,3 @@ const Report = styled('div', {
   color: '#AFB8C1',
   bodyText: 2,
 });
-
-const Rewrite = styled('div', {});
