@@ -106,7 +106,7 @@ export const ProfileFlatUser = ({
         >
           <ExpertBox>{isExpertise && <ExpertIcon />}</ExpertBox>
           {profileImage != null ? (
-            <UserImage style={{ backgroundImage: `url(${profileImage})` }} />
+            <img src={profileImage} width={70} height={70} />
           ) : (
             <UserIcon width={70} height={70} />
           )}
@@ -148,10 +148,12 @@ const UserBox = styled('div', {
 const ImageBox = styled('div', {
   display: 'flex',
   alignItems: 'center',
-  width: '75px',
-  height: '75px',
+  width: '70px',
+  height: '70px',
   position: 'relative',
   cursor: 'pointer',
+  borderRadius: '50%',
+  overflow: 'hidden',
 });
 
 const ExpertBox = styled('div', {
