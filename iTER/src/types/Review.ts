@@ -12,6 +12,8 @@ export interface ReviewPreviewProps {
 }
 
 export interface ReviewProps {
+  scrap: boolean | undefined;
+  like: boolean | undefined;
   id: number;
   reviewImage: string;
   productName: string;

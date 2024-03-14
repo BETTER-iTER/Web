@@ -147,3 +147,59 @@ export const getCategoryReviewList = async ({
     throw error;
   }
 };
+
+export const likeReview = async (id: number) => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    const response = await axios.post(`https://dev.betteritem.store/review/${id}/like`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const dislikeReview = async (id: number) => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    const response = await axios.delete(`https://dev.betteritem.store/review/${id}/like`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const scrapReview = async (id: number) => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    const response = await axios.post(`https://dev.betteritem.store/review/${id}/scrap`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteScrap = async (id: number) => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    const response = await axios.delete(`https://dev.betteritem.store/review/${id}/scrap`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
