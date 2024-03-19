@@ -170,7 +170,7 @@ const Item = ({
       <ImageBox>
         <ExpertBox>{expert && <ExpertIcon width="10px" height="10px" />}</ExpertBox>
         {image ? (
-          <Image style={{ backgroundImage: `url(${image})` }} />
+          <img src={image} alt="" width={45} height={45} />
         ) : (
           <UserIcon width="45px" height="45px" />
         )}
@@ -196,6 +196,10 @@ const StatusBox = styled('div', {
 
 const ImageBox = styled('div', {
   position: 'relative',
+  width: '45px',
+  height: '45px',
+  borderRadius: '50%',
+  overflow: 'hidden',
 });
 
 const ExpertBox = styled('div', {

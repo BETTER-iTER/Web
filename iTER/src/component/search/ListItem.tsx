@@ -3,77 +3,18 @@ import { ButtonEmpty } from '../common/Button';
 import { Caption2 } from '../Font';
 import Star from '../../assets/icon/star/Star.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import ProfileSimple from '../user/ProfileSimple';
 import { CategoryReviewProps } from '../../types/Review';
-import axios from 'axios';
+import { dislikeReview, likeReview, scrapReview, deleteScrap } from '../../apis/Review';
 
 const ListItem = ({ item }: { item: CategoryReviewProps['reviews'][0] }) => {
   const navigate = useNavigate();
-  const [active, setActive] = useState<boolean>(false);
-  const [activeScrap, setActiveScrap] = useState<boolean>(false);
 
   const shortReviewList = item.shortReview.split(',');
 
   const spec = item.reviewSpecData.map((review: string, index: number) => {
     return index == item.reviewSpecData.length - 1 ? review : review + ' / ';
   });
-
-  const likeReview = async () => {
-    try {
-      const token = localStorage.getItem('accessToken');
-      const response = await axios.post(`https://dev.betteritem.store/review/${item.id}/like`, {
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const dislikeReview = async () => {
-    try {
-      const token = localStorage.getItem('accessToken');
-      const response = await axios.delete(`https://dev.betteritem.store/review/${item.id}/like`, {
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const scrapReview = async () => {
-    try {
-      const token = localStorage.getItem('accessToken');
-      const response = await axios.post(`https://dev.betteritem.store/review/${item.id}/scrap`, {
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const deleteScrap = async () => {
-    try {
-      const token = localStorage.getItem('accessToken');
-      const response = await axios.delete(`https://dev.betteritem.store/review/${item.id}/scrap`, {
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <Container>
@@ -113,28 +54,30 @@ const ListItem = ({ item }: { item: CategoryReviewProps['reviews'][0] }) => {
       <Buttons>
         <ButtonEmpty
           onClick={() => {
-            setActive(!active);
-            if (active) {
-              dislikeReview();
+            if (item.like) {
+              dislikeReview(item.id);
+              window.location.reload();
             } else {
-              likeReview();
+              likeReview(item.id);
+              window.location.reload();
             }
           }}
-          active={active}
+          active={item.like}
           type="like"
         >
           리뷰 좋아요 ({item.likedCount})
         </ButtonEmpty>
         <ButtonEmpty
           onClick={() => {
-            setActiveScrap(!activeScrap);
-            if (activeScrap) {
-              deleteScrap();
+            if (item.scrap) {
+              deleteScrap(item.id);
+              window.location.reload();
             } else {
-              scrapReview();
+              scrapReview(item.id);
+              window.location.reload();
             }
           }}
-          active={activeScrap}
+          active={item.scrap}
           type="scrap"
         >
           리뷰 스크랩 ({item.scrapedCount})
