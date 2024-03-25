@@ -91,10 +91,6 @@ const Result = () => {
       }
     }
   };
-  console.log(categoryData, 'categoryData');
-  console.log(Data, 'Data');
-  console.log(listData, 'listData');
-
   // 카테고리 필터링
   const handleCategoryChange = (value: string) => {
     const currentParams = Object.fromEntries(searchParams.entries());

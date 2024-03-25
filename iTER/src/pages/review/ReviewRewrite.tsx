@@ -21,6 +21,7 @@ import Top from '../../component/layout/Top';
 import Button from '../../component/common/Button';
 import imageCompression from 'browser-image-compression';
 import { useNavigate } from 'react-router-dom';
+import ErrorPage from '../../component/common/Error';
 
 const ReviewRewrite = () => {
   const navigate = useNavigate();
@@ -111,9 +112,6 @@ const ReviewRewrite = () => {
   const handleChangePrice = (event: string) => {
     const priceAsInt: number = parseInt(event, 10); // 10진수로 변환
     setPrice(priceAsInt);
-    // localStorage.setItem('price', event);
-    // const newData = { price: priceAsInt };
-    // updateFormData(newData);
   };
 
   const openPopup = () => {
@@ -148,7 +146,7 @@ const ReviewRewrite = () => {
       try {
         handleImage(file);
       } catch (error) {
-        console.error('Error handling image:', error);
+        return <ErrorPage type={2} />;
       }
     }
   };
@@ -167,35 +165,23 @@ const ReviewRewrite = () => {
 
   const handle1Click = (item: { data: string; id: number }) => {
     shortReviewre[0] = item.data;
-    // updateFormData(newData2);
-    // console.log(newData2);
   };
 
   const handle2Click = (item: { data: string; id: number }) => {
     shortReviewre[1] = item.data;
-    // updateFormData(newData3);
-    // console.log(newData3);
   };
 
   const handle3Click = (item: { data: string; id: number }) => {
     shortReviewre[2] = item.data;
-    // updateFormData(newData4);
-    // console.log(newData4);
-    console.log(shortReview);
   };
 
   const handleStarClick = (star: number) => {
     const starPointAsDouble: number = parseFloat((star - 0.5).toFixed(1));
     setRating(starPointAsDouble);
-    console.log(starPointAsDouble);
-    // const newData = { starPoint: starPointAsDouble };
-    // updateFormData(newData);
   };
 
   const handleRadioChange = (selectedValue: number | null) => {
     setSelectedRadioOption(selectedValue);
-    // 여기에서 다른 작업 수행 가능
-    console.log(selectedRadioOption);
   };
 
   const reviewData = async () => {
@@ -243,21 +229,6 @@ const ReviewRewrite = () => {
   //   };
 
   //파일 압축 함수
-  //사용시 에러가 생겨서 사용 안함
-  const compressionImageChange = async (file: File) => {
-    console.log('변환전', file);
-    try {
-      const compressedFile = await imageCompression(file, {
-        maxWidthOrHeight: 800,
-        maxSizeMB: 5,
-        fileType: 'image/png',
-      });
-
-      return compressedFile;
-    } catch (error) {
-      console.error('이미지 압축 실패:', error);
-    }
-  };
 
   //이미지 url 변환함수
   const handleImage = async (imageFile: File) => {
@@ -267,9 +238,6 @@ const ReviewRewrite = () => {
       const extractedNumber = match ? parseInt(match[0]) : null;
       const token = localStorage.getItem('accessToken');
       const formData = new FormData();
-      //  const compressionImage = await compressionImageChange(imageFile);
-      //  console.log('변환후', compressionImage);
-      //  if (compressionImage) {
       formData.append('file', imageFile);
 
       const response = await axios.post(
@@ -285,10 +253,6 @@ const ReviewRewrite = () => {
 
       console.log(response.data.result);
       setImage((prev) => [...prev, response.data.result]);
-      //  } else {
-      //    console.error('이미지 압축 실패 또는 압축된 이미지가 없습니다.');
-      //     return;
-      //  }
     } catch (error) {
       console.log(error);
     }

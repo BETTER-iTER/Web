@@ -11,8 +11,6 @@ export const LikeSort = ({ onClose }: { onClose: () => void }) => {
     // 서버에서 좋아요 누른 유저 정보 가져오기
     fetchCommentDataFromServer().then((data) => {
       setLikeArray(data.result);
-
-      //여기서 정보 오는거 로직처리 갈기면됌
     });
   }, []);
 
@@ -37,7 +35,6 @@ export const LikeSort = ({ onClose }: { onClose: () => void }) => {
       return { comments: [], commentCount: 0 };
     }
   };
-  console.log(likeArray);
   return (
     <Bottom
       title="좋아요"
@@ -76,9 +73,6 @@ export const LikeSort = ({ onClose }: { onClose: () => void }) => {
     />
   );
 };
-
-// 좋아요 정보로 넘어오는 정보들
-// 좋아요 누른 유저 아이디: {like.userId}
 
 const Likelay = styled('div', {
   display: 'flex',

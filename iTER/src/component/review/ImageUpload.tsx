@@ -16,7 +16,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
   const { imageData } = useData();
 
   const compressionImageChange = async (file: File) => {
-    console.log('변환전', file);
     try {
       const compressedFile = await imageCompression(file, {
         maxWidthOrHeight: 800,
@@ -30,9 +29,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
     }
   };
 
-  useEffect(() => {
-    console.log('선택된 이미지파일들:', selectedImages);
-  }, [selectedImages, updateImageData]);
+  useEffect(() => {}, [selectedImages, updateImageData]);
 
   const handleImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
@@ -43,7 +40,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelected }) => {
       const newData = { files: [...selectedImages, file] };
       updateImageData(newData);
     }
-    console.log(imageData);
   };
 
   const handleImagePreviewClick = () => {

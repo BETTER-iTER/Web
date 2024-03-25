@@ -27,7 +27,6 @@ export const CommentSort = () => {
   const handleOpenModal = (commentId: number) => {
     setSelectedCommentId(commentId);
     setIsModalOpen(true);
-    console.log('삭제모달');
     setBottom(false);
   };
 
@@ -125,7 +124,6 @@ export const CommentSort = () => {
             text="댓글을 삭제하시겠습니까?"
             btn="삭제하기"
             onClick={() => {
-              console.log('버튼 누름');
               commentDelete();
               setToast(true);
             }}
@@ -211,21 +209,6 @@ export const CommentSort = () => {
     </>
   );
 };
-{
-  /* 댓글 정보로 넘어오는 것들 */
-}
-{
-  /* <p>댓글 아이디: {comment.id}</p>
-                <p>댓글: {comment.comment}</p>
-                <p>작성 일자: {comment.createdAt}</p>
-                <p>내 댓글 여부: {comment.mine}</p>
-                <p>댓글 아이디: {comment.id}</p>
-                <p>사용자 정보</p>
-                <p>사용자 id: {comment.reviewCommentUserInfo.userId}</p>
-                <p>사용자 직업: {comment.reviewCommentUserInfo.job}</p>
-                <p>사용자 닉네임: {comment.reviewCommentUserInfo.nickname}</p>
-                <p>사용자 사진: {comment.reviewCommentUserInfo.profileImage}</p> */
-}
 
 const ModalLay = styled('div', {
   zIndex: '99',
@@ -311,10 +294,6 @@ const CommentText = styled('div', {
   color: '#24292F',
   marginTop: '2px',
 });
-
-// const ReComment = styled('div', {
-//   color: '$Gray20',
-// });
 
 const Datelay = styled('div', {
   color: '#C1C4CC',

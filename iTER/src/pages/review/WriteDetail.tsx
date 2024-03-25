@@ -1,6 +1,6 @@
 import { InputComponentReiview } from '../../component/common/Input';
 import { styled } from '../../../stitches.config';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { RadioInput } from '../../component/common/RadioInput';
 import { ButtonSelect } from '../../component/common/Button';
 import ReviewSort from '../../component/review/ReviewSort';
@@ -66,7 +66,6 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
 
   const handleProductNameChange = (event: string) => {
     setProductName(event);
-    // localStorage.setItem('productName', event);
     const newData = { productName: event };
     updateFormData(newData);
   };
@@ -74,14 +73,12 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
   const handleChangePrice = (event: string) => {
     const priceAsInt: number = parseInt(event, 10); // 10진수로 변환
     setPrice(priceAsInt);
-    // localStorage.setItem('price', event);
     const newData = { price: priceAsInt };
     updateFormData(newData);
   };
 
   const handleCompareProductValue = (event: string) => {
     setCompareProduct(event);
-    // localStorage.setItem('compareProduct', event);
     //비교제품 입력받기
     const newData = { comparedProductName: event };
     updateFormData(newData);

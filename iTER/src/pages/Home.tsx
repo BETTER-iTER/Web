@@ -26,8 +26,6 @@ const Home = () => {
   if (homeLoading) return <LoadingPage />;
   if (homeError) return <ErrorPage type={2} />;
 
-  console.log('homeData', homeData.interestedCategoryReviews);
-
   return (
     <Container>
       <Top />
@@ -83,8 +81,6 @@ const Home = () => {
       <Label>리뷰보고 구매했어요</Label>
       <Review list={homeData?.mostScrapedAndLikedReviews} />
 
-      {/* <Label>🪙 IT 퀴즈풀고 포인트 받기</Label>
-      <Quiz id={1} question={'CPU는 중앙처리장치이다'} /> */}
       <div style={{ height: 100 }} />
 
       <Footer />
@@ -98,12 +94,7 @@ export default Home;
 const CategoryScroll = ({ list }: { list: HomeProps['categories'] }) => {
   const navigate = useNavigate();
 
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
-
-  console.log(selectedCategory, 'selectedCategory');
-
   const handleCategoryClick = (name: string) => {
-    setSelectedCategory(name);
     navigate(`/search?categoryList=${name}`);
   };
 

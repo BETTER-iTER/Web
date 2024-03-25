@@ -18,7 +18,6 @@ const Interest = () => {
 
   const mutation = useMutation(putEditCategory, {
     onSuccess: () => {
-      console.log('success');
       setToast(true);
     },
     onError: () => {
@@ -45,7 +44,6 @@ const Interest = () => {
   if (isLoading) return <LoadingPage />;
   if (isError) return <ErrorPage type={2} />;
 
-  console.log('selected', selected);
   return (
     <div>
       <Top title="관심 카테고리 설정" />

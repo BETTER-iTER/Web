@@ -34,7 +34,6 @@ const EditProfile = () => {
 
   const mutation = useMutation(putEditProfile, {
     onSuccess: () => {
-      console.log('success');
       setToast(true);
       location.href = '/user/setting';
     },

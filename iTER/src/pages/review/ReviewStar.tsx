@@ -10,6 +10,7 @@ import CheckCircle from '../../assets/icon/CheckCircle.svg?react';
 import { getUserInfo } from '../../apis/Review';
 import { useData } from '../../context/DataContext';
 import ExpertIcon from '../../assets/icon/Expert.svg?react';
+import ErrorPage from '../../component/common/Error';
 
 const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) => {
   useEffect(() => {
@@ -22,7 +23,7 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
         setUserImageUrl(userData.profileImage);
         setExpert(userData.expert);
       } catch (error) {
-        console.log(error);
+        return <ErrorPage type={2} />;
       }
     };
     handleUserInfo();
@@ -32,11 +33,9 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
   const [userJob, setUserJob] = useState<string>('');
   const [userImageUrl, setUserImageUrl] = useState<string>('');
   const [expert, setExpert] = useState<boolean>(false);
-  const [shortReview, setShortReview] = useState<string[]>([]);
-  // const shortReview: string[] = [];
+  const [shortReview] = useState<string[]>([]);
   const { updateFormData } = useData();
 
-  const { formData } = useData();
   const items1 = [
     { data: '가벼워요', id: 0 },
     { data: '적당해요', id: 1 },
@@ -60,7 +59,6 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
   const [selectedImage, setSelectedImage] = useState<File | null>(null); //이건 선택한 이미지
 
   const handleImageSelected = (image: File) => {
-    console.log('Selected image:', image);
     setSelectedImage(image);
   };
 
@@ -76,21 +74,18 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
     shortReview[0] = item.data;
     const newData2 = { shortReview: String(shortReview) };
     updateFormData(newData2);
-    console.log(newData2);
   };
 
   const handle2Click = (item: { data: string; id: number }) => {
     shortReview[1] = item.data;
     const newData3 = { shortReview: String(shortReview) };
     updateFormData(newData3);
-    console.log(newData3);
   };
 
   const handle3Click = (item: { data: string; id: number }) => {
     shortReview[2] = item.data;
     const newData4 = { shortReview: String(shortReview) };
     updateFormData(newData4);
-    console.log(newData4);
   };
 
   onDisabled(!(!check || rating === 0 || shortReview.length < 3 || !selectedImage));

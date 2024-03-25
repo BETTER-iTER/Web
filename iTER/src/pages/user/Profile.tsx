@@ -10,7 +10,6 @@ import ErrorPage from '../../component/common/Error';
 const Profile = () => {
   const location = window.location.href;
   const userId = parseInt(location.split('/')[5]);
-  console.log('userId', userId);
   const page = 0;
   const { data, isLoading, isError } = useInfiniteQuery(
     ['profile'],
@@ -20,7 +19,6 @@ const Profile = () => {
     }
   );
 
-  console.log('?', data, isLoading, isError);
   const userInfo = data?.pages[0].userProfile;
   return (
     <Container>

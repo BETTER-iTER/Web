@@ -14,7 +14,6 @@ const DateSort = ({
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
 
-  console.log(selectedDate);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {

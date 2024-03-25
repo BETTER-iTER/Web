@@ -34,13 +34,11 @@ const ReviewDetail = () => {
 
   // 리뷰 삭제
   const mutation = useMutation(deleteReview, {
-    onSuccess: (data) => {
-      console.log('data', data);
+    onSuccess: () => {
       setToast(true);
       navigate('/mypage');
     },
-    onError: (error) => {
-      console.log('error', error);
+    onError: () => {
       return <ErrorPage type={2} />;
     },
   });

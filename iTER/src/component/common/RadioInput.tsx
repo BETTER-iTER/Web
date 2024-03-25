@@ -19,12 +19,9 @@ export const RadioInput: React.FC<RadioInputProps> = ({ options, label, onChange
     setSelectedOption(event.target.value);
     const selectedOptionIndex = options.indexOf(event.target.value);
     const newData = { storeName: selectedOptionIndex };
-    console.log('storeName', selectedOptionIndex, selectedOption, event.target.value);
 
     updateFormData(newData);
     onChange && onChange(event.target.value);
-    console.log(onChange);
-    //localStorage.setItem("radioValue", event.target.value);
   };
 
   return (
@@ -74,11 +71,7 @@ export const RadioInputRe: React.FC<RadioInputProps> = ({
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(event.target.value);
     const selectedOptionIndex = options.indexOf(event.target.value);
-    // const newData = { storeName: selectedOptionIndex };
-    // updateFormData(newData);
     onOptionChange(selectedOptionIndex);
-
-    //localStorage.setItem("radioValue", event.target.value);
   };
 
   return (

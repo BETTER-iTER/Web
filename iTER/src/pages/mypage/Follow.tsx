@@ -244,13 +244,6 @@ const Content = styled('div', {
   },
 });
 
-const Image = styled('div', {
-  width: '45px',
-  height: '45px',
-  borderRadius: '50%',
-  backgroundColor: '$Gray20',
-});
-
 const ItemBox = styled('div', {
   height: '45px',
   width: '340px',

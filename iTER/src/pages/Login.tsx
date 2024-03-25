@@ -43,7 +43,6 @@ const Login = () => {
       //각각의 헤더에 저장
       axios.defaults.headers.common['Authorization'] = `${accessToken}`;
       axios.defaults.headers.common['Authorization-refresh'] = `${refreshToken}`;
-      console.log('Headers:', axios.defaults.headers.common);
 
       navigate('/');
     } catch (error: any) {
@@ -51,21 +50,15 @@ const Login = () => {
       const errorData = error.response.data.code;
       const errorMessage = error.response.data.message;
 
-      console.log('로그인 에러', errorData);
       if (errorData == 'USER_NOT_FOUND_400') {
-        console.log(errorData);
         setErrorMessage(errorMessage);
       } else if (errorData == 'AUTH_PASSWORD_NOT_MATCH_401') {
-        console.log(errorData);
         setErrorMessage(errorMessage);
       } else if (errorData == 'METHOD_ARGUMENT_ERROR') {
-        console.log(errorData);
         setErrorMessage('이메일 또는 비밀번호가 올바른 형식이 아닙니다.');
       } else if (errorData == 'AUTH_SHOULD_BE_KAKAO_401') {
-        console.log(errorData);
         setErrorMessage('카카오로 로그인한 이메일입니다');
       } else {
-        console.log(errorData);
       }
     }
   };
@@ -127,7 +120,7 @@ const Login = () => {
             회원가입
           </Join>
           <Line> | </Line>
-          <Find onClick={() => console.log('비밀번호 찾기로 이동')}>비밀번호 찾기</Find>
+          <Find onClick={() => (window.location.href = '/password/reset')}>비밀번호 찾기</Find>
         </Footer>
       </Body>
     </>

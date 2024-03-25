@@ -86,7 +86,6 @@ const FindPassword = () => {
 
   //다음 버튼 수행 함수
   const handleNext = () => {
-    console.log('다음 버튼');
     navigate('/password/reset');
   };
 

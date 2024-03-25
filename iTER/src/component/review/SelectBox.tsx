@@ -5,6 +5,7 @@ import { styled } from '../../../stitches.config';
 import { useEffect } from 'react';
 import { getSpecData } from '../../apis/Review';
 import { useData } from '../../context/DataContext';
+import ErrorPage from '../common/Error';
 
 interface SelectBoxCPUProps {
   onCPUClick: (item: string, id: number) => void;
@@ -73,8 +74,6 @@ export const SelectBoxCPU: React.FC<SelectBoxCPUProps> = ({
     }
     setSpecNum(updatedSpecNum);
     updateFormData({ specData: updatedSpecNum });
-    // console.log(specNum);
-    // console.log(formData);
   };
 
   return (
@@ -110,8 +109,6 @@ export const SelectBoxCPURe: React.FC<SelectBoxCPUProps> = ({
 }) => {
   const [specDataList, setSpecDataList] = useState<SpecDataProps[]>([]);
 
-  // const { updateFormData } = useData();
-  // const { formData } = useData();
   const [specNum, setSpecNum] = useState<number[]>([]);
   useEffect(() => {
     const handleCategory = async () => {
@@ -119,18 +116,15 @@ export const SelectBoxCPURe: React.FC<SelectBoxCPUProps> = ({
         const selectCate = localStorage.getItem('reviewReCate');
         const responseData = await getSpecData(String(selectCate));
         const specDataList = responseData.data.result.specs;
-        //console.log(specDataList);
         setSpecDataList(specDataList);
       } catch (error) {
-        console.log(error);
+        <ErrorPage type={2} />;
       }
     };
     handleCategory();
   }, []);
 
   const handleSpecClick = (item: string, id: number, index: number) => {
-    //console.log(`클릭한 버튼: ${item}`);
-    //console.log(`클릭한 버튼의 id: ${id}`);
     const updatedSpecNum = [...specNum];
     updatedSpecNum[index] = id;
     switch (index) {
@@ -152,8 +146,6 @@ export const SelectBoxCPURe: React.FC<SelectBoxCPUProps> = ({
     }
     setSpecNum(updatedSpecNum);
     localStorage.setItem('specNum', JSON.stringify(updatedSpecNum));
-    // console.log(specNum);
-    // console.log(formData);
   };
 
   return (

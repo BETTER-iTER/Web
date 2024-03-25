@@ -103,7 +103,6 @@ export const ButtonPoint: FC<ButtonProps> = ({ onClick, children }) => {
 
 //선택 버튼
 export const ButtonSelect: FC<ButtonProps> = ({ onClick, children, disabled }) => {
-  //console.log(children, '?');
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (!disabled && onClick) {
       onClick(event);
@@ -155,15 +154,12 @@ export const ButtonComment: FC<ButtonProps> = ({ onClick, children, disabled }) 
 
 export const ButtonFollow: FC<ButtonProps> = ({ isFollow, id }) => {
   const targetId = id ? id : 0;
-  console.log('isFollow', isFollow);
   // 팔로우
   const mutationFollow = useMutation(postFollow, {
     onSuccess: () => {
-      console.log('팔로우 성공');
       window.location.reload();
     },
-    onError: (error) => {
-      console.log('error', error);
+    onError: () => {
       return <ErrorPage type={2} />;
     },
   });
@@ -171,11 +167,9 @@ export const ButtonFollow: FC<ButtonProps> = ({ isFollow, id }) => {
   // 언팔로우
   const mutationUnfollow = useMutation(deleteUnfollow, {
     onSuccess: () => {
-      console.log('언팔로우 성공');
       window.location.reload();
     },
-    onError: (error) => {
-      console.log('error', error);
+    onError: () => {
       return <ErrorPage type={2} />;
     },
   });

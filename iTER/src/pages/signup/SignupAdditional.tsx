@@ -52,12 +52,11 @@ const SignupAdditional = () => {
   };
 
   const mutation = useMutation(postJoin, {
-    onSuccess: (data) => {
-      console.log('data', data);
+    onSuccess: () => {
       navigation('/signup/complete', { state: userInfo });
     },
-    onError: (error) => {
-      console.log('error', error);
+    onError: () => {
+      return <ErrorPage type={2} />;
     },
   });
 

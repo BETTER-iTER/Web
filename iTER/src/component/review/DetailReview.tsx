@@ -18,11 +18,11 @@ import { ReviewDetailProps } from '../../types/Review';
 import StarRatingShow from '../../component/review/StarRatingShow';
 import { Store } from '../../constants/Store';
 import Toast from '../common/Toast';
+import ErrorPage from '../common/Error';
 
 const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
   const { data } = props;
 
-  console.log('data', data);
   const short = data.shortReview.replace(/['"]/g, '').split(',');
   const [setting, setSetting] = useState<boolean>(false);
   const [toast, setToast] = useState<boolean>(false);
@@ -50,20 +50,16 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
   const handleLike = async () => {
     if (!data.like) {
       await likeReview(data.reviewId);
-      console.log('좋아요 누름');
     } else {
       await dislikeReview(data.reviewId);
-      console.log('좋아요 취소');
     }
     window.location.reload();
   };
 
   const handleScrap = async () => {
     if (!data.scrap) {
-      console.log('스크랩 누름');
       await scrapReview(data.reviewId);
     } else {
-      console.log('스크랩 취소');
       await deleteScrap(data.reviewId);
     }
     window.location.reload();
@@ -76,7 +72,7 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
       await navigator.clipboard.writeText(location.href);
       setToast(true);
     } catch (err) {
-      console.log(err);
+      <ErrorPage type={2} />;
     }
   };
 

@@ -42,15 +42,12 @@ const Mypage = () => {
     }
   );
 
-  console.log('scrapData', scrapData);
-  console.log('mineData', mineData);
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const { currentTarget } = e;
     if (currentTarget instanceof HTMLDivElement) {
       const { scrollHeight, scrollTop, clientHeight } = currentTarget;
       // 스크롤이 리스크의 끝에 도달했을 때
       if (scrollHeight - scrollTop === clientHeight) {
-        console.log('scroll');
         if (status === 0) {
           mineNextPage(); // 내가 쓴 리뷰의 다음 페이지 가져오기
         } else if (status === 1) {
@@ -63,8 +60,6 @@ const Mypage = () => {
   scrapLoading && mineLoading && <LoadingPage />;
   scrapError && mineError && <ErrorPage type={2} />;
 
-  console.log('mineData', mineData);
-  console.log('scrapData', scrapData);
   return (
     <Container>
       <Top title="마이페이지" />
@@ -181,10 +176,3 @@ const Bottom = styled('div', {
   display: 'flex',
   justifyContent: 'center',
 });
-
-// const DetailReviews = styled('div', {
-//   display: 'flex',
-//   flexDirection: 'column',
-//   width: '100%',
-//   alignItems: 'center',
-// });

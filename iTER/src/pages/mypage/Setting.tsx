@@ -12,7 +12,6 @@ import { postLogout } from '../../apis/login';
 const Setting = () => {
   const navigate = useNavigate();
   const [logout, setLogout] = useState<boolean>(false);
-  const id = '1';
   const Link = [
     { title: '내 포인트', link: '/user/point' },
     { title: '프로필', link: `/user/profile/edit` },
@@ -27,8 +26,7 @@ const Setting = () => {
       axios.defaults.headers.common['Authorization'] = '';
       navigate('/onboarding');
     },
-    onError: (error) => {
-      console.log('error', error);
+    onError: () => {
       return <ErrorPage type={2} />;
     },
   });
@@ -55,7 +53,6 @@ const Setting = () => {
           <Item onClick={() => navigate(`/user/delete`)}>회원탈퇴</Item>
         </Items>
         <Ask href="mailto:better.iter@gmail.com">1:1 문의하기</Ask>
-        {/* <Item onClick={() => navigate(`/user/inquiry`)}>1:1 문의하기</Item> */}
       </Content>
 
       {logout && (

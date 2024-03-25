@@ -81,7 +81,6 @@ const SignUp = () => {
   const coedMutation = useMutation(postEmailVerify, {
     onSuccess: (data) => {
       if (data?.code === 'SUCCESS_200') {
-        console.log('인증성공');
         setCodeCheck(true);
         setAuthWarning('');
       } else if (data?.response?.data?.code === 'AUTH_CODE_NOT_MATCH_401') {
@@ -103,7 +102,6 @@ const SignUp = () => {
 
   const handleAuthButton = () => {
     setCodeDisabled(true);
-    console.log(authNum, 'Auth click');
     const data = {
       email: email,
       code: authNum,

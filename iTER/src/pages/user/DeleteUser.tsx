@@ -8,6 +8,7 @@ import { ModalSelect } from '../../component/common/Modal';
 import { deleteUser } from '../../apis/login';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
+import ErrorPage from '../../component/common/Error';
 
 type SelectedOptions = {
   [key: string]: boolean;
@@ -15,7 +16,6 @@ type SelectedOptions = {
 
 const DeleteUser = () => {
   const navigate = useNavigate();
-  // const [check, setCheck] = useState<boolean>(false);
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({});
   const [reason, setReason] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,8 +25,8 @@ const DeleteUser = () => {
       localStorage.removeItem('refreshToken');
       navigate('/onboarding');
     },
-    onError: (error) => {
-      console.log('error', error);
+    onError: () => {
+      return <ErrorPage type={2} />;
     },
   });
 
@@ -42,7 +42,6 @@ const DeleteUser = () => {
       const selectedNumbersString = selectedNumbers.join(',');
 
       // 여기서 선택된 값 출력 또는 다른 작업 수행
-      console.log(selectedNumbersString);
       setReason(selectedNumbersString);
       return updatedSelectedOptions;
     });

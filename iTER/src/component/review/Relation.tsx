@@ -8,7 +8,6 @@ import Expert from '../../assets/icon/Expert.svg?react';
 const Relation = (props: { list?: ReviewPreviewProps[] }) => {
   const { list } = props;
   if (!list || !Array.isArray(list) || list.length === 0) {
-    console.error('잘못된 또는 누락된 목록:', list);
     return (
       <Container>
         <LabelText>연관 제품 리뷰</LabelText>

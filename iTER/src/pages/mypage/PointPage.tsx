@@ -4,7 +4,7 @@ import { styled } from '../../../stitches.config';
 import PointLay from '../../component/user/Point';
 import { ButtonPoint } from '../../component/common/Button';
 import { ModalMyPoint } from '../../component/common/Modal';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const PointPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,7 +15,6 @@ const PointPage = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    console.log('탈퇴처리');
   };
 
   const closeModalNo = () => {

@@ -5,7 +5,6 @@ export const postFollow = async (targetId: number) => {
     targetId: targetId,
   };
   const accessToken = localStorage.getItem('accessToken');
-  console.log('팔로우');
   try {
     const response = await api.post(`/follow/following`, requestBody, {
       headers: {
@@ -14,7 +13,6 @@ export const postFollow = async (targetId: number) => {
     });
     return response.data.result;
   } catch (error) {
-    console.log('팔로우 오류', error);
     throw error;
   }
 };
@@ -24,7 +22,6 @@ export const deleteUnfollow = async (targetId: number) => {
     targetId: targetId,
   };
   const accessToken = localStorage.getItem('accessToken');
-  console.log('언팔로우');
   try {
     const response = await api.delete(`/follow/unfollowing`, {
       data: requestBody,
@@ -35,14 +32,12 @@ export const deleteUnfollow = async (targetId: number) => {
 
     return response.data.result;
   } catch (error) {
-    console.log('언팔로우 오류', error);
     throw error;
   }
 };
 
 export const getUserProfile = async (userId: number, page: number) => {
   const accessToken = localStorage.getItem('accessToken');
-  console.log('프로필 조회');
   try {
     const response = await api.get(`/mypage/profile/${userId}/${page}`, {
       headers: {
@@ -51,7 +46,6 @@ export const getUserProfile = async (userId: number, page: number) => {
     });
     return response.data.result;
   } catch (error) {
-    console.log('프로필 조회 오류', error);
     throw error;
   }
 };
@@ -61,24 +55,20 @@ export const putEditCategory = async (category: string[]) => {
     category: category,
   };
   const accessToken = localStorage.getItem('accessToken');
-  console.log('카테고리 수정');
   try {
     const response = await api.put(`/mypage/category`, requestBody, {
       headers: {
         Authorization: accessToken ? `${accessToken}` : '',
       },
     });
-    console.log(response);
     return response.data.result;
   } catch (error) {
-    console.log('카테고리 수정 오류', error);
     throw error;
   }
 };
 
 export const putEditProfile = async (data: FormData) => {
   const accessToken = localStorage.getItem('accessToken');
-  console.log('프로필 수정');
   try {
     const response = await api.put(`/mypage/profile`, data, {
       headers: {
@@ -86,10 +76,8 @@ export const putEditProfile = async (data: FormData) => {
         Authorization: accessToken ? `${accessToken}` : '',
       },
     });
-    console.log('성공', response);
     return response.data.result;
   } catch (error) {
-    console.log('프로필 수정 오류', error);
     throw error;
   }
 };

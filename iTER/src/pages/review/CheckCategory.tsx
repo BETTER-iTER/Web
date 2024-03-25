@@ -11,7 +11,7 @@ import { useData } from '../../context/DataContext';
 
 interface CheckCategoryProps {
   onDisabled: (value: boolean) => void;
-  onCategorySelect: (name: string) => void;
+  onCategorySelect?: (name: string) => void;
 }
 
 const CheckCategory: React.FC<CheckCategoryProps> = ({ onDisabled, onCategorySelect }) => {
@@ -28,10 +28,6 @@ const CheckCategory: React.FC<CheckCategoryProps> = ({ onDisabled, onCategorySel
   const handleCategoryClick = (name: string, index: number) => {
     setSelectedCategory({ name });
     onDisabled(true);
-    onCategorySelect(name);
-    console.log(name);
-    console.log(index);
-    // localStorage.setItem('selectCategory', name);
     const newData = { category: name };
     updateFormData(newData);
   };

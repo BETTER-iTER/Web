@@ -12,15 +12,6 @@ const ReviewWrite = () => {
   const [count, setCount] = useState<number>(1);
   const [disabled, setDisabled] = useState<boolean>(true);
 
-  // const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
-  const [selectedCategoryName, setSelectedCategoryName] = useState<string | null>(null);
-
-  console.log(selectedCategoryName);
-
-  const handleCategorySelect = (name: string) => {
-    setSelectedCategoryName(name);
-  };
-
   const Next = () => {
     const RId = localStorage.getItem('addReviewId');
     window.location.href = `/search/review/${RId}`;
@@ -35,7 +26,6 @@ const ReviewWrite = () => {
   };
   const onDisabled = (value: boolean) => {
     setDisabled(!value);
-    console.log(value);
   };
 
   const title = `리뷰 작성 (${count}/3)`;
@@ -57,7 +47,7 @@ const ReviewWrite = () => {
       )}
       <DataProvider>
         {count === 1 ? (
-          <CheckCategory onDisabled={onDisabled} onCategorySelect={handleCategorySelect} />
+          <CheckCategory onDisabled={onDisabled} />
         ) : count === 2 ? (
           <WriteDetail onDisabled={onDisabled} />
         ) : count === 3 ? (
