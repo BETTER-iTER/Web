@@ -57,6 +57,10 @@ const EditProfile = () => {
       data.append('key', jsonBlob);
 
       mutation.mutate(data);
+
+      if (mutation.isSuccess) {
+        setToast(true);
+      }
     } else {
       setError(true);
     }
