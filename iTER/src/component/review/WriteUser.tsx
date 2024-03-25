@@ -12,11 +12,13 @@ const WriteUser: React.FC<UserProps> = ({ img, name, job }) => {
   return (
     <>
       <Cover>
-        {img ? (
-          <img src={img} alt={name} width={20} height={20} style={{ marginRight: 4 }} />
-        ) : (
-          <UserIcon width={20} height={20} style={{ marginRight: 4 }} />
-        )}
+        <ImgBox>
+          {img ? (
+            <img src={img} alt={name} width={40} height={40} style={{ marginRight: 4 }} />
+          ) : (
+            <UserIcon width={40} height={40} style={{ marginRight: 4 }} />
+          )}
+        </ImgBox>
         <Name>
           <B1>{name}</B1>
         </Name>
@@ -48,4 +50,13 @@ const Line = styled('div', {
 const Cover = styled('div', {
   display: 'flex',
   alignItems: 'center',
+});
+
+const ImgBox = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  width: '40px',
+  height: '40px',
+  borderRadius: '50%',
+  overflow: 'hidden',
 });
