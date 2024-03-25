@@ -12,7 +12,7 @@ import { CommentSort } from '../common/CommentSort';
 
 import { LikeSort } from '../common/LikeSort';
 import { useState } from 'react';
-import axios from 'axios';
+import { likeReview, dislikeReview, scrapReview, deleteScrap } from '../../apis/Review';
 
 import { ReviewDetailProps } from '../../types/Review';
 import StarRatingShow from '../../component/review/StarRatingShow';
@@ -22,6 +22,7 @@ import Toast from '../common/Toast';
 const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
   const { data } = props;
 
+  console.log('data', data);
   const short = data.shortReview.replace(/['"]/g, '').split(',');
   const [setting, setSetting] = useState<boolean>(false);
   const [toast, setToast] = useState<boolean>(false);
@@ -44,56 +45,28 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
     return `${man}만 ${rest}원`;
   }
 
-  //좋아요 부분
   const [settingLike, setSettingLike] = useState<boolean>(false);
-  const [pushHeart, setPushHeart] = useState<boolean>(true);
-  const [pushScrap, setPushScrap] = useState<boolean>(true);
 
-  const LikeReview = async () => {
-    const currentPathname = window.location.pathname;
-    const reviewId = currentPathname.split('/').pop();
-    try {
-      const response = await axios.post(`https://dev.betteritem.store/review/${reviewId}/like`);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
+  const handleLike = async () => {
+    if (!data.like) {
+      await likeReview(data.reviewId);
+      console.log('좋아요 누름');
+    } else {
+      await dislikeReview(data.reviewId);
+      console.log('좋아요 취소');
     }
+    window.location.reload();
   };
 
-  // 좋아요 취소 api
-  const CancleLike = async () => {
-    const currentPathname = window.location.pathname;
-    const reviewId = currentPathname.split('/').pop();
-    try {
-      const response = await axios.delete(`https://dev.betteritem.store/review/${reviewId}/like`);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
+  const handleScrap = async () => {
+    if (!data.scrap) {
+      console.log('스크랩 누름');
+      await scrapReview(data.reviewId);
+    } else {
+      console.log('스크랩 취소');
+      await deleteScrap(data.reviewId);
     }
-  };
-
-  //스크랩 등록 api
-  const addScrap = async () => {
-    const currentPathname = window.location.pathname;
-    const reviewId = currentPathname.split('/').pop();
-    try {
-      const response = await axios.post(`https://dev.betteritem.store/review/${reviewId}/scrap`);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  //스크랩 취소 api
-  const cancleScrap = async () => {
-    const currentPathname = window.location.pathname;
-    const reviewId = currentPathname.split('/').pop();
-    try {
-      const response = await axios.delete(`https://dev.betteritem.store/review/${reviewId}/scrap`);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+    window.location.reload();
   };
 
   // 클립보드 복사(공유)
@@ -107,28 +80,6 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
     }
   };
 
-  const handleHeartClick = () => {
-    setPushHeart(!pushHeart);
-    if (pushHeart) {
-      console.log('좋아요 누름');
-      LikeReview();
-    } else {
-      console.log('좋아요 취소함');
-      CancleLike();
-    }
-  };
-
-  const handleScrapClick = () => {
-    setPushScrap(!pushScrap);
-    if (pushScrap) {
-      console.log('스크랩 누름');
-      addScrap();
-    } else {
-      console.log('스크랩 취소');
-      cancleScrap();
-    }
-  };
-
   return (
     <>
       <ReviewImage list={data.reviewImages} />
@@ -137,8 +88,8 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
         <Actives>
           <div style={{ display: 'flex' }}>
             <Active>
-              <Hicon onClick={handleHeartClick}>
-                {pushHeart ? (
+              <Hicon onClick={() => handleLike()}>
+                {!data.like ? (
                   <>
                     <HeartIcon fill={'#4C4E55'} width={24} height={24} />
                   </>
@@ -167,8 +118,12 @@ const DetailReview = (props: { data: ReviewDetailProps['reviewDetail'] }) => {
           </div>
           <div style={{ display: 'flex' }}>
             <Active>
-              <Hicon onClick={handleScrapClick}>
-                {pushScrap ? (
+              <Hicon
+                onClick={() => {
+                  handleScrap();
+                }}
+              >
+                {!data.scrap ? (
                   <>
                     <ScrapIcon fill={'#4C4E55'} width={24} height={24} />
                   </>
