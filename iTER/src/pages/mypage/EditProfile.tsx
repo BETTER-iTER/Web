@@ -36,6 +36,7 @@ const EditProfile = () => {
     onSuccess: () => {
       console.log('success');
       setToast(true);
+      location.href = '/user/setting';
     },
     onError: () => {
       return <ErrorPage type={2} />;
@@ -57,10 +58,6 @@ const EditProfile = () => {
       data.append('key', jsonBlob);
 
       mutation.mutate(data);
-
-      if (mutation.isSuccess) {
-        setToast(true);
-      }
     } else {
       setError(true);
     }
