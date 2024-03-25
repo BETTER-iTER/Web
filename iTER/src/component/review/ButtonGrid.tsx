@@ -5,7 +5,7 @@ import { Caption1 } from '../Font';
 interface ButtonGridProps {
   items: { data: string; id: number }[];
   onButtonClick: (item: { data: string; id: number }) => void;
-  initialSelectedItem: string | null;
+  initialSelectedItem?: string | null;
 }
 
 const GridContainer = styled('div', {

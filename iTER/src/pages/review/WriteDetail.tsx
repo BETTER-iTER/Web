@@ -1,6 +1,6 @@
 import { InputComponentReiview } from '../../component/common/Input';
 import { styled } from '../../../stitches.config';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RadioInput } from '../../component/common/RadioInput';
 import { ButtonSelect } from '../../component/common/Button';
 import ReviewSort from '../../component/review/ReviewSort';
@@ -22,9 +22,11 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
   const [productName, setProductName] = useState<string>('');
   const [price, setPrice] = useState<number>(0);
   const [compareProduct, setCompareProduct] = useState<string>('');
+  const [store, setStore] = useState<string>('');
 
-  //console.log(selectedCPU, selectedWINDOW, selectedRAM, selectedSIZE, '???');
   const { updateFormData } = useData();
+
+  onDisabled(!(productName.length === 0 || selectedSortItem === null || store.length === 0));
 
   const openPopup = () => {
     setIsPopupOpen(true);
@@ -32,7 +34,6 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
 
   const handleSortItemSelected = (selectedItem: string) => {
     setSelectedSortItem(selectedItem);
-    // localStorage.setItem('madeCompany', selectedItem);
     const newData = { manufacturer: selectedItem };
     updateFormData(newData);
   };
@@ -40,7 +41,6 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
   const handleSortDateSelected = (date: Date | null) => {
     setSelectedDate(date);
     const formattedDate = date?.toISOString().split('T')[0];
-    // localStorage.setItem('boughtAt', formattedDate);
     const newData = { boughtAt: formattedDate };
     updateFormData(newData);
   };
@@ -87,7 +87,6 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
     updateFormData(newData);
   };
 
-  onDisabled;
   return (
     <>
       <MainLay>
@@ -148,7 +147,7 @@ const WriteDetail = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =
 
         <div style={{ marginTop: 20 }} />
 
-        <RadioInput label="구매처 *" options={options} />
+        <RadioInput label="구매처 *" options={options} onChange={(e) => setStore(e)} />
 
         <div style={{ marginTop: 20 }} />
 

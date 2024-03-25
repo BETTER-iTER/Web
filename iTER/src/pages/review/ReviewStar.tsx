@@ -59,8 +59,6 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
   const [check, setCheck] = useState<boolean>(false); //이건 체크 했나 안했나
   const [selectedImage, setSelectedImage] = useState<File | null>(null); //이건 선택한 이미지
 
-  console.log('지울 것', selectedImage);
-  onDisabled;
   const handleImageSelected = (image: File) => {
     console.log('Selected image:', image);
     setSelectedImage(image);
@@ -94,6 +92,8 @@ const ReviewStar = ({ onDisabled }: { onDisabled: (value: boolean) => void }) =>
     updateFormData(newData4);
     console.log(newData4);
   };
+
+  onDisabled(!(!check || rating === 0 || shortReview.length < 3 || !selectedImage));
 
   return (
     <>

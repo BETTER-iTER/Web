@@ -27,11 +27,7 @@ const ReviewWrite = () => {
   };
 
   const handleNext = () => {
-    if (count == 1) {
-      setCount(count + 1);
-    } else if (count == 2) {
-      setCount(count + 1);
-    } else if (count == 3) {
+    if (count <= 3) {
       setCount(count + 1);
     } else {
       Next();
