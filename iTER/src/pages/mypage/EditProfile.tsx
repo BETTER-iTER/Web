@@ -36,6 +36,7 @@ const EditProfile = () => {
     onSuccess: () => {
       console.log('success');
       setToast(true);
+      location.href = '/user/setting';
     },
     onError: () => {
       return <ErrorPage type={2} />;

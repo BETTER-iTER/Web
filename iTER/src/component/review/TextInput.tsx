@@ -7,7 +7,7 @@ interface TextInput {
   limit: number;
   placeholder: string;
   type: string;
-  textS: string | null;
+  textS?: string | null;
 }
 
 export const TextInput: React.FC<TextInput> = ({ limit, placeholder, type }) => {
