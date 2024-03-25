@@ -260,6 +260,10 @@ const B = styled('div', {
 
 const UserImage = styled('div', {
   marginLeft: '-10px',
+  width: '35px',
+  height: '35px',
+  borderRadius: '50%',
+  overflow: 'hidden',
 });
 const TextLay = styled('div', {
   marginLeft: '37px',
@@ -280,6 +284,8 @@ const SortItem = styled('div', {
 
   cursor: 'pointer',
   width: '360px',
+  marginTop: '10px',
+  marginBottom: '10px',
 });
 
 const Info = styled('div', {
@@ -313,6 +319,7 @@ const CommentText = styled('div', {
 const Datelay = styled('div', {
   color: '#C1C4CC',
   textDecorationLine: 'underline',
+  marginTop: '-10px',
 });
 
 const Delete = styled('div', {

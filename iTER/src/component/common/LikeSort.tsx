@@ -37,6 +37,7 @@ export const LikeSort = ({ onClose }: { onClose: () => void }) => {
       return { comments: [], commentCount: 0 };
     }
   };
+  console.log(likeArray);
   return (
     <Bottom
       title="좋아요"
@@ -48,8 +49,11 @@ export const LikeSort = ({ onClose }: { onClose: () => void }) => {
             <SortItem key={like.id}>
               <Likelay>
                 <UserImage>
-                  {/* <User width={35} height={35} /> */}
-                  <img src={like.profileImage} width={35} height={35} />
+                  {like.profileImage ? (
+                    <img src={like.profileImage} width={35} height={35} />
+                  ) : (
+                    <User width={35} height={35} />
+                  )}
                 </UserImage>
                 <TextLay>
                   <Info>
@@ -82,6 +86,10 @@ const Likelay = styled('div', {
 
 const UserImage = styled('div', {
   marginLeft: '-10px',
+  width: '35px',
+  height: '35px',
+  borderRadius: '50%',
+  overflow: 'hidden',
 });
 const TextLay = styled('div', {
   marginTop: '8px',
